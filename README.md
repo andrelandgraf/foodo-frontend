@@ -1,8 +1,8 @@
-# react-oauth2-skeleton
+# Foodo Frontend 
 
 ## What is this repository for?
 
-This repository provides a skeleton application that you can fork to quick-start your own React app!
+This repository hosts the React web app of the Foodo Platform. 
 
 ### Features
 
