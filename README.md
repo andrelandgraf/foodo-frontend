@@ -10,7 +10,8 @@ This repository hosts the React web app of the Foodo Platform.
 - built-in structure and logic for internationalization with i18next
 - oauth2 flow (for more information, see chapter oAuth)
 
-Find the corresponding backend-api express-oauth2-skeleton [here](https://github.com/tum-aweink/express-oauth2-skeleton). 
+- Find the corresponding backend-api [here](https://github.com/tum-aweink/foodo-backend). 
+- Find the corresponding alexa-skill [here](https://github.com/andrelandgraf/foodoo-alexa-skill).
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) but we ejected Create React App to have more control over linting and configuration. Please find the Create React App documentation on the bottom of this README. 
 
