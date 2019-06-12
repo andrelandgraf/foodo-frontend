@@ -35,6 +35,16 @@ class App extends React.Component {
         if ( isAuthenticated() && !user ) this.getUser( setUser );
     }
 
+    componentDidUpdate = () => {
+        const currentLocation = window.location.pathname;
+        const isAuthZone = this.pathInZone( currentLocation, AUTH_ROUTES );
+        if ( isAuthZone && !isAuthenticated() ) window.location.reload();
+    }
+
+    pathInZone = ( path, zone ) => Object
+        .keys( zone )
+        .find( key => zone[ key ].startsWith( path ) );
+
     scrollToTop = () => {
         window.scrollTo( 0, 0 );
         return null;
@@ -108,8 +118,7 @@ class App extends React.Component {
 
         if ( !isAuthenticated() ) {
             let redirectUrl = window.location.pathname;
-            const isValid = Object.keys( AUTH_ROUTES )
-                .find( key => AUTH_ROUTES[ key ].startsWith( redirectUrl ) );
+            const isValid = this.pathInZone( redirectUrl, AUTH_ROUTES );
             if ( !isValid ) {
                 redirectUrl = '/';
             }
