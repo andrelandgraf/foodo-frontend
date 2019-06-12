@@ -1,11 +1,11 @@
 {
-  "name": "react-oauth2-skeleton",
+  "name": "foodo-frontend",
   "version": "1.0.0",
   "private": false,
   "author": "Andre Landgraf, Andre Weinkötz",
   "description": "A skeleton app to get you up and running in no time! We <3 oAuth2!",
   "bugs": {
-    "url": "https://github.com/andrelandgraf/react-oauth2-skeleton/issues"
+    "url": "https://github.com/andrelandgraf/foodo-frontend/issues"
   },
   "dependencies": {
     "@babel/core": "7.4.3",
