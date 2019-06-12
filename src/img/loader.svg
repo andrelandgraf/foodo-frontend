@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="Layer_1" x="0px" y="0px"
+width="50" height="20" viewBox="0 0 50 20">
+    <circle cx="5" cy="10" r="5" fill="#2c3f6b" opacity="0.2">
+        <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0s" dur="0.8s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="25" cy="10" r="5" fill="#2c3f6b" opacity="0.6">
+        <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.2s" dur="0.8s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="45" cy="10" r="5" fill="#2c3f6b" opacity="1">
+        <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.4s" dur="0.8s" repeatCount="indefinite" />
+    </circle>
+</svg>

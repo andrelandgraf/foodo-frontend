@@ -1,0 +1,64 @@
+body {
+  background-color: white;
+  margin: 0;
+  font-family: $font-family;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+section {
+  min-height: 400px;
+}
+
+a {
+  padding: 0;
+  text-decoration: none;
+}
+
+h1 {
+  color: $font-color;
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-medium;
+  margin: 40px;
+  @media screen and (max-width: $phone-width) {
+    margin: 15px 5px;
+    font-size: $font-size-xl;
+  }
+}
+
+p {
+  hyphens: none;
+}
+
+p.limit {
+  max-width: 890px;
+  text-align: justify;
+}
+
+input:not([type=submit]){
+   // General Styles
+   background-color: transparent;
+   border: none;
+   border-bottom: $input-border;
+   border-radius: 0;
+   box-shadow: none;
+   box-sizing: content-box;
+   color: $font-color;
+   font-family: $font-family;
+   font-size: $input-font-size;
+   height: $input-height;
+   margin: $input-margin;
+   outline: none;
+   padding: $input-padding;
+   transition: $input-transition;
+   width: 100%;
+   &:focus {
+    // see also _app.scss .aria-element
+    border-color: $hover-primary-color !important;
+    outline: 0 !important;
+  }
+}

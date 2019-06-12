@@ -1,0 +1,55 @@
+.button-center {
+    display: block;
+    margin: auto;
+  }
+  
+.text-center {
+    display: block;
+    text-align: center;
+}
+  
+.clickable {
+    touch-action: manipulation;
+    &:hover {
+        cursor: pointer;
+    }
+  
+    &:focus {
+        background-image: none;
+        outline: 0;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+}
+
+.container {
+    min-height: 100%;
+    min-height: calc(100vh - 250px);
+    max-width: 1280px;
+    margin: auto;
+}
+
+.center {
+    margin: auto;
+    width: 50%;
+    text-align: center;
+}
+
+.box {
+    border-radius: $border-radius-base;
+    border: 1px solid $border-color-base;
+    box-shadow: $box-shadow-base;
+}
+
+.not-displayed {
+   display: none !important;
+}
+
+.aria-element {
+    &:focus {
+        border-color: $hover-primary-color;
+        outline: 0;
+        -webkit-box-shadow: 0 0 0 2px rgba(24,144,255,0.2);
+        box-shadow: 0 0 0 2px rgba(24,144,255,0.2);
+    }
+}

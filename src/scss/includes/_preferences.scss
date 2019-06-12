@@ -1,0 +1,65 @@
+.preferences-menu {
+    @extend .box;
+    // make modal menu absolute
+    position: absolute;
+    top: 50px;
+    right: 0;
+    z-index: 1;
+    max-height: 50vh;
+    overflow-y: auto;
+    // style it as a menu
+    list-style-type: none;
+    margin-top: 3px;
+    margin-right: 16px;
+    padding: 0;
+    background-color: $light-black;
+    border-top: 1px solid $black;
+    font-size: $font-size-xs;
+
+    .title {
+        display: block;
+        color: $white;
+        text-align: left;
+        padding: 8px 14px 8px 14px;
+        border-bottom: 1px solid $black;
+
+        img {
+            padding-right: 15px;
+            width: 15px;
+            height: 15px;
+            float: left;
+        }
+    }
+
+    .item {     
+        div {
+            @extend .aria-element;
+            display: block;
+            color: $white;
+            text-align: center;
+            padding: 14px 16px;
+            cursor: pointer;
+    
+            /* Change the link color to #111 (black) on hover */
+            &:hover {
+                background-color: $black;
+            }
+
+            &.current { 
+                pointer-events: none;
+                cursor: default;
+                text-decoration: none;
+                background-color: $grey-base;
+                color: $black;
+            }
+
+            img {
+                padding-left: 15px;
+                width: 15px;
+                height: 15px;
+                float: right;
+            }
+        }
+    }
+}
+

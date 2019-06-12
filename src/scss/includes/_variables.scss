@@ -1,0 +1,87 @@
+// Colors
+// ==========================================================================
+
+/* Color palette */
+$white: #fff;
+$light-black: #333;
+$black: #111;
+$grey-base: #9e9e9e;
+$light-red: #ffdce0;
+
+/* inspired by ant design: https://ant.design/docs/react/introduce */
+$primary-color: #1890ff; // primary color for all components
+$secondary-color: lightblue;
+$hover-primary-color: #40a9ff; 
+$link-color: #1890ff; // link color
+$success-color: #52c41a; // success state color
+$warning-color: #faad14; // warning state color
+$error-color: #f5222d; // error state color
+$heading-color: rgba(0, 0, 0, 0.85); // heading text color
+$text-color: rgba(0, 0, 0, 0.65); // major text color
+$text-color-secondary : rgba(0, 0, 0, .45); // secondary text color
+$disabled-color : rgba(0, 0, 0, .25); // disable state color
+$border-radius-base: 4px; // major border radius
+$border-color-base: #d9d9d9; // major border color
+$box-shadow-base: 0 2px 8px rgba(0, 0, 0, 0.15); // major shadow for layers
+
+$success-background-color: rgb(152, 236, 152);
+$error-background-color: #ffdce0;
+$warning-background-color: rgb(255, 255, 75);
+$info-background-color: $white;
+
+
+
+// Fonts
+// ==========================================================================
+
+$font-color: black;
+$error-font-color: $error-color;
+$success-font-color: $light-black;
+$warning-font-color: $light-black;
+$info-font-color: $light-black;
+$font-family: "Proxima Nova", sans-serif;
+
+$font-size-xs: 13px;
+$font-size-s: 16px;
+$font-size-m: 18px;
+$font-size-l: 20px;
+$font-size-xl: 24px;
+$font-size-xxl: 32px;
+
+$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semi-bold: 600;
+$font-weight-heavy: 900;
+
+$navbar-height: 64px;
+
+// Media Queries
+// ==========================================================================
+
+$phone-width: 750px;
+$phone-height: 1080px;
+$pad-width: 1024px;
+$pc-width: 1281px;
+
+
+// Forms
+// ==========================================================================
+
+// Text Inputs + Textarea
+$input-height: 3rem;
+$input-border-color: $grey-base;
+$input-border: 1px solid $input-border-color;
+$input-background: #fff;
+$input-error-color: $error-background-color;
+$input-success-color: $success-background-color;
+$input-focus-color: $secondary-color;
+$input-font-size: 1rem;
+$input-margin: 0 0 20px 0;
+$input-padding: 0;
+$input-transition: all 0.3s;
+$label-font-size: 0.8rem;
+$input-disabled-color: rgba(0, 0, 0, 0.26);
+$input-disabled-solid-color: #bdbdbd;
+$input-disabled-border: 1px dotted $input-disabled-color;
+$input-invalid-border: 1px solid $input-error-color;
