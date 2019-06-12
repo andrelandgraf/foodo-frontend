@@ -1,0 +1,38 @@
+.message-box {
+    @extend .box;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-light;
+    text-align: center;
+    margin: 0 auto 10px;
+    padding: 15px 20px;
+
+    div {
+        float: right;
+
+        img {
+            padding-left: 20px;
+            width: 15px;
+            height: 15px;
+        }
+    }
+
+    &.err-message {
+        background-color: $error-background-color;
+        color: $error-font-color;
+    }
+    
+    &.warning-message {
+        background-color: $warning-background-color;
+        color: $warning-font-color;
+    }
+    
+    &.info-message {
+        background-color: $info-background-color;
+        color: $info-font-color;
+    }
+
+    &.success-message {
+        background-color: $success-background-color;
+        color: $success-font-color;
+    }
+}

@@ -1,0 +1,54 @@
+.navarbar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: $light-black;
+    height: 50px;
+    box-shadow: $box-shadow-base;
+
+    li {
+        float: left;
+
+        &.item-right {
+            float: right;
+        }
+
+        a {
+            @extend .aria-element;
+            height: 50px;
+            display: block;
+            color: $white;
+            text-align: center;
+            text-decoration: none;
+    
+            /* Change the link color to black on hover */
+            &:hover {
+                background-color: $black;
+            }
+    
+            &.current-page {
+                pointer-events: none;
+                cursor: default;
+                text-decoration: none;
+                background-color: $grey-base;
+                color: $black;
+            }
+
+            .text-item {                                    
+                padding: 14px 16px;
+                margin: 0;
+            }
+        }
+
+        .icon-item {
+            @extend .aria-element;
+            height: 50px;
+            img {
+                padding: 10px 16px;
+                border-radius: 50%;
+                width: 28px;
+            }
+        }
+    }
+}
