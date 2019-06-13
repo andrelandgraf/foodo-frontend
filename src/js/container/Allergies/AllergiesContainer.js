@@ -10,25 +10,25 @@ class AllergiesContainer extends React.Component {
         super( props );
 
         const { user } = this.props;
-        const { dislikes } = user;
-        let userDislikes = lodash.cloneDeep( dislikes );
-        // TODO remove this test if we have set dislikes in user to required in props
-        if ( !dislikes ) userDislikes = [];
+        const { allergies } = user;
+        let userAllergies = lodash.cloneDeep( allergies );
+        // TODO remove this test if we have set allergies in user to required in props
+        if ( !allergies ) userAllergies = [];
 
         this.state = {
-            foodItems: undefined,
+            ingridients: undefined,
             // eslint-disable-next-line react/no-unused-state
-            dislikes: userDislikes,
+            allergies: userAllergies,
         };
     }
 
     componentWillMount = async () => {
-        const { foodItems } = this.state;
-        if ( !foodItems ) {
-            // TODO get foodItems from backend via FoodItemsService
+        const { ingridients } = this.state;
+        if ( !ingridients ) {
+            // TODO get ingridients from backend via FoodItemsService
             this.setState( {
                 // mockup data
-                foodItems: [
+                ingridients: [
                     {
                         name: 'gluten',
                         id: 1,
@@ -47,25 +47,25 @@ class AllergiesContainer extends React.Component {
     }
 
     onSelect = ( item ) => {
-        const { dislikes } = this.state;
-        const updatedDislikes = lodash.cloneDeep( dislikes );
-        updatedDislikes.push( item );
+        const { allergies } = this.state;
+        const updatedAllergies = lodash.cloneDeep( allergies );
+        updatedAllergies.push( item );
         // TODO update backend
-        this.setState( { dislikes: updatedDislikes } );
+        this.setState( { allergies: updatedAllergies } );
     }
 
     onDelete = ( itemId ) => {
-        const { dislikes } = this.state;
-        let updatedDislikes = lodash.cloneDeep( dislikes );
-        updatedDislikes = updatedDislikes.filter( dislike => dislike.id !== itemId );
+        const { allergies } = this.state;
+        let updatedAllergies = lodash.cloneDeep( allergies );
+        updatedAllergies = updatedAllergies.filter( allergy => allergy.id !== itemId );
         // TODO update backend
-        this.setState( { dislikes: updatedDislikes } );
+        this.setState( { allergies: updatedAllergies } );
     }
 
-    removeAlreadySelectedItems = ( dislikes, foodItems ) => foodItems
-        .filter( item => !( dislikes.find( dislike => dislike.id === item.id ) ) );
+    removeAlreadySelectedItems = ( allergies, ingridients ) => ingridients
+        .filter( item => !( allergies.find( allergy => allergy.id === item.id ) ) );
 
-    mapFoodItemsForDataListInput = foodItems => foodItems
+    mapIngridientsForDataListInput = ingridients => ingridients
         .map( item => ( {
             ...item,
             key: item.id,
@@ -73,17 +73,17 @@ class AllergiesContainer extends React.Component {
         } ) );
 
     render() {
-        const { dislikes, foodItems } = this.state;
-        const clonedFoodItems = lodash.cloneDeep( foodItems );
-        let possibleMatches = this.removeAlreadySelectedItems( dislikes, clonedFoodItems );
-        possibleMatches = this.mapFoodItemsForDataListInput( possibleMatches );
+        const { allergies, ingridients } = this.state;
+        const clonedIngridients = lodash.cloneDeep( ingridients );
+        let possibleMatches = this.removeAlreadySelectedItems( allergies, clonedIngridients );
+        possibleMatches = this.mapIngridientsForDataListInput( possibleMatches );
 
         return (
             <div className="dislikes-container">
                 <h2>Your Allergies</h2>
                 {
-                    dislikes.length > 0
-                    && <Tags tags={dislikes} onDelete={this.onDelete} />
+                    allergies.length > 0
+                    && <Tags tags={allergies} onDelete={this.onDelete} />
                 }
                 <div className="input-container">
                     <DataListInput
@@ -101,8 +101,8 @@ class AllergiesContainer extends React.Component {
 
 AllergiesContainer.propTypes = {
     user: PropTypes.shape( {
-        // TODO make dislikes required when we have the backend logic for it
-        dislikes: PropTypes.array,
+        // TODO make allergies required when we have the backend logic for it
+        allergies: PropTypes.array,
     } ).isRequired,
 };
 
