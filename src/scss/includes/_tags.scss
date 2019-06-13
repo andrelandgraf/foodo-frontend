@@ -1,0 +1,24 @@
+.tags {
+    @extend .box;
+    width: 100%;
+    padding: 20px;
+}
+
+.tag {
+    @extend .box;
+    display: inline-flex;
+    align-items: baseline;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-light;
+    margin: 5px;
+    padding: 8px;
+
+    div {
+        padding: 0 5px;
+    }
+
+    img {
+        padding-top: 5px;
+        height: 15px;
+    }
+}
