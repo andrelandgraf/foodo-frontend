@@ -5,7 +5,7 @@ import lodash from 'lodash';
 import DataListInput from 'react-datalist-input';
 import Tags from '../../components/tags/tags';
 
-class DislikesContainer extends React.Component {
+class AllergiesContainer extends React.Component {
     constructor( props ) {
         super( props );
 
@@ -30,40 +30,16 @@ class DislikesContainer extends React.Component {
                 // mockup data
                 foodItems: [
                     {
-                        name: 'onion',
+                        name: 'gluten',
                         id: 1,
                     },
                     {
-                        name: 'orange',
+                        name: 'lactose',
                         id: 2,
                     },
                     {
-                        name: 'apple',
+                        name: 'nuts',
                         id: 3,
-                    },
-                    {
-                        name: 'blue berries',
-                        id: 4,
-                    },
-                    {
-                        name: 'avocado',
-                        id: 5,
-                    },
-                    {
-                        name: 'beer',
-                        id: 6,
-                    },
-                    {
-                        name: 'beens',
-                        id: 7,
-                    },
-                    {
-                        name: 'banana',
-                        id: 8,
-                    },
-                    {
-                        name: 'berries',
-                        id: 9,
                     },
                 ],
             } );
@@ -104,7 +80,7 @@ class DislikesContainer extends React.Component {
 
         return (
             <div className="dislikes-container">
-                <h2>Your Dislikes</h2>
+                <h2>Your Allergies</h2>
                 {
                     dislikes.length > 0
                     && <Tags tags={dislikes} onDelete={this.onDelete} />
@@ -112,7 +88,7 @@ class DislikesContainer extends React.Component {
                 <div className="input-container">
                     <DataListInput
                         items={possibleMatches}
-                        placeholder="Select your dislikes..."
+                        placeholder="Select your allergies..."
                         onSelect={this.onSelect}
                         suppressReselect={false}
                         clearInputOnSelect
@@ -123,11 +99,11 @@ class DislikesContainer extends React.Component {
     }
 }
 
-DislikesContainer.propTypes = {
+AllergiesContainer.propTypes = {
     user: PropTypes.shape( {
         // TODO make dislikes required when we have the backend logic for it
         dislikes: PropTypes.array,
     } ).isRequired,
 };
 
-export default DislikesContainer;
+export default AllergiesContainer;
