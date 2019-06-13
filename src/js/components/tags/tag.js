@@ -7,7 +7,7 @@ import CustomButton from '../button/customButton';
 import ImageButton from '../button/imageButton';
 
 const Tag = ( { tag, onDelete, onClick } ) => (
-    <div>
+    <div className="tag">
         <CustomButton
             onClick={onClick ? () => onClick( tag.id ) : undefined}
             id={`tag-click-${ tag.id }`}

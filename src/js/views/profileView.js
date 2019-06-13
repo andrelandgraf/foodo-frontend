@@ -5,14 +5,14 @@ import i18n from 'i18next';
 import { KEYS } from '../utilities/internationalization/internationalization';
 
 import DislikesContainer from '../container/Dislikes/DislikesContainer';
+import AllergiesContainer from '../container/Allergies/AllergiesContainer';
 
 // eslint-disable-next-line no-unused-vars
 const ProfileView = ( { user } ) => (
-    <div className="container">
-        <div className="center">
-            <h1>{ i18n.t( KEYS.HEADERS.PROFILE_TITLE ) }</h1>
-            <DislikesContainer user={user} />
-        </div>
+    <div className="container profile-container">
+        <h1>{ i18n.t( KEYS.HEADERS.PROFILE_TITLE ) }</h1>
+        <DislikesContainer user={user} />
+        <AllergiesContainer user={user} />
     </div>
 );
 
