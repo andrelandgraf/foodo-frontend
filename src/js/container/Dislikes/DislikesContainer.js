@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import lodash from 'lodash';
 
-import DataListInputContainer from '../DataListInput/DataListInputContainer';
+// import DataListInputContainer from '../DataListInput/DataListInputContainer';
+import DataListInput from 'react-datalist-input';
 
 class DislikesContainer extends React.Component {
     constructor( props ) {
@@ -91,7 +92,7 @@ class DislikesContainer extends React.Component {
         possibleMatches = this.mapFoodItemsForDataListInput( possibleMatches );
 
         return (
-            <DataListInputContainer
+            <DataListInput
                 items={possibleMatches}
                 placeholder="Select your dislikes..."
                 onSelect={this.onSelect}
