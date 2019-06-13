@@ -2,6 +2,9 @@
     @extend .box;
     width: 100%;
     padding: 20px;
+    @media screen and (max-width: $phone-width) {
+        padding: 5px;
+    }
 }
 
 .tag {
