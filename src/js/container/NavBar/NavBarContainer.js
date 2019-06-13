@@ -22,7 +22,7 @@ class NavBarContainer extends React.Component {
         window.addEventListener( 'click', this.onClickCloseMenu, false );
     }
 
-    componentWillUnmount() {
+    componentWillUnmount = () => {
         window.removeEventListener( 'click', this.onClickCloseMenu );
     }
 

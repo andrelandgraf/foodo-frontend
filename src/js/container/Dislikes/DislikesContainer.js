@@ -72,6 +72,7 @@ class DislikesContainer extends React.Component {
 
     onSelect = ( item ) => {
         const { dislikes } = this.state;
+        if ( dislikes.find( dislike => dislike.id === item.id ) ) return;
         const updatedDislikes = lodash.cloneDeep( dislikes );
         updatedDislikes.push( item );
         // TODO update backend

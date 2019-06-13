@@ -48,6 +48,7 @@ class AllergiesContainer extends React.Component {
 
     onSelect = ( item ) => {
         const { allergies } = this.state;
+        if ( allergies.find( allergy => allergy.id === item.id ) ) return;
         const updatedAllergies = lodash.cloneDeep( allergies );
         updatedAllergies.push( item );
         // TODO update backend
