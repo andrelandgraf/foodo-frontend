@@ -53,9 +53,6 @@ class LifestylesContainer extends React.Component {
         this.setState( { lifestyle: newLifestyle } );
     }
 
-    removeAlreadySelectedItems = ( lifestyle, lifestyles ) => lifestyles
-        .filter( item => !( item.id === lifestyle.id ) );
-
     mapGoalToDataListInput = lifestyles => lifestyles
         .map( item => ( {
             ...item,
@@ -66,8 +63,7 @@ class LifestylesContainer extends React.Component {
     render() {
         const { lifestyle, lifestyles } = this.state;
         const clonedLifestyles = lodash.cloneDeep( lifestyles );
-        let possibleMatches = this.removeAlreadySelectedItems( lifestyle, clonedLifestyles );
-        possibleMatches = this.mapGoalToDataListInput( possibleMatches );
+        const possibleMatches = this.mapGoalToDataListInput( clonedLifestyles );
 
         return (
             <div className="dislikes-container">
@@ -75,7 +71,7 @@ class LifestylesContainer extends React.Component {
                 <div className="input-container">
                     <DataListInput
                         items={possibleMatches}
-                        placeholder="Select your lifestyle..."
+                        placeholder={lifestyle.name || 'Select your lifestyle...'}
                         onSelect={this.onSelect}
                         clearInputOnSelect={false}
                         suppressReselect={false}

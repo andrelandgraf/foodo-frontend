@@ -49,9 +49,6 @@ class GoalsContainer extends React.Component {
         this.setState( { goal: newGoal } );
     }
 
-    removeAlreadySelectedItems = ( goal, goals ) => goals
-        .filter( item => !( item.id === goal.id ) );
-
     mapGoalToDataListInput = goals => goals
         .map( item => ( {
             ...item,
@@ -62,8 +59,7 @@ class GoalsContainer extends React.Component {
     render() {
         const { goal, goals } = this.state;
         const clonedGoals = lodash.cloneDeep( goals );
-        let possibleMatches = this.removeAlreadySelectedItems( goal, clonedGoals );
-        possibleMatches = this.mapGoalToDataListInput( possibleMatches );
+        const possibleMatches = this.mapGoalToDataListInput( clonedGoals );
 
         return (
             <div className="dislikes-container">
@@ -71,7 +67,7 @@ class GoalsContainer extends React.Component {
                 <div className="input-container">
                     <DataListInput
                         items={possibleMatches}
-                        placeholder="Select your goal..."
+                        placeholder={goal.name || 'Select your goal...'}
                         onSelect={this.onSelect}
                         clearInputOnSelect={false}
                         suppressReselect={false}

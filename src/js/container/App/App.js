@@ -35,12 +35,6 @@ class App extends React.Component {
         if ( isAuthenticated() && !user ) this.getUser( setUser );
     }
 
-    componentDidUpdate = () => {
-        const currentLocation = window.location.pathname;
-        const isAuthZone = this.pathInZone( currentLocation, AUTH_ROUTES );
-        if ( isAuthZone && !isAuthenticated() ) window.location.reload();
-    }
-
     pathInZone = ( path, zone ) => Object
         .keys( zone )
         .find( key => zone[ key ].startsWith( path ) );
