@@ -44,6 +44,8 @@
         .icon-item {
             @extend .aria-element;
             height: 50px;
+            background-color: $light-black;
+            border: none;
             img {
                 padding: 10px 16px;
                 border-radius: 50%;

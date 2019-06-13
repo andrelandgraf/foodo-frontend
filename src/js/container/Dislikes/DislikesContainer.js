@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import lodash from 'lodash';
 
-// import DataListInputContainer from '../DataListInput/DataListInputContainer';
 import DataListInput from 'react-datalist-input';
+import Tags from '../../components/tags/tags';
 
 class DislikesContainer extends React.Component {
     constructor( props ) {
@@ -63,7 +63,7 @@ class DislikesContainer extends React.Component {
                     },
                     {
                         name: 'berries',
-                        id: 1,
+                        id: 9,
                     },
                 ],
             } );
@@ -71,7 +71,17 @@ class DislikesContainer extends React.Component {
     }
 
     onSelect = ( item ) => {
-        console.log( item );
+        const { dislikes } = this.state;
+        const updatedDislikes = lodash.cloneDeep( dislikes );
+        updatedDislikes.push( item );
+        this.setState( { dislikes: updatedDislikes } );
+    }
+
+    onDelete = ( itemId ) => {
+        const { dislikes } = this.state;
+        let updatedDislikes = lodash.cloneDeep( dislikes );
+        updatedDislikes = updatedDislikes.filter( dislike => dislike.id !== itemId );
+        this.setState( { dislikes: updatedDislikes } );
     }
 
     removeAlreadySelectedItems = ( dislikes, foodItems ) => foodItems
@@ -86,17 +96,22 @@ class DislikesContainer extends React.Component {
 
     render() {
         const { dislikes, foodItems } = this.state;
-
         const clonedFoodItems = lodash.cloneDeep( foodItems );
         let possibleMatches = this.removeAlreadySelectedItems( dislikes, clonedFoodItems );
         possibleMatches = this.mapFoodItemsForDataListInput( possibleMatches );
+        console.log( possibleMatches );
 
         return (
-            <DataListInput
-                items={possibleMatches}
-                placeholder="Select your dislikes..."
-                onSelect={this.onSelect}
-            />
+            <React.Fragment>
+                <Tags tags={dislikes} onDelete={this.onDelete} />
+                <DataListInput
+                    items={possibleMatches}
+                    placeholder="Select your dislikes..."
+                    onSelect={this.onSelect}
+                    suppressReselect={false}
+                    clearInputOnSelect
+                />
+            </React.Fragment>
         );
     }
 }
