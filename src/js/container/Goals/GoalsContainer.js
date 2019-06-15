@@ -6,7 +6,6 @@ import i18n from 'i18next';
 
 import { KEYS } from '../../utilities/internationalization/internationalization';
 
-
 class GoalsContainer extends React.Component {
     constructor( props ) {
         super( props );

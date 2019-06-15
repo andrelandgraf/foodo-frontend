@@ -2,13 +2,14 @@ import axios from 'axios';
 
 import Logger from '../utilities/Logger';
 import { isDevelopment } from '../utilities/env';
-import { throwServerNotReachableError } from '../utilities/errorHandler/errorHandler';
+import { throwServerNotReachableError, handleUnauthorizedError } from '../utilities/errorHandler/errorHandler';
 import { refreshAuthToken } from './oAuthService';
 import { getStoredAuthToken } from './userService';
 
 const LoggingUtility = new Logger( 'userService.js' );
 
 export const API = isDevelopment ? 'http://localhost:3333/' : process.env.REACT_APP_BACKEND_API;
+const HTTP_CODE_UNAUTHORIZED = 401;
 
 function getHeaders() {
     return {
@@ -25,6 +26,7 @@ function postHeaders() {
 }
 
 export const isNetworkError = err => !err.status && err.message === 'Network Error';
+export const isUnauthorizedError = err => Number( err.code ) === HTTP_CODE_UNAUTHORIZED;
 
 export const postRequest = ( endpoint, data ) => axios
     .post( API + endpoint, data, { headers: postHeaders() } )
@@ -41,6 +43,9 @@ export const postRequest = ( endpoint, data ) => axios
         if ( isNetworkError( err ) ) {
             throwServerNotReachableError();
         }
+        if ( isUnauthorizedError( err ) ) {
+            handleUnauthorizedError();
+        }
         throw Error( `${ err.response.data.code }:${ err.response.message }` );
     } );
 
@@ -51,6 +56,10 @@ export const getRequest = endpoint => axios
         LoggingUtility.error( `Error in get request to entpoint ${ endpoint }`, err );
         if ( isNetworkError( err ) ) {
             throwServerNotReachableError();
+        }
+        console.log( err.message );
+        if ( isUnauthorizedError( err ) ) {
+            handleUnauthorizedError();
         }
         throw Error( `${ err.response.data.code }:${ err.response.message }` );
     } );

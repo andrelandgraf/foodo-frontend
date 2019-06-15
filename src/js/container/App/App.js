@@ -8,6 +8,7 @@ import { UserStateContext } from '../../provider/UserStateProvider';
 import NavBarContainer from '../NavBar/NavBarContainer';
 import HomeView from '../../views/homeView';
 import ProfileView from '../../views/profileView';
+import CookingView from '../../views/cookingView';
 import NotFoundView from '../../views/notFoundView';
 import LoginContainer from '../Login/LoginContainer';
 import RegistrationContainer from '../Registration/RegistrationContainer';
@@ -19,6 +20,7 @@ import { isAuthenticated, getUser } from '../../services/userService';
 export const AUTH_ROUTES = {
     HOME: '/',
     PROFILE: '/profile',
+    COOKING: '/cooking/',
     OAUTH: '/oauth/v2/login',
 };
 
@@ -68,6 +70,11 @@ class App extends React.Component {
                 exact
                 path={AUTH_ROUTES.PROFILE}
                 render={props => ( <ProfileView {...props} user={user} /> )}
+            />
+            <Route
+                exact
+                path={`${ AUTH_ROUTES.COOKING }:id`}
+                render={props => ( <CookingView {...props} user={user} /> )}
             />
             <Route from={AUTH_ROUTES.OAUTH} component={OAuthContainer} />
             <Redirect from={NONAUTH_ROUTES.LOGIN} to={window.localStorage.getItem( 'redirectUrl' )} />
