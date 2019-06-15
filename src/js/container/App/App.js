@@ -46,11 +46,11 @@ class App extends React.Component {
         return null;
     };
 
-    getUser = async ( setUser ) => {
-        await getUser()
+    getUser = ( setUser ) => {
+        getUser()
             .then( retrievedUser => setUser( retrievedUser ) )
             .catch( () => {
-                // in case of error, relocate to login and retrieve new token
+            // in case of error, relocate to login and retrieve new token
                 window.localStorage.clear();
             } );
     }

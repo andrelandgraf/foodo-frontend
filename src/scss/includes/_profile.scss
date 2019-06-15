@@ -6,6 +6,10 @@
         padding: 20px;
         margin-top: 20px;
         width: 80%;
+        @media screen and (max-width: $phone-width) {
+            padding: 10px;
+            width: 95%;
+        }
         max-width: 800px;
         display: flex;
         flex-direction: column;
@@ -23,7 +27,10 @@
 
             input {
                 margin-bottom: 0;
+            }      
+            @media screen and (max-width: $phone-width) {
+                max-width: 95%;
             }
-        }        
+        }
     }
 }
