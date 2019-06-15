@@ -5,6 +5,9 @@
         padding: 20px;
         margin-top: 20px;
         width: 600px;
+        @media screen and (max-width: $phone-width) {
+            width: 100%;
+        }
 
         display: flex;
         flex-direction: column;
@@ -13,6 +16,9 @@
         h2 {
             width: 100%;
             text-align: center;
+            @media screen and (max-width: $phone-width) {
+                text-align: left;
+            }
         }
 
         .input-container {
