@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import lodash from 'lodash';
-
 import DataListInput from 'react-datalist-input';
+import lodash from 'lodash';
+import i18n from 'i18next';
+
+import { KEYS } from '../../utilities/internationalization/internationalization';
 
 class LifestylesContainer extends React.Component {
     constructor( props ) {
@@ -67,11 +69,11 @@ class LifestylesContainer extends React.Component {
 
         return (
             <div className="dislikes-container">
-                <h2>Your Personal lifestyle</h2>
+                <h2>{i18n.t( KEYS.HEADERS.LIFESTYLES_SELECTION )}</h2>
                 <div className="input-container">
                     <DataListInput
                         items={possibleMatches}
-                        placeholder={lifestyle.name || 'Select your lifestyle...'}
+                        placeholder={lifestyle.name || i18n.t( KEYS.LABELS.LIFESTYLES_PLACEHOLDER )}
                         onSelect={this.onSelect}
                         clearInputOnSelect={false}
                         suppressReselect={false}
