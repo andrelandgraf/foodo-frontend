@@ -1,10 +1,6 @@
 .tags {
-    @extend .box;
     width: 100%;
-    padding: 20px;
-    @media screen and (max-width: $phone-width) {
-        padding: 5px;
-    }
+    padding: 10px;
 }
 
 .tag {
@@ -15,6 +11,9 @@
     font-weight: $font-weight-light;
     margin: 5px;
     padding: 8px;
+    @media screen and (max-width: $phone-width) {
+        margin: 2px;
+    }
 
     div {
         padding: 0 5px;
