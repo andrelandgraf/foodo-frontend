@@ -20,7 +20,10 @@ const Message = ( { type, text, onResolve } ) => (
 );
 
 Message.propTypes = {
-    text: PropTypes.string.isRequired,
+    text: PropTypes.oneOfType( [
+        PropTypes.string,
+        PropTypes.node,
+    ] ).isRequired,
     type: PropTypes.string,
     onResolve: PropTypes.func.isRequired,
 };

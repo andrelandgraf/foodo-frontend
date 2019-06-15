@@ -9,7 +9,7 @@ import RecipesContainer from '../container/Recipes/RecipesContainer';
 const HomeView = ( { user } ) => (
     <div className="container home-container">
         <h1>{ i18n.t( KEYS.HEADERS.HOME_WELCOME, { name: user.username } ) }</h1>
-        <RecipesContainer />
+        <RecipesContainer user={user} />
     </div>
 );
 
