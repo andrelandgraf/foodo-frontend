@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import lodash from 'lodash';
-
 import DataListInput from 'react-datalist-input';
+import lodash from 'lodash';
+import i18n from 'i18next';
+
+import { KEYS } from '../../utilities/internationalization/internationalization';
+
 
 class GoalsContainer extends React.Component {
     constructor( props ) {
@@ -63,11 +66,11 @@ class GoalsContainer extends React.Component {
 
         return (
             <div className="dislikes-container">
-                <h2>Your Personal Goal</h2>
+                <h2>{i18n.t( KEYS.HEADERS.GOALS_SELECTION )}</h2>
                 <div className="input-container">
                     <DataListInput
                         items={possibleMatches}
-                        placeholder={goal.name || 'Select your goal...'}
+                        placeholder={goal.name || i18n.t( KEYS.LABELS.GOALS_PLACEHOLDER )}
                         onSelect={this.onSelect}
                         clearInputOnSelect={false}
                         suppressReselect={false}

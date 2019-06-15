@@ -9,6 +9,10 @@
 const enHeaders = {
     HOME_WELCOME: 'Welcome at $t(APP_NAME), {{name}}!',
     PROFILE_TITLE: 'Your Personal Profile',
+    ALLERGIES_SELECTION: 'Your allergies',
+    DISLIKES_SELECTION: 'Your dislikes',
+    GOALS_SELECTION: 'Your personal goal',
+    LIFESTYLES_SELECTION: 'Your lifestyle',
     PAGE_NOT_FOUND: 'Page not found!',
     THIRD_PARTY_AUTHORIZATION: 'Third party service authorization',
 };
@@ -18,6 +22,10 @@ const enLabels = {
     APP_NAME: 'React App',
     HOME: 'Home',
     MY_PROFILE: 'My Profile',
+    ALLERGIES_PLACEHOLDER: 'Select your allergies...',
+    DISLIKES_PLACEHOLDER: 'Select your dislikes...',
+    GOALS_PLACEHOLDER: 'Select your personal goals...',
+    LIFESTYLES_PLACEHOLDER: 'Select your lifestyle...',
     USERNAME: 'Username',
     PASSWORD: 'Password',
     PREFERENCES: 'Preferences',

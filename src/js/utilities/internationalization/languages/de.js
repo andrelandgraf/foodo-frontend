@@ -3,6 +3,10 @@
 const deHeaders = {
     HOME_WELCOME: 'Willkommen bei $t(APP_NAME), {{name}}!',
     PROFILE_TITLE: 'Dein persönliches Profil',
+    ALLERGIES_SELECTION: 'Deine Allergien',
+    DISLIKES_SELECTION: 'Deine Dislikes',
+    GOALS_SELECTION: 'Dein persönliches Ziel',
+    LIFESTYLES_SELECTION: 'Dein Lifestyle',
     PAGE_NOT_FOUND: 'Seite nicht gefunden!',
     THIRD_PARTY_AUTHORIZATION: 'Drittanbieter Autorisierung',
 };
@@ -11,6 +15,10 @@ const deLabels = {
     APP_NAME: 'React App',
     HOME: 'Home',
     MY_PROFILE: 'Mein Profil',
+    ALLERGIES_PLACEHOLDER: 'Wähle deine Allergien...',
+    DISLIKES_PLACEHOLDER: 'Wähle, was dir nicht schmeckt...',
+    GOALS_PLACEHOLDER: 'Wähle dein Ziel aus...',
+    LIFESTYLES_PLACEHOLDER: 'Wähle deinen Lifestyle...',
     USERNAME: 'Benutzername',
     PASSWORD: 'Passwort',
     PREFERENCES: 'Präferenzen',
