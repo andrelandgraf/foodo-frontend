@@ -1,5 +1,6 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { Redirect, Link } from 'react-router-dom';
 import DataListInput from 'react-datalist-input';
 
 import lodash from 'lodash';
@@ -7,8 +8,8 @@ import i18n from 'i18next';
 
 import { KEYS } from '../../utilities/internationalization/internationalization';
 
-
 import { AUTH_ROUTES } from '../App/App';
+import Message, { MESSAGE_TYPES } from '../../components/message/message';
 
 class RecipesContainer extends React.Component {
     testData = [
@@ -37,9 +38,18 @@ class RecipesContainer extends React.Component {
     constructor( props ) {
         super( props );
 
+        const { user } = this.props;
+        const { goal } = user;
+
+        const userPickedGoal = goal && goal.id;
+        const message = userPickedGoal ? '' : this.renderProfileLink();
+        const messageType = userPickedGoal ? undefined : MESSAGE_TYPES.WARNING;
+
         this.state = {
             recipes: undefined,
             selectedId: undefined,
+            message,
+            messageType,
         };
     }
 
@@ -60,10 +70,28 @@ class RecipesContainer extends React.Component {
     mapRecipesToDataListInput = recipes => recipes
         .map( recipe => ( { ...recipe, label: recipe.name, key: recipe.id } ) )
 
+    clearMessage = () => {
+        this.setState( { message: '', messageType: undefined } );
+    }
+
+    renderMessage = ( message, messageType ) => (
+        <Message type={messageType} text={message} onResolve={this.clearMessage} />
+    )
+
+    renderProfileLink = () => (
+        <span>
+            Check out your
+            <Link to={AUTH_ROUTES.PROFILE}> Profile </Link>
+            and select a personal nutrition goal.
+        </span>
+    );
+
     renderRedirect = id => <Redirect to={`${ AUTH_ROUTES.COOKING }${ id }`} />
 
     render() {
-        const { recipes, selectedId } = this.state;
+        const {
+            recipes, selectedId, message, messageType,
+        } = this.state;
         const possibleRecipes = this.mapRecipesToDataListInput( lodash.cloneDeep( recipes ) );
         if ( selectedId ) {
             return this.renderRedirect( selectedId );
@@ -72,6 +100,9 @@ class RecipesContainer extends React.Component {
         return (
             <div className="recipes-container">
                 <h2>{i18n.t( KEYS.HEADERS.SELECT_RECIPE )}</h2>
+                {
+                    message ? this.renderMessage( message, messageType ) : undefined
+                }
                 <div className="input-container">
                     <DataListInput
                         items={possibleRecipes}
@@ -85,5 +116,14 @@ class RecipesContainer extends React.Component {
         );
     }
 }
+
+RecipesContainer.propTypes = {
+    user: PropTypes.shape( {
+        goal: PropTypes.shape( {
+            name: PropTypes.string.isRequired,
+            id: PropTypes.number.isRequired,
+        } ),
+    } ).isRequired,
+};
 
 export default RecipesContainer;

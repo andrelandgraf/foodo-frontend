@@ -57,9 +57,7 @@ export const getRequest = endpoint => axios
         if ( isNetworkError( err ) ) {
             throwServerNotReachableError();
         }
-        console.log( err );
-        console.log( err.code );
-        console.log( err.status );
+        console.log( err.message );
         if ( isUnauthorizedError( err ) ) {
             handleUnauthorizedError();
         }

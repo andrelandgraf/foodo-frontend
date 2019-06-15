@@ -62,7 +62,7 @@ class LoginContainer extends React.Component {
     }
 
     clearMessage = () => {
-        this.setState( { message: '' } );
+        this.setState( { message: '', messageType: undefined } );
     }
 
     renderMessage = ( message, messageType ) => (
