@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import lodash from 'lodash';
-
 import DataListInput from 'react-datalist-input';
+import lodash from 'lodash';
+import i18n from 'i18next';
+
+import { KEYS } from '../../utilities/internationalization/internationalization';
+
 import Tags from '../../components/tags/tags';
 
 class AllergiesContainer extends React.Component {
@@ -81,7 +84,7 @@ class AllergiesContainer extends React.Component {
 
         return (
             <div className="dislikes-container">
-                <h2>Your Allergies</h2>
+                <h2>{i18n.t( KEYS.HEADERS.ALLERGIES_SELECTION )}</h2>
                 {
                     allergies.length > 0
                     && <Tags tags={allergies} onDelete={this.onDelete} />
@@ -89,7 +92,7 @@ class AllergiesContainer extends React.Component {
                 <div className="input-container">
                     <DataListInput
                         items={possibleMatches}
-                        placeholder="Select your allergies..."
+                        placeholder={i18n.t( KEYS.LABELS.ALLERGIES_PLACEHOLDER )}
                         onSelect={this.onSelect}
                         suppressReselect={false}
                         clearInputOnSelect
