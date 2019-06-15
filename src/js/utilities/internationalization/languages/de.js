@@ -17,6 +17,7 @@ const deLabels = {
     APP_NAME: 'React App',
     HOME: 'Home',
     MY_PROFILE: 'Mein Profil',
+    PROFILE: 'Profil',
     SELECT_RECIPE_PLACEHOLDER: 'Such dir ein Rezept aus...',
     ALLERGIES_PLACEHOLDER: 'Wähle deine Allergien...',
     DISLIKES_PLACEHOLDER: 'Wähle, was dir nicht schmeckt...',
@@ -41,6 +42,8 @@ const deLabels = {
 const deMessages = {
     USERNAME_WARNING: '$t(USERNAME) muss mindestens aus zwei Zeichen bestehen!',
     PASSWORD_WARNING: '$t(PASSWORD) muss angegeben werden!',
+    GO_TO_PROFILE_1: 'Geh zu deinem ',
+    GO_TO_PROFILE_2: ' und wähle dein persönliches Ernährungsziel.',
     PAGE_NOT_FOUND_MESSAGE: 'Es tut uns Leid, die gesuchte Seite existiert nicht.',
     WRONG_CREDENTIALS_ERR: '$t(ERROR), falscher $t(USERNAME) or falsches Passwort, bitte versuche es erneut.',
     NOT_AUTHORIZED_ERR: '$t(ERROR), du bist nicht authorisiert diesen Bereich zu betreten.',
