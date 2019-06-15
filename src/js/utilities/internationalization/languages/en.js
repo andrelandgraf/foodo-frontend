@@ -24,6 +24,7 @@ const enLabels = {
     APP_NAME: 'React App',
     HOME: 'Home',
     MY_PROFILE: 'My Profile',
+    PROFILE: 'Profile',
     SELECT_RECIPE_PLACEHOLDER: 'Select your recipe...',
     ALLERGIES_PLACEHOLDER: 'Select your allergies...',
     DISLIKES_PLACEHOLDER: 'Select your dislikes...',
@@ -49,6 +50,8 @@ const enLabels = {
 const enMessages = {
     USERNAME_WARNING: '$t(USERNAME) must be longer than 2 characters!',
     PASSWORD_WARNING: '$t(PASSWORD) must be set!',
+    GO_TO_PROFILE_1: 'Go to your ',
+    GO_TO_PROFILE_2: ' and select a personal nutrition goal.',
     PAGE_NOT_FOUND_MESSAGE: 'We are sorry, the Page you are looking for, doesn\'t exist.',
     WRONG_CREDENTIALS_ERR: '$t(ERROR), wrong $t(USERNAME) or password, please try again.',
     NOT_AUTHORIZED_ERR: '$t(ERROR), you are not authorized to access this page.',
