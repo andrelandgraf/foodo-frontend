@@ -9,6 +9,12 @@ import {
     RequestParameterMissingError,
 } from './Error';
 
+// in case of localStorage clearance => reload page and redirect to login
+export const handleUnauthorizedError = () => {
+    // eslint-disable-next-line no-restricted-globals
+    location.reload();
+};
+
 /*
  * Error Messages should be consistent accorss an application
  */

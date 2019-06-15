@@ -9,6 +9,8 @@
 const enHeaders = {
     HOME_WELCOME: 'Welcome at $t(APP_NAME), {{name}}!',
     PROFILE_TITLE: 'Your Personal Profile',
+    COOKING_HEADER: 'Cooking Details Page',
+    SELECT_RECIPE: 'What do you want to cook today?',
     ALLERGIES_SELECTION: 'Your allergies',
     DISLIKES_SELECTION: 'Your dislikes',
     GOALS_SELECTION: 'Your personal goal',
@@ -22,6 +24,7 @@ const enLabels = {
     APP_NAME: 'React App',
     HOME: 'Home',
     MY_PROFILE: 'My Profile',
+    SELECT_RECIPE_PLACEHOLDER: 'Select your recipe...',
     ALLERGIES_PLACEHOLDER: 'Select your allergies...',
     DISLIKES_PLACEHOLDER: 'Select your dislikes...',
     GOALS_PLACEHOLDER: 'Select your personal goals...',

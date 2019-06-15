@@ -3,6 +3,8 @@
 const deHeaders = {
     HOME_WELCOME: 'Willkommen bei $t(APP_NAME), {{name}}!',
     PROFILE_TITLE: 'Dein persönliches Profil',
+    COOKING_HEADER: 'Kochen Kochen Kochen!',
+    SELECT_RECIPE: 'Was willst du heute kochen?',
     ALLERGIES_SELECTION: 'Deine Allergien',
     DISLIKES_SELECTION: 'Deine Dislikes',
     GOALS_SELECTION: 'Dein persönliches Ziel',
@@ -15,6 +17,7 @@ const deLabels = {
     APP_NAME: 'React App',
     HOME: 'Home',
     MY_PROFILE: 'Mein Profil',
+    SELECT_RECIPE_PLACEHOLDER: 'Such dir ein Rezept aus...',
     ALLERGIES_PLACEHOLDER: 'Wähle deine Allergien...',
     DISLIKES_PLACEHOLDER: 'Wähle, was dir nicht schmeckt...',
     GOALS_PLACEHOLDER: 'Wähle dein Ziel aus...',
