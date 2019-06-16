@@ -29,7 +29,7 @@ export const getStoredAuthToken = () => window.localStorage.authToken;
  * @param {*} header
  * @returns {Object} user object
  */
-const authenticate = ( data, header ) => (
+export const authenticate = ( data, header ) => (
     postAuthRequest( qs.stringify( data ), header )
         .then( ( res ) => {
             setStoredAuthToken( res.data.accessToken );
