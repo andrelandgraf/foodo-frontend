@@ -80,9 +80,9 @@ class RecipesContainer extends React.Component {
 
     renderProfileLink = () => (
         <span>
-            Check out your
-            <Link to={AUTH_ROUTES.PROFILE}> Profile </Link>
-            and select a personal nutrition goal.
+            { i18n.t( KEYS.MESSAGES.GO_TO_PROFILE_1 ) }
+            <Link to={AUTH_ROUTES.PROFILE}>{ i18n.t( KEYS.LABELS.PROFILE ) }</Link>
+            { i18n.t( KEYS.MESSAGES.GO_TO_PROFILE_2 ) }
         </span>
     );
 
