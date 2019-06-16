@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import Logger from '../utilities/Logger';
 import { isDevelopment } from '../utilities/env';
-import { throwServerNotReachableError, handleUnauthorizedError } from '../utilities/errorHandler/errorHandler';
+import { throwServerNotReachableError } from '../utilities/errorHandler/errorHandler';
 import { refreshAuthToken } from './oAuthService';
 import { getStoredAuthToken } from './userService';
 
@@ -26,25 +26,21 @@ function postHeaders() {
 }
 
 export const isNetworkError = err => !err.status && err.message === 'Network Error';
-export const isUnauthorizedError = err => Number( err.code ) === HTTP_CODE_UNAUTHORIZED;
+export const isUnauthorizedError = status => Number( status ) === HTTP_CODE_UNAUTHORIZED;
 
 export const postRequest = ( endpoint, data ) => axios
     .post( API + endpoint, data, { headers: postHeaders() } )
-    .then( ( res ) => {
-        if ( res === 401 ) {
-            return refreshAuthToken(
-                () => postRequest( endpoint, data ),
-            );
-        }
-        return res.data;
-    } )
+    .then( res => res.data )
     .catch( ( err ) => {
         LoggingUtility.error( `Error in post request to entpoint ${ endpoint }`, err );
         if ( isNetworkError( err ) ) {
             throwServerNotReachableError();
         }
-        if ( isUnauthorizedError( err ) ) {
-            handleUnauthorizedError();
+        const { status } = err.response;
+        if ( isUnauthorizedError( status ) ) {
+            return refreshAuthToken(
+                () => postRequest( endpoint, data ),
+            );
         }
         throw Error( `${ err.response.data.code }:${ err.response.message }` );
     } );
@@ -57,9 +53,11 @@ export const getRequest = endpoint => axios
         if ( isNetworkError( err ) ) {
             throwServerNotReachableError();
         }
-        console.log( err.message );
-        if ( isUnauthorizedError( err ) ) {
-            handleUnauthorizedError();
+        const { status } = err.response;
+        if ( isUnauthorizedError( status ) ) {
+            return refreshAuthToken(
+                () => getRequest( endpoint ),
+            );
         }
         throw Error( `${ err.response.data.code }:${ err.response.message }` );
     } );

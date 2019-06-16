@@ -15,7 +15,7 @@ import RegistrationContainer from '../Registration/RegistrationContainer';
 import OAuthContainer from '../OAuth/OAuthContainer';
 import Loader from '../../components/loading/loader';
 
-import { isAuthenticated, getUser } from '../../services/userService';
+import { isAuthenticated, getUser, logUserOut } from '../../services/userService';
 
 export const AUTH_ROUTES = {
     HOME: '/',
@@ -50,8 +50,9 @@ class App extends React.Component {
         getUser()
             .then( retrievedUser => setUser( retrievedUser ) )
             .catch( () => {
-            // in case of error, relocate to login and retrieve new token
-                window.localStorage.clear();
+                // in case of error, relocate to login and retrieve new token
+                logUserOut();
+                setUser( undefined );
             } );
     }
 

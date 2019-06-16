@@ -1,8 +1,11 @@
 import axios from 'axios';
 
-import { API, isNetworkError } from './httpService';
-import { getStoredRefreshToken, getStoredAuthToken } from './userService';
-import { throwServerNotReachableError } from '../utilities/errorHandler/errorHandler';
+import Logger from '../utilities/Logger';
+import { isUnauthorizedError, API, isNetworkError } from './httpService';
+import { getStoredRefreshToken, getStoredAuthToken, authenticate } from './userService';
+import { throwNotAuthorizedError, throwServerNotReachableError } from '../utilities/errorHandler/errorHandler';
+
+const LoggingUtility = new Logger( 'userService.js' );
 
 const AUTHENTICATE_ENDPOINT = 'auth/token';
 const AUTHORIZE_ENDPOINT = 'auth/authorize';
@@ -44,7 +47,13 @@ export const getCodeHeaders = () => ( {
  */
 export const postAuthRequest = ( data, headers ) => axios
     .post( API + AUTHENTICATE_ENDPOINT, data, { headers } )
-    .catch( err => isNetworkError( err ) && throwServerNotReachableError() );
+    .catch( ( err ) => {
+        LoggingUtility.error( `Error in post request to entpoint ${ AUTHENTICATE_ENDPOINT }`, err );
+        if ( isNetworkError( err ) ) {
+            throwServerNotReachableError();
+        }
+        throw Error( `${ err.response.data.code }:${ err.response.message }` );
+    } );
 
 export const getAuthorizeCode = ( clientId, state, redirectUri ) => {
     const params = `?client_id=${ clientId }&response_type=code&state=${ state }&redirect_uri=${ redirectUri }`;
@@ -56,14 +65,21 @@ export const getAuthorizeCode = ( clientId, state, redirectUri ) => {
  * @param {Function} resolve
  */
 export const refreshAuthToken = ( resolve ) => {
-    const headers = getTokenHeaders();
+    const clientId = process.env.REACT_APP_OAUTH_CLIENT_KEY_ID;
+    const clientSecret = process.env.REACT_APP_OAUTH_CLIENT_SECRET_KEY;
+    const headers = getTokenHeaders( clientId, clientSecret );
     const refreshToken = getStoredRefreshToken();
-    const params = `?grant_type=${ GRANT_TYPES.REFRESH_TOKEN }&refresh_token=${ refreshToken }`;
     const data = {
         grant_type: GRANT_TYPES.REFRESH_TOKEN,
         refresh_token: refreshToken,
     };
-    postAuthRequest( params, data, headers )
+    return authenticate( data, headers )
         .then( () => resolve() )
-        .catch( err => isNetworkError( err ) && throwServerNotReachableError() );
+        .catch( ( err ) => {
+            const { status } = err.response;
+            if ( isUnauthorizedError( status ) ) {
+                throwNotAuthorizedError();
+            }
+            throw Error( `${ err.response.data.code }:${ err.response.message }` );
+        } );
 };

@@ -31,7 +31,7 @@ export class WrongCredentialsError extends CustomError {
 export class UsernameAlreadyTakenError extends CustomError {
     constructor( ...args ) {
         super( ...args );
-        Error.captureStackTrace( this, WrongCredentialsError );
+        Error.captureStackTrace( this, UsernameAlreadyTakenError );
     }
 }
 
