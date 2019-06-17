@@ -34,15 +34,15 @@ class AllergiesContainer extends React.Component {
                 ingridients: [
                     {
                         name: 'gluten',
-                        id: 1,
+                        _id: 1,
                     },
                     {
                         name: 'lactose',
-                        id: 2,
+                        _id: 2,
                     },
                     {
                         name: 'nuts',
-                        id: 3,
+                        _id: 3,
                     },
                 ],
             } );
@@ -51,7 +51,7 @@ class AllergiesContainer extends React.Component {
 
     onSelect = ( item ) => {
         const { allergies } = this.state;
-        if ( allergies.find( allergy => allergy.id === item.id ) ) return;
+        if ( allergies.find( allergy => allergy._id === item._id ) ) return;
         const updatedAllergies = lodash.cloneDeep( allergies );
         updatedAllergies.push( item );
         // TODO update backend
@@ -61,18 +61,18 @@ class AllergiesContainer extends React.Component {
     onDelete = ( itemId ) => {
         const { allergies } = this.state;
         let updatedAllergies = lodash.cloneDeep( allergies );
-        updatedAllergies = updatedAllergies.filter( allergy => allergy.id !== itemId );
+        updatedAllergies = updatedAllergies.filter( allergy => allergy._id !== itemId );
         // TODO update backend
         this.setState( { allergies: updatedAllergies } );
     }
 
     removeAlreadySelectedItems = ( allergies, ingridients ) => ingridients
-        .filter( item => !( allergies.find( allergy => allergy.id === item.id ) ) );
+        .filter( item => !( allergies.find( allergy => allergy._id === item._id ) ) );
 
     mapIngridientsForDataListInput = ingridients => ingridients
         .map( item => ( {
             ...item,
-            key: item.id,
+            key: item._id,
             label: item.name,
         } ) );
 

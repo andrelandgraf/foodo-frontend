@@ -34,7 +34,7 @@ IngredientSelection.propTypes = {
     ingredients: PropTypes.arrayOf(
         PropTypes.shape( {
             name: PropTypes.string.isRequired,
-            id: PropTypes.number.isRequired,
+            _id: PropTypes.string.isRequired,
         } ),
     ).isRequired,
     onDeleteIngredient: PropTypes.func.isRequired,
@@ -42,7 +42,7 @@ IngredientSelection.propTypes = {
     possibleMatches: PropTypes.arrayOf(
         PropTypes.shape( {
             label: PropTypes.string.isRequired,
-            key: PropTypes.number.isRequired,
+            key: PropTypes.string.isRequired,
         } ),
     ).isRequired,
 };
@@ -55,7 +55,7 @@ class AdminContainer extends React.Component {
             recipe: {
                 ingredients: [],
                 name: '',
-                preparationTime: undefined,
+                preparationTime: '',
                 meal: '',
                 directions: '',
                 servings: [],
@@ -118,14 +118,14 @@ class AdminContainer extends React.Component {
     onSelectIngredient = ( item ) => {
         const { recipe, selectedIngredients } = this.state;
         const { ingredients } = recipe;
-        if ( selectedIngredients.find( ingredient => ingredient.id === item.id ) ) return;
+        if ( selectedIngredients.find( ingredient => ingredient._id === item._id ) ) return;
 
         const updatedIngredients = lodash.cloneDeep( ingredients );
         const updatedSelectedIngredients = lodash.cloneDeep( selectedIngredients );
 
         updatedSelectedIngredients.push( item );
         updatedIngredients.push( {
-            id: item.id,
+            _id: item._id,
             amount: 0,
         } );
 
@@ -140,11 +140,11 @@ class AdminContainer extends React.Component {
 
         let updatedIngredients = lodash.cloneDeep( ingredients );
         updatedIngredients = updatedIngredients
-            .filter( ingredient => ingredient.id !== itemId );
+            .filter( ingredient => ingredient._id !== itemId );
 
         let updatedSelectedIngredients = lodash.cloneDeep( selectedIngredients );
         updatedSelectedIngredients = updatedSelectedIngredients
-            .filter( ingredient => ingredient.id !== itemId );
+            .filter( ingredient => ingredient._id !== itemId );
 
         const updatedRecipe = lodash.cloneDeep( recipe );
         updatedRecipe.ingredients = updatedIngredients;
@@ -160,7 +160,7 @@ class AdminContainer extends React.Component {
 
         const updatedIngredients = lodash.cloneDeep( ingredients );
         const index = updatedIngredients
-            .findIndex( i => i.id === ingredient.id );
+            .findIndex( i => i._id === ingredient._id );
         updatedIngredients[ index ] = updatedIngredient;
 
         const updatedRecipe = lodash.cloneDeep( recipe );
@@ -169,12 +169,12 @@ class AdminContainer extends React.Component {
     }
 
     removeAlreadySelectedItems = ( dislikes, foodItems ) => foodItems
-        .filter( item => !( dislikes.find( dislike => dislike.id === item.id ) ) );
+        .filter( item => !( dislikes.find( dislike => dislike._id === item._id ) ) );
 
     mapFoodItemsForDataListInput = foodItems => foodItems
         .map( item => ( {
             ...item,
-            key: item.id,
+            key: item._id,
             label: item.name,
         } ) );
 
@@ -203,7 +203,6 @@ class AdminContainer extends React.Component {
                     <input
                         value={recipe.preparationTime}
                         onChange={this.onChangeTime}
-                        type="number"
                         placeholder="Choose a number..."
                         required
                     />
@@ -233,11 +232,10 @@ class AdminContainer extends React.Component {
                 />
                 {
                     selectedIngredients.map( ( selected, i ) => (
-                        <div>
-                            <h2>{ingredients[ i ].name}</h2>
+                        <div key={selected._id}>
+                            <h2>{`Amount of ${ selected.name }`}</h2>
                             <input
-                                value={selected.name}
-                                type="number"
+                                value={ingredients[ i ].amount}
                                 onChange={e => this.onChangeAmount( e, selected )}
                                 placeholder="Choose an amount..."
                                 required

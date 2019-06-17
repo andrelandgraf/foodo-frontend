@@ -32,15 +32,15 @@ class LifestylesContainer extends React.Component {
                 lifestyles: [
                     {
                         name: 'Lion',
-                        id: 1,
+                        _id: '1',
                     },
                     {
                         name: 'Vegetarian',
-                        id: 2,
+                        _id: '2',
                     },
                     {
                         name: 'Vegan',
-                        id: 3,
+                        _id: '3',
                     },
                 ],
             } );
@@ -49,7 +49,7 @@ class LifestylesContainer extends React.Component {
 
     onSelect = ( item ) => {
         const { lifestyle } = this.state;
-        if ( item.id === lifestyle.id ) return;
+        if ( item._id === lifestyle._id ) return;
         const newLifestyle = lodash.cloneDeep( item );
         // TODO update backend
         this.setState( { lifestyle: newLifestyle } );
@@ -58,7 +58,7 @@ class LifestylesContainer extends React.Component {
     mapGoalToDataListInput = lifestyles => lifestyles
         .map( item => ( {
             ...item,
-            key: item.id,
+            key: item._id,
             label: item.name,
         } ) );
 

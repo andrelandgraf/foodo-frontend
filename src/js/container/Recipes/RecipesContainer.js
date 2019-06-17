@@ -16,23 +16,23 @@ class RecipesContainer extends React.Component {
     testData = [
         {
             name: 'Bolognese',
-            id: 1,
+            _id: '1',
         },
         {
             name: 'Pizza Brot',
-            id: 2,
+            _id: '2',
         },
         {
             name: 'Hawai Toast',
-            id: 3,
+            _id: '3',
         },
         {
             name: 'Spagghetti Arabiate',
-            id: 4,
+            _id: '4',
         },
         {
             name: 'Pilzragout',
-            id: 5,
+            _id: '5',
         },
     ];
 
@@ -42,7 +42,7 @@ class RecipesContainer extends React.Component {
         const { user } = this.props;
         const { goal } = user;
 
-        const userPickedGoal = goal && goal.id;
+        const userPickedGoal = goal && goal._id;
         const message = userPickedGoal ? '' : this.renderProfileLink();
         const messageType = userPickedGoal ? undefined : MESSAGE_TYPES.WARNING;
 
@@ -61,11 +61,11 @@ class RecipesContainer extends React.Component {
 
     onSelectRecipe = ( recipe ) => {
         if ( !recipe ) return;
-        this.setState( { selectedId: recipe.id } );
+        this.setState( { selectedId: recipe._id } );
     }
 
     mapRecipesToDataListInput = recipes => recipes
-        .map( recipe => ( { ...recipe, label: recipe.name, key: recipe.id } ) )
+        .map( recipe => ( { ...recipe, label: recipe.name, key: recipe._id } ) )
 
     clearMessage = () => {
         this.setState( { message: '', messageType: undefined } );
@@ -118,7 +118,7 @@ RecipesContainer.propTypes = {
     user: PropTypes.shape( {
         goal: PropTypes.shape( {
             name: PropTypes.string.isRequired,
-            id: PropTypes.number.isRequired,
+            _id: PropTypes.string.isRequired,
         } ),
     } ).isRequired,
 };

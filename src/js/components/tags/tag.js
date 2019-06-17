@@ -9,16 +9,16 @@ import ImageButton from '../button/imageButton';
 const Tag = ( { tag, onDelete, onClick } ) => (
     <div className="tag">
         <CustomButton
-            onClick={onClick ? () => onClick( tag.id ) : undefined}
-            id={`tag-click-${ tag.id }`}
+            onClick={onClick ? () => onClick( tag.key ) : undefined}
+            id={`tag-click-${ tag.key }`}
         >
             <span>
                 {tag.label}
             </span>
         </CustomButton>
         <ImageButton
-            id={`tag-delete-${ tag.id }`}
-            onClick={() => onDelete( tag.id )}
+            id={`tag-delete-${ tag.key }`}
+            onClick={() => onDelete( tag.key )}
             src={Cancel}
             alt="Remove Dislike"
         />
@@ -28,7 +28,10 @@ const Tag = ( { tag, onDelete, onClick } ) => (
 Tag.propTypes = {
     tag: PropTypes.shape( {
         label: PropTypes.string.isRequired,
-        id: PropTypes.number.isRequired,
+        key: PropTypes.oneOfType( [
+            PropTypes.string,
+            PropTypes.number,
+        ] ).isRequired,
     } ).isRequired,
     onDelete: PropTypes.func.isRequired,
     onClick: PropTypes.func,

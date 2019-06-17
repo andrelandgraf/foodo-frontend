@@ -32,11 +32,11 @@ class GoalsContainer extends React.Component {
                 goals: [
                     {
                         name: 'I want to eath healthy!',
-                        id: 1,
+                        _id: '1',
                     },
                     {
                         name: 'I want to reduce body weight!',
-                        id: 2,
+                        _id: '2',
                     },
                 ],
             } );
@@ -45,7 +45,7 @@ class GoalsContainer extends React.Component {
 
     onSelect = ( item ) => {
         const { goal } = this.state;
-        if ( item.id === goal.id ) return;
+        if ( item._id === goal._id ) return;
         const newGoal = lodash.cloneDeep( item );
         // TODO update backend
         this.setState( { goal: newGoal } );
@@ -54,7 +54,7 @@ class GoalsContainer extends React.Component {
     mapGoalToDataListInput = goals => goals
         .map( item => ( {
             ...item,
-            key: item.id,
+            key: item._id,
             label: item.name,
         } ) );
 
