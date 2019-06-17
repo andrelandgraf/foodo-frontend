@@ -6,6 +6,8 @@ import i18n from 'i18next';
 
 import { KEYS } from '../../utilities/internationalization/internationalization';
 
+import { getIngredients } from '../../services/ingredientsService';
+
 import Tags from '../../components/tags/tags';
 
 class DislikesContainer extends React.Component {
@@ -19,58 +21,13 @@ class DislikesContainer extends React.Component {
         if ( !dislikes ) userDislikes = [];
 
         this.state = {
-            foodItems: undefined,
-            // eslint-disable-next-line react/no-unused-state
+            foodItems: [],
             dislikes: userDislikes,
         };
     }
 
     componentWillMount = async () => {
-        const { foodItems } = this.state;
-        if ( !foodItems ) {
-            // TODO get foodItems from backend via FoodItemsService
-            this.setState( {
-                // mockup data
-                foodItems: [
-                    {
-                        name: 'onion',
-                        id: 1,
-                    },
-                    {
-                        name: 'orange',
-                        id: 2,
-                    },
-                    {
-                        name: 'apple',
-                        id: 3,
-                    },
-                    {
-                        name: 'blue berries',
-                        id: 4,
-                    },
-                    {
-                        name: 'avocado',
-                        id: 5,
-                    },
-                    {
-                        name: 'beer',
-                        id: 6,
-                    },
-                    {
-                        name: 'beens',
-                        id: 7,
-                    },
-                    {
-                        name: 'banana',
-                        id: 8,
-                    },
-                    {
-                        name: 'berries',
-                        id: 9,
-                    },
-                ],
-            } );
-        }
+        getIngredients().then( ingredients => this.setState( { foodItems: ingredients } ) );
     }
 
     onSelect = ( item ) => {
@@ -118,6 +75,7 @@ class DislikesContainer extends React.Component {
                         items={possibleMatches}
                         placeholder={i18n.t( KEYS.LABELS.DISLIKES_PLACEHOLDER )}
                         onSelect={this.onSelect}
+                        dropDownLength={10}
                         suppressReselect={false}
                         clearInputOnSelect
                     />

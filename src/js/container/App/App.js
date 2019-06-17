@@ -10,6 +10,7 @@ import HomeView from '../../views/homeView';
 import ProfileView from '../../views/profileView';
 import CookingView from '../../views/cookingView';
 import NotFoundView from '../../views/notFoundView';
+import AdminView from '../../views/adminView';
 import LoginContainer from '../Login/LoginContainer';
 import RegistrationContainer from '../Registration/RegistrationContainer';
 import OAuthContainer from '../OAuth/OAuthContainer';
@@ -21,6 +22,7 @@ export const AUTH_ROUTES = {
     HOME: '/',
     PROFILE: '/profile',
     COOKING: '/cooking/',
+    ADMIN: '/admin',
     OAUTH: '/oauth/v2/login',
 };
 
@@ -77,6 +79,7 @@ class App extends React.Component {
                 path={`${ AUTH_ROUTES.COOKING }:id`}
                 render={props => ( <CookingView {...props} user={user} /> )}
             />
+            <Route from={AUTH_ROUTES.ADMIN} component={AdminView} />
             <Route from={AUTH_ROUTES.OAUTH} component={OAuthContainer} />
             <Redirect from={NONAUTH_ROUTES.LOGIN} to={window.localStorage.getItem( 'redirectUrl' )} />
             <Redirect from={NONAUTH_ROUTES.REGISTER} to={window.localStorage.getItem( 'redirectUrl' )} />

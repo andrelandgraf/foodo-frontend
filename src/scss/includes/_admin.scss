@@ -1,0 +1,39 @@
+.admin-page {
+    @extend .page;
+
+    .admin-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        > div {
+            @extend .box;
+            padding: 20px;
+            margin: 20px;
+            width: 100%;
+            @media screen and (max-width: $phone-width) {
+                padding: 10px;
+                width: 95%;
+            }
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .ingredients-container {
+            .input-container {
+                margin-top: 25px;
+                width: 400px;
+                max-width: 80%;
+                
+                input {
+                    margin-bottom: 0;
+                }      
+                @media screen and (max-width: $phone-width) {
+                    max-width: 95%;
+                }
+            }
+        }
+    }
+}
