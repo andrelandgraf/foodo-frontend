@@ -10,6 +10,7 @@ const LoggingUtility = new Logger( 'userService.js' );
 
 export const API = isDevelopment ? 'http://localhost:3333/' : process.env.REACT_APP_BACKEND_API;
 const HTTP_CODE_UNAUTHORIZED = 401;
+const HTTP_CODE_SERVICE_UNAVAILABLE = 503;
 
 function getHeaders() {
     return {
@@ -25,7 +26,8 @@ function postHeaders() {
     };
 }
 
-export const isNetworkError = err => !err.status && err.message === 'Network Error';
+export const isNetworkError = err => ( err.message === 'Network Error' )
+    || ( err.response && Number( err.response.status ) === HTTP_CODE_SERVICE_UNAVAILABLE );
 export const isUnauthorizedError = status => Number( status ) === HTTP_CODE_UNAUTHORIZED;
 
 export const postRequest = ( endpoint, data ) => axios

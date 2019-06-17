@@ -9,6 +9,7 @@ import i18n from 'i18next';
 import { KEYS } from '../../utilities/internationalization/internationalization';
 
 import { AUTH_ROUTES } from '../App/App';
+import { getRecipes } from '../../services/recipesService';
 import Message, { MESSAGE_TYPES } from '../../components/message/message';
 
 class RecipesContainer extends React.Component {
@@ -46,7 +47,7 @@ class RecipesContainer extends React.Component {
         const messageType = userPickedGoal ? undefined : MESSAGE_TYPES.WARNING;
 
         this.state = {
-            recipes: undefined,
+            recipes: [],
             selectedId: undefined,
             message,
             messageType,
@@ -54,12 +55,8 @@ class RecipesContainer extends React.Component {
     }
 
     componentWillMount = () => {
-        const { recipes } = this.state;
-
-        if ( !recipes ) {
-            // TODO call backend to get standard recipes
-            this.setState( { recipes: this.testData } );
-        }
+        getRecipes().then( recipes => ( recipes.length
+            ? this.setState( { recipes } ) : this.setState( { recipes: this.testData } ) ) );
     }
 
     onSelectRecipe = ( recipe ) => {
