@@ -20,6 +20,7 @@
         "computed-property-spacing": [ 2, "always" ],
         "space-infix-ops": [2, {"int32Hint": false}],
         "react/prop-types": [2],
-        "react/require-default-props": [2]
+        "react/require-default-props": [2],
+        "no-underscore-dangle": [ "error", { "allow": [ "_id" ] } ]
       }
 }
