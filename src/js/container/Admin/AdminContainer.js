@@ -4,6 +4,7 @@ import DataListInput from 'react-datalist-input';
 import lodash from 'lodash';
 
 import { getIngredients } from '../../services/ingredientsService';
+import { postRecipe } from '../../services/recipesService';
 
 import Tags from '../../components/tags/tags';
 import SubmitButton from '../../components/button/submitButton';
@@ -57,7 +58,6 @@ class AdminContainer extends React.Component {
                 name: '',
                 preparationTime: '',
                 meal: '',
-                directions: '',
                 servings: [],
             },
             foodItems: [],
@@ -71,7 +71,11 @@ class AdminContainer extends React.Component {
 
     onSaveRecipe = ( event ) => {
         event.preventDefault();
-        // TODO save recipe to backend
+
+        const { recipe } = this.state;
+        // eslint-disable-next-line no-console
+        postRecipe( recipe ).catch( err => console.log( err ) );
+
         const nextRecipe = {
             name: '',
             preparationTime: 0,
@@ -80,7 +84,7 @@ class AdminContainer extends React.Component {
             directions: '',
             servings: [],
         };
-        this.setState( { recipe: nextRecipe } );
+        this.setState( { recipe: nextRecipe, selectedIngredients: [] } );
     }
 
     onChangeName = ( event ) => {
@@ -165,7 +169,7 @@ class AdminContainer extends React.Component {
 
         const updatedRecipe = lodash.cloneDeep( recipe );
         updatedRecipe.ingredients = updatedIngredients;
-        this.setState( { } );
+        this.setState( { recipe: updatedRecipe } );
     }
 
     removeAlreadySelectedItems = ( dislikes, foodItems ) => foodItems
@@ -190,7 +194,7 @@ class AdminContainer extends React.Component {
         return (
             <form onSubmit={this.onSaveRecipe} className="admin-form">
                 <div>
-                    <h2>Recipe Name (in German)</h2>
+                    <h2>Recipe Name (in English)</h2>
                     <input
                         value={recipe.name}
                         onChange={this.onChangeName}
@@ -214,14 +218,6 @@ class AdminContainer extends React.Component {
                         onChange={this.onChangeMeal}
                         placeholder="Choose a meal..."
                         required
-                    />
-                </div>
-                <div>
-                    <h2>Directions</h2>
-                    <input
-                        value={recipe.directions}
-                        onChange={this.onChangeDirections}
-                        placeholder="Choose a direction..."
                     />
                 </div>
                 <IngredientSelection
