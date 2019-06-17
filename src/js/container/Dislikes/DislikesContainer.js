@@ -32,7 +32,7 @@ class DislikesContainer extends React.Component {
 
     onSelect = ( item ) => {
         const { dislikes } = this.state;
-        if ( dislikes.find( dislike => dislike.id === item.id ) ) return;
+        if ( dislikes.find( dislike => dislike._id === item._id ) ) return;
         const updatedDislikes = lodash.cloneDeep( dislikes );
         updatedDislikes.push( item );
         // TODO update backend
@@ -42,18 +42,18 @@ class DislikesContainer extends React.Component {
     onDelete = ( itemId ) => {
         const { dislikes } = this.state;
         let updatedDislikes = lodash.cloneDeep( dislikes );
-        updatedDislikes = updatedDislikes.filter( dislike => dislike.id !== itemId );
+        updatedDislikes = updatedDislikes.filter( dislike => dislike._id !== itemId );
         // TODO update backend
         this.setState( { dislikes: updatedDislikes } );
     }
 
     removeAlreadySelectedItems = ( dislikes, foodItems ) => foodItems
-        .filter( item => !( dislikes.find( dislike => dislike.id === item.id ) ) );
+        .filter( item => !( dislikes.find( dislike => dislike._id === item._id ) ) );
 
     mapFoodItemsForDataListInput = foodItems => foodItems
         .map( item => ( {
             ...item,
-            key: item.id,
+            key: item._id,
             label: item.name,
         } ) );
 

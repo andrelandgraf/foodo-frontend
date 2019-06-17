@@ -6,7 +6,7 @@ import Tag from './tag';
 const Tags = ( { tags, onDelete } ) => (
     <div className="tags">
         {
-            tags.map( tag => <Tag key={`dislike-${ tag.id }`} tag={tag} onDelete={onDelete} /> )
+            tags.map( tag => <Tag key={tag.key} tag={tag} onDelete={onDelete} /> )
         }
     </div>
 );
@@ -15,7 +15,10 @@ Tags.propTypes = {
     tags: PropTypes.arrayOf(
         PropTypes.shape( {
             label: PropTypes.string.isRequired,
-            id: PropTypes.number.isRequired,
+            key: PropTypes.oneOfType( [
+                PropTypes.string,
+                PropTypes.number,
+            ] ).isRequired,
         } ),
     ).isRequired,
     onDelete: PropTypes.func.isRequired,

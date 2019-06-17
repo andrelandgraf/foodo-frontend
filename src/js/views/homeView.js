@@ -16,7 +16,7 @@ const HomeView = ( { user } ) => (
 HomeView.propTypes = {
     user: PropTypes.shape( {
         username: PropTypes.string.isRequired,
-        id: PropTypes.string.isRequired,
+        _id: PropTypes.string.isRequired,
     } ).isRequired,
 };
 
