@@ -4,9 +4,10 @@ import DataListInput from 'react-datalist-input';
 import lodash from 'lodash';
 import i18n from 'i18next';
 
-import { KEYS } from '../../utilities/internationalization/internationalization';
+import { KEYS, getLocale } from '../../utilities/internationalization/internationalization';
 
 import { getIngredients } from '../../services/foodo-api/ingredient/ingredientsService';
+import { putDislike } from '../../services/foodo-api/user/profileService';
 
 import Tags from '../../components/tags/tags';
 
@@ -17,7 +18,6 @@ class DislikesContainer extends React.Component {
         const { user } = this.props;
         const { dislikes } = user;
         let userDislikes = lodash.cloneDeep( dislikes );
-        // TODO remove this test if we have set dislikes in user to required in props
         if ( !dislikes ) userDislikes = [];
 
         this.state = {
@@ -33,17 +33,19 @@ class DislikesContainer extends React.Component {
     onSelect = ( item ) => {
         const { dislikes } = this.state;
         if ( dislikes.find( dislike => dislike._id === item._id ) ) return;
+
         const updatedDislikes = lodash.cloneDeep( dislikes );
         updatedDislikes.push( item );
-        // TODO update backend
         this.setState( { dislikes: updatedDislikes } );
+
+        putDislike( { name: item.name, _id: item._id } );
     }
 
     onDelete = ( itemId ) => {
         const { dislikes } = this.state;
+
         let updatedDislikes = lodash.cloneDeep( dislikes );
         updatedDislikes = updatedDislikes.filter( dislike => dislike._id !== itemId );
-        // TODO update backend
         this.setState( { dislikes: updatedDislikes } );
     }
 
@@ -54,7 +56,7 @@ class DislikesContainer extends React.Component {
         .map( item => ( {
             ...item,
             key: item._id,
-            label: item.name,
+            label: item.name[ getLocale() ],
         } ) );
 
     render() {
@@ -87,8 +89,12 @@ class DislikesContainer extends React.Component {
 
 DislikesContainer.propTypes = {
     user: PropTypes.shape( {
-        // TODO make dislikes required when we have the backend logic for it
-        dislikes: PropTypes.array,
+        dislikes: PropTypes.arrayOf(
+            PropTypes.shape( {
+                name: PropTypes.string.isRequired,
+                _id: PropTypes.string.isRequired,
+            } ),
+        ),
     } ).isRequired,
 };
 

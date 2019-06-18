@@ -1,29 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// import { getRecipes } from '../../services/foodo-api/recipe/recipesService';
+
 import Recipe from '../../components/recipe/recipe';
 import Loader from '../../components/loading/loader';
 
 class CookingContainer extends React.Component {
-    testData = {
-        name: 'Bolognese',
-        _id: '1',
-        ingridients: [
-            {
-                name: 'Nudeln',
-                _id: '1',
-            },
-            {
-                name: 'Hackfleisch',
-                _id: '2',
-            },
-            {
-                name: 'Tomatensauce',
-                _id: '3',
-            },
-        ],
-    }
-
     constructor( props ) {
         super( props );
 
@@ -38,7 +21,7 @@ class CookingContainer extends React.Component {
         const { id } = this.props;
         if ( !recipe ) {
             // TODO get (user) recipe from backend with _id
-            this.setState( { recipe: this.testData } );
+            // this.setState( { recipe: this.testData } );
         }
     }
 

@@ -4,6 +4,8 @@ import DataListInput from 'react-datalist-input';
 import lodash from 'lodash';
 import i18n from 'i18next';
 
+import { getLifestyles, postLifestyle } from '../../services/foodo-api/user/profileService';
+
 import { KEYS } from '../../utilities/internationalization/internationalization';
 
 class LifestylesContainer extends React.Component {
@@ -13,46 +15,26 @@ class LifestylesContainer extends React.Component {
         const { user } = this.props;
         const { lifestyle } = user;
         let userLifestyle = lodash.cloneDeep( lifestyle );
-        // TODO remove this test if we have set lifestyle in user to required in props
         if ( !lifestyle ) userLifestyle = {};
 
         this.state = {
-            lifestyles: undefined,
-            // eslint-disable-next-line react/no-unused-state
+            lifestyles: [],
             lifestyle: userLifestyle,
         };
     }
 
-    componentWillMount = async () => {
-        const { lifestyles } = this.state;
-        if ( !lifestyles ) {
-            // TODO get lifestyles from backend via FoodItemsService
-            this.setState( {
-                // mockup data
-                lifestyles: [
-                    {
-                        name: 'Lion',
-                        _id: '1',
-                    },
-                    {
-                        name: 'Vegetarian',
-                        _id: '2',
-                    },
-                    {
-                        name: 'Vegan',
-                        _id: '3',
-                    },
-                ],
-            } );
-        }
+    componentWillMount = () => {
+        getLifestyles().then( lifestyles => this.setState( { lifestyles } ) );
     }
 
     onSelect = ( item ) => {
         const { lifestyle } = this.state;
         if ( item._id === lifestyle._id ) return;
+
         const newLifestyle = lodash.cloneDeep( item );
-        // TODO update backend
         this.setState( { lifestyle: newLifestyle } );
+
+        postLifestyle( { name: newLifestyle.name, _id: newLifestyle._id } );
     }
 
     mapGoalToDataListInput = lifestyles => lifestyles
@@ -86,8 +68,10 @@ class LifestylesContainer extends React.Component {
 
 LifestylesContainer.propTypes = {
     user: PropTypes.shape( {
-        // TODO make lifestyle required when we have the backend logic for it
-        lifestyle: PropTypes.array,
+        lifestyle: PropTypes.shape( {
+            name: PropTypes.string.isRequired,
+            _id: PropTypes.string.isRequired,
+        } ),
     } ).isRequired,
 };
 
