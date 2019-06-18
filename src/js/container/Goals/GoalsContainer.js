@@ -14,8 +14,7 @@ class GoalsContainer extends React.Component {
 
         const { user } = this.props;
         const { goal } = user;
-        let userGoal = lodash.cloneDeep( goal );
-        if ( !goal ) userGoal = {};
+        const userGoal = goal ? lodash.cloneDeep( goal ) : {};
 
         this.state = {
             goals: [],
@@ -37,7 +36,7 @@ class GoalsContainer extends React.Component {
         postGoal( { name: newGoal.name, _id: newGoal._id } );
     }
 
-    mapGoalToDataListInput = goals => goals
+    mapGoalsToKeyLabelPairs = goals => goals
         .map( item => ( {
             ...item,
             key: item._id,
@@ -47,7 +46,7 @@ class GoalsContainer extends React.Component {
     render() {
         const { goal, goals } = this.state;
         const clonedGoals = lodash.cloneDeep( goals );
-        const possibleMatches = this.mapGoalToDataListInput( clonedGoals );
+        const possibleMatches = this.mapGoalsToKeyLabelPairs( clonedGoals );
 
         return (
             <div className="dislikes-container">
@@ -71,7 +70,7 @@ GoalsContainer.propTypes = {
         goal: PropTypes.shape( {
             name: PropTypes.string.isRequired,
             _id: PropTypes.string.isRequired,
-        } ).isRequired,
+        } ),
     } ).isRequired,
 };
 
