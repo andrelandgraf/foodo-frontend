@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { UserStateContext } from '../../provider/UserStateProvider';
-import { isAuthenticated } from '../../services/userService';
+import { isAuthenticated } from '../../services/foodo-api/user/userService';
 
 const LogoutContainer = ( { LogoutComponent, onWillLogout } ) => (
     <UserStateContext.Consumer>

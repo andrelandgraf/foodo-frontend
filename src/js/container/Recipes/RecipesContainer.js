@@ -9,44 +9,22 @@ import i18n from 'i18next';
 import { KEYS } from '../../utilities/internationalization/internationalization';
 
 import { AUTH_ROUTES } from '../App/App';
+import { getRecipes } from '../../services/foodo-api/recipe/recipesService';
 import Message, { MESSAGE_TYPES } from '../../components/message/message';
 
 class RecipesContainer extends React.Component {
-    testData = [
-        {
-            name: 'Bolognese',
-            id: 1,
-        },
-        {
-            name: 'Pizza Brot',
-            id: 2,
-        },
-        {
-            name: 'Hawai Toast',
-            id: 3,
-        },
-        {
-            name: 'Spagghetti Arabiate',
-            id: 4,
-        },
-        {
-            name: 'Pilzragout',
-            id: 5,
-        },
-    ];
-
     constructor( props ) {
         super( props );
 
         const { user } = this.props;
         const { goal } = user;
 
-        const userPickedGoal = goal && goal.id;
+        const userPickedGoal = goal && goal._id;
         const message = userPickedGoal ? '' : this.renderProfileLink();
         const messageType = userPickedGoal ? undefined : MESSAGE_TYPES.WARNING;
 
         this.state = {
-            recipes: undefined,
+            recipes: [],
             selectedId: undefined,
             message,
             messageType,
@@ -54,21 +32,16 @@ class RecipesContainer extends React.Component {
     }
 
     componentWillMount = () => {
-        const { recipes } = this.state;
-
-        if ( !recipes ) {
-            // TODO call backend to get standard recipes
-            this.setState( { recipes: this.testData } );
-        }
+        getRecipes().then( recipes => this.setState( { recipes } ) );
     }
 
     onSelectRecipe = ( recipe ) => {
         if ( !recipe ) return;
-        this.setState( { selectedId: recipe.id } );
+        this.setState( { selectedId: recipe._id } );
     }
 
     mapRecipesToDataListInput = recipes => recipes
-        .map( recipe => ( { ...recipe, label: recipe.name, key: recipe.id } ) )
+        .map( recipe => ( { ...recipe, label: recipe.name, key: recipe._id } ) )
 
     clearMessage = () => {
         this.setState( { message: '', messageType: undefined } );
@@ -121,7 +94,7 @@ RecipesContainer.propTypes = {
     user: PropTypes.shape( {
         goal: PropTypes.shape( {
             name: PropTypes.string.isRequired,
-            id: PropTypes.number.isRequired,
+            _id: PropTypes.string.isRequired,
         } ),
     } ).isRequired,
 };

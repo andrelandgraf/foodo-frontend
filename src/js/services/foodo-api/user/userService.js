@@ -1,16 +1,14 @@
 import qs from 'qs';
 
-import Logger from '../utilities/Logger';
-import { throwWrongCredentialsError, throwUsernameAlreadyTaken, isCustomError } from '../utilities/errorHandler/errorHandler';
+import Logger from '../../../utilities/Logger';
+import { throwWrongCredentialsError, throwUsernameAlreadyTaken, isCustomError } from '../../../utilities/errorHandler/errorHandler';
+import { ENDPOINTS } from '../api';
 import {
     GRANT_TYPES, getTokenHeaders, postAuthRequest, getAuthorizeCode,
-} from './oAuthService';
-import { postRequest, getRequest } from './httpService';
+} from '../oAuthService';
+import { postRequest, getRequest } from '../httpService';
 
 const LoggingUtility = new Logger( 'userService.js' );
-
-const REGISTER_ENDPOINT = 'auth/register';
-const USER_ENDPOINT = 'auth/me';
 
 const setStoredRefreshToken = ( refreshToken ) => {
     window.localStorage.refreshToken = refreshToken;
@@ -61,7 +59,7 @@ export const registerUser = ( username, password ) => {
         username,
         password,
     };
-    return postRequest( REGISTER_ENDPOINT, data )
+    return postRequest( ENDPOINTS.REGISTER, data )
         // will return user object to initial caller of registerUser
         .then( () => logUserIn( username, password ) )
         .catch( ( err ) => {
@@ -96,7 +94,7 @@ export const authorizeClient = ( username, password, clientId, state, redirectUr
         } );
 };
 
-export const getUser = () => getRequest( USER_ENDPOINT );
+export const getUser = () => getRequest( `${ ENDPOINTS.USER }${ ENDPOINTS.USER_ENDPOINTS.ME }` );
 
 export const logUserOut = () => {
     window.localStorage.removeItem( 'authToken' );
