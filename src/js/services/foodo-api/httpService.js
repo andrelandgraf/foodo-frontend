@@ -40,6 +40,40 @@ export const postRequest = ( endpoint, data ) => axios
         throw Error( `${ err.response.data.code }:${ err.response.message }` );
     } );
 
+export const putRequest = ( endpoint, data ) => axios
+    .put( API + endpoint, data, { headers: postHeaders() } )
+    .then( res => res.data )
+    .catch( ( err ) => {
+        LoggingUtility.error( `Error in put request to entpoint ${ endpoint }`, err );
+        if ( isNetworkError( err ) ) {
+            throwServerNotReachableError();
+        }
+        const { status } = err.response;
+        if ( isUnauthorizedError( status ) ) {
+            return refreshAuthToken(
+                () => postRequest( endpoint, data ),
+            );
+        }
+        throw Error( `${ err.response.data.code }:${ err.response.message }` );
+    } );
+
+export const deleteRequest = ( endpoint, data ) => axios
+    .delete( API + endpoint, data, { headers: postHeaders() } )
+    .then( res => res.data )
+    .catch( ( err ) => {
+        LoggingUtility.error( `Error in delete request to entpoint ${ endpoint }`, err );
+        if ( isNetworkError( err ) ) {
+            throwServerNotReachableError();
+        }
+        const { status } = err.response;
+        if ( isUnauthorizedError( status ) ) {
+            return refreshAuthToken(
+                () => postRequest( endpoint, data ),
+            );
+        }
+        throw Error( `${ err.response.data.code }:${ err.response.message }` );
+    } );
+
 export const getRequest = endpoint => axios
     .get( API + endpoint, { headers: getHeaders() } )
     .then( res => res.data )

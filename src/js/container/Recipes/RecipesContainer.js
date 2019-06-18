@@ -13,29 +13,6 @@ import { getRecipes } from '../../services/foodo-api/recipe/recipesService';
 import Message, { MESSAGE_TYPES } from '../../components/message/message';
 
 class RecipesContainer extends React.Component {
-    testData = [
-        {
-            name: 'Bolognese',
-            _id: '1',
-        },
-        {
-            name: 'Pizza Brot',
-            _id: '2',
-        },
-        {
-            name: 'Hawai Toast',
-            _id: '3',
-        },
-        {
-            name: 'Spagghetti Arabiate',
-            _id: '4',
-        },
-        {
-            name: 'Pilzragout',
-            _id: '5',
-        },
-    ];
-
     constructor( props ) {
         super( props );
 
@@ -55,8 +32,7 @@ class RecipesContainer extends React.Component {
     }
 
     componentWillMount = () => {
-        getRecipes().then( recipes => ( recipes.length
-            ? this.setState( { recipes } ) : this.setState( { recipes: this.testData } ) ) );
+        getRecipes().then( recipes => this.setState( { recipes } ) );
     }
 
     onSelectRecipe = ( recipe ) => {

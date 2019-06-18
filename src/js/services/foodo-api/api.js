@@ -13,6 +13,8 @@ export const ENDPOINTS = {
         DISLIKE: '/dislike',
         ALLERGY: '/allergy',
         LOCALE: '/locale',
+        RECIPES: '/recipe',
+        RECIPE: '/recipe/',
     },
     GOAL: 'goal',
     LIFESTYLE: 'lifestyle',
