@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import DataListInput from 'react-datalist-input';
 import lodash from 'lodash';
 
-import { getIngredients } from '../../services/ingredientsService';
-import { postRecipe } from '../../services/recipesService';
+import { getIngredients } from '../../services/foodo-api/ingredient/ingredientsService';
+import { postRecipe } from '../../services/foodo-api/recipe/recipesService';
 
 import Tags from '../../components/tags/tags';
 import SubmitButton from '../../components/button/submitButton';

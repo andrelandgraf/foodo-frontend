@@ -1,14 +1,12 @@
 import axios from 'axios';
 
-import Logger from '../utilities/Logger';
-import { isUnauthorizedError, API, isNetworkError } from './httpService';
-import { getStoredRefreshToken, getStoredAuthToken, authenticate } from './userService';
-import { throwNotAuthorizedError, throwServerNotReachableError } from '../utilities/errorHandler/errorHandler';
+import Logger from '../../utilities/Logger';
+import { isUnauthorizedError, isNetworkError } from '../utilities/httpProtocol';
+import { throwNotAuthorizedError, throwServerNotReachableError } from '../../utilities/errorHandler/errorHandler';
+import { API, ENDPOINTS } from './api';
+import { getStoredRefreshToken, getStoredAuthToken, authenticate } from './user/userService';
 
 const LoggingUtility = new Logger( 'userService.js' );
-
-const AUTHENTICATE_ENDPOINT = 'auth/token';
-const AUTHORIZE_ENDPOINT = 'auth/authorize';
 
 export const GRANT_TYPES = {
     AUTH_CODE: 'authorization_code',
@@ -46,9 +44,9 @@ export const getCodeHeaders = () => ( {
  * @param {*} headers
  */
 export const postAuthRequest = ( data, headers ) => axios
-    .post( API + AUTHENTICATE_ENDPOINT, data, { headers } )
+    .post( API + ENDPOINTS.AUTHENTICATE, data, { headers } )
     .catch( ( err ) => {
-        LoggingUtility.error( `Error in post request to entpoint ${ AUTHENTICATE_ENDPOINT }`, err );
+        LoggingUtility.error( `Error in post request to entpoint ${ ENDPOINTS.AUTHENTICATE }`, err );
         if ( isNetworkError( err ) ) {
             throwServerNotReachableError();
         }
@@ -57,7 +55,7 @@ export const postAuthRequest = ( data, headers ) => axios
 
 export const getAuthorizeCode = ( clientId, state, redirectUri ) => {
     const params = `?client_id=${ clientId }&response_type=code&state=${ state }&redirect_uri=${ redirectUri }`;
-    return fetch( `${ API }${ AUTHORIZE_ENDPOINT }${ params }`, { headers: getCodeHeaders() } );
+    return fetch( `${ API }${ ENDPOINTS.AUTHORIZE }${ params }`, { headers: getCodeHeaders() } );
 };
 
 /**

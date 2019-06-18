@@ -19,30 +19,30 @@ class AllergiesContainer extends React.Component {
         if ( !allergies ) userAllergies = [];
 
         this.state = {
-            ingridients: undefined,
+            ingredients: undefined,
             // eslint-disable-next-line react/no-unused-state
             allergies: userAllergies,
         };
     }
 
     componentWillMount = async () => {
-        const { ingridients } = this.state;
-        if ( !ingridients ) {
+        const { ingredients } = this.state;
+        if ( !ingredients ) {
             // TODO get ingridients from backend via FoodItemsService
             this.setState( {
                 // mockup data
-                ingridients: [
+                ingredients: [
                     {
                         name: 'gluten',
-                        _id: 1,
+                        _id: '1',
                     },
                     {
                         name: 'lactose',
-                        _id: 2,
+                        _id: '2',
                     },
                     {
                         name: 'nuts',
-                        _id: 3,
+                        _id: '3',
                     },
                 ],
             } );
@@ -66,10 +66,10 @@ class AllergiesContainer extends React.Component {
         this.setState( { allergies: updatedAllergies } );
     }
 
-    removeAlreadySelectedItems = ( allergies, ingridients ) => ingridients
+    removeAlreadySelectedItems = ( allergies, ingredients ) => ingredients
         .filter( item => !( allergies.find( allergy => allergy._id === item._id ) ) );
 
-    mapIngridientsForDataListInput = ingridients => ingridients
+    mapIngridientsForDataListInput = ingredients => ingredients
         .map( item => ( {
             ...item,
             key: item._id,
@@ -77,9 +77,10 @@ class AllergiesContainer extends React.Component {
         } ) );
 
     render() {
-        const { allergies, ingridients } = this.state;
-        const clonedIngridients = lodash.cloneDeep( ingridients );
-        let possibleMatches = this.removeAlreadySelectedItems( allergies, clonedIngridients );
+        const { allergies, ingredients } = this.state;
+        const clonedIngredients = lodash.cloneDeep( ingredients );
+        console.log( clonedIngredients );
+        let possibleMatches = this.removeAlreadySelectedItems( allergies, clonedIngredients );
         possibleMatches = this.mapIngridientsForDataListInput( possibleMatches );
 
         return (

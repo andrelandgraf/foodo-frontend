@@ -6,6 +6,7 @@ import {
     getLocale, setLocale, LOCALES, KEYS,
 } from '../../utilities/internationalization/internationalization';
 
+import { postLocale } from '../../services/foodo-api/user/preferencesService';
 
 import CustomButton from '../../components/button/customButton';
 import Title from '../../components/preferences/title';
@@ -32,6 +33,11 @@ class PreferencesMenuContainer extends React.Component {
     }
 
     onSelectLocale = async ( locale ) => {
+        const { user } = this.context;
+        if ( user ) {
+            const { _id } = user;
+            await postLocale( _id, locale );
+        }
         await setLocale( locale );
         // completly reload and rerender all components to change language strings
         // eslint-disable-next-line no-restricted-globals

@@ -9,7 +9,7 @@ import i18n from 'i18next';
 import { KEYS } from '../../utilities/internationalization/internationalization';
 
 import { AUTH_ROUTES } from '../App/App';
-import { getRecipes } from '../../services/recipesService';
+import { getRecipes } from '../../services/foodo-api/recipe/recipesService';
 import Message, { MESSAGE_TYPES } from '../../components/message/message';
 
 class RecipesContainer extends React.Component {
