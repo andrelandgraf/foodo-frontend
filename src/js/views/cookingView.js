@@ -10,7 +10,7 @@ import CookingContainer from '../container/Cooking/CookingContainer';
 const CookingView = ( { user, match } ) => (
     <div className="container home-container">
         <h1>{ i18n.t( KEYS.HEADERS.COOKING_HEADER ) }</h1>
-        <CookingContainer id={Number( match.params.id )} user={user} />
+        <CookingContainer id={match.params.id} user={user} />
     </div>
 );
 
@@ -22,7 +22,7 @@ CookingView.propTypes = {
     } ).isRequired,
     user: PropTypes.shape( {
         username: PropTypes.string.isRequired,
-        id: PropTypes.string.isRequired,
+        _id: PropTypes.string.isRequired,
     } ).isRequired,
 };
 

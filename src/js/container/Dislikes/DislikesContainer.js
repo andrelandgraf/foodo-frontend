@@ -4,7 +4,10 @@ import DataListInput from 'react-datalist-input';
 import lodash from 'lodash';
 import i18n from 'i18next';
 
-import { KEYS } from '../../utilities/internationalization/internationalization';
+import { KEYS, getLocale } from '../../utilities/internationalization/internationalization';
+
+import { getIngredients } from '../../services/foodo-api/ingredient/ingredientsService';
+import { putDislike } from '../../services/foodo-api/user/profileService';
 
 import Tags from '../../components/tags/tags';
 
@@ -15,89 +18,45 @@ class DislikesContainer extends React.Component {
         const { user } = this.props;
         const { dislikes } = user;
         let userDislikes = lodash.cloneDeep( dislikes );
-        // TODO remove this test if we have set dislikes in user to required in props
         if ( !dislikes ) userDislikes = [];
 
         this.state = {
-            foodItems: undefined,
-            // eslint-disable-next-line react/no-unused-state
+            foodItems: [],
             dislikes: userDislikes,
         };
     }
 
     componentWillMount = async () => {
-        const { foodItems } = this.state;
-        if ( !foodItems ) {
-            // TODO get foodItems from backend via FoodItemsService
-            this.setState( {
-                // mockup data
-                foodItems: [
-                    {
-                        name: 'onion',
-                        id: 1,
-                    },
-                    {
-                        name: 'orange',
-                        id: 2,
-                    },
-                    {
-                        name: 'apple',
-                        id: 3,
-                    },
-                    {
-                        name: 'blue berries',
-                        id: 4,
-                    },
-                    {
-                        name: 'avocado',
-                        id: 5,
-                    },
-                    {
-                        name: 'beer',
-                        id: 6,
-                    },
-                    {
-                        name: 'beens',
-                        id: 7,
-                    },
-                    {
-                        name: 'banana',
-                        id: 8,
-                    },
-                    {
-                        name: 'berries',
-                        id: 9,
-                    },
-                ],
-            } );
-        }
+        getIngredients().then( ingredients => this.setState( { foodItems: ingredients } ) );
     }
 
     onSelect = ( item ) => {
         const { dislikes } = this.state;
-        if ( dislikes.find( dislike => dislike.id === item.id ) ) return;
+        if ( dislikes.find( dislike => dislike._id === item._id ) ) return;
+
         const updatedDislikes = lodash.cloneDeep( dislikes );
         updatedDislikes.push( item );
-        // TODO update backend
         this.setState( { dislikes: updatedDislikes } );
+
+        putDislike( { name: item.name, _id: item._id } );
     }
 
     onDelete = ( itemId ) => {
         const { dislikes } = this.state;
+
         let updatedDislikes = lodash.cloneDeep( dislikes );
-        updatedDislikes = updatedDislikes.filter( dislike => dislike.id !== itemId );
-        // TODO update backend
+        updatedDislikes = updatedDislikes.filter( dislike => dislike._id !== itemId );
         this.setState( { dislikes: updatedDislikes } );
     }
 
     removeAlreadySelectedItems = ( dislikes, foodItems ) => foodItems
-        .filter( item => !( dislikes.find( dislike => dislike.id === item.id ) ) );
+        .filter( item => !( dislikes.find( dislike => dislike._id === item._id ) ) );
 
     mapFoodItemsForDataListInput = foodItems => foodItems
         .map( item => ( {
             ...item,
-            key: item.id,
-            label: item.name,
+            key: item._id,
+            label: item.name[ getLocale() ],
         } ) );
 
     render() {
@@ -118,6 +77,7 @@ class DislikesContainer extends React.Component {
                         items={possibleMatches}
                         placeholder={i18n.t( KEYS.LABELS.DISLIKES_PLACEHOLDER )}
                         onSelect={this.onSelect}
+                        dropDownLength={10}
                         suppressReselect={false}
                         clearInputOnSelect
                     />
@@ -129,8 +89,12 @@ class DislikesContainer extends React.Component {
 
 DislikesContainer.propTypes = {
     user: PropTypes.shape( {
-        // TODO make dislikes required when we have the backend logic for it
-        dislikes: PropTypes.array,
+        dislikes: PropTypes.arrayOf(
+            PropTypes.shape( {
+                name: PropTypes.string.isRequired,
+                _id: PropTypes.string.isRequired,
+            } ),
+        ),
     } ).isRequired,
 };
 

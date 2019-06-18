@@ -6,6 +6,8 @@ import i18n from 'i18next';
 
 import { KEYS } from '../../utilities/internationalization/internationalization';
 
+import { getAllergies, putAllergy } from '../../services/foodo-api/user/profileService';
+
 import Tags from '../../components/tags/tags';
 
 class AllergiesContainer extends React.Component {
@@ -15,71 +17,51 @@ class AllergiesContainer extends React.Component {
         const { user } = this.props;
         const { allergies } = user;
         let userAllergies = lodash.cloneDeep( allergies );
-        // TODO remove this test if we have set allergies in user to required in props
         if ( !allergies ) userAllergies = [];
 
         this.state = {
-            ingridients: undefined,
-            // eslint-disable-next-line react/no-unused-state
+            possibleAllergies: [],
             allergies: userAllergies,
         };
     }
 
     componentWillMount = async () => {
-        const { ingridients } = this.state;
-        if ( !ingridients ) {
-            // TODO get ingridients from backend via FoodItemsService
-            this.setState( {
-                // mockup data
-                ingridients: [
-                    {
-                        name: 'gluten',
-                        id: 1,
-                    },
-                    {
-                        name: 'lactose',
-                        id: 2,
-                    },
-                    {
-                        name: 'nuts',
-                        id: 3,
-                    },
-                ],
-            } );
-        }
+        getAllergies( possibleAllergies => this.setState( { possibleAllergies } ) );
     }
 
     onSelect = ( item ) => {
         const { allergies } = this.state;
-        if ( allergies.find( allergy => allergy.id === item.id ) ) return;
+        if ( allergies.find( allergy => allergy._id === item._id ) ) return;
+
         const updatedAllergies = lodash.cloneDeep( allergies );
         updatedAllergies.push( item );
-        // TODO update backend
         this.setState( { allergies: updatedAllergies } );
+
+        putAllergy( { name: updatedAllergies.name, _id: updatedAllergies._id } );
     }
 
     onDelete = ( itemId ) => {
         const { allergies } = this.state;
+
         let updatedAllergies = lodash.cloneDeep( allergies );
-        updatedAllergies = updatedAllergies.filter( allergy => allergy.id !== itemId );
-        // TODO update backend
+        updatedAllergies = updatedAllergies.filter( allergy => allergy._id !== itemId );
         this.setState( { allergies: updatedAllergies } );
     }
 
-    removeAlreadySelectedItems = ( allergies, ingridients ) => ingridients
-        .filter( item => !( allergies.find( allergy => allergy.id === item.id ) ) );
+    removeAlreadySelectedItems = ( allergies, possibleAllergies ) => possibleAllergies
+        .filter( item => !( allergies.find( allergy => allergy._id === item._id ) ) );
 
-    mapIngridientsForDataListInput = ingridients => ingridients
+    mapIngridientsForDataListInput = possibleAllergies => possibleAllergies
         .map( item => ( {
             ...item,
-            key: item.id,
+            key: item._id,
             label: item.name,
         } ) );
 
     render() {
-        const { allergies, ingridients } = this.state;
-        const clonedIngridients = lodash.cloneDeep( ingridients );
-        let possibleMatches = this.removeAlreadySelectedItems( allergies, clonedIngridients );
+        const { allergies, possibleAllergies } = this.state;
+        const clonedPossibleAllergies = lodash.cloneDeep( possibleAllergies );
+        let possibleMatches = this.removeAlreadySelectedItems( allergies, clonedPossibleAllergies );
         possibleMatches = this.mapIngridientsForDataListInput( possibleMatches );
 
         return (
@@ -105,8 +87,12 @@ class AllergiesContainer extends React.Component {
 
 AllergiesContainer.propTypes = {
     user: PropTypes.shape( {
-        // TODO make allergies required when we have the backend logic for it
-        allergies: PropTypes.array,
+        allergies: PropTypes.arrayOf(
+            PropTypes.shape( {
+                name: PropTypes.string.isRequired,
+                _id: PropTypes.string.isRequired,
+            } ),
+        ),
     } ).isRequired,
 };
 

@@ -4,6 +4,8 @@ import DataListInput from 'react-datalist-input';
 import lodash from 'lodash';
 import i18n from 'i18next';
 
+import { postGoal, getGoals } from '../../services/foodo-api/user/profileService';
+
 import { KEYS } from '../../utilities/internationalization/internationalization';
 
 class GoalsContainer extends React.Component {
@@ -13,48 +15,32 @@ class GoalsContainer extends React.Component {
         const { user } = this.props;
         const { goal } = user;
         let userGoal = lodash.cloneDeep( goal );
-        // TODO remove this test if we have set goal in user to required in props
         if ( !goal ) userGoal = {};
 
         this.state = {
-            goals: undefined,
-            // eslint-disable-next-line react/no-unused-state
+            goals: [],
             goal: userGoal,
         };
     }
 
-    componentWillMount = async () => {
-        const { goals } = this.state;
-        if ( !goals ) {
-            // TODO get goals from backend via FoodItemsService
-            this.setState( {
-                // mockup data
-                goals: [
-                    {
-                        name: 'I want to eath healthy!',
-                        id: 1,
-                    },
-                    {
-                        name: 'I want to reduce body weight!',
-                        id: 2,
-                    },
-                ],
-            } );
-        }
+    componentWillMount = () => {
+        getGoals().then( goals => this.setState( { goals } ) );
     }
 
     onSelect = ( item ) => {
         const { goal } = this.state;
-        if ( item.id === goal.id ) return;
+        if ( item._id === goal._id ) return;
+
         const newGoal = lodash.cloneDeep( item );
-        // TODO update backend
         this.setState( { goal: newGoal } );
+
+        postGoal( { name: newGoal.name, _id: newGoal._id } );
     }
 
     mapGoalToDataListInput = goals => goals
         .map( item => ( {
             ...item,
-            key: item.id,
+            key: item._id,
             label: item.name,
         } ) );
 
@@ -82,8 +68,10 @@ class GoalsContainer extends React.Component {
 
 GoalsContainer.propTypes = {
     user: PropTypes.shape( {
-        // TODO make goal required when we have the backend logic for it
-        goal: PropTypes.array,
+        goal: PropTypes.shape( {
+            name: PropTypes.string.isRequired,
+            _id: PropTypes.string.isRequired,
+        } ).isRequired,
     } ).isRequired,
 };
 

@@ -1,15 +1,13 @@
 import axios from 'axios';
 
-import Logger from '../utilities/Logger';
-import { isDevelopment } from '../utilities/env';
-import { throwServerNotReachableError } from '../utilities/errorHandler/errorHandler';
+import Logger from '../../utilities/Logger';
+import { isUnauthorizedError, isNetworkError } from '../utilities/httpProtocol';
+import { throwServerNotReachableError } from '../../utilities/errorHandler/errorHandler';
+import { API } from './api';
 import { refreshAuthToken } from './oAuthService';
-import { getStoredAuthToken } from './userService';
+import { getStoredAuthToken } from './user/userService';
 
 const LoggingUtility = new Logger( 'userService.js' );
-
-export const API = isDevelopment ? 'http://localhost:3333/' : process.env.REACT_APP_BACKEND_API;
-const HTTP_CODE_UNAUTHORIZED = 401;
 
 function getHeaders() {
     return {
@@ -25,14 +23,45 @@ function postHeaders() {
     };
 }
 
-export const isNetworkError = err => !err.status && err.message === 'Network Error';
-export const isUnauthorizedError = status => Number( status ) === HTTP_CODE_UNAUTHORIZED;
-
 export const postRequest = ( endpoint, data ) => axios
     .post( API + endpoint, data, { headers: postHeaders() } )
     .then( res => res.data )
     .catch( ( err ) => {
         LoggingUtility.error( `Error in post request to entpoint ${ endpoint }`, err );
+        if ( isNetworkError( err ) ) {
+            throwServerNotReachableError();
+        }
+        const { status } = err.response;
+        if ( isUnauthorizedError( status ) ) {
+            return refreshAuthToken(
+                () => postRequest( endpoint, data ),
+            );
+        }
+        throw Error( `${ err.response.data.code }:${ err.response.message }` );
+    } );
+
+export const putRequest = ( endpoint, data ) => axios
+    .put( API + endpoint, data, { headers: postHeaders() } )
+    .then( res => res.data )
+    .catch( ( err ) => {
+        LoggingUtility.error( `Error in put request to entpoint ${ endpoint }`, err );
+        if ( isNetworkError( err ) ) {
+            throwServerNotReachableError();
+        }
+        const { status } = err.response;
+        if ( isUnauthorizedError( status ) ) {
+            return refreshAuthToken(
+                () => postRequest( endpoint, data ),
+            );
+        }
+        throw Error( `${ err.response.data.code }:${ err.response.message }` );
+    } );
+
+export const deleteRequest = ( endpoint, data ) => axios
+    .delete( API + endpoint, data, { headers: postHeaders() } )
+    .then( res => res.data )
+    .catch( ( err ) => {
+        LoggingUtility.error( `Error in delete request to entpoint ${ endpoint }`, err );
         if ( isNetworkError( err ) ) {
             throwServerNotReachableError();
         }
