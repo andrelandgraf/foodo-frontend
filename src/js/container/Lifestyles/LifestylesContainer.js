@@ -14,8 +14,7 @@ class LifestylesContainer extends React.Component {
 
         const { user } = this.props;
         const { lifestyle } = user;
-        let userLifestyle = lodash.cloneDeep( lifestyle );
-        if ( !lifestyle ) userLifestyle = {};
+        const userLifestyle = lifestyle ? lodash.cloneDeep( lifestyle ) : {};
 
         this.state = {
             lifestyles: [],
@@ -37,7 +36,7 @@ class LifestylesContainer extends React.Component {
         postLifestyle( { name: newLifestyle.name, _id: newLifestyle._id } );
     }
 
-    mapGoalToDataListInput = lifestyles => lifestyles
+    mapLifestylesToKeyLabelPairs = lifestyles => lifestyles
         .map( item => ( {
             ...item,
             key: item._id,
@@ -47,7 +46,7 @@ class LifestylesContainer extends React.Component {
     render() {
         const { lifestyle, lifestyles } = this.state;
         const clonedLifestyles = lodash.cloneDeep( lifestyles );
-        const possibleMatches = this.mapGoalToDataListInput( clonedLifestyles );
+        const possibleMatches = this.mapLifestylesToKeyLabelPairs( clonedLifestyles );
 
         return (
             <div className="dislikes-container">

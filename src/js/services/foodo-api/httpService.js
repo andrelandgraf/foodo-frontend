@@ -51,7 +51,7 @@ export const putRequest = ( endpoint, data ) => axios
         const { status } = err.response;
         if ( isUnauthorizedError( status ) ) {
             return refreshAuthToken(
-                () => postRequest( endpoint, data ),
+                () => putRequest( endpoint, data ),
             );
         }
         throw Error( `${ err.response.data.code }:${ err.response.message }` );
@@ -68,7 +68,7 @@ export const deleteRequest = ( endpoint, data ) => axios
         const { status } = err.response;
         if ( isUnauthorizedError( status ) ) {
             return refreshAuthToken(
-                () => postRequest( endpoint, data ),
+                () => deleteRequest( endpoint, data ),
             );
         }
         throw Error( `${ err.response.data.code }:${ err.response.message }` );
