@@ -59,7 +59,7 @@ class RecipesContainer extends React.Component {
         </span>
     );
 
-    renderRedirect = id => <Redirect to={`${ AUTH_ROUTES.COOKING }${ id }`} />
+    renderRedirect = id => <Redirect push to={`${ AUTH_ROUTES.COOKING }${ id }`} />
 
     render() {
         const {
