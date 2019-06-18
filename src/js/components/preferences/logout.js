@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import i18n from 'i18next';
 
 import { KEYS } from '../../utilities/internationalization/internationalization';
-import { logUserOut } from '../../services/userService';
+import { logUserOut } from '../../services/foodo-api/user/userService';
 
 import LogoutIcon from '../../../img/logout.svg';
 

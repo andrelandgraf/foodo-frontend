@@ -7,7 +7,7 @@ import { KEYS } from '../../utilities/internationalization/internationalization'
 import LoginView from '../../views/loginView';
 import MessageComponent, { MESSAGE_TYPES } from '../../components/message/message';
 
-import { logUserIn } from '../../services/userService';
+import { logUserIn } from '../../services/foodo-api/user/userService';
 
 class LoginContainer extends React.Component {
     constructor( props ) {

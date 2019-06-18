@@ -6,7 +6,7 @@ import i18n from 'i18next';
 
 import { KEYS } from '../../utilities/internationalization/internationalization';
 
-import { getIngredients } from '../../services/ingredientsService';
+import { getIngredients } from '../../services/foodo-api/ingredient/ingredientsService';
 
 import Tags from '../../components/tags/tags';
 

@@ -4,7 +4,7 @@ import i18n from 'i18next';
 
 import { KEYS } from '../../utilities/internationalization/internationalization';
 
-import { registerUser } from '../../services/userService';
+import { registerUser } from '../../services/foodo-api/user/userService';
 
 import LoginContainer from '../Login/LoginContainer';
 

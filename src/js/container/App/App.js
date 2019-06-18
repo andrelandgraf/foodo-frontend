@@ -16,7 +16,7 @@ import RegistrationContainer from '../Registration/RegistrationContainer';
 import OAuthContainer from '../OAuth/OAuthContainer';
 import Loader from '../../components/loading/loader';
 
-import { isAuthenticated, getUser, logUserOut } from '../../services/userService';
+import { isAuthenticated, getUser, logUserOut } from '../../services/foodo-api/user/userService';
 
 export const AUTH_ROUTES = {
     HOME: '/',
