@@ -7,7 +7,7 @@ import i18n from 'i18next';
 import { KEYS, getLocale } from '../../utilities/internationalization/internationalization';
 
 import { getIngredients } from '../../services/foodo-api/ingredient/ingredientsService';
-import { putDislike } from '../../services/foodo-api/user/profileService';
+import { putDislike, deleteDislike } from '../../services/foodo-api/user/profileService';
 
 import Tags from '../../components/tags/tags';
 
@@ -17,8 +17,7 @@ class DislikesContainer extends React.Component {
 
         const { user } = this.props;
         const { dislikes } = user;
-        let userDislikes = lodash.cloneDeep( dislikes );
-        if ( !dislikes ) userDislikes = [];
+        const userDislikes = lodash.cloneDeep( dislikes );
 
         this.state = {
             foodItems: [],
@@ -47,12 +46,14 @@ class DislikesContainer extends React.Component {
         let updatedDislikes = lodash.cloneDeep( dislikes );
         updatedDislikes = updatedDislikes.filter( dislike => dislike._id !== itemId );
         this.setState( { dislikes: updatedDislikes } );
+
+        deleteDislike( { _id: itemId } );
     }
 
     removeAlreadySelectedItems = ( dislikes, foodItems ) => foodItems
         .filter( item => !( dislikes.find( dislike => dislike._id === item._id ) ) );
 
-    mapFoodItemsForDataListInput = foodItems => foodItems
+    mapFoodItemsToKeyLabelPairs = foodItems => foodItems
         .map( item => ( {
             ...item,
             key: item._id,
@@ -61,16 +62,20 @@ class DislikesContainer extends React.Component {
 
     render() {
         const { dislikes, foodItems } = this.state;
+
         const clonedFoodItems = lodash.cloneDeep( foodItems );
         let possibleMatches = this.removeAlreadySelectedItems( dislikes, clonedFoodItems );
-        possibleMatches = this.mapFoodItemsForDataListInput( possibleMatches );
+        possibleMatches = this.mapFoodItemsToKeyLabelPairs( possibleMatches );
+
+        const clonedDislikes = lodash.cloneDeep( dislikes );
+        const displayableDislikes = this.mapFoodItemsToKeyLabelPairs( clonedDislikes );
 
         return (
             <div className="dislikes-container">
                 <h2>{i18n.t( KEYS.HEADERS.DISLIKES_SELECTION )}</h2>
                 {
                     dislikes.length > 0
-                    && <Tags tags={dislikes} onDelete={this.onDelete} />
+                    && <Tags tags={displayableDislikes} onDelete={this.onDelete} />
                 }
                 <div className="input-container">
                     <DataListInput
@@ -91,10 +96,13 @@ DislikesContainer.propTypes = {
     user: PropTypes.shape( {
         dislikes: PropTypes.arrayOf(
             PropTypes.shape( {
-                name: PropTypes.string.isRequired,
+                name: PropTypes.shape( {
+                    en: PropTypes.string,
+                    de: PropTypes.string,
+                } ).isRequired,
                 _id: PropTypes.string.isRequired,
             } ),
-        ),
+        ).isRequired,
     } ).isRequired,
 };
 

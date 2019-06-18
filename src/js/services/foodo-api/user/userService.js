@@ -54,13 +54,12 @@ export const logUserIn = ( username, password ) => {
     return authenticate( data, header );
 };
 
-export const registerUser = ( username, password ) => {
-    const data = {
-        username,
-        password,
-    };
-    return postRequest( ENDPOINTS.REGISTER, data )
-        // will return user object to initial caller of registerUser
+export const registerUser = ( user ) => {
+    if ( !user || !user.username || !user.password || !user.locale ) {
+        throw new Error( 'passed user object misses required fields' );
+    }
+    const { username, password } = user;
+    return postRequest( ENDPOINTS.REGISTER, { user } )
         .then( () => logUserIn( username, password ) )
         .catch( ( err ) => {
             if ( isCustomError( err ) ) {

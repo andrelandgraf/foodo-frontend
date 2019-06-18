@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import i18n from 'i18next';
 
-import { KEYS } from '../../utilities/internationalization/internationalization';
+import { KEYS, getLocale } from '../../utilities/internationalization/internationalization';
 
 import { registerUser } from '../../services/foodo-api/user/userService';
 
@@ -12,7 +12,12 @@ class RegistrationContainer extends React.Component {
     // decorates LoginContainer.handleSubmit function
     handleSubmit = async ( username, password ) => {
         const { setUser } = this.props;
-        await registerUser( username, password )
+        const userObject = {
+            username,
+            password,
+            locale: getLocale(),
+        };
+        await registerUser( userObject )
             .then( ( user ) => {
                 setUser( user );
             } );
