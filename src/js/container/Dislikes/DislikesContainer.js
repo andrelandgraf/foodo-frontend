@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import DataListInput from 'react-datalist-input';
 import lodash from 'lodash';
 import i18n from 'i18next';
@@ -9,24 +8,35 @@ import { KEYS, getLocale } from '../../utilities/internationalization/internatio
 import { getIngredients } from '../../services/foodo-api/ingredient/ingredientsService';
 import { putDislike, deleteDislike } from '../../services/foodo-api/user/profileService';
 
+import { UserStateContext } from '../../provider/UserStateProvider';
 import Tags from '../../components/tags/tags';
 
 class DislikesContainer extends React.Component {
     constructor( props ) {
         super( props );
 
-        const { user } = this.props;
-        const { dislikes } = user;
-        const userDislikes = lodash.cloneDeep( dislikes );
-
         this.state = {
             foodItems: [],
-            dislikes: userDislikes,
+            dislikes: [],
         };
     }
 
     componentWillMount = async () => {
-        getIngredients().then( ingredients => this.setState( { foodItems: ingredients } ) );
+        const { user } = this.context;
+        const { dislikes } = user;
+        const userDislikes = lodash.cloneDeep( dislikes );
+
+        getIngredients()
+            .then( ingredients => this.setState(
+                { foodItems: ingredients, dislikes: userDislikes },
+            ) );
+    }
+
+    updateUser = ( updatedDislikes ) => {
+        const { user, setUser } = this.context;
+        const updatedUser = lodash.cloneDeep( user );
+        updatedUser.dislikes = updatedDislikes;
+        setUser( updatedUser );
     }
 
     onSelect = ( item ) => {
@@ -38,6 +48,8 @@ class DislikesContainer extends React.Component {
         this.setState( { dislikes: updatedDislikes } );
 
         putDislike( { name: item.name, _id: item._id } );
+
+        this.updateUser( updatedDislikes );
     }
 
     onDelete = ( itemId ) => {
@@ -48,6 +60,8 @@ class DislikesContainer extends React.Component {
         this.setState( { dislikes: updatedDislikes } );
 
         deleteDislike( { _id: itemId } );
+
+        this.updateUser( updatedDislikes );
     }
 
     removeAlreadySelectedItems = ( dislikes, foodItems ) => foodItems
@@ -92,18 +106,6 @@ class DislikesContainer extends React.Component {
     }
 }
 
-DislikesContainer.propTypes = {
-    user: PropTypes.shape( {
-        dislikes: PropTypes.arrayOf(
-            PropTypes.shape( {
-                name: PropTypes.shape( {
-                    en: PropTypes.string,
-                    de: PropTypes.string,
-                } ).isRequired,
-                _id: PropTypes.string.isRequired,
-            } ),
-        ).isRequired,
-    } ).isRequired,
-};
+DislikesContainer.contextType = UserStateContext;
 
 export default DislikesContainer;

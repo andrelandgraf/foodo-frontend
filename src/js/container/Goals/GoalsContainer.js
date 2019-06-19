@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import DataListInput from 'react-datalist-input';
 import lodash from 'lodash';
 import i18n from 'i18next';
@@ -7,23 +6,31 @@ import i18n from 'i18next';
 import { postGoal, getGoals } from '../../services/foodo-api/user/profileService';
 
 import { KEYS } from '../../utilities/internationalization/internationalization';
+import { UserStateContext } from '../../provider/UserStateProvider';
 
 class GoalsContainer extends React.Component {
     constructor( props ) {
         super( props );
 
-        const { user } = this.props;
-        const { goal } = user;
-        const userGoal = goal ? lodash.cloneDeep( goal ) : {};
-
         this.state = {
             goals: [],
-            goal: userGoal,
+            goal: {},
         };
     }
 
     componentWillMount = () => {
-        getGoals().then( goals => this.setState( { goals } ) );
+        const { user } = this.context;
+        const { goal } = user;
+        const userGoal = goal ? lodash.cloneDeep( goal ) : {};
+
+        getGoals().then( goals => this.setState( { goals, goal: userGoal } ) );
+    }
+
+    updateUser = ( newGoal ) => {
+        const { user, setUser } = this.context;
+        const updatedUser = lodash.cloneDeep( user );
+        updatedUser.goal = newGoal;
+        setUser( updatedUser );
     }
 
     onSelect = ( item ) => {
@@ -34,6 +41,8 @@ class GoalsContainer extends React.Component {
         this.setState( { goal: newGoal } );
 
         postGoal( { name: newGoal.name, _id: newGoal._id } );
+
+        this.updateUser( newGoal );
     }
 
     mapGoalsToKeyLabelPairs = goals => goals
@@ -65,13 +74,6 @@ class GoalsContainer extends React.Component {
     }
 }
 
-GoalsContainer.propTypes = {
-    user: PropTypes.shape( {
-        goal: PropTypes.shape( {
-            name: PropTypes.string.isRequired,
-            _id: PropTypes.string.isRequired,
-        } ),
-    } ).isRequired,
-};
+GoalsContainer.contextType = UserStateContext;
 
 export default GoalsContainer;
