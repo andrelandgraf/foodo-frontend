@@ -6,7 +6,7 @@ import { ENDPOINTS } from '../api';
 import {
     GRANT_TYPES, getTokenHeaders, postAuthRequest, getAuthorizeCode,
 } from '../oAuthService';
-import { postRequest, getRequest } from '../httpService';
+import { postRequest, getRequest, putRequest } from '../httpService';
 
 const LoggingUtility = new Logger( 'userService.js' );
 
@@ -101,3 +101,5 @@ export const logUserOut = () => {
 };
 
 export const isAuthenticated = () => !!getStoredAuthToken();
+
+export const changePassword = password => putRequest( ENDPOINTS.PASSWORD, { password } );
