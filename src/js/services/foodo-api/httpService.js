@@ -58,7 +58,7 @@ export const putRequest = ( endpoint, data ) => axios
     } );
 
 export const deleteRequest = ( endpoint, data ) => axios
-    .delete( API + endpoint, data, { headers: postHeaders() } )
+    .delete( API + endpoint, { headers: postHeaders(), data } )
     .then( res => res.data )
     .catch( ( err ) => {
         LoggingUtility.error( `Error in delete request to entpoint ${ endpoint }`, err );
