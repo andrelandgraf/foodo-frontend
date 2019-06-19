@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import DataListInput from 'react-datalist-input';
 import lodash from 'lodash';
 import i18n from 'i18next';
@@ -7,23 +6,32 @@ import i18n from 'i18next';
 import { getLifestyles, postLifestyle } from '../../services/foodo-api/user/profileService';
 
 import { KEYS } from '../../utilities/internationalization/internationalization';
+import { UserStateContext } from '../../provider/UserStateProvider';
 
 class LifestylesContainer extends React.Component {
     constructor( props ) {
         super( props );
 
-        const { user } = this.props;
-        const { lifestyle } = user;
-        const userLifestyle = lifestyle ? lodash.cloneDeep( lifestyle ) : {};
-
         this.state = {
             lifestyles: [],
-            lifestyle: userLifestyle,
+            lifestyle: {},
         };
     }
 
     componentWillMount = () => {
-        getLifestyles().then( lifestyles => this.setState( { lifestyles } ) );
+        const { user } = this.context;
+        const { lifestyle } = user;
+        const userLifestyle = lifestyle ? lodash.cloneDeep( lifestyle ) : {};
+
+        getLifestyles()
+            .then( lifestyles => this.setState( { lifestyles, lifestyle: userLifestyle } ) );
+    }
+
+    updateUser = ( newLifestyle ) => {
+        const { user, setUser } = this.context;
+        const updatedUser = lodash.cloneDeep( user );
+        updatedUser.lifestyle = newLifestyle;
+        setUser( updatedUser );
     }
 
     onSelect = ( item ) => {
@@ -34,6 +42,8 @@ class LifestylesContainer extends React.Component {
         this.setState( { lifestyle: newLifestyle } );
 
         postLifestyle( { name: newLifestyle.name, _id: newLifestyle._id } );
+
+        this.updateUser( newLifestyle );
     }
 
     mapLifestylesToKeyLabelPairs = lifestyles => lifestyles
@@ -65,13 +75,6 @@ class LifestylesContainer extends React.Component {
     }
 }
 
-LifestylesContainer.propTypes = {
-    user: PropTypes.shape( {
-        lifestyle: PropTypes.shape( {
-            name: PropTypes.string.isRequired,
-            _id: PropTypes.string.isRequired,
-        } ),
-    } ).isRequired,
-};
+LifestylesContainer.contextType = UserStateContext;
 
 export default LifestylesContainer;
