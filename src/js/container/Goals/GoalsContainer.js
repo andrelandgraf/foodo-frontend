@@ -54,10 +54,11 @@ class GoalsContainer extends React.Component {
                 <div className="input-container">
                     <DataListInput
                         items={possibleMatches}
-                        placeholder={goal.name || i18n.t( KEYS.LABELS.GOALS_PLACEHOLDER )}
+                        placeholder={i18n.t( KEYS.LABELS.GOALS_PLACEHOLDER )}
                         onSelect={this.onSelect}
                         clearInputOnSelect={false}
                         suppressReselect={false}
+                        initialValue={goal.name || ''}
                     />
                 </div>
             </div>
