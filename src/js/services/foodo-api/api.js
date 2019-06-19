@@ -5,6 +5,7 @@ export const ENDPOINTS = {
     AUTHENTICATE: 'auth/token',
     AUTHORIZE: 'auth/authorize',
     REGISTER: 'auth/register',
+    PASSWORD: 'auth/password',
     USER: 'user',
     USER_ENDPOINTS: {
         ME: '/me',
