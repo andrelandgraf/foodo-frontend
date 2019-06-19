@@ -17,6 +17,7 @@ import OAuthContainer from '../OAuth/OAuthContainer';
 import Loader from '../../components/loading/loader';
 
 import { isAuthenticated, getUser, logUserOut } from '../../services/foodo-api/user/userService';
+import PasswordView from '../../views/passwordView';
 
 export const AUTH_ROUTES = {
     HOME: '/',
@@ -24,6 +25,7 @@ export const AUTH_ROUTES = {
     COOKING: '/cooking/',
     ADMIN: '/admin',
     OAUTH: '/oauth/v2/login',
+    PASSWORD: '/password',
 };
 
 export const NONAUTH_ROUTES = {
@@ -78,6 +80,11 @@ class App extends React.Component {
                 exact
                 path={`${ AUTH_ROUTES.COOKING }:id`}
                 render={props => ( <CookingView {...props} user={user} /> )}
+            />
+            <Route
+                exact
+                path={AUTH_ROUTES.PASSWORD}
+                render={props => ( <PasswordView {...props} user={user} /> )}
             />
             <Route from={AUTH_ROUTES.ADMIN} component={AdminView} />
             <Route from={AUTH_ROUTES.OAUTH} component={OAuthContainer} />
