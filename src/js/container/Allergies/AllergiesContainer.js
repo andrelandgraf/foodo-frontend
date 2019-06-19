@@ -41,12 +41,13 @@ class AllergiesContainer extends React.Component {
 
     onDelete = ( itemId ) => {
         const { allergies } = this.state;
-
+        console.log( itemId );
         let updatedAllergies = lodash.cloneDeep( allergies );
         updatedAllergies = updatedAllergies.filter( allergy => allergy._id !== itemId );
+
         this.setState( { allergies: updatedAllergies } );
 
-        deleteAllergy( { _id: itemId } );
+        deleteAllergy( { allergy: { _id: itemId } } );
     }
 
     removeAlreadySelectedItems = ( allergies, possibleAllergies ) => possibleAllergies
