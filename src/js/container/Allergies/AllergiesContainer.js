@@ -32,11 +32,11 @@ class AllergiesContainer extends React.Component {
         const { allergies } = this.state;
         if ( allergies.find( allergy => allergy._id === item._id ) ) return;
 
+        putAllergy( { name: item.name, _id: item._id } );
+
         const updatedAllergies = lodash.cloneDeep( allergies );
         updatedAllergies.push( item );
         this.setState( { allergies: updatedAllergies } );
-
-        putAllergy( { name: updatedAllergies.name, _id: updatedAllergies._id } );
     }
 
     onDelete = ( itemId ) => {
