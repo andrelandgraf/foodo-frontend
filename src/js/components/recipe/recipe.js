@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 const Recipe = ( { recipe } ) => (
     <div className="recipe">
         <h2>{ recipe.name }</h2>
-        { recipe.ingridients.map(
-            ingdirient => (
-                <div key={ingdirient._id} className="ingridient">
-                    { ingdirient.name }
+        { recipe.ingredients.map(
+            ingderient => (
+                <div key={ingderient._id} className="ingridient">
+                    { ingderient.label._id }
                 </div>
             ),
         )}
@@ -18,9 +18,9 @@ Recipe.propTypes = {
     recipe: PropTypes.shape( {
         _id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
-        ingridients: PropTypes.arrayOf(
+        ingredients: PropTypes.arrayOf(
             PropTypes.shape( {
-                name: PropTypes.string.isRequired,
+                label: PropTypes.string.isRequired,
                 _id: PropTypes.string.isRequired,
             } ),
         ).isRequired,
