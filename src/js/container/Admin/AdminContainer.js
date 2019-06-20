@@ -130,7 +130,7 @@ class AdminContainer extends React.Component {
         updatedSelectedIngredients.push( item );
         updatedIngredients.push( {
             _id: item._id,
-            amount: 0,
+            amount: '',
         } );
 
         const updatedRecipe = lodash.cloneDeep( recipe );
@@ -160,7 +160,7 @@ class AdminContainer extends React.Component {
         const { ingredients } = recipe;
 
         const updatedIngredient = lodash.cloneDeep( ingredient );
-        updatedIngredient.amount = Number( event.target.value );
+        updatedIngredient.amount = event.target.value;
 
         const updatedIngredients = lodash.cloneDeep( ingredients );
         const index = updatedIngredients
@@ -230,6 +230,9 @@ class AdminContainer extends React.Component {
                     selectedIngredients.map( ( selected, i ) => (
                         <div key={selected._id}>
                             <h2>{`Amount of ${ selected.label }`}</h2>
+                            { Number.isNaN( Number( ingredients[ i ].amount ) )
+                                && <p className="warning">Not a valid number!</p>
+                            }
                             <input
                                 value={ingredients[ i ].amount}
                                 onChange={e => this.onChangeAmount( e, selected )}
