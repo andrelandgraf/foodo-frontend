@@ -37,6 +37,8 @@ class PreferencesMenuContainer extends React.Component {
         if ( isAuthenticated() ) {
             await postLocale( locale );
         }
+        // save locale to user, as we reload the page afterwards,
+        // we do not need to set updated user object here
         await setLocale( locale );
 
         // completly reload and rerender all components to change language strings

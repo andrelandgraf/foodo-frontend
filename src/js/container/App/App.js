@@ -50,8 +50,8 @@ class App extends React.Component {
         return null;
     };
 
-    getUser = ( setUser ) => {
-        getUser()
+    getUser = async ( setUser ) => {
+        await getUser()
             .then( retrievedUser => setUser( retrievedUser ) )
             .catch( () => {
                 // in case of error, relocate to login and retrieve new token
@@ -74,7 +74,7 @@ class App extends React.Component {
             <Route
                 exact
                 path={AUTH_ROUTES.PROFILE}
-                render={props => ( <ProfileView {...props} user={user} /> )}
+                component={ProfileView}
             />
             <Route
                 exact
@@ -84,7 +84,7 @@ class App extends React.Component {
             <Route
                 exact
                 path={AUTH_ROUTES.PASSWORD}
-                render={props => ( <PasswordView {...props} user={user} /> )}
+                component={PasswordView}
             />
             <Route from={AUTH_ROUTES.ADMIN} component={AdminView} />
             <Route from={AUTH_ROUTES.OAUTH} component={OAuthContainer} />
