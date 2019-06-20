@@ -5,6 +5,8 @@ import lodash from 'lodash';
 import Recipe from '../../components/recipe/recipe';
 import Loader from '../../components/loading/loader';
 import { getUserRecipe, getRecipe } from '../../services/foodo-api/recipe/recipesService';
+import Ingredient from '../../components/ingredient/ingredient';
+import { getLocale } from '../../utilities/internationalization/internationalization';
 
 class CookingContainer extends React.Component {
     constructor( props ) {
@@ -37,22 +39,37 @@ class CookingContainer extends React.Component {
         };
     }
 
+    makeIngredientsDisplayable = ingredients => ingredients
+        .map( ingredient => ( {
+            ...ingredient.ingredient,
+            amount: ingredient.amount,
+            label: ingredient.ingredient.name[ getLocale() ],
+            key: ingredient.ingredient._id,
+        } ) );
+
     renderLoading = () => (
         <Loader />
     );
 
+    renderPossibleSubstitues = ingredients => ingredients
+        .map( ingredient => <Ingredient ingredient={ingredient} /> )
+
     render() {
         const { recipe, userRecipe } = this.state;
         const lastClient = userRecipe ? userRecipe.clientId : undefined;
+        if ( recipe ) {
+            recipe.ingredients = this.makeIngredientsDisplayable( recipe.ingredients );
+        }
 
         return (
-            <div className="cooking-container">
+            <React.Fragment>
                 {
                     recipe
                         ? <Recipe lastClient={lastClient} recipe={recipe} />
                         : this.renderLoading()
                 }
-            </div>
+                { recipe && this.renderPossibleSubstitues( recipe.ingredients ) }
+            </React.Fragment>
         );
     }
 }

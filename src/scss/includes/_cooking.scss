@@ -1,0 +1,7 @@
+.cooking-page {
+    @extend .page;
+
+    .substitute {
+        @extend .box;
+    }
+}
