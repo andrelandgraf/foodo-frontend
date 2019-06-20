@@ -79,7 +79,7 @@ class App extends React.Component {
             <Route
                 exact
                 path={`${ AUTH_ROUTES.COOKING }:id`}
-                render={props => ( <CookingView {...props} user={user} /> )}
+                render={props => ( <CookingView {...props} /> )}
             />
             <Route
                 exact
