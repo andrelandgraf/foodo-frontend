@@ -51,10 +51,8 @@ class CookingContainer extends React.Component {
     }
 
     getAndSetCustomRecipe = async ( recipe, user ) => {
-        console.log( recipe );
         const personalizedRecipe = recipe.user
             ? recipe : await this.createCustomRecipe( recipe, user );
-        console.log( personalizedRecipe );
         this.setState( {
             recipe: recipe.user ? this.mapCustomRecipeToRecipe( recipe ) : recipe,
             userRecipe: recipe.user ? recipe : personalizedRecipe,
