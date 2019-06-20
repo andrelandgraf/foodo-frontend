@@ -179,7 +179,7 @@ class AdminContainer extends React.Component {
         .map( item => ( {
             ...item,
             key: item._id,
-            label: item.name,
+            label: item.name.en,
         } ) );
 
 
