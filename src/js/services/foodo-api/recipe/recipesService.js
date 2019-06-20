@@ -16,10 +16,14 @@ export const getUserRecipe = id => getRequest(
     `${ ENDPOINTS.USER }${ ENDPOINTS.USER_ENDPOINTS.RECIPES }/${ id }`,
 );
 
-export const postUserRecipe = recipe => postRequest(
-    `${ ENDPOINTS.USER }${ ENDPOINTS.USER_ENDPOINTS.RECIPES }`, { recipe },
+export const postUserRecipe = personalizedRecipe => postRequest(
+    `${ ENDPOINTS.USER }${ ENDPOINTS.USER_ENDPOINTS.RECIPES }`, { personalizedRecipe },
 );
 
 export const updateUserRecipe = recipe => putRequest(
     `${ ENDPOINTS.USER }${ ENDPOINTS.USER_ENDPOINTS.RECIPES }`, { recipe },
+);
+
+export const getRecipeSubstitutes = id => getRequest(
+    `${ ENDPOINTS.RECIPES }/${ id }${ ENDPOINTS.RECIPES_ENDPOINTS.SUBSTITUTES }`,
 );
