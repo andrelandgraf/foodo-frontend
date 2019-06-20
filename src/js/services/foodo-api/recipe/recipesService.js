@@ -2,24 +2,24 @@
 import { getRequest, postRequest, putRequest } from '../httpService';
 import { ENDPOINTS } from '../api';
 
-export const getRecipes = () => getRequest( ENDPOINTS.RECIPE );
+export const getRecipes = () => getRequest( ENDPOINTS.RECIPES );
 
-export const getRecipe = id => getRequest( `${ ENDPOINTS.RECIPE }/${ id }` );
+export const getRecipe = id => getRequest( `${ ENDPOINTS.RECIPES }/${ id }` );
 
-export const postRecipe = recipe => postRequest( ENDPOINTS.RECIPE, { recipe } );
+export const postRecipe = recipe => postRequest( ENDPOINTS.RECIPES, { recipe } );
 
 export const getUserRecipes = () => getRequest(
     `${ ENDPOINTS.USER }${ ENDPOINTS.USER_ENDPOINTS.RECIPES }`,
 );
 
 export const getUserRecipe = id => getRequest(
-    `${ ENDPOINTS.USER }${ ENDPOINTS.USER_ENDPOINTS.RECIPE }${ id }`,
+    `${ ENDPOINTS.USER }${ ENDPOINTS.USER_ENDPOINTS.RECIPES }/${ id }`,
 );
 
 export const postUserRecipe = recipe => postRequest(
-    `${ ENDPOINTS.USER }${ ENDPOINTS.USER_ENDPOINTS.RECIPE }`, { recipe },
+    `${ ENDPOINTS.USER }${ ENDPOINTS.USER_ENDPOINTS.RECIPES }`, { recipe },
 );
 
 export const updateUserRecipe = recipe => putRequest(
-    `${ ENDPOINTS.USER }${ ENDPOINTS.USER_ENDPOINTS.RECIPE }`, { recipe },
+    `${ ENDPOINTS.USER }${ ENDPOINTS.USER_ENDPOINTS.RECIPES }`, { recipe },
 );
