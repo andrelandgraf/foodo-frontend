@@ -46,7 +46,7 @@ class AllergiesContainer extends React.Component {
 
         this.setState( { allergies: updatedAllergies } );
 
-        deleteAllergy( { allergy: { _id: itemId } } );
+        deleteAllergy( { _id: itemId } );
     }
 
     removeAlreadySelectedItems = ( allergies, possibleAllergies ) => possibleAllergies
