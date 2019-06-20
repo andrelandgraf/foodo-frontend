@@ -7,7 +7,7 @@ const Recipe = ( { recipe } ) => (
         { recipe.ingredients.map(
             ingderient => (
                 <div key={ingderient._id} className="ingridient">
-                    { ingderient.name._id }
+                    { ingderient.label._id }
                 </div>
             ),
         )}
@@ -18,9 +18,9 @@ Recipe.propTypes = {
     recipe: PropTypes.shape( {
         _id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
-        ingridients: PropTypes.arrayOf(
+        ingredients: PropTypes.arrayOf(
             PropTypes.shape( {
-                name: PropTypes.string.isRequired,
+                label: PropTypes.string.isRequired,
                 _id: PropTypes.string.isRequired,
             } ),
         ).isRequired,

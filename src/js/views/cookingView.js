@@ -8,7 +8,7 @@ import CookingContainer from '../container/Cooking/CookingContainer';
 
 // eslint-disable-next-line no-unused-vars
 const CookingView = ( { match } ) => (
-    <div className="container home-container">
+    <div className="container cooking-page">
         <h1>{ i18n.t( KEYS.HEADERS.COOKING_HEADER ) }</h1>
         <CookingContainer id={match.params.id} />
     </div>
