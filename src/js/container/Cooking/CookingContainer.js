@@ -26,7 +26,7 @@ class CookingContainer extends React.Component {
         const { user } = this.context;
 
         getUserRecipe( id )
-            .then( userRecipe => !lodash.isEmpty( userRecipe ) || getRecipe( id ) )
+            .then( userRecipe => ( lodash.isEmpty( userRecipe ) ? getRecipe( id ) : userRecipe ) )
             .then( recipe => this.getAndSetCustomRecipe( recipe, user ) )
             .then( personalizedRecipe => getRecipeSubstitutes( personalizedRecipe._id ) )
             .then( possibleSubstitues => this.setState( { possibleSubstitues } ) )
@@ -36,7 +36,10 @@ class CookingContainer extends React.Component {
 
     createCustomRecipe = recipe => postUserRecipe( {
         origRecipe: recipe._id,
-        ingredients: recipe.ingredients,
+        ingredients: recipe.ingredients
+            .map( i => ( {
+                ingredient: i.ingredient._id, amount: i.amount,
+            } ) ),
         blockedSubstitutions: [],
     } );
 
@@ -60,6 +63,14 @@ class CookingContainer extends React.Component {
         return personalizedRecipe;
     }
 
+    onCloseSubstitute = ( substitute ) => {
+        const { possibleSubstitues } = this.state;
+        const updatedSubstitutes = lodash
+            .cloneDeep( possibleSubstitues )
+            .filter( sub => sub._id !== substitute._id );
+        this.setState( { possibleSubstitues: updatedSubstitutes } );
+    }
+
     makeIngredientsDisplayable = ingredients => ingredients
         .map( ingredient => ( {
             ...ingredient.ingredient,
@@ -73,31 +84,44 @@ class CookingContainer extends React.Component {
     );
 
     renderPossibleSubstitues = ingredients => ingredients
-        .map( ingredient => <Ingredient key={ingredient._id} ingredient={ingredient} /> )
+        .map( ingredient => (
+            <Ingredient
+                key={ingredient._id}
+                ingredient={ingredient}
+                onClose={this.onCloseSubstitute}
+            />
+        ) )
 
     render() {
         const { recipe, userRecipe, possibleSubstitues } = this.state;
         const lastClient = userRecipe ? userRecipe.clientId : undefined;
 
-        if ( recipe ) {
-            recipe.ingredients = this.makeIngredientsDisplayable( recipe.ingredients );
+        const displayableRecipe = lodash.cloneDeep( recipe );
+        if ( displayableRecipe ) {
+            displayableRecipe.ingredients = this
+                .makeIngredientsDisplayable( displayableRecipe.ingredients );
         }
 
         let displayableSubstitutes = lodash.cloneDeep( possibleSubstitues );
         if ( possibleSubstitues ) {
             displayableSubstitutes = this.makeIngredientsDisplayable( possibleSubstitues );
+        } else if ( displayableRecipe ) {
+            // TODO remove this, testing only
+            displayableSubstitutes = displayableRecipe.ingredients;
         }
 
         return (
             <React.Fragment>
-                { recipe
-                    ? <Recipe lastClient={lastClient} recipe={recipe} />
+                { displayableRecipe
+                    ? <Recipe lastClient={lastClient} recipe={displayableRecipe} />
                     : this.renderLoading()
                 }
-                { displayableSubstitutes
-                    ? this.renderPossibleSubstitues( displayableSubstitutes )
-                    : this.renderLoading()
-                }
+                <div className="substitutes-container">
+                    { displayableSubstitutes
+                        ? this.renderPossibleSubstitues( displayableSubstitutes )
+                        : this.renderLoading()
+                    }
+                </div>
             </React.Fragment>
         );
     }
