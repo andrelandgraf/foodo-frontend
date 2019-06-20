@@ -57,7 +57,7 @@
     "qs": "^6.7.0",
     "react": "^16.8.6",
     "react-app-polyfill": "^1.0.1",
-    "react-datalist-input": "^1.1.35",
+    "react-datalist-input": "^1.1.36",
     "react-dev-utils": "^9.0.1",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0",
