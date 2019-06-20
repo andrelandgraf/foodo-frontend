@@ -54,10 +54,11 @@ class LifestylesContainer extends React.Component {
                 <div className="input-container">
                     <DataListInput
                         items={possibleMatches}
-                        placeholder={lifestyle.name || i18n.t( KEYS.LABELS.LIFESTYLES_PLACEHOLDER )}
+                        placeholder={i18n.t( KEYS.LABELS.LIFESTYLES_PLACEHOLDER )}
                         onSelect={this.onSelect}
                         clearInputOnSelect={false}
                         suppressReselect={false}
+                        initialValue={lifestyle.name || ''}
                     />
                 </div>
             </div>
