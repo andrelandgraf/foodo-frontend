@@ -63,11 +63,16 @@ class CookingContainer extends React.Component {
         return personalizedRecipe;
     }
 
+    onSelectSubstiute = ( substitue ) => {
+        // eslint-disable-next-line no-console
+        console.log( substitue );
+    }
+
     onCloseSubstitute = ( substitute ) => {
         const { possibleSubstitues } = this.state;
         const updatedSubstitutes = lodash
             .cloneDeep( possibleSubstitues )
-            .filter( sub => sub._id !== substitute._id );
+            .filter( sub => sub.ingredient._id !== substitute._id );
         this.setState( { possibleSubstitues: updatedSubstitutes } );
     }
 
@@ -88,6 +93,7 @@ class CookingContainer extends React.Component {
             <Ingredient
                 key={ingredient._id}
                 ingredient={ingredient}
+                onClick={this.onSelectSubstiute}
                 onClose={this.onCloseSubstitute}
             />
         ) )
@@ -105,10 +111,8 @@ class CookingContainer extends React.Component {
         let displayableSubstitutes = lodash.cloneDeep( possibleSubstitues );
         if ( possibleSubstitues ) {
             displayableSubstitutes = this.makeIngredientsDisplayable( possibleSubstitues );
-        } else if ( displayableRecipe ) {
-            // TODO remove this, testing only
-            displayableSubstitutes = displayableRecipe.ingredients;
         }
+        console.log( possibleSubstitues );
 
         return (
             <React.Fragment>

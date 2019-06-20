@@ -4,16 +4,24 @@ import PropTypes from 'prop-types';
 import Cancel from '../../../img/cancel.svg';
 
 import ImageButton from '../button/imageButton';
+import CustomButton from '../button/customButton';
 
-const Ingredient = ( { ingredient, onClose } ) => (
+const Ingredient = ( { ingredient, onClose, onClick } ) => (
     <div className="substitute">
-        <span>
-            { `Name: ${ ingredient.label }` }
-        </span>
-        <span>
-            { `Name: ${ ingredient.label }` }
-        </span>
+        <CustomButton
+            classes="substitute-btn"
+            id={`click-substitute${ ingredient.key }`}
+            onClick={() => onClick( ingredient )}
+        >
+            <span>
+                { `Name: ${ ingredient.label }` }
+            </span>
+            <span>
+                { `Amount: ${ Number( ingredient.amount ) * 100 } ${ ingredient.unit.name }` }
+            </span>
+        </CustomButton>
         <ImageButton
+            classes="substitute-cancel-btn"
             id={`dismiss-substitute${ ingredient.key }`}
             alt="dismiss-substitute"
             src={Cancel}
@@ -29,6 +37,7 @@ Ingredient.propTypes = {
         amount: PropTypes.number.isRequired,
     } ).isRequired,
     onClose: PropTypes.func.isRequired,
+    onClick: PropTypes.func.isRequired,
 };
 
 export default Ingredient;
