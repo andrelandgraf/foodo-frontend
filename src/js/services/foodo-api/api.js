@@ -20,6 +20,9 @@ export const ENDPOINTS = {
     LIFESTYLES: 'lifestyles',
     ALLERGIES: 'allergies',
     RECIPES: 'recipes',
+    RECIPES_ENDPOINTS: {
+        SUBSTITUTES: '/substitutes',
+    },
     INGREDIENTS: 'ingredients',
     CATEGORIES: 'categories',
     INGREDIENT_BY_GROUPS: 'ingredients/groups/',

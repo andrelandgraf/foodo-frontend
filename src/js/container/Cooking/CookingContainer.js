@@ -4,7 +4,9 @@ import lodash from 'lodash';
 
 import Recipe from '../../components/recipe/recipe';
 import Loader from '../../components/loading/loader';
-import { getUserRecipe, getRecipe } from '../../services/foodo-api/recipe/recipesService';
+import {
+    getUserRecipe, getRecipe, postUserRecipe, getRecipeSubstitutes,
+} from '../../services/foodo-api/recipe/recipesService';
 import Ingredient from '../../components/ingredient/ingredient';
 import { getLocale } from '../../utilities/internationalization/internationalization';
 
@@ -15,19 +17,28 @@ class CookingContainer extends React.Component {
         this.state = {
             recipe: undefined,
             userRecipe: undefined,
+            possibleSubstitues: undefined,
         };
     }
 
     componentWillMount = () => {
         const { id } = this.props;
+        const { user } = this.context;
 
         getUserRecipe( id )
-            .then( recipe => recipe || getRecipe( id ) )
-            .then( recipe => this.setState( {
-                recipe: recipe.user ? this.mapCustomRecipeToRecipe( recipe ) : recipe,
-                userRecipe: recipe.user ? recipe : undefined,
-            } ) );
+            .then( userRecipe => !lodash.isEmpty( userRecipe ) || getRecipe( id ) )
+            .then( recipe => this.getAndSetCustomRecipe( recipe, user ) )
+            .then( personalizedRecipe => getRecipeSubstitutes( personalizedRecipe._id ) )
+            .then( possibleSubstitues => this.setState( { possibleSubstitues } ) )
+            // eslint-disable-next-line no-console
+            .catch( err => console.log( err ) );
     }
+
+    createCustomRecipe = recipe => postUserRecipe( {
+        origRecipe: recipe._id,
+        ingredients: recipe.ingredients,
+        blockedSubstitutions: [],
+    } );
 
     mapCustomRecipeToRecipe = ( recipe ) => {
         const recipeObject = lodash.cloneDeep( recipe );
@@ -37,6 +48,18 @@ class CookingContainer extends React.Component {
             ...origRecipe,
             ingredients,
         };
+    }
+
+    getAndSetCustomRecipe = async ( recipe, user ) => {
+        console.log( recipe );
+        const personalizedRecipe = recipe.user
+            ? recipe : await this.createCustomRecipe( recipe, user );
+        console.log( personalizedRecipe );
+        this.setState( {
+            recipe: recipe.user ? this.mapCustomRecipeToRecipe( recipe ) : recipe,
+            userRecipe: recipe.user ? recipe : personalizedRecipe,
+        } );
+        return personalizedRecipe;
     }
 
     makeIngredientsDisplayable = ingredients => ingredients
@@ -52,23 +75,31 @@ class CookingContainer extends React.Component {
     );
 
     renderPossibleSubstitues = ingredients => ingredients
-        .map( ingredient => <Ingredient ingredient={ingredient} /> )
+        .map( ingredient => <Ingredient key={ingredient._id} ingredient={ingredient} /> )
 
     render() {
-        const { recipe, userRecipe } = this.state;
+        const { recipe, userRecipe, possibleSubstitues } = this.state;
         const lastClient = userRecipe ? userRecipe.clientId : undefined;
+
         if ( recipe ) {
             recipe.ingredients = this.makeIngredientsDisplayable( recipe.ingredients );
         }
 
+        let displayableSubstitutes = lodash.cloneDeep( possibleSubstitues );
+        if ( possibleSubstitues ) {
+            displayableSubstitutes = this.makeIngredientsDisplayable( possibleSubstitues );
+        }
+
         return (
             <React.Fragment>
-                {
-                    recipe
-                        ? <Recipe lastClient={lastClient} recipe={recipe} />
-                        : this.renderLoading()
+                { recipe
+                    ? <Recipe lastClient={lastClient} recipe={recipe} />
+                    : this.renderLoading()
                 }
-                { recipe && this.renderPossibleSubstitues( recipe.ingredients ) }
+                { displayableSubstitutes
+                    ? this.renderPossibleSubstitues( displayableSubstitutes )
+                    : this.renderLoading()
+                }
             </React.Fragment>
         );
     }
