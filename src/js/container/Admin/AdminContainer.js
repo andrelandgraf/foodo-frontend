@@ -73,8 +73,12 @@ class AdminContainer extends React.Component {
         event.preventDefault();
 
         const { recipe } = this.state;
+        const recipeToSave = lodash.cloneDeep( recipe );
+        recipeToSave.ingredients = recipeToSave.ingredients
+            .map( i => ( { ingredient: i._id, amount: i.amount } ) );
+
         // eslint-disable-next-line no-console
-        postRecipe( recipe ).catch( err => console.log( err ) );
+        postRecipe( recipeToSave ).catch( err => console.log( err ) );
 
         const nextRecipe = {
             name: '',
