@@ -34,7 +34,7 @@ const IngredientSelection = ( {
 IngredientSelection.propTypes = {
     ingredients: PropTypes.arrayOf(
         PropTypes.shape( {
-            name: PropTypes.string.isRequired,
+            label: PropTypes.string.isRequired,
             _id: PropTypes.string.isRequired,
         } ),
     ).isRequired,
@@ -229,7 +229,7 @@ class AdminContainer extends React.Component {
                 {
                     selectedIngredients.map( ( selected, i ) => (
                         <div key={selected._id}>
-                            <h2>{`Amount of ${ selected.name }`}</h2>
+                            <h2>{`Amount of ${ selected.label }`}</h2>
                             <input
                                 value={ingredients[ i ].amount}
                                 onChange={e => this.onChangeAmount( e, selected )}
