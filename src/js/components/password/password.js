@@ -9,7 +9,7 @@ import SubmitButton from '../button/submitButton';
 const Password = ( {
     password, onPasswordChange, onSubmit, isLoading,
 } ) => (
-    <form className="login-form" onSubmit={onSubmit}>
+    <form className="pw-form" onSubmit={onSubmit}>
         <input
             type="password"
             placeholder={i18n.t( KEYS.LABELS.PASSWORD )}
