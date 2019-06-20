@@ -56,7 +56,6 @@ class GoalsContainer extends React.Component {
         const { goal, goals } = this.state;
         const clonedGoals = lodash.cloneDeep( goals );
         const possibleMatches = this.mapGoalsToKeyLabelPairs( clonedGoals );
-
         return (
             <div className="dislikes-container">
                 <h2>{i18n.t( KEYS.HEADERS.GOALS_SELECTION )}</h2>
