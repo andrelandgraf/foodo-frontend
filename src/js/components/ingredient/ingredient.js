@@ -1,9 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Ingredient = ( { ingredient } ) => (
+import Cancel from '../../../img/cancel.svg';
+
+import ImageButton from '../button/imageButton';
+
+const Ingredient = ( { ingredient, onClose } ) => (
     <div className="substitute">
-        { ingredient.label }
+        <span>
+            { `Name: ${ ingredient.label }` }
+        </span>
+        <span>
+            { `Name: ${ ingredient.label }` }
+        </span>
+        <ImageButton
+            id={`dismiss-substitute${ ingredient.key }`}
+            alt="dismiss-substitute"
+            src={Cancel}
+            onClick={() => onClose( ingredient )}
+        />
     </div>
 );
 
@@ -13,6 +28,7 @@ Ingredient.propTypes = {
         key: PropTypes.string.isRequired,
         amount: PropTypes.number.isRequired,
     } ).isRequired,
+    onClose: PropTypes.func.isRequired,
 };
 
 export default Ingredient;
