@@ -7,10 +7,10 @@ import { KEYS } from '../utilities/internationalization/internationalization';
 import CookingContainer from '../container/Cooking/CookingContainer';
 
 // eslint-disable-next-line no-unused-vars
-const CookingView = ( { user, match } ) => (
+const CookingView = ( { match } ) => (
     <div className="container home-container">
         <h1>{ i18n.t( KEYS.HEADERS.COOKING_HEADER ) }</h1>
-        <CookingContainer id={match.params.id} user={user} />
+        <CookingContainer id={match.params.id} />
     </div>
 );
 
@@ -19,10 +19,6 @@ CookingView.propTypes = {
         params: PropTypes.shape( {
             id: PropTypes.string,
         } ).isRequired,
-    } ).isRequired,
-    user: PropTypes.shape( {
-        username: PropTypes.string.isRequired,
-        _id: PropTypes.string.isRequired,
     } ).isRequired,
 };
 

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-// import { getRecipes } from '../../services/foodo-api/recipe/recipesService';
+import lodash from 'lodash';
 
 import Recipe from '../../components/recipe/recipe';
 import Loader from '../../components/loading/loader';
+import { getUserRecipe, getRecipe } from '../../services/foodo-api/recipe/recipesService';
 
 class CookingContainer extends React.Component {
     constructor( props ) {
@@ -12,17 +12,29 @@ class CookingContainer extends React.Component {
 
         this.state = {
             recipe: undefined,
+            userRecipe: undefined,
         };
     }
 
     componentWillMount = () => {
-        const { recipe } = this.state;
-        // eslint-disable-next-line no-unused-vars
         const { id } = this.props;
-        if ( !recipe ) {
-            // TODO get (user) recipe from backend with _id
-            // this.setState( { recipe: this.testData } );
-        }
+
+        getUserRecipe( id )
+            .then( recipe => recipe || getRecipe( id ) )
+            .then( recipe => this.setState( {
+                recipe: recipe.user ? this.mapCustomRecipeToRecipe( recipe ) : recipe,
+                userRecipe: recipe.user ? recipe : undefined,
+            } ) );
+    }
+
+    mapCustomRecipeToRecipe = ( recipe ) => {
+        const recipeObject = lodash.cloneDeep( recipe );
+        const { origRecipe } = recipeObject.personalizedRecipe;
+        const { ingredients } = recipeObject.personalizedRecipe;
+        return {
+            ...origRecipe,
+            ingredients,
+        };
     }
 
     renderLoading = () => (
@@ -30,24 +42,22 @@ class CookingContainer extends React.Component {
     );
 
     render() {
-        const { recipe } = this.state;
+        const { recipe, userRecipe } = this.state;
+        const lastClient = userRecipe ? userRecipe.clientId : undefined;
 
         return (
             <div className="cooking-container">
                 {
-                    recipe ? <Recipe recipe={recipe} /> : this.renderLoading()
+                    recipe
+                        ? <Recipe lastClient={lastClient} recipe={recipe} />
+                        : this.renderLoading()
                 }
-
             </div>
         );
     }
 }
 
 CookingContainer.propTypes = {
-    user: PropTypes.shape( {
-        username: PropTypes.string.isRequired,
-        _id: PropTypes.string.isRequired,
-    } ).isRequired,
     id: PropTypes.string.isRequired,
 };
 
