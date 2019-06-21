@@ -17,6 +17,7 @@ const Recipe = ( { recipe } ) => (
             {recipe.preparationTime}
             min
         </div>
+        <h3>Ingredients</h3>
         <table>
             <tbody>
                 { recipe.ingredients.map(
