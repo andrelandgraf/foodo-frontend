@@ -1,0 +1,28 @@
+.datalist-input-input {
+   padding: 10px;
+}
+
+.datalist-input-dropdown {
+    @extend .box;
+}
+
+.datalist-input-item-basic {
+    padding: 10px;
+    &:hover {
+        background-color: $secondary-color;
+    }
+}
+
+.datalist-input-item {
+    @extend .aria-element;
+    @extend .datalist-input-item-basic;
+    background-color: $white;
+    color: $font-color;
+}
+
+.datalist-input-activeItem {
+    @extend .aria-element;
+    @extend .datalist-input-item-basic;
+    background-color: $hover-primary-color;
+    color: $white;
+}
