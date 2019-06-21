@@ -19,7 +19,7 @@ const Password = ( {
             title={i18n.t( KEYS.MESSAGES.PASSWORD_WARNING )}
             required
         />
-        <SubmitButton label="Change Password" isLoading={isLoading} />
+        <SubmitButton label={i18n.t( KEYS.LABELS.CHANGE )} isLoading={isLoading} />
     </form>
 );
 
