@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import i18n from 'i18next';
 
@@ -14,6 +15,8 @@ import Title from '../../components/preferences/title';
 import Language from '../../components/preferences/language';
 import LogoutContainer from '../Logout/LogoutContainer';
 import Logout from '../../components/preferences/logout';
+import Password from '../../components/preferences/password';
+import { AUTH_ROUTES } from '../App/App';
 
 const MAIN_MENU = i18n.t( KEYS.LABELS.PREFERENCES );
 const LANG_MENU = i18n.t( KEYS.LABELS.LANGUAGES );
@@ -24,6 +27,7 @@ class PreferencesMenuContainer extends React.Component {
 
         this.state = {
             title: MAIN_MENU,
+            clickedPW: false,
         };
     }
 
@@ -32,6 +36,8 @@ class PreferencesMenuContainer extends React.Component {
         registerRerender();
         this.setState( { title } );
     }
+
+    onClickPassword = () => this.setState( { clickedPW: true } );
 
     onSelectLocale = async ( locale ) => {
         if ( isAuthenticated() ) {
@@ -69,6 +75,9 @@ class PreferencesMenuContainer extends React.Component {
                 />
             </li>
             <li className="item">
+                <Password onClickPassword={this.onClickPassword} loggedIn={isAuthenticated()} />
+            </li>
+            <li className="item">
                 <LogoutContainer onWillLogout={closeMenu} LogoutComponent={Logout} />
             </li>
         </React.Fragment>
@@ -100,7 +109,14 @@ class PreferencesMenuContainer extends React.Component {
 
     render() {
         const { closeMenu } = this.props;
-        const { title } = this.state;
+        const { title, clickedPW } = this.state;
+
+        if ( clickedPW ) {
+            return (
+                <Redirect push to={AUTH_ROUTES.PASSWORD} />
+            );
+        }
+
         return (
             <ul className="preferences-menu">
                 { this.renderMenu( title, closeMenu ) }

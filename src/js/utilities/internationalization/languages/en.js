@@ -16,6 +16,7 @@ const enHeaders = {
     GOALS_SELECTION: 'Your personal goal',
     LIFESTYLES_SELECTION: 'Your lifestyle',
     PAGE_NOT_FOUND: 'Page not found!',
+    CHANGE_PW: 'Change $t(PASSWORD)',
     THIRD_PARTY_AUTHORIZATION: 'Third party service authorization',
 };
 
@@ -32,6 +33,7 @@ const enLabels = {
     LIFESTYLES_PLACEHOLDER: 'Select your lifestyle...',
     USERNAME: 'Username',
     PASSWORD: 'Password',
+    CHANGE: 'Change',
     PREFERENCES: 'Preferences',
     LANGUAGES: 'Languages',
     LANGUAGE: '$t(LANGUAGES)',
@@ -50,6 +52,7 @@ const enLabels = {
 const enMessages = {
     USERNAME_WARNING: '$t(USERNAME) must be longer than 2 characters!',
     PASSWORD_WARNING: '$t(PASSWORD) must be set!',
+    PASSWORD_CHANGED: '$t(PASSWORD) changed successfully.',
     GO_TO_PROFILE_1: 'Go to your ',
     GO_TO_PROFILE_2: ' and select a personal nutrition goal.',
     PAGE_NOT_FOUND_MESSAGE: 'We are sorry, the Page you are looking for, doesn\'t exist.',
