@@ -7,7 +7,7 @@ const ImageButton = ( {
     classes, id, onClick, src, alt,
 } ) => (
     <div
-        className={`${ BUTTON_STYLES } ${ classes || undefined }`}
+        className={`${ BUTTON_STYLES } ${ classes }`}
         id={id}
         tabIndex={0}
         role="button"

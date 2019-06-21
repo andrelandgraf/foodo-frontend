@@ -4,15 +4,19 @@
 }
 
 .tag {
-    @extend .box;
+    @extend .btn;
+    @extend .btn-primary;
+    
     display: inline-flex;
     align-items: baseline;
-    font-size: $font-size-xs;
-    font-weight: $font-weight-light;
+    font-size: $font-size-s;
     margin: 5px;
-    padding: 8px;
+    padding-left: 3px;
+    padding-right: 3px;
+    border-radius: 6px;
     @media screen and (max-width: $phone-width) {
         margin: 2px;
+        font-size: $font-size-xs;
     }
 
     div {
