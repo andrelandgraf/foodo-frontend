@@ -10,6 +10,7 @@ const deHeaders = {
     GOALS_SELECTION: 'Dein persönliches Ziel',
     LIFESTYLES_SELECTION: 'Dein Lifestyle',
     PAGE_NOT_FOUND: 'Seite nicht gefunden!',
+    CHANGE_PW: 'Ändere dein $t(PASSWORD)',
     THIRD_PARTY_AUTHORIZATION: 'Drittanbieter Autorisierung',
 };
 
@@ -25,6 +26,7 @@ const deLabels = {
     LIFESTYLES_PLACEHOLDER: 'Wähle deinen Lifestyle...',
     USERNAME: 'Benutzername',
     PASSWORD: 'Passwort',
+    CHANGE: 'Ändern',
     PREFERENCES: 'Präferenzen',
     LANGUAGES: 'Sprachen',
     LANGUAGE: 'Sprache',
@@ -42,6 +44,7 @@ const deLabels = {
 const deMessages = {
     USERNAME_WARNING: '$t(USERNAME) muss mindestens aus zwei Zeichen bestehen!',
     PASSWORD_WARNING: '$t(PASSWORD) muss angegeben werden!',
+    PASSWORD_CHANGED: '$t(PASSWORD) wurde erfolgreich geändert.',
     GO_TO_PROFILE_1: 'Geh zu deinem ',
     GO_TO_PROFILE_2: ' und wähle dein persönliches Ernährungsziel.',
     PAGE_NOT_FOUND_MESSAGE: 'Es tut uns Leid, die gesuchte Seite existiert nicht.',
