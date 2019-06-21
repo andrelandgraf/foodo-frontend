@@ -1,32 +1,26 @@
-body {
-  font-family: Roboto, sans-serif;;
-  }
-  
-  h1 {
-  font-family: Roboto Light, sans-serif;
-  text-align: center;
-  }
   
   .recipe {
+    @extend .box;
     width: 50%;
-  padding: 10px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  }
-  
-  ul {
-  list-style: none;
+    padding: 10px;
+
+    ul {
+      list-style: none;
+      }
+    
+    .recipePic{
+        object-fit: contain;
+        width: 100%;
+        -webkit-box-shadow: 0 2px 0 rgba(0,0,0,0.045);
+            box-shadow: 0 2px 0 rgba(0,0,0,0.045);
+      }
+    
+      #servings{
+        width: 50px;
+      }
+    
   }
 
-.recipePic{
-    object-fit: contain;
-    width: 100%;
-    -webkit-box-shadow: 0 2px 0 rgba(0,0,0,0.045);
-        box-shadow: 0 2px 0 rgba(0,0,0,0.045);
-  }
-
-  #servings{
-    width: 50px;
-  }
 
  
     

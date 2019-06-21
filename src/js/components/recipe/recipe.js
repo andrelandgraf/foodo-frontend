@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 
 const Recipe = ( { recipe } ) => (
     <div className="recipe">
-        <h1>{ recipe.name }</h1>
-        <i>{recipe.category}</i>
+        <div className="center">
+            <h2>{ recipe.name }</h2>
+        </div>
         <img src={recipe.imgUrl} alt={recipe.name} className="recipePic" />
         <div>
             <img
@@ -16,16 +17,11 @@ const Recipe = ( { recipe } ) => (
             {recipe.preparationTime}
             min
         </div>
-        <div>
-    Servings:
-            {' '}
-            <input type="number" id="servings" min="1" max="100" step="1" value={recipe.servings} />
-        </div>
         <ul>
             { recipe.ingredients.map(
                 ingredient => (
-                    <li key={ingredient._id}>
-                        { ingredient.label.label}
+                    <li key={ingredient.key}>
+                        { ingredient.label}
                     </li>
                 ),
             )}
@@ -42,7 +38,7 @@ Recipe.propTypes = {
         ingredients: PropTypes.arrayOf(
             PropTypes.shape( {
                 label: PropTypes.string.isRequired,
-                _id: PropTypes.string.isRequired,
+                key: PropTypes.string.isRequired,
             } ),
         ).isRequired,
         imgUrl: PropTypes.string,
