@@ -96,6 +96,10 @@ class AllergiesContainer extends React.Component {
                         items={possibleMatches}
                         placeholder={i18n.t( KEYS.LABELS.ALLERGIES_PLACEHOLDER )}
                         onSelect={this.onSelect}
+                        inputClassName="datalist-input-input"
+                        dropdownClassName="datalist-input-dropdown"
+                        itemClassName="datalist-input-item"
+                        activeItemClassName="datalist-input-activeItem"
                         suppressReselect={false}
                         clearInputOnSelect
                     />

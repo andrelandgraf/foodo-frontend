@@ -68,6 +68,10 @@ class LifestylesContainer extends React.Component {
                         onSelect={this.onSelect}
                         clearInputOnSelect={false}
                         suppressReselect={false}
+                        inputClassName="datalist-input-input"
+                        dropdownClassName="datalist-input-dropdown"
+                        itemClassName="datalist-input-item"
+                        activeItemClassName="datalist-input-activeItem"
                         initialValue={lifestyle.name || ''}
                     />
                 </div>
