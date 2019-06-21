@@ -81,6 +81,10 @@ class RecipesContainer extends React.Component {
                         items={possibleRecipes}
                         placeholder={i18n.t( KEYS.LABELS.SELECT_RECIPE_PLACEHOLDER )}
                         onSelect={this.onSelectRecipe}
+                        inputClassName="datalist-input-input"
+                        dropdownClassName="datalist-input-dropdown"
+                        itemClassName="datalist-input-item"
+                        activeItemClassName="datalist-input-activeItem"
                         suppressReselect={false}
                         clearInputOnSelect
                     />
