@@ -6,7 +6,7 @@ import { KEYS } from '../../utilities/internationalization/internationalization'
 
 import SubmitButton from '../button/submitButton';
 
-const Password = ( {
+const PasswordForm = ( {
     password, onPasswordChange, onSubmit, isLoading,
 } ) => (
     <form className="pw-form" onSubmit={onSubmit}>
@@ -23,11 +23,11 @@ const Password = ( {
     </form>
 );
 
-Password.propTypes = {
+PasswordForm.propTypes = {
     password: PropTypes.string.isRequired,
     onPasswordChange: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
 };
 
-export default Password;
+export default PasswordForm;
