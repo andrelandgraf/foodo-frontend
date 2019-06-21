@@ -9,7 +9,7 @@ const Recipe = ( { recipe } ) => (
         <img src={recipe.imgUrl} alt={recipe.name} className="recipePic" />
         <div>
             <img
-                src="../../img/hourglass.svg"
+                src="../img/hourglass.svg"
                 alt="Preparation time"
                 classes="icon-item"
             />
@@ -17,15 +17,23 @@ const Recipe = ( { recipe } ) => (
             {recipe.preparationTime}
             min
         </div>
-        <ul>
-            { recipe.ingredients.map(
-                ingredient => (
-                    <li key={ingredient.key}>
-                        { ingredient.label}
-                    </li>
-                ),
-            )}
-        </ul>
+        <table>
+            <tbody>
+                { recipe.ingredients.map(
+                    ingredient => (
+                        <tr key={ingredient.key}>
+                            <td>
+                                {ingredient.amount * ingredient.unit.amount}
+                            </td>
+                            <td>
+                                {ingredient.unit.name}
+                            </td>
+                            <td>{ ingredient.label}</td>
+                        </tr>
+                    ),
+                )}
+            </tbody>
+        </table>
     </div>
 );
 
@@ -39,6 +47,11 @@ Recipe.propTypes = {
             PropTypes.shape( {
                 label: PropTypes.string.isRequired,
                 key: PropTypes.string.isRequired,
+                amount: PropTypes.number.isRequired,
+                unit: PropTypes.shape( {
+                    amount: PropTypes.number.isRequired,
+                    name: PropTypes.string.isRequired,
+                } ),
             } ),
         ).isRequired,
         imgUrl: PropTypes.string,
