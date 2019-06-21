@@ -14,7 +14,7 @@ export const MESSAGE_TYPES = {
 
 const Message = ( { type, text, onResolve } ) => (
     <div className={`box message-box ${ type }-message`}>
-        { text }
+        <span>{ text }</span>
         <ImageButton id="dismiss-message" alt="dismiss message" src={Cancel} onClick={onResolve} />
     </div>
 );
