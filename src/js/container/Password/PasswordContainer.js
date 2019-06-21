@@ -1,8 +1,11 @@
 import React from 'react';
+import i18n from 'i18next';
+
+import { KEYS } from '../../utilities/internationalization/internationalization';
 
 import { changePassword } from '../../services/foodo-api/user/userService';
 
-import Password from '../../components/password/password';
+import PasswordForm from '../../components/password/password';
 import Message, { MESSAGE_TYPES } from '../../components/message/message';
 
 
@@ -25,7 +28,7 @@ class PasswordContainer extends React.Component {
         event.preventDefault();
         const { password } = this.state;
         changePassword( password ).then( () => this.setState( {
-            message: 'Password successfully changed',
+            message: i18n.t( KEYS.MESSAGES.PASSWORD_CHANGED ),
             messageType: MESSAGE_TYPES.SUCCESS,
         } ) );
         this.setState( { password: '' } );
@@ -39,8 +42,8 @@ class PasswordContainer extends React.Component {
         <Message type={messageType} text={message} onResolve={this.clearMessage} />
     )
 
-    renderPassword = password => (
-        <Password
+    renderPasswordForm = password => (
+        <PasswordForm
             password={password}
             isLoading={false}
             onPasswordChange={this.handlePasswordChange}
@@ -53,7 +56,7 @@ class PasswordContainer extends React.Component {
         return (
             <React.Fragment>
                 { message && this.renderMessage( message, messageType ) }
-                { this.renderPassword( password ) }
+                { this.renderPasswordForm( password ) }
             </React.Fragment>
         );
     }
