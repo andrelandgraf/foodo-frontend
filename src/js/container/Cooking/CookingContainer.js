@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import lodash from 'lodash';
+import i18n from 'i18next';
+
+import { getLocale, KEYS } from '../../utilities/internationalization/internationalization';
 
 import Recipe from '../../components/recipe/recipe';
 import Loader from '../../components/loading/loader';
@@ -8,7 +11,6 @@ import {
     getUserRecipe, getRecipe, postUserRecipe, getRecipeSubstitutes,
 } from '../../services/foodo-api/recipe/recipesService';
 import Ingredient from '../../components/ingredient/ingredient';
-import { getLocale } from '../../utilities/internationalization/internationalization';
 
 class CookingContainer extends React.Component {
     constructor( props ) {
@@ -113,8 +115,16 @@ class CookingContainer extends React.Component {
             displayableSubstitutes = this.makeIngredientsDisplayable( possibleSubstitues );
         }
 
+        console.log( displayableRecipe );
+
         return (
             <React.Fragment>
+                <h1>
+                    { displayableRecipe
+                        ? displayableRecipe.meal
+                        : i18n.t( KEYS.HEADERS.COOKING_HEADER )
+                    }
+                </h1>
                 { displayableRecipe
                     ? <Recipe lastClient={lastClient} recipe={displayableRecipe} />
                     : this.renderLoading()
