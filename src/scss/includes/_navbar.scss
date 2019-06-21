@@ -3,7 +3,7 @@
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: $light-black;
+    background-color: $primary-color;
     height: 50px;
     box-shadow: $box-shadow-base;
 
@@ -24,15 +24,15 @@
     
             /* Change the link color to black on hover */
             &:hover {
-                background-color: $black;
+                background-color: $hover-primary-color;
             }
     
             &.current-page {
                 pointer-events: none;
                 cursor: default;
                 text-decoration: none;
-                background-color: $grey-base;
-                color: $black;
+                background-color: $white;
+                color: $primary-color;
             }
 
             .text-item {                                    
@@ -44,7 +44,7 @@
         .icon-item {
             @extend .aria-element;
             height: 50px;
-            background-color: $light-black;
+            background-color: $primary-color;
             border: none;
             img {
                 height: 100%;
