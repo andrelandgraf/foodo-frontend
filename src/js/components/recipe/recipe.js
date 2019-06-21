@@ -34,6 +34,52 @@ const Recipe = ( { recipe } ) => (
                 )}
             </tbody>
         </table>
+        <h3>Nutritional Facts</h3>
+        <table className="borderTable">
+            <tr>
+                <th />
+                <th>Total</th>
+            </tr>
+            <tbody>
+                <tr>
+                    <td>Calories</td>
+                    <td>
+                        {recipe.ingredients.map(
+                            ingredient => ( ingredient.elements.KCal * ingredient.amount ),
+                        ).reduce( ( pv, cv ) => pv + cv, 0 ).toFixed( 1 )}
+g
+                    </td>
+                </tr>
+                <tr>
+                    <td>Fat</td>
+                    <td>
+                        {recipe.ingredients.map(
+                            ingredient => ( ingredient.elements.TotalFat * ingredient.amount ),
+                        ).reduce( ( pv, cv ) => pv + cv, 0 ).toFixed( 1 )}
+g
+                    </td>
+                </tr>
+                <tr>
+                    <td>Proteins</td>
+                    <td>
+                        {recipe.ingredients.map(
+                            ingredient => ( ingredient.elements.Protein * ingredient.amount ),
+                        ).reduce( ( pv, cv ) => pv + cv, 0 ).toFixed( 1 )}
+g
+                    </td>
+                </tr>
+                <tr>
+                    <td>Salt</td>
+                    <td>
+                        {recipe.ingredients.map(
+                            ingredient => ( ingredient.elements.Salt * ingredient.amount ),
+                        ).reduce( ( pv, cv ) => pv + cv, 0 ).toFixed( 1 )}
+g
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
     </div>
 );
 
