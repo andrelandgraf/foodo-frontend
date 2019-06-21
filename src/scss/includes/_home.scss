@@ -2,6 +2,7 @@
     @extend .page;
 
     .recipes-container {
+        @extend .box;
         padding: 20px;
         margin-top: 20px;
         width: 600px;

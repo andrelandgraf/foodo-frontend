@@ -9,13 +9,14 @@ $grey-base: #9e9e9e;
 $light-red: #ffdce0;
 
 /* inspired by ant design: https://ant.design/docs/react/introduce */
-$primary-color: #1890ff; // primary color for all components
-$secondary-color: lightblue;
-$hover-primary-color: #40a9ff; 
+$primary-color: #fa541c; // primary color for all components
+$secondary-color: #ffbb96;
+$hover-primary-color: #ff7a45; 
 $link-color: #1890ff; // link color
 $success-color: #52c41a; // success state color
 $warning-color: #faad14; // warning state color
 $error-color: #f5222d; // error state color
+$info-color: #1890ff; // info state color
 $heading-color: rgba(0, 0, 0, 0.85); // heading text color
 $text-color: rgba(0, 0, 0, 0.65); // major text color
 $text-color-secondary : rgba(0, 0, 0, .45); // secondary text color
@@ -24,10 +25,11 @@ $border-radius-base: 4px; // major border radius
 $border-color-base: #d9d9d9; // major border color
 $box-shadow-base: 0 2px 8px rgba(0, 0, 0, 0.15); // major shadow for layers
 
-$success-background-color: rgb(152, 236, 152);
-$error-background-color: #ffdce0;
-$warning-background-color: rgb(255, 255, 75);
-$info-background-color: $white;
+$background-color: #ff9c6e;
+$success-background-color: $success-color;
+$error-background-color: $error-color;
+$warning-background-color: $warning-color;
+$info-background-color: $link-color;
 
 
 
@@ -35,11 +37,13 @@ $info-background-color: $white;
 // ==========================================================================
 
 $font-color: black;
-$error-font-color: $error-color;
-$success-font-color: $light-black;
-$warning-font-color: $light-black;
-$info-font-color: $light-black;
-$font-family: "Proxima Nova", sans-serif;
+$error-font-color: $white;
+$success-font-color: $font-color;
+$warning-font-color: $font-color;
+$info-font-color: $font-color;
+$font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB',
+  'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif, 'Apple Color Emoji',
+  'Segoe UI Emoji', 'Segoe UI Symbol';
 
 $font-size-xs: 13px;
 $font-size-s: 16px;

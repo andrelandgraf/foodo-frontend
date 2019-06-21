@@ -112,7 +112,6 @@ class CookingContainer extends React.Component {
         if ( possibleSubstitues ) {
             displayableSubstitutes = this.makeIngredientsDisplayable( possibleSubstitues );
         }
-        console.log( possibleSubstitues );
 
         return (
             <React.Fragment>

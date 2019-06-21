@@ -36,6 +36,7 @@
 }
 
 .box {
+    background-color: $white;
     border-radius: $border-radius-base;
     border: 1px solid $border-color-base;
     box-shadow: $box-shadow-base;
@@ -61,7 +62,6 @@
     &:focus {
         border-color: $hover-primary-color;
         outline: 0;
-        -webkit-box-shadow: 0 0 0 2px rgba(24,144,255,0.2);
-        box-shadow: 0 0 0 2px rgba(24,144,255,0.2);
+        box-shadow: 0 0 0 2px rgba(236, 93, 10, 0.884);
     }
 }
