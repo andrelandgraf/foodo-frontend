@@ -10,7 +10,7 @@ import Loader from '../../components/loading/loader';
 import {
     getUserRecipe, getRecipe, postUserRecipe, getRecipeSubstitutes,
 } from '../../services/foodo-api/recipe/recipesService';
-import Ingredient from '../../components/ingredient/ingredient';
+// import Ingredient from '../../components/ingredient/ingredient';
 import Modal from '../../components/modal/modal';
 
 class CookingContainer extends React.Component {
@@ -98,18 +98,11 @@ class CookingContainer extends React.Component {
         <Loader />
     );
 
-    renderPossibleSubstitutes = ( substitutes, selectedIngredient ) => substitutes
-        .find( subs => subs._id === selectedIngredient._id )
-        .alternatives.map( alt => (
-            <Ingredient
-                key={alt._id}
-                ingredient={this.makeIngredientsDisplayable( alt )}
-                onClick={this.onSelectSubstiute}
-                onClose={this.onCloseSubstitute}
-            />
-        ) )
+    renderPossibleSubstitutes = ( substitutes, selectedIngredient ) => console.log( substitutes
+        .find( subs => subs.id === selectedIngredient._id ) )
 
-    getSubstitutableIngredients = possibleSubstitues => possibleSubstitues.map( sub => sub._id );
+
+    getSubstitutableIngredients = possibleSubstitues => possibleSubstitues.map( sub => sub.id );
 
     renderModalTitle = selectedIngredient => (
         <h2>
@@ -141,6 +134,8 @@ class CookingContainer extends React.Component {
             displayableRecipe.ingredients = this
                 .makeIngredientsDisplayable( displayableRecipe.ingredients );
         }
+
+        // console.log( userRecipe );
 
         const substitutableIngredients = displayableRecipe && possibleSubstitues
             ? this.getSubstitutableIngredients( possibleSubstitues ) : [];

@@ -32,7 +32,7 @@ Modal.propTypes = {
             PropTypes.node,
         ),
         PropTypes.node,
-    ] ).isRequired,
+    ] ),
     classes: PropTypes.string,
     onCloseModal: PropTypes.func.isRequired,
     Title: PropTypes.node,
@@ -41,6 +41,7 @@ Modal.propTypes = {
 Modal.defaultProps = {
     classes: '',
     Title: null,
+    children: null,
 };
 
 export default Modal;
