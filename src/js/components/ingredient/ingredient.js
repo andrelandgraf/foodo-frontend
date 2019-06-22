@@ -13,9 +13,14 @@ const Ingredient = ( { ingredient, onClose, onClick } ) => (
             id={`click-substitute${ ingredient.key }`}
             onClick={() => onClick( ingredient )}
         >
-            <span>
-                { `Name: ${ ingredient.label }` }
-            </span>
+            <div className="name-score">
+                <span className="name">
+                    { `Name: ${ ingredient.label }` }
+                </span>
+                <span className="nutriscore">
+                    { `NutriScore: ${ ingredient.nutriScore }`}
+                </span>
+            </div>
             <span>
                 { `Amount: ${ Number( ingredient.amount ) * 100 } ${ ingredient.unit.name }` }
             </span>
@@ -35,6 +40,7 @@ Ingredient.propTypes = {
         label: PropTypes.string.isRequired,
         key: PropTypes.string.isRequired,
         amount: PropTypes.number.isRequired,
+        nutriScore: PropTypes.number.isRequired,
     } ).isRequired,
     onClose: PropTypes.func.isRequired,
     onClick: PropTypes.func.isRequired,
