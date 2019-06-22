@@ -1,11 +1,16 @@
 .modal {
     @extend .box;
     z-index: 1;
-    position: fixed;
+    position: absolute;
     top: 25%;
     margin: auto;
     width: 50%;
     min-height: 50%;
+
+    @media screen and (max-width: $phone-width) {
+        width: 95%;
+        top: $navbar-height + 5px;
+    }
 
     .header {
         width: 100%;

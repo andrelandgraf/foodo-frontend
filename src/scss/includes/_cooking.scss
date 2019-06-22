@@ -6,10 +6,6 @@
         flex-direction: column;
         align-items: center;
 
-        @media screen and (max-width: $phone-width) {
-            width: 95%;
-        }
-
         .substitute {
             @extend .box;
             width: 80%;
@@ -18,10 +14,9 @@
             text-align: center;
             margin: 0 auto 10px;
             padding: 15px 20px;
-            background-color: $success-color;
 
             display: flex;
-            flex-direction: row;
+            flex-direction: row;  
 
             .substitute-btn {
                 display: flex;
@@ -30,7 +25,21 @@
                 align-items: left;
                 text-align: left;
                 line-height: $font-size-xs + 8px;
-                margin: 10px 10px;
+                padding: 10px 10px;
+
+                .name-score {
+                    display: flex;
+                    flex-direction: row;
+                    font-weight: $font-weight-medium;
+
+                    .name {
+                        flex-grow: 1;
+                    }
+    
+                    .nutriscore {
+                        color: $success-color;
+                    }
+                }
             }
             
             .substitute-cancel-btn {
