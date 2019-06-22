@@ -2,10 +2,13 @@
     @extend .page;
 
     .substitutes-container {
-        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
+
+        @media screen and (max-width: $phone-width) {
+            width: 95%;
+        }
 
         .substitute {
             @extend .box;

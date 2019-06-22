@@ -22,7 +22,7 @@ const enHeaders = {
 
 // short labels (e.g. button text, navbar text, input placehodlers, ...)
 const enLabels = {
-    APP_NAME: 'React App',
+    APP_NAME: 'Foodo',
     HOME: 'Home',
     MY_PROFILE: 'My Profile',
     PROFILE: 'Profile',
