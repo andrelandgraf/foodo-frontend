@@ -37,10 +37,12 @@ const Recipe = ( { recipe } ) => (
         </table>
         <h3>Nutritional Facts</h3>
         <table className="borderTable">
-            <tr>
-                <th />
-                <th>Total</th>
-            </tr>
+            <thead>
+                <tr>
+                    <th />
+                    <th>Total</th>
+                </tr>
+            </thead>
             <tbody>
                 <tr>
                     <td>Calories</td>
