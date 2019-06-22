@@ -1,7 +1,7 @@
 .modal {
     @extend .box;
     z-index: 1;
-    position: absolute;
+    position: fixed;
     top: 25%;
     margin: auto;
     width: 50%;

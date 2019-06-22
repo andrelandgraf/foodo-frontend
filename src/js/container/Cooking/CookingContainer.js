@@ -22,7 +22,7 @@ class CookingContainer extends React.Component {
             recipe: undefined,
             userRecipe: undefined,
             possibleSubstitues: undefined,
-            showSubstiutesFor: '5d0934799a8ab5830d9eda3b',
+            showSubstiutesFor: '',
         };
     }
 
@@ -81,9 +81,10 @@ class CookingContainer extends React.Component {
         };
 
         const updatedRecipe = lodash.cloneDeep( userRecipe );
-        updatedRecipe.personalizedRecipe.ingredients = updatedRecipe.personalizedRecipe.ingredients
-            .filter( ingredient => ingredient._id === showSubstiutesFor )
-            .push( newIngredient );
+        updatedRecipe.personalizedRecipe.ingredients = updatedRecipe
+            .personalizedRecipe.ingredients
+            .filter( ingredient => ingredient.ingredient._id !== showSubstiutesFor );
+        updatedRecipe.personalizedRecipe.ingredients.push( newIngredient );
 
         updateUserRecipe( updatedRecipe ).then( ( newUserRecipe ) => {
             this.setState( {
@@ -169,17 +170,13 @@ class CookingContainer extends React.Component {
         const {
             recipe, userRecipe, possibleSubstitues, showSubstiutesFor,
         } = this.state;
-        const lastClient = userRecipe ? userRecipe.clientId : undefined;
+        const lastClient = userRecipe ? userRecipe.client.clientId : undefined;
 
         const displayableRecipe = recipe ? lodash.cloneDeep( recipe ) : undefined;
         if ( displayableRecipe ) {
             displayableRecipe.ingredients = this
                 .makeIngredientsDisplayable( displayableRecipe.ingredients );
         }
-
-        // console.log( possibleSubstitues );
-
-        console.log( userRecipe );
 
         const substitutableIngredients = displayableRecipe && possibleSubstitues
             ? this.getSubstitutableIngredients( possibleSubstitues ) : [];
@@ -190,6 +187,8 @@ class CookingContainer extends React.Component {
         const displayableSubstitutes = possibleSubstitues
             ? lodash.cloneDeep( possibleSubstitues )
             : undefined;
+
+        // console.log( substitutableIngredients );
 
         return (
             <React.Fragment>
