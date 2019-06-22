@@ -11,6 +11,7 @@ import {
     getUserRecipe, getRecipe, postUserRecipe, getRecipeSubstitutes,
 } from '../../services/foodo-api/recipe/recipesService';
 import Ingredient from '../../components/ingredient/ingredient';
+import Modal from '../../components/modal/modal';
 
 class CookingContainer extends React.Component {
     constructor( props ) {
@@ -20,6 +21,7 @@ class CookingContainer extends React.Component {
             recipe: undefined,
             userRecipe: undefined,
             possibleSubstitues: undefined,
+            showSubstiutesFor: '5d0934799a8ab5830d9eda3b',
         };
     }
 
@@ -65,10 +67,16 @@ class CookingContainer extends React.Component {
         return personalizedRecipe;
     }
 
+    onClickIngredient = ( ingredient ) => {
+        this.setState( { showSubstiutesFor: ingredient._id } );
+    }
+
     onSelectSubstiute = ( substitue ) => {
         // eslint-disable-next-line no-console
         console.log( substitue );
     }
+
+    onCloseModal = () => this.setState( { showSubstiutesFor: '' } );
 
     onCloseSubstitute = ( substitute ) => {
         const { possibleSubstitues } = this.state;
@@ -90,32 +98,52 @@ class CookingContainer extends React.Component {
         <Loader />
     );
 
-    renderPossibleSubstitues = ingredients => ingredients
-        .map( ingredient => (
+    renderPossibleSubstitutes = ( substitutes, selectedIngredient ) => substitutes
+        .find( subs => subs.id === selectedIngredient._id )
+        .alternatives.map( alt => (
             <Ingredient
-                key={ingredient._id}
-                ingredient={ingredient}
+                key={alt._id}
+                ingredient={this.makeIngredientsDisplayable( alt )}
                 onClick={this.onSelectSubstiute}
                 onClose={this.onCloseSubstitute}
             />
         ) )
 
+    renderModalTitle = selectedIngredient => ( <h2>{`Select a substitute for ${ selectedIngredient.label }.`}</h2> );
+
+    renderModal = ( displayableSubstitutes, selectedIngredient ) => (
+        <Modal
+            classes="substitutes-container"
+            onCloseModal={this.onCloseModal}
+            Title={this.renderModalTitle( selectedIngredient )}
+        >
+            { displayableSubstitutes
+                ? this.renderPossibleSubstitutes( displayableSubstitutes, selectedIngredient )
+                : this.renderLoading()
+            }
+        </Modal>
+    )
+
     render() {
-        const { recipe, userRecipe, possibleSubstitues } = this.state;
+        const {
+            recipe, userRecipe, possibleSubstitues, showSubstiutesFor,
+        } = this.state;
         const lastClient = userRecipe ? userRecipe.clientId : undefined;
 
-        const displayableRecipe = lodash.cloneDeep( recipe );
+        const displayableRecipe = recipe ? lodash.cloneDeep( recipe ) : undefined;
         if ( displayableRecipe ) {
             displayableRecipe.ingredients = this
                 .makeIngredientsDisplayable( displayableRecipe.ingredients );
         }
 
-        let displayableSubstitutes = lodash.cloneDeep( possibleSubstitues );
-        if ( possibleSubstitues ) {
-            displayableSubstitutes = this.makeIngredientsDisplayable( possibleSubstitues );
-        }
+        const selectedIngredient = recipe && showSubstiutesFor ? displayableRecipe.ingredients
+            .find( ingredient => ingredient._id === showSubstiutesFor ) : undefined;
 
-        console.log( displayableRecipe );
+        const displayableSubstitutes = possibleSubstitues
+            ? lodash.cloneDeep( possibleSubstitues )
+            : undefined;
+
+        console.log( displayableSubstitutes );
 
         return (
             <React.Fragment>
@@ -126,15 +154,19 @@ class CookingContainer extends React.Component {
                     }
                 </h1>
                 { displayableRecipe
-                    ? <Recipe lastClient={lastClient} recipe={displayableRecipe} />
+                    ? (
+                        <Recipe
+                            lastClient={lastClient}
+                            recipe={displayableRecipe}
+                            onClickIngredient={this.onClickIngredient}
+                        />
+                    )
                     : this.renderLoading()
                 }
-                <div className="substitutes-container">
-                    { displayableSubstitutes
-                        ? this.renderPossibleSubstitues( displayableSubstitutes )
-                        : this.renderLoading()
-                    }
-                </div>
+                { selectedIngredient
+                    ? this.renderModal( displayableSubstitutes, selectedIngredient )
+                    : null
+                }
             </React.Fragment>
         );
     }

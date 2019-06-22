@@ -15,7 +15,7 @@ const deHeaders = {
 };
 
 const deLabels = {
-    APP_NAME: 'React App',
+    APP_NAME: 'Foodo',
     HOME: 'Home',
     MY_PROFILE: 'Mein Profil',
     PROFILE: 'Profil',
