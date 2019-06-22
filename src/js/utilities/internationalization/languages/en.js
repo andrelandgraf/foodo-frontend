@@ -11,6 +11,7 @@ const enHeaders = {
     PROFILE_TITLE: 'Your Personal Profile',
     COOKING_HEADER: 'Cooking Details Page',
     SELECT_RECIPE: 'What do you want to cook today?',
+    SELECT_SUBSTITUTE: 'Substitute {{ingredient}}',
     ALLERGIES_SELECTION: 'Your allergies',
     DISLIKES_SELECTION: 'Your dislikes',
     GOALS_SELECTION: 'Your personal goal',

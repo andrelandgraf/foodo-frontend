@@ -99,7 +99,7 @@ class CookingContainer extends React.Component {
     );
 
     renderPossibleSubstitutes = ( substitutes, selectedIngredient ) => substitutes
-        .find( subs => subs.id === selectedIngredient._id )
+        .find( subs => subs._id === selectedIngredient._id )
         .alternatives.map( alt => (
             <Ingredient
                 key={alt._id}
@@ -109,7 +109,13 @@ class CookingContainer extends React.Component {
             />
         ) )
 
-    renderModalTitle = selectedIngredient => ( <h2>{`Select a substitute for ${ selectedIngredient.label }.`}</h2> );
+    getSubstitutableIngredients = possibleSubstitues => possibleSubstitues.map( sub => sub._id );
+
+    renderModalTitle = selectedIngredient => (
+        <h2>
+            { i18n.t( KEYS.HEADERS.SELECT_SUBSTITUTE, { ingredient: selectedIngredient.label } )}
+        </h2>
+    );
 
     renderModal = ( displayableSubstitutes, selectedIngredient ) => (
         <Modal
@@ -136,6 +142,9 @@ class CookingContainer extends React.Component {
                 .makeIngredientsDisplayable( displayableRecipe.ingredients );
         }
 
+        const substitutableIngredients = displayableRecipe && possibleSubstitues
+            ? this.getSubstitutableIngredients( possibleSubstitues ) : [];
+
         const selectedIngredient = recipe && showSubstiutesFor ? displayableRecipe.ingredients
             .find( ingredient => ingredient._id === showSubstiutesFor ) : undefined;
 
@@ -143,7 +152,7 @@ class CookingContainer extends React.Component {
             ? lodash.cloneDeep( possibleSubstitues )
             : undefined;
 
-        console.log( displayableSubstitutes );
+        console.log( possibleSubstitues );
 
         return (
             <React.Fragment>
@@ -159,6 +168,7 @@ class CookingContainer extends React.Component {
                             lastClient={lastClient}
                             recipe={displayableRecipe}
                             onClickIngredient={this.onClickIngredient}
+                            substitutableIngredients={substitutableIngredients}
                         />
                     )
                     : this.renderLoading()
