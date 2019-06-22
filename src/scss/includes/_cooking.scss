@@ -30,6 +30,9 @@
                 .name-score {
                     display: flex;
                     flex-direction: row;
+                    @media screen and (max-width: $phone-width) {
+                        flex-direction: column;
+                    }
                     font-weight: $font-weight-medium;
 
                     .name {
