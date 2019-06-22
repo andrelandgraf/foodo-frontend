@@ -5,12 +5,14 @@ import i18n from 'i18next';
 
 import { getLocale, KEYS } from '../../utilities/internationalization/internationalization';
 
+import {
+    getUserRecipe, getRecipe, postUserRecipe, getRecipeSubstitutes, updateUserRecipe,
+} from '../../services/foodo-api/recipe/recipesService';
+
 import Recipe from '../../components/recipe/recipe';
 import Loader from '../../components/loading/loader';
-import {
-    getUserRecipe, getRecipe, postUserRecipe, getRecipeSubstitutes,
-} from '../../services/foodo-api/recipe/recipesService';
 import Ingredient from '../../components/ingredient/ingredient';
+import Modal from '../../components/modal/modal';
 
 class CookingContainer extends React.Component {
     constructor( props ) {
@@ -20,6 +22,7 @@ class CookingContainer extends React.Component {
             recipe: undefined,
             userRecipe: undefined,
             possibleSubstitues: undefined,
+            showSubstiutesFor: '',
         };
     }
 
@@ -65,16 +68,47 @@ class CookingContainer extends React.Component {
         return personalizedRecipe;
     }
 
-    onSelectSubstiute = ( substitue ) => {
-        // eslint-disable-next-line no-console
-        console.log( substitue );
+    onClickIngredient = ( ingredient ) => {
+        this.setState( { showSubstiutesFor: ingredient._id } );
     }
 
+    onSelectSubstiute = ( substitue ) => {
+        const { userRecipe, showSubstiutesFor } = this.state;
+
+        const newIngredient = {
+            amount: substitue.amount,
+            ingredient: substitue._id,
+        };
+
+        const updatedRecipe = lodash.cloneDeep( userRecipe );
+        updatedRecipe.personalizedRecipe.ingredients = updatedRecipe
+            .personalizedRecipe.ingredients
+            .filter( ingredient => ingredient.ingredient._id !== showSubstiutesFor );
+        updatedRecipe.personalizedRecipe.ingredients.push( newIngredient );
+
+        updateUserRecipe( updatedRecipe ).then( ( newUserRecipe ) => {
+            this.setState( {
+                showSubstiutesFor: '',
+                userRecipe: newUserRecipe,
+                recipe: this.mapCustomRecipeToRecipe( newUserRecipe ),
+            } );
+        } );
+    }
+
+    onCloseModal = () => this.setState( { showSubstiutesFor: '' } );
+
     onCloseSubstitute = ( substitute ) => {
-        const { possibleSubstitues } = this.state;
-        const updatedSubstitutes = lodash
-            .cloneDeep( possibleSubstitues )
-            .filter( sub => sub.ingredient._id !== substitute._id );
+        const { possibleSubstitues, showSubstiutesFor } = this.state;
+
+        const updatedSubstitutes = lodash.cloneDeep( possibleSubstitues );
+
+        const currentIngredient = updatedSubstitutes
+            .find( ingredient => ingredient._id === showSubstiutesFor );
+        const index = updatedSubstitutes.indexOf( currentIngredient );
+
+        updatedSubstitutes[ index ].substitutes = currentIngredient.substitutes
+            .filter( sub => sub.substitute._id !== substitute._id );
+
         this.setState( { possibleSubstitues: updatedSubstitutes } );
     }
 
@@ -86,36 +120,75 @@ class CookingContainer extends React.Component {
             key: ingredient.ingredient._id,
         } ) );
 
+    makeSubstituteDisplayable = ingredient => ( {
+        ...ingredient.substitute,
+        amount: ingredient.amount,
+        label: ingredient.substitute.name[ getLocale() ],
+        key: ingredient.substitute._id,
+    } );
+
+
     renderLoading = () => (
         <Loader />
     );
 
-    renderPossibleSubstitues = ingredients => ingredients
-        .map( ingredient => (
+    renderPossibleSubstitutes = ( substitutes, selectedIngredient ) => substitutes
+        .find( subs => subs._id === selectedIngredient._id )
+        .substitutes.slice( 0, 3 )
+        .map( alt => (
             <Ingredient
-                key={ingredient._id}
-                ingredient={ingredient}
+                key={alt.substitute._id}
+                ingredient={this.makeSubstituteDisplayable( alt )}
                 onClick={this.onSelectSubstiute}
                 onClose={this.onCloseSubstitute}
             />
         ) )
 
-    render() {
-        const { recipe, userRecipe, possibleSubstitues } = this.state;
-        const lastClient = userRecipe ? userRecipe.clientId : undefined;
+    getSubstitutableIngredients = possibleSubstitues => possibleSubstitues
+        .map( sub => sub._id );
 
-        const displayableRecipe = lodash.cloneDeep( recipe );
+    renderModalTitle = selectedIngredient => (
+        <h2>
+            { i18n.t( KEYS.HEADERS.SELECT_SUBSTITUTE, { ingredient: selectedIngredient.label } )}
+        </h2>
+    );
+
+    renderModal = ( displayableSubstitutes, selectedIngredient ) => (
+        <Modal
+            classes="substitutes-container"
+            onCloseModal={this.onCloseModal}
+            Title={this.renderModalTitle( selectedIngredient )}
+        >
+            { displayableSubstitutes
+                ? this.renderPossibleSubstitutes( displayableSubstitutes, selectedIngredient )
+                : this.renderLoading()
+            }
+        </Modal>
+    )
+
+    render() {
+        const {
+            recipe, userRecipe, possibleSubstitues, showSubstiutesFor,
+        } = this.state;
+        const lastClient = userRecipe ? userRecipe.client.clientId : undefined;
+
+        const displayableRecipe = recipe ? lodash.cloneDeep( recipe ) : undefined;
         if ( displayableRecipe ) {
             displayableRecipe.ingredients = this
                 .makeIngredientsDisplayable( displayableRecipe.ingredients );
         }
 
-        let displayableSubstitutes = lodash.cloneDeep( possibleSubstitues );
-        if ( possibleSubstitues ) {
-            displayableSubstitutes = this.makeIngredientsDisplayable( possibleSubstitues );
-        }
+        const substitutableIngredients = displayableRecipe && possibleSubstitues
+            ? this.getSubstitutableIngredients( possibleSubstitues ) : [];
 
-        console.log( displayableRecipe );
+        const selectedIngredient = recipe && showSubstiutesFor ? displayableRecipe.ingredients
+            .find( ingredient => ingredient._id === showSubstiutesFor ) : undefined;
+
+        const displayableSubstitutes = possibleSubstitues
+            ? lodash.cloneDeep( possibleSubstitues )
+            : undefined;
+
+        // console.log( substitutableIngredients );
 
         return (
             <React.Fragment>
@@ -126,15 +199,20 @@ class CookingContainer extends React.Component {
                     }
                 </h1>
                 { displayableRecipe
-                    ? <Recipe lastClient={lastClient} recipe={displayableRecipe} />
+                    ? (
+                        <Recipe
+                            lastClient={lastClient}
+                            recipe={displayableRecipe}
+                            onClickIngredient={this.onClickIngredient}
+                            substitutableIngredients={substitutableIngredients}
+                        />
+                    )
                     : this.renderLoading()
                 }
-                <div className="substitutes-container">
-                    { displayableSubstitutes
-                        ? this.renderPossibleSubstitues( displayableSubstitutes )
-                        : this.renderLoading()
-                    }
-                </div>
+                { selectedIngredient
+                    ? this.renderModal( displayableSubstitutes, selectedIngredient )
+                    : null
+                }
             </React.Fragment>
         );
     }

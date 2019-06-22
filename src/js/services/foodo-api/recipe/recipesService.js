@@ -20,8 +20,8 @@ export const postUserRecipe = personalizedRecipe => postRequest(
     `${ ENDPOINTS.USER }${ ENDPOINTS.USER_ENDPOINTS.RECIPES }`, { personalizedRecipe },
 );
 
-export const updateUserRecipe = recipe => putRequest(
-    `${ ENDPOINTS.USER }${ ENDPOINTS.USER_ENDPOINTS.RECIPES }`, { recipe },
+export const updateUserRecipe = personalizedRecipe => putRequest(
+    `${ ENDPOINTS.USER }${ ENDPOINTS.USER_ENDPOINTS.RECIPES }`, { personalizedRecipe },
 );
 
 export const getRecipeSubstitutes = id => getRequest(
