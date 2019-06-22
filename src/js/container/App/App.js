@@ -18,6 +18,7 @@ import Loader from '../../components/loading/loader';
 
 import { isAuthenticated, getUser, logUserOut } from '../../services/foodo-api/user/userService';
 import PasswordView from '../../views/passwordView';
+import { getLocale, setLocale } from '../../utilities/internationalization/internationalization';
 
 export const AUTH_ROUTES = {
     HOME: '/',
