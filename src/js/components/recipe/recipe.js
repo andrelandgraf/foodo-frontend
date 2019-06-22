@@ -9,7 +9,7 @@ const Recipe = ( { recipe } ) => (
         <img src={recipe.imgUrl} alt={recipe.name} className="recipePic" />
         <div>
             <img
-                src="../../img/hourglass.svg"
+                src="../img/hourglass.svg"
                 alt="Preparation time"
                 classes="icon-item"
             />
@@ -17,15 +17,72 @@ const Recipe = ( { recipe } ) => (
             {recipe.preparationTime}
             min
         </div>
-        <ul>
-            { recipe.ingredients.map(
-                ingredient => (
-                    <li key={ingredient.key}>
-                        { ingredient.label}
-                    </li>
-                ),
-            )}
-        </ul>
+        <h3>Ingredients</h3>
+        <table>
+            <tbody>
+                { recipe.ingredients.map(
+                    ingredient => (
+                        <tr key={ingredient.key}>
+                            <td>
+                                {ingredient.amount * ingredient.unit.amount}
+                            </td>
+                            <td>
+                                {ingredient.unit.name}
+                            </td>
+                            <td>{ ingredient.label}</td>
+                        </tr>
+                    ),
+                )}
+            </tbody>
+        </table>
+        <h3>Nutritional Facts</h3>
+        <table className="borderTable">
+            <thead>
+                <tr>
+                    <th />
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Calories</td>
+                    <td>
+                        {recipe.ingredients.map(
+                            ingredient => ( ingredient.elements.KCal * ingredient.amount ),
+                        ).reduce( ( pv, cv ) => pv + cv, 0 ).toFixed( 1 )}
+g
+                    </td>
+                </tr>
+                <tr>
+                    <td>Fat</td>
+                    <td>
+                        {recipe.ingredients.map(
+                            ingredient => ( ingredient.elements.TotalFat * ingredient.amount ),
+                        ).reduce( ( pv, cv ) => pv + cv, 0 ).toFixed( 1 )}
+g
+                    </td>
+                </tr>
+                <tr>
+                    <td>Proteins</td>
+                    <td>
+                        {recipe.ingredients.map(
+                            ingredient => ( ingredient.elements.Protein * ingredient.amount ),
+                        ).reduce( ( pv, cv ) => pv + cv, 0 ).toFixed( 1 )}
+g
+                    </td>
+                </tr>
+                <tr>
+                    <td>Salt</td>
+                    <td>
+                        {recipe.ingredients.map(
+                            ingredient => ( ingredient.elements.Salt * ingredient.amount ),
+                        ).reduce( ( pv, cv ) => pv + cv, 0 ).toFixed( 1 )}
+g
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
     </div>
 );
 
@@ -39,6 +96,11 @@ Recipe.propTypes = {
             PropTypes.shape( {
                 label: PropTypes.string.isRequired,
                 key: PropTypes.string.isRequired,
+                amount: PropTypes.number.isRequired,
+                unit: PropTypes.shape( {
+                    amount: PropTypes.number.isRequired,
+                    name: PropTypes.string.isRequired,
+                } ),
             } ),
         ).isRequired,
         imgUrl: PropTypes.string,
