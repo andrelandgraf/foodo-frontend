@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import i18n from 'i18next';
 
-import { KEYS } from '../../utilities/internationalization/internationalization';
+import { KEYS, getLocale, setLocale } from '../../utilities/internationalization/internationalization';
 
 import LoginView from '../../views/loginView';
 import MessageComponent, { MESSAGE_TYPES } from '../../components/message/message';
@@ -41,8 +41,15 @@ class LoginContainer extends React.Component {
         if ( !onSubmit ) {
             // default behavior (normal login page)
             return logUserIn( username, password )
-                .then( ( user ) => {
+                .then( async ( user ) => {
                     setUser( user );
+                    if ( user && user.locale
+                        && getLocale() !== user.locale ) {
+                        await setLocale( user.locale );
+                        // completly reload and rerender all components to change language strings
+                        // eslint-disable-next-line no-restricted-globals
+                        location.reload();
+                    }
                     return true;
                 } )
                 .catch( err => this.handleError( err ) );
