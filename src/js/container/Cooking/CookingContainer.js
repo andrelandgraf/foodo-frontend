@@ -74,14 +74,14 @@ class CookingContainer extends React.Component {
 
     onSelectSubstiute = ( substitue ) => {
         const { userRecipe, showSubstiutesFor } = this.state;
-        // eslint-disable-next-line no-console
-        console.log( substitue );
+
         const newIngredient = {
             amount: substitue.amount,
             ingredient: substitue._id,
         };
+
         const updatedRecipe = lodash.cloneDeep( userRecipe );
-        updatedRecipe.ingredients = updatedRecipe.ingredients
+        updatedRecipe.personalizedRecipe.ingredients = updatedRecipe.personalizedRecipe.ingredients
             .filter( ingredient => ingredient._id === showSubstiutesFor )
             .push( newIngredient );
 
