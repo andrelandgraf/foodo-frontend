@@ -5,6 +5,7 @@ const deHeaders = {
     PROFILE_TITLE: 'Dein persönliches Profil',
     COOKING_HEADER: 'Kochen Kochen Kochen!',
     SELECT_RECIPE: 'Was willst du heute kochen?',
+    SELECT_SUBSTITUTE: 'Substituiere {{ingredient}}',
     ALLERGIES_SELECTION: 'Deine Allergien',
     DISLIKES_SELECTION: 'Deine Dislikes',
     GOALS_SELECTION: 'Dein persönliches Ziel',
