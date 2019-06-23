@@ -18,6 +18,10 @@ import Loader from '../../components/loading/loader';
 
 import { isAuthenticated, getUser, logUserOut } from '../../services/foodo-api/user/userService';
 import PasswordView from '../../views/passwordView';
+import { IngredientsProvider } from '../../provider/IngredientsProvider';
+import { GoalsLifestylesProvider } from '../../provider/GoalsLifestylesProvider';
+import { AllergiesProvider } from '../../provider/AllergiesProvider';
+import { RecipesProvider } from '../../provider/RecipesProvider';
 
 export const AUTH_ROUTES = {
     HOME: '/',
@@ -97,9 +101,17 @@ class App extends React.Component {
     renderAuthenticatedApp = user => (
         <React.Fragment>
             <NavBarContainer loggedIn />
-            {
-                user ? this.renderApp( user ) : this.renderAppLoading()
-            }
+            <RecipesProvider>
+                <IngredientsProvider>
+                    <GoalsLifestylesProvider>
+                        <AllergiesProvider>
+                            {
+                                user ? this.renderApp( user ) : this.renderAppLoading()
+                            }
+                        </AllergiesProvider>
+                    </GoalsLifestylesProvider>
+                </IngredientsProvider>
+            </RecipesProvider>
         </React.Fragment>
     );
 

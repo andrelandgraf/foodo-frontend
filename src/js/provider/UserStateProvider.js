@@ -14,16 +14,20 @@ class UserStateProvider extends React.Component {
         super( props );
         this.state = {
             user: undefined,
-            setUser: ( user ) => {
-                this.setState( { user } );
-            },
         };
     }
 
+    setUser = user => this.setState( { user } );
+
     render() {
         const { children } = this.props;
+        const { state } = this;
+        const context = {
+            setUser: this.setUser,
+            ...state,
+        };
         return (
-            <UserStateContext.Provider value={this.state}>
+            <UserStateContext.Provider value={context}>
                 {children}
             </UserStateContext.Provider>
         );
