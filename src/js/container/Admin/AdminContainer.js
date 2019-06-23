@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import DataListInput from 'react-datalist-input';
 import lodash from 'lodash';
 
-import { getIngredients } from '../../services/foodo-api/ingredient/ingredientsService';
 import { postRecipe } from '../../services/foodo-api/recipe/recipesService';
 
 import Tags from '../../components/tags/tags';
@@ -60,13 +59,8 @@ class AdminContainer extends React.Component {
                 meal: '',
                 servings: [],
             },
-            foodItems: [],
             selectedIngredients: [],
         };
-    }
-
-    componentWillMount = async () => {
-        getIngredients().then( ingredients => this.setState( { foodItems: ingredients } ) );
     }
 
     onSaveRecipe = ( event ) => {
@@ -188,8 +182,11 @@ class AdminContainer extends React.Component {
 
 
     render() {
-        const { recipe, foodItems, selectedIngredients } = this.state;
+        const { recipe, selectedIngredients } = this.state;
+        const { ingredientsContext } = this.props;
+        const foodItems = ingredientsContext.ingredients;
         const { ingredients } = recipe;
+
         const clonedFoodItems = lodash.cloneDeep( foodItems );
         let possibleMatches = this
             .removeAlreadySelectedItems( selectedIngredients, clonedFoodItems );
@@ -251,5 +248,19 @@ class AdminContainer extends React.Component {
         );
     }
 }
+
+AdminContainer.propTypes = {
+    ingredientsContext: PropTypes.shape( {
+        ingredients: PropTypes.arrayOf(
+            PropTypes.shape( {
+                name: PropTypes.shape( {
+                    en: PropTypes.string,
+                    de: PropTypes.string,
+                } ).isRequired,
+                _id: PropTypes.string.isRequired,
+            } ),
+        ),
+    } ).isRequired,
+};
 
 export default AdminContainer;
