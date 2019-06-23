@@ -39,7 +39,7 @@ export const NONAUTH_ROUTES = {
 };
 
 class App extends React.Component {
-    componentWillMount = async () => {
+    componentDidMount = async () => {
         const { user, setUser } = this.context;
         // in case of page reload, we still hold token but need to get user again
         if ( isAuthenticated() && !user ) this.getUser( setUser );
