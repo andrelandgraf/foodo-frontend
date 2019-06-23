@@ -1,11 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import i18n from 'i18next';
+
+import { KEYS } from '../../../utilities/internationalization/internationalization';
+
 import Button from '../../button/button';
 
 const IngredientsTable = ( { ingredients, substitutableIngredients, onClickIngredient } ) => (
     <div>
-        <h2>Ingredients</h2>
+        <h2>{i18n.t( KEYS.LABELS.INGREDIENTS )}</h2>
         <table>
             <tbody>
                 { ingredients.map(

@@ -25,6 +25,9 @@ const deLabels = {
     DISLIKES_PLACEHOLDER: 'Wähle, was dir nicht schmeckt...',
     GOALS_PLACEHOLDER: 'Wähle dein Ziel aus...',
     LIFESTYLES_PLACEHOLDER: 'Wähle deinen Lifestyle...',
+    INGREDIENTS: 'Zutaten',
+    NUTRITION: 'Nährwerte',
+    EDITED_WITH: 'Rezept bearbeitet mit',
     USERNAME: 'Benutzername',
     PASSWORD: 'Passwort',
     CHANGE: 'Ändern',
@@ -54,6 +57,7 @@ const deMessages = {
     SERVER_NOT_REACHABLE_ERR: '$t(ERROR), der Server ist nicht erreichbar, bitte überprüfe deine Internetverbindung.',
     USERNAME_ALREADY_TAKEN_ERR: '$t(ERROR), der $t(USERNAME) wird schon benutzt, bitte nutze einen Anderen.',
     REQUEST_PARAMS_MISSING_ERR: '$t(ERROR), benötigte Request Parameter fehlen, bitte wenden Sie sich an den Support.',
+    SUBSTITUTION_SUCCESS: 'Gratuliere, es gibt nichts weiter zu substituieren, dein persönliches Rezept ist fertig!',
 };
 
 const deData = {

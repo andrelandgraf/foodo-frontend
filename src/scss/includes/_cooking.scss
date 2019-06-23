@@ -1,6 +1,10 @@
 .cooking-page {
     @extend .page;
 
+    .cooking-succ-message {
+        width: 100%;
+    }
+
     .substitutes-container {
         display: flex;
         flex-direction: column;
@@ -16,7 +20,7 @@
             padding: 15px 20px;
 
             display: flex;
-            flex-direction: row;  
+            flex-direction: row;
 
             .substitute-btn {
                 display: flex;
@@ -38,13 +42,13 @@
                     .name {
                         flex-grow: 1;
                     }
-    
+
                     .nutriscore {
                         color: $success-color;
                     }
                 }
             }
-            
+
             .substitute-cancel-btn {
                 img {
                     padding-left: 20px;
@@ -53,6 +57,6 @@
                 }
             }
         }
-    }  
-    
+    }
+
 }
