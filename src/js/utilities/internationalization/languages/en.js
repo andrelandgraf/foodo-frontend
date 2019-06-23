@@ -32,6 +32,9 @@ const enLabels = {
     DISLIKES_PLACEHOLDER: 'Select your dislikes...',
     GOALS_PLACEHOLDER: 'Select your personal goals...',
     LIFESTYLES_PLACEHOLDER: 'Select your lifestyle...',
+    INGREDIENTS: 'Ingredients',
+    NUTRITION: 'Nutritional Facts',
+    EDITED_WITH: 'Recipe edited with',
     USERNAME: 'Username',
     PASSWORD: 'Password',
     CHANGE: 'Change',
@@ -62,6 +65,7 @@ const enMessages = {
     SERVER_NOT_REACHABLE_ERR: '$t(ERROR), unable to connect to server, please check your internet connection.',
     USERNAME_ALREADY_TAKEN_ERR: '$t(ERROR), the username is already in use, please pick another one.',
     REQUEST_PARAMS_MISSING_ERR: '$t(ERROR), request parameters are missing, please contact the support team.',
+    SUBSTITUTION_SUCCESS: 'Congratulations! There is nothing more to substitute. Your personalized recipe is finshied!',
 
 };
 
