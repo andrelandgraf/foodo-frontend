@@ -1,10 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import i18n from 'i18next';
+
+import { KEYS } from '../../../utilities/internationalization/internationalization';
+
 
 const NutritionTable = ( { ingredients } ) => (
     <div>
-        <h2>Nutritional Facts</h2>
+        <h2>{i18n.t( KEYS.LABELS.NUTRITION )}</h2>
         <table className="borderTable">
             <thead>
                 <tr>

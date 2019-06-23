@@ -13,6 +13,7 @@ import Recipe from '../../components/recipe/recipe';
 import Loader from '../../components/loading/loader';
 import Ingredient from '../../components/ingredient/ingredient';
 import Modal from '../../components/modal/modal';
+import Message, { MESSAGE_TYPES } from '../../components/message/message';
 
 class CookingContainer extends React.Component {
     constructor( props ) {
@@ -23,6 +24,8 @@ class CookingContainer extends React.Component {
             userRecipe: undefined,
             possibleSubstitues: undefined,
             showSubstiutesFor: '',
+            message: '',
+            messageType: undefined,
         };
     }
 
@@ -68,12 +71,17 @@ class CookingContainer extends React.Component {
         return personalizedRecipe;
     }
 
+    substitutesLeft = ( possibleSubstitues, recipe ) => possibleSubstitues
+        .filter( substitute => recipe.ingredients
+            .find( ingredient => substitute._id === ingredient.ingredient._id ) )
+        .length;
+
     onClickIngredient = ( ingredient ) => {
         this.setState( { showSubstiutesFor: ingredient._id } );
     }
 
     onSelectSubstiute = ( substitue ) => {
-        const { userRecipe, showSubstiutesFor } = this.state;
+        const { userRecipe, showSubstiutesFor, possibleSubstitues } = this.state;
 
         const newIngredient = {
             amount: substitue.amount,
@@ -81,16 +89,24 @@ class CookingContainer extends React.Component {
         };
 
         const updatedRecipe = lodash.cloneDeep( userRecipe );
-        updatedRecipe.personalizedRecipe.ingredients = updatedRecipe
-            .personalizedRecipe.ingredients
-            .filter( ingredient => ingredient.ingredient._id !== showSubstiutesFor );
-        updatedRecipe.personalizedRecipe.ingredients.push( newIngredient );
+        const index = updatedRecipe.personalizedRecipe.ingredients
+            .findIndex( ingredient => ingredient.ingredient._id === showSubstiutesFor );
+        updatedRecipe.personalizedRecipe.ingredients[ index ] = newIngredient;
 
         updateUserRecipe( updatedRecipe ).then( ( newUserRecipe ) => {
+            const recipe = this.mapCustomRecipeToRecipe( newUserRecipe );
+            let message = {};
+            if ( !this.substitutesLeft( possibleSubstitues, recipe ) ) {
+                message = {
+                    message: i18n.t( KEYS.MESSAGES.SUBSTITUTION_SUCCESS ),
+                    messageType: MESSAGE_TYPES.SUCCESS,
+                };
+            }
             this.setState( {
                 showSubstiutesFor: '',
                 userRecipe: newUserRecipe,
-                recipe: this.mapCustomRecipeToRecipe( newUserRecipe ),
+                recipe,
+                ...message,
             } );
         } );
     }
@@ -112,6 +128,8 @@ class CookingContainer extends React.Component {
         this.setState( { possibleSubstitues: updatedSubstitutes } );
     }
 
+    onCloseMessage = () => this.setState( { message: '', messageType: undefined } );
+
     makeIngredientsDisplayable = ingredients => ingredients
         .map( ingredient => ( {
             ...ingredient.ingredient,
@@ -130,6 +148,15 @@ class CookingContainer extends React.Component {
 
     renderLoading = () => (
         <Loader />
+    );
+
+    renderMessage = ( message, messageType ) => (
+        <Message
+            text={message}
+            type={messageType}
+            onResolve={this.onCloseMessage}
+            classes="cooking-succ-message"
+        />
     );
 
     renderPossibleSubstitutes = ( substitutes, selectedIngredient ) => substitutes
@@ -168,7 +195,7 @@ class CookingContainer extends React.Component {
 
     render() {
         const {
-            recipe, userRecipe, possibleSubstitues, showSubstiutesFor,
+            recipe, userRecipe, possibleSubstitues, showSubstiutesFor, message, messageType,
         } = this.state;
         const lastClient = userRecipe ? userRecipe.client.clientId : undefined;
 
@@ -188,7 +215,7 @@ class CookingContainer extends React.Component {
             ? lodash.cloneDeep( possibleSubstitues )
             : undefined;
 
-        // console.log( substitutableIngredients );
+        const SuccessMessage = message ? this.renderMessage( message, messageType ) : null;
 
         return (
             <React.Fragment>
@@ -205,6 +232,7 @@ class CookingContainer extends React.Component {
                             recipe={displayableRecipe}
                             onClickIngredient={this.onClickIngredient}
                             substitutableIngredients={substitutableIngredients}
+                            Message={SuccessMessage}
                         />
                     )
                     : this.renderLoading()
