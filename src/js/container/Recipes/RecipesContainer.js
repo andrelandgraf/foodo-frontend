@@ -9,7 +9,6 @@ import i18n from 'i18next';
 import { KEYS } from '../../utilities/internationalization/internationalization';
 
 import { AUTH_ROUTES } from '../App/App';
-import { getRecipes } from '../../services/foodo-api/recipe/recipesService';
 import Message, { MESSAGE_TYPES } from '../../components/message/message';
 
 class RecipesContainer extends React.Component {
@@ -24,15 +23,10 @@ class RecipesContainer extends React.Component {
         const messageType = userPickedGoal ? undefined : MESSAGE_TYPES.WARNING;
 
         this.state = {
-            recipes: [],
             selectedId: undefined,
             message,
             messageType,
         };
-    }
-
-    componentWillMount = () => {
-        getRecipes().then( recipes => this.setState( { recipes } ) );
     }
 
     onSelectRecipe = ( recipe ) => {
@@ -62,9 +56,8 @@ class RecipesContainer extends React.Component {
     renderRedirect = id => <Redirect push to={`${ AUTH_ROUTES.COOKING }${ id }`} />
 
     render() {
-        const {
-            recipes, selectedId, message, messageType,
-        } = this.state;
+        const { selectedId, message, messageType } = this.state;
+        const { recipes } = this.props;
         const possibleRecipes = this.mapRecipesToDataListInput( lodash.cloneDeep( recipes ) );
         if ( selectedId ) {
             return this.renderRedirect( selectedId );
@@ -101,6 +94,12 @@ RecipesContainer.propTypes = {
             _id: PropTypes.string.isRequired,
         } ),
     } ).isRequired,
+    recipes: PropTypes.arrayOf(
+        PropTypes.shape( {
+            name: PropTypes.string.isRequired,
+            _id: PropTypes.string.isRequired,
+        } ),
+    ).isRequired,
 };
 
 export default RecipesContainer;

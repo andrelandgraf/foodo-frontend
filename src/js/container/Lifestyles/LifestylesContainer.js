@@ -1,32 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import DataListInput from 'react-datalist-input';
 import lodash from 'lodash';
 import i18n from 'i18next';
 
-import { getLifestyles, postLifestyle } from '../../services/foodo-api/user/profileService';
+import { postLifestyle } from '../../services/foodo-api/user/profileService';
 
 import { KEYS } from '../../utilities/internationalization/internationalization';
 import { UserStateContext } from '../../provider/UserStateProvider';
 
 class LifestylesContainer extends React.Component {
-    constructor( props ) {
-        super( props );
-
-        this.state = {
-            lifestyles: [],
-            lifestyle: {},
-        };
-    }
-
-    componentWillMount = () => {
-        const { user } = this.context;
-        const { lifestyle } = user;
-        const userLifestyle = lifestyle ? lodash.cloneDeep( lifestyle ) : {};
-
-        getLifestyles()
-            .then( lifestyles => this.setState( { lifestyles, lifestyle: userLifestyle } ) );
-    }
-
     updateUser = ( newLifestyle ) => {
         const { user, setUser } = this.context;
         const updatedUser = lodash.cloneDeep( user );
@@ -35,14 +18,12 @@ class LifestylesContainer extends React.Component {
     }
 
     onSelect = ( item ) => {
-        const { lifestyle } = this.state;
-        if ( item._id === lifestyle._id ) return;
+        const { user } = this.context;
+        const { lifestyle } = user;
+        if ( lifestyle && lifestyle._id === item._id ) return;
 
         const newLifestyle = lodash.cloneDeep( item );
-        this.setState( { lifestyle: newLifestyle } );
-
         postLifestyle( { name: newLifestyle.name, _id: newLifestyle._id } );
-
         this.updateUser( newLifestyle );
     }
 
@@ -54,8 +35,12 @@ class LifestylesContainer extends React.Component {
         } ) );
 
     render() {
-        const { lifestyle, lifestyles } = this.state;
+        const { user } = this.context;
+        const { lifestyles } = this.props;
+
+        const lifestyle = user.lifestyle ? lodash.cloneDeep( user.lifestyle ) : {};
         const clonedLifestyles = lodash.cloneDeep( lifestyles );
+
         const possibleMatches = this.mapLifestylesToKeyLabelPairs( clonedLifestyles );
 
         return (
@@ -81,5 +66,14 @@ class LifestylesContainer extends React.Component {
 }
 
 LifestylesContainer.contextType = UserStateContext;
+
+LifestylesContainer.propTypes = {
+    lifestyles: PropTypes.arrayOf(
+        PropTypes.shape( {
+            name: PropTypes.string.isRequired,
+            _id: PropTypes.string.isRequired,
+        } ),
+    ).isRequired,
+};
 
 export default LifestylesContainer;

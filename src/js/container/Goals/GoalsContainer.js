@@ -1,31 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import DataListInput from 'react-datalist-input';
 import lodash from 'lodash';
 import i18n from 'i18next';
 
-import { postGoal, getGoals } from '../../services/foodo-api/user/profileService';
+import { postGoal } from '../../services/foodo-api/user/profileService';
 
 import { KEYS } from '../../utilities/internationalization/internationalization';
 import { UserStateContext } from '../../provider/UserStateProvider';
 
 class GoalsContainer extends React.Component {
-    constructor( props ) {
-        super( props );
-
-        this.state = {
-            goals: [],
-            goal: {},
-        };
-    }
-
-    componentWillMount = () => {
-        const { user } = this.context;
-        const { goal } = user;
-        const userGoal = goal ? lodash.cloneDeep( goal ) : {};
-
-        getGoals().then( goals => this.setState( { goals, goal: userGoal } ) );
-    }
-
     updateUser = ( newGoal ) => {
         const { user, setUser } = this.context;
         const updatedUser = lodash.cloneDeep( user );
@@ -34,14 +18,12 @@ class GoalsContainer extends React.Component {
     }
 
     onSelect = ( item ) => {
-        const { goal } = this.state;
-        if ( item._id === goal._id ) return;
+        const { user } = this.context;
+        const { goal } = user;
+        if ( goal && goal._id === item._id ) return;
 
         const newGoal = lodash.cloneDeep( item );
-        this.setState( { goal: newGoal } );
-
         postGoal( { name: newGoal.name, _id: newGoal._id } );
-
         this.updateUser( newGoal );
     }
 
@@ -53,9 +35,14 @@ class GoalsContainer extends React.Component {
         } ) );
 
     render() {
-        const { goal, goals } = this.state;
+        const { user } = this.context;
+        const { goals } = this.props;
+
+        const goal = user.goal ? lodash.cloneDeep( user.goal ) : {};
         const clonedGoals = lodash.cloneDeep( goals );
+
         const possibleMatches = this.mapGoalsToKeyLabelPairs( clonedGoals );
+
         return (
             <div className="dislikes-container">
                 <h2>{i18n.t( KEYS.HEADERS.GOALS_SELECTION )}</h2>
@@ -79,5 +66,14 @@ class GoalsContainer extends React.Component {
 }
 
 GoalsContainer.contextType = UserStateContext;
+
+GoalsContainer.propTypes = {
+    goals: PropTypes.arrayOf(
+        PropTypes.shape( {
+            name: PropTypes.string.isRequired,
+            _id: PropTypes.string.isRequired,
+        } ),
+    ).isRequired,
+};
 
 export default GoalsContainer;
