@@ -10,6 +10,7 @@ import HomeView from '../../views/homeView';
 import ProfileView from '../../views/profileView';
 import CookingView from '../../views/cookingView';
 import NotFoundView from '../../views/notFoundView';
+import PasswordView from '../../views/passwordView';
 import AdminView from '../../views/adminView';
 import LoginContainer from '../Login/LoginContainer';
 import RegistrationContainer from '../Registration/RegistrationContainer';
@@ -17,7 +18,6 @@ import OAuthContainer from '../OAuth/OAuthContainer';
 import Loader from '../../components/loading/loader';
 
 import { isAuthenticated, getUser, logUserOut } from '../../services/foodo-api/user/userService';
-import PasswordView from '../../views/passwordView';
 import { IngredientsProvider } from '../../provider/IngredientsProvider';
 import { GoalsLifestylesProvider } from '../../provider/GoalsLifestylesProvider';
 import { AllergiesProvider } from '../../provider/AllergiesProvider';
