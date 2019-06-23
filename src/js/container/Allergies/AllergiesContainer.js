@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import DataListInput from 'react-datalist-input';
 import lodash from 'lodash';
 import i18n from 'i18next';
 
 import { KEYS } from '../../utilities/internationalization/internationalization';
 
-import { getAllergies, putAllergy, deleteAllergy } from '../../services/foodo-api/user/profileService';
+import { putAllergy, deleteAllergy } from '../../services/foodo-api/user/profileService';
 
 import { UserStateContext } from '../../provider/UserStateProvider';
 import Tags from '../../components/tags/tags';
@@ -15,20 +16,15 @@ class AllergiesContainer extends React.Component {
         super( props );
 
         this.state = {
-            possibleAllergies: [],
             allergies: [],
         };
     }
 
-    componentWillMount = async () => {
+    componentDidMount = async () => {
         const { user } = this.context;
         const { allergies } = user;
         const userAllergies = lodash.cloneDeep( allergies );
-
-        getAllergies()
-            .then( possibleAllergies => this.setState(
-                { possibleAllergies, allergies: userAllergies },
-            ) );
+        this.setState( { allergies: userAllergies } );
     }
 
     updateUser = ( updatedAllergies ) => {
@@ -75,7 +71,8 @@ class AllergiesContainer extends React.Component {
         } ) );
 
     render() {
-        const { allergies, possibleAllergies } = this.state;
+        const { allergies } = this.state;
+        const { allergies: possibleAllergies } = this.props;
 
         const clonedPossibleAllergies = lodash.cloneDeep( possibleAllergies );
         let possibleMatches = this.removeAlreadySelectedItems( allergies, clonedPossibleAllergies );
@@ -110,5 +107,14 @@ class AllergiesContainer extends React.Component {
 }
 
 AllergiesContainer.contextType = UserStateContext;
+
+AllergiesContainer.propTypes = {
+    allergies: PropTypes.arrayOf(
+        PropTypes.shape( {
+            name: PropTypes.string.isRequired,
+            _id: PropTypes.string.isRequired,
+        } ),
+    ).isRequired,
+};
 
 export default AllergiesContainer;
