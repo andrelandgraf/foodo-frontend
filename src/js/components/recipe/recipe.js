@@ -1,13 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import i18n from 'i18next';
+
+import { KEYS } from '../../utilities/internationalization/internationalization';
 
 import hourglass from '../../../img/hourglass.svg';
 import IngredientsTable from './elements/ingredientsTable';
 import NutritionTable from './elements/nutritionTable';
 
 const Recipe = ( {
-    // eslint-disable-next-line no-unused-vars
-    recipe, substitutableIngredients, onClickIngredient, lastClient,
+    recipe, substitutableIngredients, onClickIngredient, lastClient, Message,
 } ) => (
     <div className="recipe">
         <div className="center">
@@ -21,9 +23,10 @@ const Recipe = ( {
                 {recipe.preparationTime}
                 min
             </span>
-            <p>{ lastClient && `[recipe updated with ${ lastClient }]`}</p>
+            <p>{ lastClient && `[${ i18n.t( KEYS.LABELS.EDITED_WITH ) } ${ lastClient }]`}</p>
         </div>
         <img src={recipe.imgUrl} alt={recipe.name} className="recipePic" />
+        { Message }
         <div className="recipe-tables-container">
             <IngredientsTable
                 ingredients={recipe.ingredients}
@@ -59,10 +62,12 @@ Recipe.propTypes = {
     substitutableIngredients: PropTypes.arrayOf(
         PropTypes.string,
     ).isRequired,
+    Message: PropTypes.node,
 };
 
 Recipe.defaultProps = {
     lastClient: '',
+    Message: null,
 };
 
 export default Recipe;

@@ -12,8 +12,10 @@ export const MESSAGE_TYPES = {
     INFO: 'info',
 };
 
-const Message = ( { type, text, onResolve } ) => (
-    <div className={`box message-box ${ type }-message`}>
+const Message = ( {
+    type, text, onResolve, classes,
+} ) => (
+    <div className={`box message-box ${ type }-message ${ classes }`}>
         <span>{ text }</span>
         <ImageButton id="dismiss-message" alt="dismiss message" src={Cancel} onClick={onResolve} />
     </div>
@@ -26,10 +28,12 @@ Message.propTypes = {
     ] ).isRequired,
     type: PropTypes.string,
     onResolve: PropTypes.func.isRequired,
+    classes: PropTypes.string,
 };
 
 Message.defaultProps = {
     type: 'info',
+    classes: '',
 };
 
 export default Message;
