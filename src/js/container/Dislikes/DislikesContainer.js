@@ -1,11 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import DataListInput from 'react-datalist-input';
 import lodash from 'lodash';
 import i18n from 'i18next';
 
 import { KEYS, getLocale } from '../../utilities/internationalization/internationalization';
 
-import { getIngredients } from '../../services/foodo-api/ingredient/ingredientsService';
 import { putDislike, deleteDislike } from '../../services/foodo-api/user/profileService';
 
 import { UserStateContext } from '../../provider/UserStateProvider';
@@ -16,20 +16,15 @@ class DislikesContainer extends React.Component {
         super( props );
 
         this.state = {
-            foodItems: [],
             dislikes: [],
         };
     }
 
-    componentWillMount = async () => {
+    componentDidMount = async () => {
         const { user } = this.context;
         const { dislikes } = user;
         const userDislikes = lodash.cloneDeep( dislikes );
-
-        getIngredients()
-            .then( ingredients => this.setState(
-                { foodItems: ingredients, dislikes: userDislikes },
-            ) );
+        this.setState( { dislikes: userDislikes } );
     }
 
     updateUser = ( updatedDislikes ) => {
@@ -75,7 +70,9 @@ class DislikesContainer extends React.Component {
         } ) );
 
     render() {
-        const { dislikes, foodItems } = this.state;
+        const { dislikes } = this.state;
+        const { ingredientsContext } = this.props;
+        const foodItems = ingredientsContext.ingredients;
 
         const clonedFoodItems = lodash.cloneDeep( foodItems );
         let possibleMatches = this.removeAlreadySelectedItems( dislikes, clonedFoodItems );
@@ -111,5 +108,19 @@ class DislikesContainer extends React.Component {
 }
 
 DislikesContainer.contextType = UserStateContext;
+
+DislikesContainer.propTypes = {
+    ingredientsContext: PropTypes.shape( {
+        ingredients: PropTypes.arrayOf(
+            PropTypes.shape( {
+                name: PropTypes.shape( {
+                    en: PropTypes.string,
+                    de: PropTypes.string,
+                } ).isRequired,
+                _id: PropTypes.string.isRequired,
+            } ),
+        ).isRequired,
+    } ).isRequired,
+};
 
 export default DislikesContainer;

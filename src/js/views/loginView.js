@@ -9,7 +9,7 @@ const LoginView = ( {
 } ) => (
     <div className="container login-container">
         <h1>{pageName}</h1>
-        { Message }
+        {Message}
         <LoginForm
             actionName={actionName}
             username={username}
