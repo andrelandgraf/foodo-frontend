@@ -26,7 +26,7 @@ class CookingContainer extends React.Component {
         };
     }
 
-    componentWillMount = () => {
+    componentDidMount = () => {
         const { id } = this.props;
         const { user } = this.context;
 
