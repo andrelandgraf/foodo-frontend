@@ -93,6 +93,7 @@ class DislikesContainer extends React.Component {
                         placeholder={i18n.t( KEYS.LABELS.DISLIKES_PLACEHOLDER )}
                         onSelect={this.onSelect}
                         dropDownLength={10}
+                        requiredInputLength={1}
                         inputClassName="datalist-input-input"
                         dropdownClassName="datalist-input-dropdown"
                         itemClassName="datalist-input-item"
