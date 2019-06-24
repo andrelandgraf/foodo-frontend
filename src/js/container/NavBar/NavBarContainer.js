@@ -16,7 +16,6 @@ class NavBarContainer extends React.Component {
 
         this.state = {
             prefMenuOpen: false,
-            prefWillRerender: false,
         };
 
         window.addEventListener( 'click', this.onClickCloseMenu, false );
@@ -25,8 +24,6 @@ class NavBarContainer extends React.Component {
     componentWillUnmount = () => {
         window.removeEventListener( 'click', this.onClickCloseMenu );
     }
-
-    registerRerender = () => this.setState( { prefWillRerender: true } )
 
     onClickPreferenceItem = () => {
         this.setState( ( { prefMenuOpen } ) => ( { prefMenuOpen: !prefMenuOpen } ) );
@@ -37,25 +34,14 @@ class NavBarContainer extends React.Component {
     }
 
     onClickCloseMenu = ( event ) => {
-        const menu = document.getElementsByClassName( 'preferences-menu' );
-        const button = document.getElementById( 'preferences-navbar-button' );
-        if ( !menu || !menu.length ) return;
-        // if rerender, items inside might change, allow one click without further checking
-        const { prefWillRerender } = this.state;
-        if ( prefWillRerender ) {
-            this.setState( { prefWillRerender: false } );
-            return;
-        }
+        const { prefMenuOpen } = this.state;
         // do not do anything if prefButton is clicked, as we have a dedicated func for that
+        const button = document.getElementById( 'preferences-navbar-button' );
         const targetIsPrefButton = event.target.id === 'preferences-navbar-button';
         const targetInPrefButton = button && button.contains( event.target );
         if ( targetIsPrefButton || targetInPrefButton ) return;
-        // do not close menu if user clicked inside
-        const targetInMenu = menu[ 0 ].contains( event.target );
-        const targetIsMenu = event.target === menu[ 0 ];
-        const { prefMenuOpen } = this.state;
-        if ( prefMenuOpen && ( !targetInMenu && !targetIsMenu ) ) {
-            this.setState( { prefMenuOpen: false } );
+        if ( prefMenuOpen ) {
+            this.closePreferenceMenu();
         }
     }
 
@@ -115,7 +101,6 @@ class NavBarContainer extends React.Component {
                 { prefMenuOpen
                     ? (
                         <PreferencesMenuContainer
-                            registerRerender={this.registerRerender}
                             closeMenu={this.closePreferenceMenu}
                         />
                     )
