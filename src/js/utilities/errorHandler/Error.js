@@ -1,43 +1,49 @@
+function configureStackTrace( objectRef, className ) {
+    if ( Error.captureStackTrace ) {
+        Error.captureStackTrace( objectRef, className );
+    }
+}
+
 export class CustomError extends Error {
     isCustomError = true;
 
     constructor( ...args ) {
         super( ...args );
-        Error.captureStackTrace( this, CustomError );
+        configureStackTrace( this, CustomError );
     }
 }
 
 export class ServerNotReachableError extends CustomError {
     constructor( ...args ) {
         super( ...args );
-        Error.captureStackTrace( this, ServerNotReachableError );
+        configureStackTrace( this, ServerNotReachableError );
     }
 }
 
 export class NotAuthorizedError extends CustomError {
     constructor( ...args ) {
         super( ...args );
-        Error.captureStackTrace( this, NotAuthorizedError );
+        configureStackTrace( this, NotAuthorizedError );
     }
 }
 
 export class WrongCredentialsError extends CustomError {
     constructor( ...args ) {
         super( ...args );
-        Error.captureStackTrace( this, WrongCredentialsError );
+        configureStackTrace( this, WrongCredentialsError );
     }
 }
 
 export class UsernameAlreadyTakenError extends CustomError {
     constructor( ...args ) {
         super( ...args );
-        Error.captureStackTrace( this, UsernameAlreadyTakenError );
+        configureStackTrace( this, UsernameAlreadyTakenError );
     }
 }
 
 export class RequestParameterMissingError extends CustomError {
     constructor( ...args ) {
         super( ...args );
-        Error.captureStackTrace( this, RequestParameterMissingError );
+        configureStackTrace( this, RequestParameterMissingError );
     }
 }

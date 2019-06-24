@@ -27,6 +27,16 @@ a {
   text-decoration: none;
 }
 
+title {
+  color: $primary-color;
+  font-size: 40px;
+  font-weight: $font-weight-semi-bold;
+  margin: 20px;
+  @media screen and (max-width: $phone-width) {
+    margin: 15px 5px;
+  }
+}
+
 h1 {
   color: $white;
   font-size: $font-size-xxl;
@@ -45,6 +55,15 @@ h2 {
   margin: 20px;
   @media screen and (max-width: $phone-width) {
     margin: 15px 5px;
+  }
+}
+
+h3 {
+  @extend h2;
+  font-size: 42px;
+  font-weight: $font-weight-bold;
+  @media screen and (max-width: $phone-width) {
+    font-size: 32px;
   }
 }
 

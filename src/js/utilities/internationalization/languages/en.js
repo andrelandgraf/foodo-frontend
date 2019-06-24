@@ -38,6 +38,7 @@ const enLabels = {
     USERNAME: 'Username',
     PASSWORD: 'Password',
     CHANGE: 'Change',
+    NONE: 'None',
     PREFERENCES: 'Preferences',
     LANGUAGES: 'Languages',
     LANGUAGE: '$t(LANGUAGES)',

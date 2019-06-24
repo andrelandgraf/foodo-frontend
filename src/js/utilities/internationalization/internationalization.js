@@ -38,6 +38,7 @@ export const KEYS = {
         USERNAME: 'USERNAME',
         PASSWORD: 'PASSWORD',
         CHANGE: 'CHANGE',
+        NONE: 'NONE',
         PREFERENCES: 'PREFERENCES',
         LANGUAGES: 'LANGUAGES',
         LANGUAGE: 'LANGUAGE',

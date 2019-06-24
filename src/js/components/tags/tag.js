@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import Cancel from '../../../img/cancel.svg';
@@ -6,24 +6,33 @@ import Cancel from '../../../img/cancel.svg';
 import CustomButton from '../button/customButton';
 import ImageButton from '../button/imageButton';
 
-const Tag = ( { tag, onDelete, onClick } ) => (
-    <div className="tag">
-        <CustomButton
-            onClick={onClick ? () => onClick( tag.key ) : undefined}
-            id={`tag-click-${ tag.key }`}
-        >
-            <span>
-                {tag.label}
-            </span>
-        </CustomButton>
-        <ImageButton
-            id={`tag-delete-${ tag.key }`}
-            onClick={() => onDelete( tag.key )}
-            src={Cancel}
-            alt="Remove Dislike"
-        />
-    </div>
-);
+function Tag( { tag, onDelete, onClick } ) {
+    const onClickTagCallback = useCallback(
+        () => onClick && onClick( tag ), [ tag, onClick ],
+    );
+    const onClickDeleteCallback = useCallback(
+        () => onDelete && onDelete( tag.key ), [ tag, onDelete ],
+    );
+
+    return (
+        <div className="tag">
+            <CustomButton
+                onClick={onClickTagCallback}
+                id={`tag-click-${ tag.key }`}
+            >
+                <span>
+                    {tag.label}
+                </span>
+            </CustomButton>
+            <ImageButton
+                id={`tag-delete-${ tag.key }`}
+                onClick={onClickDeleteCallback}
+                src={Cancel}
+                alt="Remove Tag"
+            />
+        </div>
+    );
+}
 
 Tag.propTypes = {
     tag: PropTypes.shape( {
@@ -33,12 +42,13 @@ Tag.propTypes = {
             PropTypes.number,
         ] ).isRequired,
     } ).isRequired,
-    onDelete: PropTypes.func.isRequired,
+    onDelete: PropTypes.func,
     onClick: PropTypes.func,
 };
 
 Tag.defaultProps = {
     onClick: undefined,
+    onDelete: undefined,
 };
 
 export default Tag;
