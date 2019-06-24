@@ -85,8 +85,7 @@ class AllergiesContainer extends React.Component {
             <div className="dislikes-container">
                 <h2>{i18n.t( KEYS.HEADERS.ALLERGIES_SELECTION )}</h2>
                 {
-                    allergies.length > 0
-                    && <Tags tags={displayableAllergies} onDelete={this.onDelete} />
+                    <Tags tags={displayableAllergies} onDelete={this.onDelete} showNoneTag />
                 }
                 <div className="input-container">
                     <DataListInput

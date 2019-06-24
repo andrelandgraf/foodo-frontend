@@ -147,7 +147,7 @@ class CookingContainer extends React.Component {
 
 
     renderLoading = () => (
-        <Loader />
+        <Loader key="lodaing-substitues" />
     );
 
     renderMessage = ( message, messageType ) => (
@@ -188,7 +188,7 @@ class CookingContainer extends React.Component {
         >
             { displayableSubstitutes
                 ? this.renderPossibleSubstitutes( displayableSubstitutes, selectedIngredient )
-                : this.renderLoading()
+                : [ this.renderLoading() ]
             }
         </Modal>
     )
