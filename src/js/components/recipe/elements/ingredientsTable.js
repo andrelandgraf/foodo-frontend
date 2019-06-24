@@ -27,7 +27,7 @@ const IngredientsTable = ( { ingredients, substitutableIngredients, onClickIngre
                                     ? (
                                         <Button
                                             onClick={() => onClickIngredient( ingredient )}
-                                            text="Substiute"
+                                            text="Substitute"
                                         />
                                     )
                                     : null
