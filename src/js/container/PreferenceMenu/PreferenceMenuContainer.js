@@ -32,8 +32,6 @@ class PreferencesMenuContainer extends React.Component {
     }
 
     setTitle = ( title ) => {
-        const { registerRerender } = this.props;
-        registerRerender();
         this.setState( { title } );
     }
 
@@ -118,16 +116,21 @@ class PreferencesMenuContainer extends React.Component {
         }
 
         return (
-            <ul className="preferences-menu">
-                { this.renderMenu( title, closeMenu ) }
-            </ul>
+            <div
+                onClick={event => event.stopPropagation()}
+                role="presentation"
+            >
+                <ul className="preferences-menu">
+                    { this.renderMenu( title, closeMenu ) }
+                </ul>
+            </div>
+
         );
     }
 }
 
 PreferencesMenuContainer.propTypes = {
     closeMenu: PropTypes.func.isRequired,
-    registerRerender: PropTypes.func.isRequired,
 };
 
 export default PreferencesMenuContainer;
