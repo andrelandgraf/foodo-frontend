@@ -51,6 +51,7 @@
             grid-template-columns: auto auto auto auto;
             row-gap: 10px;
             column-gap: 2px;
+            word-wrap: break-word;
 
             &-amount {
                 text-align: right;
@@ -58,6 +59,10 @@
 
             div {
                 margin-left: 20px;
+                @media screen and (max-width: $phone-width) {
+                    margin-left: auto;
+                }
+
             }
         }
 
