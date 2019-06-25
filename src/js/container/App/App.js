@@ -22,19 +22,22 @@ import { IngredientsProvider } from '../../provider/IngredientsProvider';
 import { GoalsLifestylesProvider } from '../../provider/GoalsLifestylesProvider';
 import { AllergiesProvider } from '../../provider/AllergiesProvider';
 import { RecipesProvider } from '../../provider/RecipesProvider';
+import AboutView from '../../views/aboutView';
 
 export const AUTH_ROUTES = {
     HOME: '/',
     PROFILE: '/profile',
     COOKING: '/cooking/',
     ADMIN: '/admin',
-    OAUTH: '/oauth/v2/login',
     PASSWORD: '/password',
+    ABOUT: '/about',
+    OAUTH: '/oauth/v2/login',
 };
 
 export const NONAUTH_ROUTES = {
     LOGIN: '/login',
     REGISTER: '/register',
+    ABOUT: '/about',
     OAUTH: '/oauth/v2/login',
 };
 
@@ -91,6 +94,7 @@ class App extends React.Component {
                 component={PasswordView}
             />
             <Route from={AUTH_ROUTES.ADMIN} component={AdminView} />
+            <Route from={AUTH_ROUTES.ABOUT} component={AboutView} />
             <Route from={AUTH_ROUTES.OAUTH} component={OAuthContainer} />
             <Redirect from={NONAUTH_ROUTES.LOGIN} to={window.sessionStorage.getItem( 'redirectUrl' )} />
             <Redirect from={NONAUTH_ROUTES.REGISTER} to={window.sessionStorage.getItem( 'redirectUrl' )} />
@@ -131,6 +135,7 @@ class App extends React.Component {
                         <RegistrationContainer {...props} setUser={setUser} />
                     )}
                 />
+                <Route from={AUTH_ROUTES.ABOUT} component={AboutView} />
                 <Route from={NONAUTH_ROUTES.OAUTH} component={OAuthContainer} />
                 <Redirect path="*" to={NONAUTH_ROUTES.LOGIN} />
             </Switch>

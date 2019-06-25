@@ -20,6 +20,7 @@ const deLabels = {
     HOME: 'Home',
     MY_PROFILE: 'Mein Profil',
     PROFILE: 'Profil',
+    ABOUT: 'Über uns',
     SELECT_RECIPE_PLACEHOLDER: 'Such dir ein Rezept aus...',
     ALLERGIES_PLACEHOLDER: 'Wähle deine Allergien...',
     DISLIKES_PLACEHOLDER: 'Wähle, was dir nicht schmeckt...',

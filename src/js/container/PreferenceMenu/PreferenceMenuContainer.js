@@ -15,8 +15,10 @@ import Title from '../../components/preferences/title';
 import Language from '../../components/preferences/language';
 import LogoutContainer from '../Logout/LogoutContainer';
 import Logout from '../../components/preferences/logout';
+import About from '../../components/preferences/about';
 import Password from '../../components/preferences/password';
 import { AUTH_ROUTES } from '../App/App';
+
 
 const MAIN_MENU = i18n.t( KEYS.LABELS.PREFERENCES );
 const LANG_MENU = i18n.t( KEYS.LABELS.LANGUAGES );
@@ -28,6 +30,7 @@ class PreferencesMenuContainer extends React.Component {
         this.state = {
             title: MAIN_MENU,
             clickedPW: false,
+            clickedAbout: false,
         };
     }
 
@@ -36,6 +39,8 @@ class PreferencesMenuContainer extends React.Component {
     }
 
     onClickPassword = () => this.setState( { clickedPW: true } );
+
+    onClickAbout = () => this.setState( { clickedAbout: true } )
 
     onSelectLocale = async ( locale ) => {
         if ( isAuthenticated() ) {
@@ -76,6 +81,9 @@ class PreferencesMenuContainer extends React.Component {
                 <Password onClickPassword={this.onClickPassword} loggedIn={isAuthenticated()} />
             </li>
             <li className="item">
+                <About onClickAbout={this.onClickAbout} />
+            </li>
+            <li className="item">
                 <LogoutContainer onWillLogout={closeMenu} LogoutComponent={Logout} />
             </li>
         </React.Fragment>
@@ -107,11 +115,17 @@ class PreferencesMenuContainer extends React.Component {
 
     render() {
         const { closeMenu } = this.props;
-        const { title, clickedPW } = this.state;
+        const { title, clickedPW, clickedAbout } = this.state;
 
         if ( clickedPW ) {
             return (
                 <Redirect push to={AUTH_ROUTES.PASSWORD} />
+            );
+        }
+
+        if ( clickedAbout ) {
+            return (
+                <Redirect push to={AUTH_ROUTES.ABOUT} />
             );
         }
 

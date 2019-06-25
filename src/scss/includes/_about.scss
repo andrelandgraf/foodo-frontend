@@ -1,0 +1,37 @@
+.about {
+    width: 100%;
+    overflow: hidden;
+
+    &-page-1 {
+        height: 100vh;
+        background-image: url(http://www.zuckerzimtundliebe.de/wp-content/uploads/2016/01/Moehrensupperezept-7.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+
+        display: flex;
+        justify-content: center;
+
+        &-title-box {
+            position: absolute;
+            top: 25vh;
+            text-align: center;
+            background-color: $light-black;
+            opacity: 0.7;
+            width: 50%;
+            @media screen and (max-width: $phone-width) {
+                width: 90vw;
+            }
+
+            &-title {
+                margin: auto;
+                z-index: 1;
+                opacity: 1;
+                font-size: 120px;
+                filter: brightness(1.8);
+                @media screen and (max-width: $phone-width) {
+                    font-size: 60px;
+                }
+            }
+        }
+    }
+}
