@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
     BrowserRouter as Router, Route, Redirect, Switch,
 } from 'react-router-dom';
@@ -12,6 +12,7 @@ import CookingView from '../../views/cookingView';
 import NotFoundView from '../../views/notFoundView';
 import PasswordView from '../../views/passwordView';
 import AdminView from '../../views/adminView';
+import AboutContainer from '../About/AboutContainer';
 import LoginContainer from '../Login/LoginContainer';
 import RegistrationContainer from '../Registration/RegistrationContainer';
 import OAuthContainer from '../OAuth/OAuthContainer';
@@ -22,7 +23,6 @@ import { IngredientsProvider } from '../../provider/IngredientsProvider';
 import { GoalsLifestylesProvider } from '../../provider/GoalsLifestylesProvider';
 import { AllergiesProvider } from '../../provider/AllergiesProvider';
 import { RecipesProvider } from '../../provider/RecipesProvider';
-import AboutView from '../../views/aboutView';
 
 export const AUTH_ROUTES = {
     HOME: '/',
@@ -41,37 +41,31 @@ export const NONAUTH_ROUTES = {
     OAUTH: '/oauth/v2/login',
 };
 
-class App extends React.Component {
-    componentDidMount = async () => {
-        const { user, setUser } = this.context;
-        // in case of page reload, we still hold token but need to get user again
-        if ( isAuthenticated() && !user ) this.getUser( setUser );
-    }
+function App() {
+    const { user, setUser } = useContext( UserStateContext );
 
-    pathInZone = ( path, zone ) => Object
+    useEffect( () => {
+        if ( isAuthenticated() && !user ) {
+            // in case of page reload, we still hold token but need to get user again
+            getUser()
+                .then( retrievedUser => setUser( retrievedUser ) )
+                .catch( () => {
+                    // in case of error, relocate to login and retrieve new token
+                    logUserOut();
+                    setUser( undefined );
+                } );
+        }
+    }, [] );
+
+    const pathInZone = ( path, zone ) => Object
         .keys( zone )
         .find( key => zone[ key ].startsWith( path ) );
 
-    scrollToTop = () => {
-        window.scrollTo( 0, 0 );
-        return null;
-    };
-
-    getUser = ( setUser ) => {
-        getUser()
-            .then( retrievedUser => setUser( retrievedUser ) )
-            .catch( () => {
-                // in case of error, relocate to login and retrieve new token
-                logUserOut();
-                setUser( undefined );
-            } );
-    }
-
-    renderAppLoading = () => (
+    const renderAppLoading = () => (
         <Loader />
     );
 
-    renderApp = user => (
+    const renderApp = () => (
         <Switch>
             <Route
                 exact
@@ -94,7 +88,7 @@ class App extends React.Component {
                 component={PasswordView}
             />
             <Route from={AUTH_ROUTES.ADMIN} component={AdminView} />
-            <Route from={AUTH_ROUTES.ABOUT} component={AboutView} />
+            <Route from={AUTH_ROUTES.ABOUT} component={AboutContainer} />
             <Route from={AUTH_ROUTES.OAUTH} component={OAuthContainer} />
             <Redirect from={NONAUTH_ROUTES.LOGIN} to={window.sessionStorage.getItem( 'redirectUrl' )} />
             <Redirect from={NONAUTH_ROUTES.REGISTER} to={window.sessionStorage.getItem( 'redirectUrl' )} />
@@ -102,7 +96,7 @@ class App extends React.Component {
         </Switch>
     );
 
-    renderAuthenticatedApp = user => (
+    const renderAuthenticatedApp = () => (
         <React.Fragment>
             <NavBarContainer loggedIn />
             <RecipesProvider>
@@ -110,7 +104,7 @@ class App extends React.Component {
                     <GoalsLifestylesProvider>
                         <AllergiesProvider>
                             {
-                                user ? this.renderApp( user ) : this.renderAppLoading()
+                                user ? renderApp() : renderAppLoading()
                             }
                         </AllergiesProvider>
                     </GoalsLifestylesProvider>
@@ -119,7 +113,7 @@ class App extends React.Component {
         </React.Fragment>
     );
 
-    renderNotAuthenticatedApp = setUser => (
+    const renderNotAuthenticatedApp = () => (
         <React.Fragment>
             <NavBarContainer loggedIn={false} />
             <Switch>
@@ -135,37 +129,32 @@ class App extends React.Component {
                         <RegistrationContainer {...props} setUser={setUser} />
                     )}
                 />
-                <Route from={AUTH_ROUTES.ABOUT} component={AboutView} />
+                <Route from={AUTH_ROUTES.ABOUT} component={AboutContainer} />
                 <Route from={NONAUTH_ROUTES.OAUTH} component={OAuthContainer} />
                 <Redirect path="*" to={NONAUTH_ROUTES.LOGIN} />
             </Switch>
         </React.Fragment>
-    )
+    );
 
-    render() {
-        const { user, setUser } = this.context;
-
-        if ( !isAuthenticated() ) {
-            let redirectUrl = window.location.pathname;
-            const isValid = this.pathInZone( redirectUrl, AUTH_ROUTES );
-            if ( !isValid ) {
-                redirectUrl = '/';
-            }
-            window.sessionStorage.setItem( 'redirectUrl', redirectUrl );
+    if ( !isAuthenticated() ) {
+        let redirectUrl = window.location.pathname;
+        const isValid = pathInZone( redirectUrl, AUTH_ROUTES );
+        if ( !isValid ) {
+            redirectUrl = '/';
         }
-        return (
-            <Router>
-                <div>
-                    { isAuthenticated()
-                        ? this.renderAuthenticatedApp( user )
-                        : this.renderNotAuthenticatedApp( setUser )
-                    }
-                </div>
-            </Router>
-        );
+        window.sessionStorage.setItem( 'redirectUrl', redirectUrl );
     }
-}
 
-App.contextType = UserStateContext;
+    return (
+        <Router>
+            <div>
+                { isAuthenticated()
+                    ? renderAuthenticatedApp()
+                    : renderNotAuthenticatedApp()
+                }
+            </div>
+        </Router>
+    );
+}
 
 export default App;
