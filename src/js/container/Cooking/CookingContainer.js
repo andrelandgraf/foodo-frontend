@@ -73,7 +73,7 @@ function CookingContainer( { id } ) {
     );
 
     const substiuteIndexInRecipe = ( substitute, r ) => r.ingredients
-        .findIndex( ingredient => ingredient.ingredient._id === substitute._id );
+        .findIndex( ingredient => ingredient.ingredient._id === substitute.key );
 
     const onSelectSubstiute = ( substitue ) => {
         const newIngredient = {
