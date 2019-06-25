@@ -13,7 +13,7 @@ const Recipe = ( {
 } ) => (
     <div className="recipe">
         <div className="center">
-            <h2>{ recipe.name }</h2>
+            <h3>{ recipe.name }</h3>
             <span className="recipe-preparation-time">
                 <img
                     src={hourglass}

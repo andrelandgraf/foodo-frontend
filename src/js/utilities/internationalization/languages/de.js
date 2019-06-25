@@ -31,6 +31,7 @@ const deLabels = {
     USERNAME: 'Benutzername',
     PASSWORD: 'Passwort',
     CHANGE: 'Ändern',
+    NONE: 'Keine',
     PREFERENCES: 'Präferenzen',
     LANGUAGES: 'Sprachen',
     LANGUAGE: 'Sprache',
