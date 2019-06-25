@@ -67,6 +67,13 @@ class NavBarContainer extends React.Component {
     ];
 
     renderNotAuthenticatedNavBarItems = () => [
+        <NavBarItem
+            key="about"
+            label={i18n.t( KEYS.LABELS.ABOUT )}
+            link={NONAUTH_ROUTES.ABOUT}
+            float="left"
+            hideOnMobile
+        />,
         <PreferenceItem
             key="preferences"
             label={i18n.t( KEYS.LABELS.PREFERENCES )}

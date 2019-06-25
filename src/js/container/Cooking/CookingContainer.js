@@ -99,7 +99,8 @@ function CookingContainer( { id } ) {
         updateUserRecipe( updatedRecipe ).then( ( newUserRecipe ) => {
             const newRecipe = mapCustomRecipeToRecipe( newUserRecipe );
             const finishedSubs = !substitutesLeft( possibleSubstitues, newRecipe.ingredients );
-            setMessage( finishedSubs ? i18n.t( KEYS.MESSAGES.SUBSTITUTION_SUCCESS ) : '' );
+            const loveEmote = String.fromCodePoint( 128525 );
+            setMessage( finishedSubs ? `${ i18n.t( KEYS.MESSAGES.SUBSTITUTION_SUCCESS ) } ${ loveEmote }` : '' );
             setMessageType( finishedSubs ? MESSAGE_TYPES.SUCCESS : '' );
             setShowSubstiutesFor( '' );
             setUserRecipe( newUserRecipe );
