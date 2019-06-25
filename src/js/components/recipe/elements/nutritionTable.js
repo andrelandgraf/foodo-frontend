@@ -7,9 +7,9 @@ import { KEYS } from '../../../utilities/internationalization/internationalizati
 
 
 const NutritionTable = ( { ingredients } ) => (
-    <div>
+    <div className="nutrition-table">
         <h2>{i18n.t( KEYS.LABELS.NUTRITION )}</h2>
-        <table className="borderTable">
+        <table>
             <thead>
                 <tr>
                     <th />

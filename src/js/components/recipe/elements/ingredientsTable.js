@@ -7,23 +7,33 @@ import { KEYS } from '../../../utilities/internationalization/internationalizati
 
 import Button from '../../button/button';
 
-const IngredientsTable = ( { ingredients, substitutableIngredients, onClickIngredient } ) => (
-    <div>
-        <h2>{i18n.t( KEYS.LABELS.INGREDIENTS )}</h2>
-        <table>
-            <tbody>
+function IngredientsTable( { ingredients, substitutableIngredients, onClickIngredient } ) {
+    const unitToLabel = ( unit ) => {
+        switch ( unit ) {
+        case 'gramm': return 'g';
+        case 'ml': return unit;
+        default: return unit;
+        }
+    };
+
+    return (
+        <div>
+            <h2>{i18n.t( KEYS.LABELS.INGREDIENTS )}</h2>
+            <div className="ingredients-table">
                 { ingredients.map(
                     ingredient => (
-                        <tr key={ingredient.key}>
-                            <td>
+                        <React.Fragment key={ingredient.key}>
+                            <span className="ingredients-table-amount">
                                 {ingredient.amount * ingredient.unit.amount}
-                            </td>
-                            <td>
-                                {ingredient.unit.name}
-                            </td>
-                            <td>{ ingredient.label}</td>
-                            <td>
-                                { substitutableIngredients.find( id => id === ingredient._id )
+                            </span>
+                            <span>
+                                {unitToLabel( ingredient.unit.name )}
+                            </span>
+                            <span>
+                                { ingredient.label}
+                            </span>
+                            <div>
+                                {substitutableIngredients.find( id => id === ingredient._id )
                                     ? (
                                         <Button
                                             onClick={() => onClickIngredient( ingredient )}
@@ -32,14 +42,14 @@ const IngredientsTable = ( { ingredients, substitutableIngredients, onClickIngre
                                     )
                                     : null
                                 }
-                            </td>
-                        </tr>
+                            </div>
+                        </React.Fragment>
                     ),
-                )}
-            </tbody>
-        </table>
-    </div>
-);
+                ) }
+            </div>
+        </div>
+    );
+}
 
 IngredientsTable.propTypes = {
     ingredients: PropTypes.arrayOf(
