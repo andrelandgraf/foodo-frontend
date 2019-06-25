@@ -85,8 +85,7 @@ class DislikesContainer extends React.Component {
             <div className="dislikes-container">
                 <h2>{i18n.t( KEYS.HEADERS.DISLIKES_SELECTION )}</h2>
                 {
-                    dislikes.length > 0
-                    && <Tags tags={displayableDislikes} onDelete={this.onDelete} />
+                    <Tags tags={displayableDislikes} onDelete={this.onDelete} showNoneTag />
                 }
                 <div className="input-container">
                     <DataListInput
@@ -94,6 +93,7 @@ class DislikesContainer extends React.Component {
                         placeholder={i18n.t( KEYS.LABELS.DISLIKES_PLACEHOLDER )}
                         onSelect={this.onSelect}
                         dropDownLength={10}
+                        requiredInputLength={1}
                         inputClassName="datalist-input-input"
                         dropdownClassName="datalist-input-dropdown"
                         itemClassName="datalist-input-item"
