@@ -92,8 +92,8 @@ class App extends React.Component {
             />
             <Route from={AUTH_ROUTES.ADMIN} component={AdminView} />
             <Route from={AUTH_ROUTES.OAUTH} component={OAuthContainer} />
-            <Redirect from={NONAUTH_ROUTES.LOGIN} to={window.localStorage.getItem( 'redirectUrl' )} />
-            <Redirect from={NONAUTH_ROUTES.REGISTER} to={window.localStorage.getItem( 'redirectUrl' )} />
+            <Redirect from={NONAUTH_ROUTES.LOGIN} to={window.sessionStorage.getItem( 'redirectUrl' )} />
+            <Redirect from={NONAUTH_ROUTES.REGISTER} to={window.sessionStorage.getItem( 'redirectUrl' )} />
             <Route from="*" component={NotFoundView} />
         </Switch>
     );
@@ -146,7 +146,7 @@ class App extends React.Component {
             if ( !isValid ) {
                 redirectUrl = '/';
             }
-            window.localStorage.setItem( 'redirectUrl', redirectUrl );
+            window.sessionStorage.setItem( 'redirectUrl', redirectUrl );
         }
         return (
             <Router>
