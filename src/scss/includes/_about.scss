@@ -1,6 +1,7 @@
 .about {
     width: 100%;
     overflow: hidden;
+    text-align: center;
 
     &-page-1 {
         height: 100vh;
@@ -14,7 +15,6 @@
         &-title-box {
             position: absolute;
             top: 25vh;
-            text-align: center;
             background-color: $light-black;
             opacity: 0.7;
             width: 50%;
@@ -31,6 +31,16 @@
                 @media screen and (max-width: $phone-width) {
                     font-size: 60px;
                 }
+            }
+        }
+
+        &-get-started-button {
+            position: absolute;
+            top: 45vh;
+
+            button {
+                height: 64px;
+                font-size: $font-size-xl;
             }
         }
     }

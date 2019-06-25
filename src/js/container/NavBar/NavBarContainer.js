@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {
+    useState, useEffect, useCallback, useContext,
+} from 'react';
 import PropTypes from 'prop-types';
 import i18n from 'i18next';
 
@@ -9,43 +11,29 @@ import NavBar from '../../components/navbar/navbar';
 import NavBarItem from '../../components/navbar/elements/navbarItem';
 import PreferenceItem from '../../components/navbar/elements/preferenceItem';
 import PreferencesMenuContainer from '../PreferenceMenu/PreferenceMenuContainer';
+import { LayoutContext } from '../../provider/LayoutProvider';
 
-class NavBarContainer extends React.Component {
-    constructor( props ) {
-        super( props );
+function NavBarContainer( { loggedIn } ) {
+    const [ prefMenuOpen, setPrefMenuOpen ] = useState( false );
+    const { showNavBar } = useContext( LayoutContext );
 
-        this.state = {
-            prefMenuOpen: false,
+    useEffect( () => {
+        const onClickCloseMenu = ( event ) => {
+            // do not do anything if prefButton is clicked, as we have a dedicated func for that
+            const button = document.getElementById( 'preferences-navbar-button' );
+            const targetIsPrefButton = event.target.id === 'preferences-navbar-button';
+            const targetInPrefButton = button && button.contains( event.target );
+            if ( targetIsPrefButton || targetInPrefButton ) return;
+            setPrefMenuOpen( false );
         };
 
-        window.addEventListener( 'click', this.onClickCloseMenu, false );
-    }
+        window.addEventListener( 'click', onClickCloseMenu, false );
+        return () => window.removeEventListener( 'click', onClickCloseMenu );
+    }, [] );
 
-    componentWillUnmount = () => {
-        window.removeEventListener( 'click', this.onClickCloseMenu );
-    }
+    const onClickPrefIcon = useCallback( () => setPrefMenuOpen( !prefMenuOpen ), [ prefMenuOpen ] );
 
-    onClickPreferenceItem = () => {
-        this.setState( ( { prefMenuOpen } ) => ( { prefMenuOpen: !prefMenuOpen } ) );
-    }
-
-    closePreferenceMenu = () => {
-        this.setState( { prefMenuOpen: false } );
-    }
-
-    onClickCloseMenu = ( event ) => {
-        const { prefMenuOpen } = this.state;
-        // do not do anything if prefButton is clicked, as we have a dedicated func for that
-        const button = document.getElementById( 'preferences-navbar-button' );
-        const targetIsPrefButton = event.target.id === 'preferences-navbar-button';
-        const targetInPrefButton = button && button.contains( event.target );
-        if ( targetIsPrefButton || targetInPrefButton ) return;
-        if ( prefMenuOpen ) {
-            this.closePreferenceMenu();
-        }
-    }
-
-    renderAuthenticatedNavBarItems = () => [
+    const renderAuthenticatedNavBarItems = () => [
         <NavBarItem
             key="home"
             label={i18n.t( KEYS.LABELS.HOME )}
@@ -62,23 +50,16 @@ class NavBarContainer extends React.Component {
             key="preferences"
             label={i18n.t( KEYS.LABELS.PREFERENCES )}
             float="right"
-            onClick={this.onClickPreferenceItem}
+            onClick={onClickPrefIcon}
         />,
     ];
 
-    renderNotAuthenticatedNavBarItems = () => [
-        <NavBarItem
-            key="about"
-            label={i18n.t( KEYS.LABELS.ABOUT )}
-            link={NONAUTH_ROUTES.ABOUT}
-            float="left"
-            hideOnMobile
-        />,
+    const renderNotAuthenticatedNavBarItems = () => [
         <PreferenceItem
             key="preferences"
             label={i18n.t( KEYS.LABELS.PREFERENCES )}
             float="right"
-            onClick={this.onClickPreferenceItem}
+            onClick={onClickPrefIcon}
         />,
         <NavBarItem
             key="register"
@@ -94,28 +75,26 @@ class NavBarContainer extends React.Component {
         />,
     ];
 
-    render() {
-        const { loggedIn } = this.props;
-        const { prefMenuOpen } = this.state;
-        return (
-            <React.Fragment>
-                <NavBar>
-                    { loggedIn
-                        ? this.renderAuthenticatedNavBarItems()
-                        : this.renderNotAuthenticatedNavBarItems()
-                    }
-                </NavBar>
-                { prefMenuOpen
-                    ? (
-                        <PreferencesMenuContainer
-                            closeMenu={this.closePreferenceMenu}
-                        />
-                    )
-                    : undefined
+    const renderNavBar = () => (
+        <React.Fragment>
+            <NavBar>
+                { loggedIn
+                    ? renderAuthenticatedNavBarItems()
+                    : renderNotAuthenticatedNavBarItems()
                 }
-            </React.Fragment>
-        );
-    }
+            </NavBar>
+            { prefMenuOpen
+                ? (
+                    <PreferencesMenuContainer
+                        closeMenu={onClickPrefIcon}
+                    />
+                )
+                : undefined
+            }
+        </React.Fragment>
+    );
+
+    return showNavBar ? renderNavBar() : null;
 }
 
 NavBarContainer.propTypes = {
