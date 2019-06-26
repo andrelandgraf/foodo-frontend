@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
     BrowserRouter as Router, Route, Redirect, Switch,
 } from 'react-router-dom';
 
+import { getRedirectUrl, setRedirectUrl, isValidRedirectUrl } from '../../utilities/redirect';
+
+import { isAuthenticated, getUser, logUserOut } from '../../services/foodo-api/user/userService';
 import { UserStateContext } from '../../provider/UserStateProvider';
+import { IngredientsProvider } from '../../provider/IngredientsProvider';
+import { GoalsLifestylesProvider } from '../../provider/GoalsLifestylesProvider';
+import { AllergiesProvider } from '../../provider/AllergiesProvider';
+import { RecipesProvider } from '../../provider/RecipesProvider';
 
 import NavBarContainer from '../NavBar/NavBarContainer';
 import HomeView from '../../views/homeView';
@@ -12,63 +19,50 @@ import CookingView from '../../views/cookingView';
 import NotFoundView from '../../views/notFoundView';
 import PasswordView from '../../views/passwordView';
 import AdminView from '../../views/adminView';
+import AboutContainer from '../About/AboutContainer';
 import LoginContainer from '../Login/LoginContainer';
 import RegistrationContainer from '../Registration/RegistrationContainer';
 import OAuthContainer from '../OAuth/OAuthContainer';
 import Loader from '../../components/loading/loader';
-
-import { isAuthenticated, getUser, logUserOut } from '../../services/foodo-api/user/userService';
-import { IngredientsProvider } from '../../provider/IngredientsProvider';
-import { GoalsLifestylesProvider } from '../../provider/GoalsLifestylesProvider';
-import { AllergiesProvider } from '../../provider/AllergiesProvider';
-import { RecipesProvider } from '../../provider/RecipesProvider';
 
 export const AUTH_ROUTES = {
     HOME: '/',
     PROFILE: '/profile',
     COOKING: '/cooking/',
     ADMIN: '/admin',
-    OAUTH: '/oauth/v2/login',
     PASSWORD: '/password',
+    ABOUT: '/about',
+    OAUTH: '/oauth/v2/login',
 };
 
 export const NONAUTH_ROUTES = {
     LOGIN: '/login',
     REGISTER: '/register',
+    ABOUT: '/about',
     OAUTH: '/oauth/v2/login',
 };
 
-class App extends React.Component {
-    componentDidMount = async () => {
-        const { user, setUser } = this.context;
-        // in case of page reload, we still hold token but need to get user again
-        if ( isAuthenticated() && !user ) this.getUser( setUser );
-    }
+function App() {
+    const { user, setUser } = useContext( UserStateContext );
 
-    pathInZone = ( path, zone ) => Object
-        .keys( zone )
-        .find( key => zone[ key ].startsWith( path ) );
+    useEffect( () => {
+        if ( isAuthenticated() && !user ) {
+            // in case of page reload, we still hold token but need to get user again
+            getUser()
+                .then( retrievedUser => setUser( retrievedUser ) )
+                .catch( () => {
+                    // in case of error, relocate to login and retrieve new token
+                    logUserOut();
+                    setUser( undefined );
+                } );
+        }
+    }, [] );
 
-    scrollToTop = () => {
-        window.scrollTo( 0, 0 );
-        return null;
-    };
-
-    getUser = ( setUser ) => {
-        getUser()
-            .then( retrievedUser => setUser( retrievedUser ) )
-            .catch( () => {
-                // in case of error, relocate to login and retrieve new token
-                logUserOut();
-                setUser( undefined );
-            } );
-    }
-
-    renderAppLoading = () => (
+    const renderAppLoading = () => (
         <Loader />
     );
 
-    renderApp = user => (
+    const renderApp = () => (
         <Switch>
             <Route
                 exact
@@ -91,14 +85,15 @@ class App extends React.Component {
                 component={PasswordView}
             />
             <Route from={AUTH_ROUTES.ADMIN} component={AdminView} />
+            <Route from={AUTH_ROUTES.ABOUT} component={AboutContainer} />
             <Route from={AUTH_ROUTES.OAUTH} component={OAuthContainer} />
-            <Redirect from={NONAUTH_ROUTES.LOGIN} to={window.localStorage.getItem( 'redirectUrl' )} />
-            <Redirect from={NONAUTH_ROUTES.REGISTER} to={window.localStorage.getItem( 'redirectUrl' )} />
+            <Redirect from={NONAUTH_ROUTES.LOGIN} to={getRedirectUrl()} />
+            <Redirect from={NONAUTH_ROUTES.REGISTER} to={getRedirectUrl()} />
             <Route from="*" component={NotFoundView} />
         </Switch>
     );
 
-    renderAuthenticatedApp = user => (
+    const renderAuthenticatedApp = () => (
         <React.Fragment>
             <NavBarContainer loggedIn />
             <RecipesProvider>
@@ -106,7 +101,7 @@ class App extends React.Component {
                     <GoalsLifestylesProvider>
                         <AllergiesProvider>
                             {
-                                user ? this.renderApp( user ) : this.renderAppLoading()
+                                user ? renderApp() : renderAppLoading()
                             }
                         </AllergiesProvider>
                     </GoalsLifestylesProvider>
@@ -115,7 +110,7 @@ class App extends React.Component {
         </React.Fragment>
     );
 
-    renderNotAuthenticatedApp = setUser => (
+    const renderNotAuthenticatedApp = () => (
         <React.Fragment>
             <NavBarContainer loggedIn={false} />
             <Switch>
@@ -131,36 +126,32 @@ class App extends React.Component {
                         <RegistrationContainer {...props} setUser={setUser} />
                     )}
                 />
+                <Route from={AUTH_ROUTES.ABOUT} component={AboutContainer} />
                 <Route from={NONAUTH_ROUTES.OAUTH} component={OAuthContainer} />
                 <Redirect path="*" to={NONAUTH_ROUTES.LOGIN} />
             </Switch>
         </React.Fragment>
-    )
+    );
 
-    render() {
-        const { user, setUser } = this.context;
-
-        if ( !isAuthenticated() ) {
-            let redirectUrl = window.location.pathname;
-            const isValid = this.pathInZone( redirectUrl, AUTH_ROUTES );
-            if ( !isValid ) {
-                redirectUrl = '/';
-            }
-            window.localStorage.setItem( 'redirectUrl', redirectUrl );
+    if ( !isAuthenticated() ) {
+        let redirectUrl = window.location.pathname;
+        const isValid = isValidRedirectUrl( redirectUrl );
+        if ( !isValid ) {
+            redirectUrl = '/';
         }
-        return (
-            <Router>
-                <div>
-                    { isAuthenticated()
-                        ? this.renderAuthenticatedApp( user )
-                        : this.renderNotAuthenticatedApp( setUser )
-                    }
-                </div>
-            </Router>
-        );
+        setRedirectUrl( redirectUrl );
     }
-}
 
-App.contextType = UserStateContext;
+    return (
+        <Router>
+            <div>
+                { isAuthenticated()
+                    ? renderAuthenticatedApp()
+                    : renderNotAuthenticatedApp()
+                }
+            </div>
+        </Router>
+    );
+}
 
 export default App;

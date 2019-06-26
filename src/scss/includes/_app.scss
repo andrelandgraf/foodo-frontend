@@ -2,18 +2,18 @@
     display: block;
     margin: auto;
   }
-  
+
 .text-center {
     display: block;
     text-align: center;
 }
-  
+
 .clickable {
     touch-action: manipulation;
     &:hover {
         cursor: pointer;
     }
-  
+
     &:focus {
         background-image: none;
         outline: 0;
@@ -57,6 +57,12 @@
 .not-displayed {
    display: none !important;
 }
+
+.not-displayed-on-mobile {
+    @media screen and (max-width: $phone-width) {
+        display: none !important;
+    }
+ }
 
 .aria-element {
     &:focus {

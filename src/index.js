@@ -5,11 +5,14 @@ import './scss/styles.scss';
 import App from './js/container/App/App';
 import { UserStateProvider } from './js/provider/UserStateProvider';
 import * as serviceWorker from './js/serviceWorker';
+import { LayoutProvider } from './js/provider/LayoutProvider';
 
 const application = (
-    <UserStateProvider>
-        <App />
-    </UserStateProvider>
+    <LayoutProvider>
+        <UserStateProvider>
+            <App />
+        </UserStateProvider>
+    </LayoutProvider>
 );
 
 ReactDOM.render( application, document.getElementById( 'root' ) );
