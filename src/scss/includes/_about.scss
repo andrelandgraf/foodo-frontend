@@ -33,7 +33,7 @@
         bottom: 5%;
 
         img {
-            height: 50px;
+            width: 50px;
             transition: all .2s ease-in-out;
 
             &:hover {
@@ -129,12 +129,73 @@
             @extend .centered-absolute-child;
             font-size: $font-size-xl;
             @media screen and (max-width: $phone-width) {
+                top: 60%;
                 font-size: $font-size-m;
             }
 
             span {
                 padding: 5px;
                 display: block;
+            }
+        }
+    }
+
+    &-page-3 {
+        @extend .one-pager;
+        background-repeat: no-repeat;
+        background-size: cover;
+        font-size: $font-size-xl;
+        font-weight: $font-weight-light;
+        ul {
+            text-align: left;
+            @media screen and (max-width: $pad-width) {
+                font-size: $font-size-xs;
+                background-color: $light-black;
+                opacity: 0.7;
+                color: $white;
+            }
+
+            li {
+                padding-top: 5px;
+                @media screen and (max-width: $phone-width) {
+                    padding-top: 2px;
+                }
+            }
+        }
+
+        &-profile-box {
+            position: absolute;
+            top: 20%;
+            @extend .centered-absolute-child;
+            width: 60%;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            img {
+                margin-left: 10px;
+                width: 80px;
+                margin-right: 40px;
+                @media screen and (max-width: $phone-width) {
+                    display: none;
+                }
+            }
+        }
+
+        &-cooking-box {
+            position: absolute;
+            top: 60%;
+            @extend .centered-absolute-child;
+            width: 90%;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            img {
+                margin-left: 10px;
+                width: 80px;
+                margin-right: 40px;
+                @media screen and (max-width: $phone-width) {
+                    display: none;
+                }
             }
         }
     }
