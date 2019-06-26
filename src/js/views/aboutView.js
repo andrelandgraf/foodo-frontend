@@ -6,6 +6,10 @@ import i18n from 'i18next';
 import { KEYS } from '../utilities/internationalization/internationalization';
 
 import arrowDown from '../../img/arrow-down.svg';
+import userLogo from '../../img/user-logo.svg';
+import forkKnife from '../../img/fork-knife.svg';
+import foodJPG from '../../img/food.jpg';
+
 import Button from '../components/button/button';
 import { isAuthenticated } from '../services/foodo-api/user/userService';
 
@@ -67,10 +71,38 @@ const AboutView = ( { onClickGetStarted } ) => {
         );
     };
 
+    const PageThree = () => {
+        const style = {
+            backgroundImage: `url( ${ foodJPG } )`,
+        };
+        return (
+            <section id="about-page-3" className="about-page-3" style={style}>
+                <div className="about-page-3-profile-box">
+                    <img src={userLogo} alt="user icon" />
+                    <ul>
+                        <li>Select your personal goal</li>
+                        <li>Select your individual lifestyle</li>
+                        <li>Select your allergies and dislikes</li>
+                    </ul>
+                </div>
+                <div className="about-page-3-cooking-box">
+                    <img src={forkKnife} alt="fork and knife icon" />
+                    <ul>
+                        <li>Pick a dish that you want to cook!</li>
+                        <li>See the recipe and alter it to your desire</li>
+                        <li>We will help you to substiute unhealthy parts!</li>
+                    </ul>
+                </div>
+                <ArrowDown href="#about-page-4" />
+            </section>
+        );
+    };
+
     return (
         <div className="about">
             <PageOne />
             <PageTwo />
+            <PageThree />
         </div>
     );
 };
