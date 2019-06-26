@@ -30,9 +30,9 @@
     &-arrow-down {
         position: absolute;
         @extend .centered-absolute-child;
-        bottom: 5%;
+        bottom: 8%;
         @media screen and (max-width: $phone-width) {
-            bottom: 8%;
+            bottom: 12%;
         }
 
         img {
@@ -166,7 +166,7 @@
 
         &-box {
             @extend .centered-absolute-child;
-            @media screen and (min-width: $pad-width) {
+            @media screen and (min-width: $phone-width) {
                 display: flex;
                 flex-direction: row;
                 justify-content: flex-end;
@@ -186,7 +186,7 @@
             position: absolute;
             top: 20%;
             width: 95%;
-            @media screen and (min-width: $pad-width) {
+            @media screen and (min-width: $phone-width) {
                 width: 60%;
             }
         }
@@ -198,7 +198,6 @@
             width: 95%;
             @media screen and (min-width: $pad-width) {
                 width: 90%;
-                top: 60%;
             }
         }
     }
