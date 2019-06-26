@@ -24,7 +24,6 @@ const Tags = ( {
                     <Tag
                         key="mockup-tag"
                         tag={{ label: i18n.t( KEYS.LABELS.NONE ), key: 'mockup-tag' }}
-                        onDelete={onDelete}
                     />
                 )
         }
