@@ -27,6 +27,7 @@ const enLabels = {
     HOME: 'Home',
     MY_PROFILE: 'My Profile',
     PROFILE: 'Profile',
+    ABOUT: 'About',
     SELECT_RECIPE_PLACEHOLDER: 'Select your recipe...',
     ALLERGIES_PLACEHOLDER: 'Select your allergies...',
     DISLIKES_PLACEHOLDER: 'Select your dislikes...',
