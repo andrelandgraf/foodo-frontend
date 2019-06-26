@@ -3,23 +3,48 @@
     overflow: hidden;
     text-align: center;
 
-    &-page-1 {
+    .one-pager {
+        position: relative;
         height: 100vh;
+        width: 100%;
+    }
+
+    .centered-absolute-child {
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+
+    &-arrow-down {
+        position: absolute;
+        @extend .centered-absolute-child;
+        bottom: 5%;
+
+        img {
+            height: 50px;
+            transition: all .2s ease-in-out;
+
+            &:hover {
+                transform: scale(1.1);
+            }
+        }
+    }
+
+    &-page-1 {
+        @extend .one-pager;
         background-image: url(http://www.zuckerzimtundliebe.de/wp-content/uploads/2016/01/Moehrensupperezept-7.jpg);
         background-repeat: no-repeat;
         background-size: cover;
 
-        display: flex;
-        justify-content: center;
-
         &-title-box {
             position: absolute;
-            top: 25vh;
+            top: 25%;
+            @extend .centered-absolute-child;
             background-color: $light-black;
             opacity: 0.7;
             width: 50%;
             @media screen and (max-width: $phone-width) {
-                width: 90vw;
+                width: 90%;
             }
 
             &-title {
@@ -36,11 +61,43 @@
 
         &-get-started-button {
             position: absolute;
-            top: 45vh;
+            top: 45%;
+            @extend .centered-absolute-child;
 
             button {
                 height: 64px;
                 font-size: $font-size-xl;
+                @media screen and (max-width: $phone-width) {
+                    height: 42px;
+                    font-size: $font-size-m;
+                }
+            }
+        }
+    }
+
+    &-page-2 {
+        @extend .one-pager;
+
+        &-title-box {
+            position: absolute;
+            top: 25%;
+            @extend .centered-absolute-child;
+            background-color: $light-black;
+            opacity: 0.7;
+            width: 50%;
+            @media screen and (max-width: $phone-width) {
+                width: 90%;
+            }
+
+            &-title {
+                margin: auto;
+                z-index: 1;
+                opacity: 1;
+                font-size: 120px;
+                filter: brightness(1.8);
+                @media screen and (max-width: $phone-width) {
+                    font-size: 60px;
+                }
             }
         }
     }
