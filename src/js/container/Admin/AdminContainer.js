@@ -8,6 +8,9 @@ import { postRecipe } from '../../services/foodo-api/recipe/recipesService';
 import Tags from '../../components/tags/tags';
 import SubmitButton from '../../components/button/submitButton';
 
+/*
+* add new recipes to our recipe list
+*/
 const IngredientSelection = ( {
     ingredients, onDeleteIngredient, onSelectIngredient, possibleMatches,
 } ) => (
