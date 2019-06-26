@@ -10,8 +10,6 @@ import AboutView from '../../views/aboutView';
 function AboutContainer() {
     const { showNavBar, setShowNavBar } = useContext( LayoutContext );
     const [ clickedGetStarted, setClickedGetStarted ] = useState( false );
-    // eslint-disable-next-line no-unused-vars
-    const [ pageIndex, setPageIndex ] = useState( 0 );
 
     useEffect( () => {
         if ( !isAuthenticated() && showNavBar ) {

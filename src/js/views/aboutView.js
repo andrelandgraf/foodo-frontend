@@ -15,17 +15,29 @@ const AboutView = ( { onClickGetStarted } ) => {
 
     return (
         <div className="about">
-            <div className="about-page-1">
+            <section id="about-page-1" className="about-page-1">
                 <div className="about-page-1-title-box">
                     <h1 className="about-page-1-title-box-title">Foodo</h1>
                 </div>
                 <div className="about-page-1-get-started-button">
                     <Button text={label} onClick={onClickGetStarted} primary />
                 </div>
-            </div>
-            <div>
-                <ImageButton src={arrowDown} alt="scroll down" onClick={onClickGetStarted} />
-            </div>
+                <div className="about-arrow-down">
+                    <a href="#about-page-2" onClick={() => {}}>
+                        <img src={arrowDown} alt="scroll down" />
+                    </a>
+                </div>
+            </section>
+            <section id="about-page-2" className="about-page-2">
+                <div className="about-page-2-title-box">
+                    <h1 className="about-page-2-title-box-title">Foodo</h1>
+                </div>
+                <div className="about-arrow-down">
+                    <a href="#about-page-2" onClick={() => {}}>
+                        <img src={arrowDown} alt="scroll down" />
+                    </a>
+                </div>
+            </section>
         </div>
     );
 };
