@@ -3,7 +3,14 @@ import {
     BrowserRouter as Router, Route, Redirect, Switch,
 } from 'react-router-dom';
 
+import { getRedirectUrl, setRedirectUrl, isValidRedirectUrl } from '../../utilities/redirect';
+
+import { isAuthenticated, getUser, logUserOut } from '../../services/foodo-api/user/userService';
 import { UserStateContext } from '../../provider/UserStateProvider';
+import { IngredientsProvider } from '../../provider/IngredientsProvider';
+import { GoalsLifestylesProvider } from '../../provider/GoalsLifestylesProvider';
+import { AllergiesProvider } from '../../provider/AllergiesProvider';
+import { RecipesProvider } from '../../provider/RecipesProvider';
 
 import NavBarContainer from '../NavBar/NavBarContainer';
 import HomeView from '../../views/homeView';
@@ -17,12 +24,6 @@ import LoginContainer from '../Login/LoginContainer';
 import RegistrationContainer from '../Registration/RegistrationContainer';
 import OAuthContainer from '../OAuth/OAuthContainer';
 import Loader from '../../components/loading/loader';
-
-import { isAuthenticated, getUser, logUserOut } from '../../services/foodo-api/user/userService';
-import { IngredientsProvider } from '../../provider/IngredientsProvider';
-import { GoalsLifestylesProvider } from '../../provider/GoalsLifestylesProvider';
-import { AllergiesProvider } from '../../provider/AllergiesProvider';
-import { RecipesProvider } from '../../provider/RecipesProvider';
 
 export const AUTH_ROUTES = {
     HOME: '/',
@@ -57,10 +58,6 @@ function App() {
         }
     }, [] );
 
-    const pathInZone = ( path, zone ) => Object
-        .keys( zone )
-        .find( key => zone[ key ].startsWith( path ) );
-
     const renderAppLoading = () => (
         <Loader />
     );
@@ -90,8 +87,8 @@ function App() {
             <Route from={AUTH_ROUTES.ADMIN} component={AdminView} />
             <Route from={AUTH_ROUTES.ABOUT} component={AboutContainer} />
             <Route from={AUTH_ROUTES.OAUTH} component={OAuthContainer} />
-            <Redirect from={NONAUTH_ROUTES.LOGIN} to={window.sessionStorage.getItem( 'redirectUrl' )} />
-            <Redirect from={NONAUTH_ROUTES.REGISTER} to={window.sessionStorage.getItem( 'redirectUrl' )} />
+            <Redirect from={NONAUTH_ROUTES.LOGIN} to={getRedirectUrl()} />
+            <Redirect from={NONAUTH_ROUTES.REGISTER} to={getRedirectUrl()} />
             <Route from="*" component={NotFoundView} />
         </Switch>
     );
@@ -138,11 +135,11 @@ function App() {
 
     if ( !isAuthenticated() ) {
         let redirectUrl = window.location.pathname;
-        const isValid = pathInZone( redirectUrl, AUTH_ROUTES );
+        const isValid = isValidRedirectUrl( redirectUrl );
         if ( !isValid ) {
             redirectUrl = '/';
         }
-        window.sessionStorage.setItem( 'redirectUrl', redirectUrl );
+        setRedirectUrl( redirectUrl );
     }
 
     return (

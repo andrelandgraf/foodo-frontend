@@ -1,6 +1,7 @@
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import DataListInput from 'react-datalist-input';
 import i18n from 'i18next';
 
 import { KEYS } from '../utilities/internationalization/internationalization';
@@ -12,6 +13,9 @@ import foodJPG from '../../img/food.jpg';
 
 import Button from '../components/button/button';
 import { isAuthenticated } from '../services/foodo-api/user/userService';
+import { RecipesProvider, RecipesContext } from '../provider/RecipesProvider';
+import { AUTH_ROUTES } from '../container/App/App';
+import { setRedirectUrl } from '../utilities/redirect';
 
 const AboutView = ( { onClickGetStarted } ) => {
     const label = isAuthenticated() ? 'Go to Foodo' : 'Get Started';
@@ -98,11 +102,51 @@ const AboutView = ( { onClickGetStarted } ) => {
         );
     };
 
+    const PageFour = () => {
+        const [ recipe, setRecipe ] = useState();
+        const { recipes } = useContext( RecipesContext );
+
+        const onSelect = r => setRecipe( r );
+
+        if ( recipe ) {
+            setRedirectUrl( `${ AUTH_ROUTES.COOKING }${ recipe._id }` );
+            return <Redirect push to={`${ AUTH_ROUTES.COOKING }${ recipe._id }`} />;
+        }
+        return (
+            <div id="about-page-4" className="about-page-4">
+                <h3>Try it out now!</h3>
+                <div className="about-page-4-recipes-container">
+                    <h2>{i18n.t( KEYS.HEADERS.SELECT_RECIPE )}</h2>
+                    <div className="about-page-4-recipes-container-input">
+                        <DataListInput
+                            items={recipes.map( r => ( {
+                                ...r,
+                                key: r._id,
+                                label: r.name,
+                            } ) )}
+                            placeholder={i18n.t( KEYS.LABELS.SELECT_RECIPE_PLACEHOLDER )}
+                            onSelect={onSelect}
+                            inputClassName="datalist-input-input"
+                            dropdownClassName="datalist-input-dropdown"
+                            itemClassName="datalist-input-item"
+                            activeItemClassName="datalist-input-activeItem"
+                            suppressReselect={false}
+                            clearInputOnSelect
+                        />
+                    </div>
+                </div>
+            </div>
+        );
+    };
+
     return (
         <div className="about">
             <PageOne />
             <PageTwo />
             <PageThree />
+            <RecipesProvider>
+                <PageFour />
+            </RecipesProvider>
         </div>
     );
 };
