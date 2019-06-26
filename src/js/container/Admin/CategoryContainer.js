@@ -34,8 +34,8 @@ function CategoryContainer() {
         setPickedI( undefined );
     };
     return (
-        <div>
-            <div className="dislikes-container">
+        <div className="container admin-page">
+            <div className="center">
                 <h2>Select an Ingredient</h2>
                 <div className="input-container">
                     <DataListInput
@@ -67,7 +67,7 @@ function CategoryContainer() {
                         placeholder="choose an Category"
                         onSelect={c => setPickedC( c )}
                         dropDownLength={10}
-                        requiredInputLength={1}
+                        requiredInputLength={0}
                         inputClassName="datalist-input-input"
                         dropdownClassName="datalist-input-dropdown"
                         itemClassName="datalist-input-item"
