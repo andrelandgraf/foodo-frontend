@@ -24,12 +24,17 @@ function Tag( { tag, onDelete, onClick } ) {
                     {tag.label}
                 </span>
             </CustomButton>
-            <ImageButton
-                id={`tag-delete-${ tag.key }`}
-                onClick={onClickDeleteCallback}
-                src={Cancel}
-                alt="Remove Tag"
-            />
+            {
+                onDelete
+                && (
+                    <ImageButton
+                        id={`tag-delete-${ tag.key }`}
+                        onClick={onClickDeleteCallback}
+                        src={Cancel}
+                        alt="Remove Tag"
+                    />
+                )
+            }
         </div>
     );
 }
