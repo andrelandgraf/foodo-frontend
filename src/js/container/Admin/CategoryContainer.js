@@ -35,7 +35,7 @@ function CategoryContainer() {
     };
     return (
         <div className="container admin-page">
-            <div className="center">
+            <div className="center box">
                 <h2>Select an Ingredient</h2>
                 <div className="input-container">
                     <DataListInput
