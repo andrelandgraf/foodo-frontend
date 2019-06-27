@@ -4,7 +4,7 @@
     padding: 0;
     overflow: hidden;
     background-color: $primary-color;
-    height: 50px;
+    height: $navbar-height;
     box-shadow: $box-shadow-base;
 
     li {
@@ -16,7 +16,7 @@
 
         a {
             @extend .aria-element;
-            height: 50px;
+            height: $navbar-height;
             display: block;
             color: $white;
             text-align: center;
@@ -46,7 +46,7 @@
 
         .icon-item {
             @extend .aria-element;
-            height: 50px;
+            height: $navbar-height;
             background-color: $primary-color;
             border: none;
             img {
