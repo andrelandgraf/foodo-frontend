@@ -16,12 +16,9 @@ function CategoryContainer() {
     const [ pickedIngredient, setPickedI ] = useState();
     const [ pickedCategory, setPickedC ] = useState();
 
-    console.log( ingredients );
-    console.log( categories );
-
     useEffect( () => {
         // get all ingredients without categories (special admin endpoint)
-        getRequest( `${ ENDPOINTS.INGREDIENTS }/categories/` )
+        getRequest( `${ ENDPOINTS.INGREDIENTS }/tmp/categories/` )
             .then( i => setIngredients( i ) );
         getIngredientCategories()
             .then( c => setCategories( c ) );
