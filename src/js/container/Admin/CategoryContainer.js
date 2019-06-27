@@ -25,7 +25,7 @@ function CategoryContainer() {
     }, [] );
 
     const onClickSave = () => {
-        const data = { _id: pickedCategory._id, categoryId: pickedCategory._id };
+        const data = { _id: pickedIngredient._id, categoryId: pickedCategory._id };
         postRequest( `${ ENDPOINTS.INGREDIENTS }/setcategory`, data );
         setPickedC( undefined );
         setPickedI( undefined );
