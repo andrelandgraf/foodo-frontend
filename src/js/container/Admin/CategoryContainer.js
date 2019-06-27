@@ -58,7 +58,7 @@ function CategoryContainer() {
                     <DataListInput
                         items={categories.map( c => ( {
                             ...c,
-                            key: c.name,
+                            key: c._id,
                             label: c.name,
                         } ) )}
                         placeholder="choose an Category"
