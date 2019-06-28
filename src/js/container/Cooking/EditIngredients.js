@@ -1,9 +1,10 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import DataListInput from 'react-datalist-input';
 import lodash from 'lodash';
 
 import { updateUserRecipe } from '../../services/foodo-api/recipe/recipesService';
+import { unitToLabel } from '../../utilities/units';
 
 import { IngredientsContext } from '../../provider/IngredientsProvider';
 import { UserRecipeContext } from '../../provider/UserRecipeProvider';
@@ -11,20 +12,29 @@ import { getLocale } from '../../utilities/internationalization/internationaliza
 
 import Modal from '../../components/modal/modal';
 import Ingredient from '../../components/ingredient/ingredient';
+import SubmitButton from '../../components/button/submitButton';
 
 function EditIngredients( { onCloseEditIngredients } ) {
+    const [ amount, setAmount ] = useState( '' );
+    const [ selected, setSelected ] = useState();
     const { ingredients } = useContext( IngredientsContext );
     const { userRecipe, setUserRecipe } = useContext( UserRecipeContext );
 
-    const onSelect = ( ingredient ) => {
+    const onSelect = i => setSelected( i );
+    const onChangeAmount = e => setAmount( e.target.value );
+
+    const onSave = ( e ) => {
+        e.preventDefault();
         const updatedRecipe = lodash.cloneDeep( userRecipe );
         updatedRecipe.personalizedRecipe.ingredients.push( {
-            amount: 1,
-            ingredient: ingredient._id,
+            amount: Number( amount ) / selected.unit.amount,
+            ingredient: selected._id,
         } );
         updateUserRecipe( updatedRecipe ).then( ( postedRecipe ) => {
             setUserRecipe( postedRecipe );
         } );
+        setAmount( '' );
+        setSelected( undefined );
     };
 
     const onDelete = ( ingredient ) => {
@@ -52,7 +62,7 @@ function EditIngredients( { onCloseEditIngredients } ) {
     const displayableIngredients = useMemo( () => makeIngredientsDisplayable(
         lodash.cloneDeep( ingredients ),
     ).filter( i => !userRecipe.personalizedRecipe.ingredients
-        .find( alreadyI => alreadyI._id === i._id ) ), [ ingredients, userRecipe ] );
+        .find( alreadyI => alreadyI.ingredient._id === i._id ) ), [ ingredients, userRecipe ] );
 
     const displayableUserRecipe = useMemo( () => {
         const displayable = userRecipe
@@ -74,25 +84,39 @@ function EditIngredients( { onCloseEditIngredients } ) {
 
     return (
         <Modal
-            classes="ingredients-container edit-ingredients-container"
+            classes="edit-ingredients-container"
             onCloseModal={onCloseEditIngredients}
             Title={renderModalTitle()}
         >
-            <div className="input-container">
-                <DataListInput
-                    items={displayableIngredients}
-                    placeholder="Select additional ingredients..."
-                    onSelect={onSelect}
-                    dropDownLength={10}
-                    requiredInputLength={1}
-                    inputClassName="datalist-input-input"
-                    dropdownClassName="datalist-input-dropdown"
-                    itemClassName="datalist-input-item"
-                    activeItemClassName="datalist-input-activeItem"
-                    suppressReselect={false}
-                    clearInputOnSelect
-                />
-            </div>
+
+            <form onSubmit={onSave}>
+                <div className="edit-ingredients-container-form">
+                    <div className="edit-ingredients-container-form-amount">
+                        <input
+                            value={amount}
+                            onChange={onChangeAmount}
+                            placeholder="5"
+                            required
+                        />
+                        <span>{ selected ? unitToLabel( selected.unit.name ) : 'g' }</span>
+                    </div>
+                    <DataListInput
+                        items={displayableIngredients}
+                        placeholder="Select additional ingredients..."
+                        initialValue={selected ? selected.label : ''}
+                        onSelect={onSelect}
+                        dropDownLength={10}
+                        requiredInputLength={1}
+                        inputClassName="datalist-input-input"
+                        dropdownClassName="datalist-input-dropdown"
+                        itemClassName="datalist-input-item"
+                        activeItemClassName="datalist-input-activeItem"
+                        suppressReselect={false}
+                        clearInputOnSelect={false}
+                    />
+                    <SubmitButton label="Add" disabled={!amount || !selected} />
+                </div>
+            </form>
             { displayableUserRecipe.personalizedRecipe.ingredients.map(
                 ingredient => (
                     <Ingredient key={ingredient.key} ingredient={ingredient} onClose={onDelete} />

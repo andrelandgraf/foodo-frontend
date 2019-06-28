@@ -27,7 +27,7 @@ const Recipe = ( {
         </div>
         <img src={recipe.imgUrl} alt={recipe.name} className="recipePic" />
         { Message }
-        <div className="recipe-tables-container">
+        <div className="recipe-tables">
             <IngredientsTable
                 ingredients={recipe.ingredients}
                 substitutableIngredients={substitutableIngredients}
