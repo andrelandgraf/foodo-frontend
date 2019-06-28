@@ -1,5 +1,4 @@
-/* eslint-disable react/no-unused-state */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { getRecipes } from '../services/foodo-api/recipe/recipesService';
@@ -9,33 +8,21 @@ const RecipesContext = React.createContext( {
     setRecipes: () => {},
 } );
 
-class RecipesProvider extends React.Component {
-    constructor( props ) {
-        super( props );
-        this.state = {
-            recipes: [],
-        };
-    }
+function RecipesProvider( { children } ) {
+    const [ recipes, setRecipes ] = useState( [] );
 
-    componentDidMount() {
-        getRecipes().then( recipes => this.setState( { recipes } ) );
-    }
+    useEffect( () => { getRecipes().then( r => setRecipes( r ) ); }, [] );
 
-    setRecipes = recipes => this.setState( { recipes } );
+    const context = {
+        recipes,
+        setRecipes,
+    };
 
-    render() {
-        const { children } = this.props;
-        const { state } = this;
-        const context = {
-            setRecipes: this.setRecipes,
-            ...state,
-        };
-        return (
-            <RecipesContext.Provider value={context}>
-                {children}
-            </RecipesContext.Provider>
-        );
-    }
+    return (
+        <RecipesContext.Provider value={context}>
+            {children}
+        </RecipesContext.Provider>
+    );
 }
 
 RecipesProvider.propTypes = {

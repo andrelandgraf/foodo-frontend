@@ -22,7 +22,6 @@ import Modal from '../../components/modal/modal';
 import Message, { MESSAGE_TYPES } from '../../components/message/message';
 
 function CookingContainer( { id } ) {
-    const [ recipe, setRecipe ] = useState( undefined );
     const [ possibleSubstitues, setPossibleSubstitues ] = useState( undefined );
     const [ showSubstiutesFor, setShowSubstiutesFor ] = useState( '' );
     const [ showEditInrgedients, setShowEditIngredients ] = useState( false );
@@ -42,20 +41,9 @@ function CookingContainer( { id } ) {
         blockedSubstitutions: [],
     } );
 
-    const mapCustomRecipeToRecipe = ( r ) => {
-        const recipeObject = lodash.cloneDeep( r );
-        const { origRecipe } = recipeObject.personalizedRecipe;
-        const { ingredients } = recipeObject.personalizedRecipe;
-        return {
-            ...origRecipe,
-            ingredients,
-        };
-    };
-
     const getAndSetCustomRecipe = async ( r ) => {
         const personalizedRecipe = r.user
             ? r : await createCustomRecipe( r, user );
-        setRecipe( r.user ? mapCustomRecipeToRecipe( r ) : r );
         setUserRecipe( r.user ? r : personalizedRecipe );
         return personalizedRecipe;
     };
@@ -65,9 +53,7 @@ function CookingContainer( { id } ) {
             .then( r => ( lodash.isEmpty( r ) ? getRecipe( id ) : r ) )
             .then( r => getAndSetCustomRecipe( r ) )
             .then( personalizedRecipe => getRecipeSubstitutes( personalizedRecipe._id ) )
-            .then( substiutes => setPossibleSubstitues( substiutes ) )
-            // eslint-disable-next-line no-console
-            .catch( err => console.log( err ) );
+            .then( substiutes => setPossibleSubstitues( substiutes ) );
     }, [] );
 
     const substitutesLeft = ( substitutes, ingredients ) => substitutes
@@ -75,14 +61,17 @@ function CookingContainer( { id } ) {
             .find( ingredient => substitute._id === ingredient.ingredient._id ) )
         .length;
 
+    const substiuteIndexInRecipe = ( substitute, ingredients ) => ingredients
+        .findIndex( ingredient => ingredient.ingredient._id === substitute.key );
+
+    const getSubstitutableIngredients = subs => subs
+        .map( sub => sub._id );
+
     const onClickIngredient = displayableIngredient => setShowSubstiutesFor(
         displayableIngredient._id,
     );
 
     const onClickEdit = () => setShowEditIngredients( true );
-
-    const substiuteIndexInRecipe = ( substitute, r ) => r.ingredients
-        .findIndex( ingredient => ingredient.ingredient._id === substitute.key );
 
     const onSelectSubstiute = ( substitue ) => {
         const newIngredient = {
@@ -91,29 +80,29 @@ function CookingContainer( { id } ) {
         };
 
         const updatedRecipe = lodash.cloneDeep( userRecipe );
-        const index = updatedRecipe.personalizedRecipe.ingredients
+        const clonedIngredients = updatedRecipe.personalizedRecipe.ingredients;
+        const index = clonedIngredients
             .findIndex( ingredient => ingredient.ingredient._id === showSubstiutesFor );
-        const substiuteInRecipeIndex = substiuteIndexInRecipe( substitue, recipe );
+        const substiuteInRecipeIndex = substiuteIndexInRecipe( substitue, clonedIngredients );
         if ( substiuteInRecipeIndex === -1 ) {
             // replace selected ingredient by substiute
-            updatedRecipe.personalizedRecipe.ingredients[ index ] = newIngredient;
+            clonedIngredients[ index ] = newIngredient;
         } else {
             // first add substiute amount to present ingredient
             // and afterwards remove substituted ingredient
-            updatedRecipe.personalizedRecipe.ingredients[ substiuteInRecipeIndex ]
-                .amount += substitue.amount;
-            updatedRecipe.personalizedRecipe.ingredients.splice( index, 1 );
+            clonedIngredients[ substiuteInRecipeIndex ].amount += substitue.amount;
+            clonedIngredients.splice( index, 1 );
         }
 
         updateUserRecipe( updatedRecipe ).then( ( newUserRecipe ) => {
-            const newRecipe = mapCustomRecipeToRecipe( newUserRecipe );
-            const finishedSubs = !substitutesLeft( possibleSubstitues, newRecipe.ingredients );
+            const finishedSubs = !substitutesLeft(
+                possibleSubstitues, newUserRecipe.personalizedRecipe.ingredients,
+            );
             const loveEmote = String.fromCodePoint( 128525 );
             setMessage( finishedSubs ? `${ i18n.t( KEYS.MESSAGES.SUBSTITUTION_SUCCESS ) } ${ loveEmote }` : '' );
             setMessageType( finishedSubs ? MESSAGE_TYPES.SUCCESS : '' );
             setShowSubstiutesFor( '' );
             setUserRecipe( newUserRecipe );
-            setRecipe( newRecipe );
         } );
     };
 
@@ -133,6 +122,14 @@ function CookingContainer( { id } ) {
     const onCloseMessage = () => setMessage( '' ) && setMessageType( undefined );
 
     const onCloseEditIngredients = () => setShowEditIngredients( false );
+
+    const mapCustomRecipeToRecipe = ( r ) => {
+        const { origRecipe, ingredients } = r.personalizedRecipe;
+        return {
+            ...origRecipe,
+            ingredients,
+        };
+    };
 
     const makeIngredientsDisplayable = ingredients => ingredients
         .map( ingredient => ( {
@@ -175,9 +172,6 @@ function CookingContainer( { id } ) {
             />
         ) );
 
-    const getSubstitutableIngredients = subs => subs
-        .map( sub => sub._id );
-
     const renderModalTitle = selectedIngredient => (
         <h2>
             { i18n.t( KEYS.HEADERS.SELECT_SUBSTITUTE, { ingredient: selectedIngredient.label } )}
@@ -200,27 +194,28 @@ function CookingContainer( { id } ) {
     const lastClient = userRecipe ? userRecipe.client.clientId : undefined;
 
     const displayableRecipe = useMemo( () => {
-        const displayable = recipe ? lodash.cloneDeep( recipe ) : undefined;
-        if ( displayable ) {
-            displayable.ingredients = makeIngredientsDisplayable( displayable.ingredients );
+        let recipe = userRecipe ? lodash.cloneDeep( userRecipe ) : undefined;
+        if ( recipe ) {
+            recipe = mapCustomRecipeToRecipe( recipe );
+            recipe.ingredients = makeIngredientsDisplayable( recipe.ingredients );
         }
-        return displayable;
-    }, [ recipe ] );
+        return recipe;
+    }, [ userRecipe ] );
 
     const displayableOrigRecipe = useMemo( () => {
         const displayable = userRecipe
             ? lodash.cloneDeep( userRecipe.personalizedRecipe.origRecipe )
             : undefined;
-        // if ( displayable ) {
-        //     displayable.ingredients = makeIngredientsDisplayable( displayable.ingredients );
-        // }
+        if ( displayable ) {
+            displayable.ingredients = makeIngredientsDisplayable( displayable.ingredients );
+        }
         return displayable;
     }, [ userRecipe ] );
 
     const substitutableIngredients = displayableRecipe && possibleSubstitues
         ? getSubstitutableIngredients( possibleSubstitues ) : [];
 
-    const selectedIngredient = recipe && showSubstiutesFor ? displayableRecipe.ingredients
+    const selectedIngredient = userRecipe && showSubstiutesFor ? displayableRecipe.ingredients
         .find( ingredient => ingredient._id === showSubstiutesFor ) : undefined;
 
     const displayableSubstitutes = possibleSubstitues
@@ -237,7 +232,7 @@ function CookingContainer( { id } ) {
                     : i18n.t( KEYS.HEADERS.COOKING_HEADER )
                 }
             </h1>
-            { displayableRecipe
+            { displayableRecipe && displayableOrigRecipe
                 ? (
                     <Recipe
                         lastClient={lastClient}

@@ -1,36 +1,23 @@
-/* eslint-disable react/no-unused-state */
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-// new context
 const UserRecipeContext = React.createContext( {
     userRecipe: undefined,
     setUserRecipe: () => {},
 } );
 
-class UserRecipeProvider extends React.Component {
-    constructor( props ) {
-        super( props );
-        this.state = {
-            userRecipe: undefined,
-        };
-    }
+function UserRecipeProvider( { children } ) {
+    const [ userRecipe, setUserRecipe ] = useState();
+    const context = {
+        userRecipe,
+        setUserRecipe,
+    };
 
-    setUserRecipe = userRecipe => this.setState( { userRecipe } );
-
-    render() {
-        const { children } = this.props;
-        const { state } = this;
-        const context = {
-            setUserRecipe: this.setUserRecipe,
-            ...state,
-        };
-        return (
-            <UserRecipeContext.Provider value={context}>
-                {children}
-            </UserRecipeContext.Provider>
-        );
-    }
+    return (
+        <UserRecipeContext.Provider value={context}>
+            {children}
+        </UserRecipeContext.Provider>
+    );
 }
 
 UserRecipeProvider.propTypes = {

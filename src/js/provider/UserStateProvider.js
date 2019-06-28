@@ -1,5 +1,4 @@
-/* eslint-disable react/no-unused-state */
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 // new context
@@ -9,29 +8,19 @@ const UserStateContext = React.createContext( {
 } );
 
 // corresponding provider component
-class UserStateProvider extends React.Component {
-    constructor( props ) {
-        super( props );
-        this.state = {
-            user: undefined,
-        };
-    }
+function UserStateProvider( { children } ) {
+    const [ user, setUser ] = useState();
 
-    setUser = user => this.setState( { user } );
+    const context = {
+        user,
+        setUser,
+    };
 
-    render() {
-        const { children } = this.props;
-        const { state } = this;
-        const context = {
-            setUser: this.setUser,
-            ...state,
-        };
-        return (
-            <UserStateContext.Provider value={context}>
-                {children}
-            </UserStateContext.Provider>
-        );
-    }
+    return (
+        <UserStateContext.Provider value={context}>
+            {children}
+        </UserStateContext.Provider>
+    );
 }
 
 UserStateProvider.propTypes = {
