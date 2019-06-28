@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 import i18n from 'i18next';
 
 import { KEYS } from '../../../utilities/internationalization/internationalization';
+import { unitToLabel } from '../../../utilities/units';
 
-import edit from '../../../../img/add-list.svg';
+import pencil from '../../../../img/pencil.svg';
 
 import Button from '../../button/button';
 import ImageButton from '../../button/imageButton';
@@ -13,37 +14,29 @@ import ImageButton from '../../button/imageButton';
 function IngredientsTable( {
     ingredients, substitutableIngredients, onClickIngredient, onEdit,
 } ) {
-    const unitToLabel = ( unit ) => {
-        switch ( unit ) {
-        case 'gramm': return 'g';
-        case 'ml': return unit;
-        default: return unit;
-        }
-    };
-
     return (
-        <div className="ingredients-container">
-            <div className="header-container">
+        <div className="recipe-tables-ingredients">
+            <div className="recipe-tables-ingredients-header">
+                <h2>{i18n.t( KEYS.LABELS.INGREDIENTS )}</h2>
                 <ImageButton
-                    src={edit}
+                    src={pencil}
                     alt="edit ingredients"
                     id="edit-ingredients"
                     onClick={onEdit}
-                    classes="edit-ingredients-button"
+                    classes="recipe-tables-ingredients-header-button"
                 />
-                <h2>{i18n.t( KEYS.LABELS.INGREDIENTS )}</h2>
             </div>
-            <div className="ingredients-table">
+            <div className="recipe-tables-ingredients-table">
                 { ingredients.map(
                     ingredient => (
                         <React.Fragment key={ingredient.key}>
-                            <span className="ingredients-table-amount">
+                            <span className="recipe-tables-ingredients-table-amount">
                                 {ingredient.amount * ingredient.unit.amount}
                             </span>
                             <span>
                                 {unitToLabel( ingredient.unit.name )}
                             </span>
-                            <span>
+                            <span className="recipe-tables-ingredients-table-label">
                                 { ingredient.label}
                             </span>
                             <div>
