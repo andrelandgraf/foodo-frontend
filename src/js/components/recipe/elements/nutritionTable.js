@@ -92,27 +92,28 @@ const NutritionTable = ( { ingredients } ) => {
     const data = [
         {
             name: 'Calories',
-            reference: 2000,
+            reference: ( 100 - ( totalCalories / totalWeight * 400 ) * 100 / 2000
+            ).toFixed( 0 ),
             serving: ( ( totalCalories / totalWeight * 400 ) * 100 / 2000
             ).toFixed( 0 ),
         },
         {
-            name: 'Fat', reference: 70, serving: ( ( totalFat / totalWeight * 400 ) * 100 / 70 ).toFixed( 0 ),
+            name: 'Fat', reference: Math.max( 0, ( 100 - ( totalFat / totalWeight * 400 ) * 100 / 70 ).toFixed( 0 ) ), serving: ( ( totalFat / totalWeight * 400 ) * 100 / 70 ).toFixed( 0 ),
         },
         {
-            name: 'Saturated Fats', reference: 20, serving: ( ( totalSFA / totalWeight * 400 ) * 100 / 20 ).toFixed( 0 ),
+            name: 'Saturated Fats', reference: Math.max( 0, ( 100 - ( totalSFA / totalWeight * 400 ) * 100 / 20 ).toFixed( 0 ) ), serving: ( ( totalSFA / totalWeight * 400 ) * 100 / 20 ).toFixed( 0 ),
         },
         {
-            name: 'Carbohydrates', reference: 260, serving: ( ( totalCarbs / totalWeight * 400 ) * 100 / 260 ).toFixed( 0 ),
+            name: 'Carbohydrates', reference: Math.max( 0, ( 100 - ( totalCarbs / totalWeight * 400 ) * 100 / 260 ).toFixed( 0 ) ), serving: ( ( totalCarbs / totalWeight * 400 ) * 100 / 260 ).toFixed( 0 ),
         },
         {
-            name: 'Sugar', reference: 90, serving: ( ( totalSugar / totalWeight * 400 ) * 100 / 90 ).toFixed( 0 ),
+            name: 'Sugar', reference: Math.max( 0, ( 100 - ( totalSugar / totalWeight * 400 ) * 100 / 90 ).toFixed( 0 ) ), serving: ( ( totalSugar / totalWeight * 400 ) * 100 / 90 ).toFixed( 0 ),
         },
         {
-            name: 'Protein', reference: 50, serving: ( ( totalProtein / totalWeight * 400 ) * 100 / 50 ).toFixed( 0 ),
+            name: 'Protein', reference: Math.max( 0, ( 100 - ( totalProtein / totalWeight * 400 ) * 100 / 50 ).toFixed( 0 ) ), serving: ( ( totalProtein / totalWeight * 400 ) * 100 / 50 ).toFixed( 0 ),
         },
         {
-            name: 'Salt', reference: 6, serving: ( ( totalSalt / totalWeight * 400 ) * 100 / 6 ).toFixed( 0 ),
+            name: 'Salt', reference: Math.max( 0, ( 100 - ( totalSalt / totalWeight * 400 ) * 100 / 6 ).toFixed( 0 ) ), serving: ( ( totalSalt / totalWeight * 400 ) * 100 / 6 ).toFixed( 0 ),
         },
     ];
     return (
@@ -283,13 +284,21 @@ g
                     </tbody>
                 </table>
             </div>
-            <BarChart width={300} height={250} data={data}>
+            <BarChart
+                width={500}
+                height={300}
+                data={data}
+                margin={{
+                    top: 20, right: 30, left: 20, bottom: 5,
+                }}
+            >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
-                <YAxis dataKey="serving" />
+                <YAxis />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="serving" fill="#cf1322" />
+                <Bar dataKey="serving" stackId="a" fill="#cf1322" />
+                <Bar dataKey="reference" stackId="a" fill="#7cb305" />
             </BarChart>
         </div>
     );
