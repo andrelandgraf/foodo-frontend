@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, {
+    useState, useEffect, useContext, useMemo,
+} from 'react';
 import PropTypes from 'prop-types';
 import lodash from 'lodash';
 import i18n from 'i18next';
@@ -10,20 +12,25 @@ import {
 } from '../../services/foodo-api/recipe/recipesService';
 
 import { UserStateContext } from '../../provider/UserStateProvider';
+import { UserRecipeContext } from '../../provider/UserRecipeProvider';
 
 import Recipe from '../../components/recipe/recipe';
 import Loader from '../../components/loading/loader';
 import Ingredient from '../../components/ingredient/ingredient';
+import EditIngredients from './EditIngredients';
 import Modal from '../../components/modal/modal';
 import Message, { MESSAGE_TYPES } from '../../components/message/message';
 
 function CookingContainer( { id } ) {
     const [ recipe, setRecipe ] = useState( undefined );
-    const [ userRecipe, setUserRecipe ] = useState( undefined );
     const [ possibleSubstitues, setPossibleSubstitues ] = useState( undefined );
     const [ showSubstiutesFor, setShowSubstiutesFor ] = useState( '' );
+    const [ showEditInrgedients, setShowEditIngredients ] = useState( false );
+
     const [ message, setMessage ] = useState( '' );
     const [ messageType, setMessageType ] = useState( undefined );
+
+    const { userRecipe, setUserRecipe } = useContext( UserRecipeContext );
     const { user } = useContext( UserStateContext );
 
     const createCustomRecipe = r => postUserRecipe( {
@@ -71,6 +78,8 @@ function CookingContainer( { id } ) {
     const onClickIngredient = displayableIngredient => setShowSubstiutesFor(
         displayableIngredient._id,
     );
+
+    const onClickEdit = () => setShowEditIngredients( true );
 
     const substiuteIndexInRecipe = ( substitute, r ) => r.ingredients
         .findIndex( ingredient => ingredient.ingredient._id === substitute.key );
@@ -122,6 +131,8 @@ function CookingContainer( { id } ) {
     };
 
     const onCloseMessage = () => setMessage( '' ) && setMessageType( undefined );
+
+    const onCloseEditIngredients = () => setShowEditIngredients( false );
 
     const makeIngredientsDisplayable = ingredients => ingredients
         .map( ingredient => ( {
@@ -175,7 +186,7 @@ function CookingContainer( { id } ) {
 
     const renderModal = ( displayableSubstitutes, selectedIngredient ) => (
         <Modal
-            classes="substitutes-container"
+            classes="ingredients-container"
             onCloseModal={() => setShowSubstiutesFor( '' )}
             Title={renderModalTitle( selectedIngredient )}
         >
@@ -188,10 +199,23 @@ function CookingContainer( { id } ) {
 
     const lastClient = userRecipe ? userRecipe.client.clientId : undefined;
 
-    const displayableRecipe = recipe ? lodash.cloneDeep( recipe ) : undefined;
-    if ( displayableRecipe ) {
-        displayableRecipe.ingredients = makeIngredientsDisplayable( displayableRecipe.ingredients );
-    }
+    const displayableRecipe = useMemo( () => {
+        const displayable = recipe ? lodash.cloneDeep( recipe ) : undefined;
+        if ( displayable ) {
+            displayable.ingredients = makeIngredientsDisplayable( displayable.ingredients );
+        }
+        return displayable;
+    }, [ recipe ] );
+
+    const displayableOrigRecipe = useMemo( () => {
+        const displayable = userRecipe
+            ? lodash.cloneDeep( userRecipe.personalizedRecipe.origRecipe )
+            : undefined;
+        // if ( displayable ) {
+        //     displayable.ingredients = makeIngredientsDisplayable( displayable.ingredients );
+        // }
+        return displayable;
+    }, [ userRecipe ] );
 
     const substitutableIngredients = displayableRecipe && possibleSubstitues
         ? getSubstitutableIngredients( possibleSubstitues ) : [];
@@ -218,7 +242,9 @@ function CookingContainer( { id } ) {
                     <Recipe
                         lastClient={lastClient}
                         recipe={displayableRecipe}
+                        origRecipe={displayableOrigRecipe}
                         onClickIngredient={onClickIngredient}
+                        onEdit={onClickEdit}
                         substitutableIngredients={substitutableIngredients}
                         Message={SuccessMessage}
                     />
@@ -227,6 +253,14 @@ function CookingContainer( { id } ) {
             }
             { selectedIngredient
                 ? renderModal( displayableSubstitutes, selectedIngredient )
+                : null
+            }
+            { showEditInrgedients
+                ? (
+                    <EditIngredients
+                        onCloseEditIngredients={onCloseEditIngredients}
+                    />
+                )
                 : null
             }
         </React.Fragment>

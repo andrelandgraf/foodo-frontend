@@ -5,9 +5,14 @@ import i18n from 'i18next';
 
 import { KEYS } from '../../../utilities/internationalization/internationalization';
 
-import Button from '../../button/button';
+import edit from '../../../../img/add-list.svg';
 
-function IngredientsTable( { ingredients, substitutableIngredients, onClickIngredient } ) {
+import Button from '../../button/button';
+import ImageButton from '../../button/imageButton';
+
+function IngredientsTable( {
+    ingredients, substitutableIngredients, onClickIngredient, onEdit,
+} ) {
     const unitToLabel = ( unit ) => {
         switch ( unit ) {
         case 'gramm': return 'g';
@@ -17,8 +22,17 @@ function IngredientsTable( { ingredients, substitutableIngredients, onClickIngre
     };
 
     return (
-        <div>
-            <h2>{i18n.t( KEYS.LABELS.INGREDIENTS )}</h2>
+        <div className="ingredients-container">
+            <div className="header-container">
+                <h2>{i18n.t( KEYS.LABELS.INGREDIENTS )}</h2>
+                <ImageButton
+                    src={edit}
+                    alt="edit ingredients"
+                    id="edit-ingredients"
+                    onClick={onEdit}
+                    classes="edit-ingredients-button"
+                />
+            </div>
             <div className="ingredients-table">
                 { ingredients.map(
                     ingredient => (
@@ -64,6 +78,7 @@ IngredientsTable.propTypes = {
         } ),
     ).isRequired,
     onClickIngredient: PropTypes.func.isRequired,
+    onEdit: PropTypes.func.isRequired,
     substitutableIngredients: PropTypes.arrayOf(
         PropTypes.string,
     ).isRequired,
