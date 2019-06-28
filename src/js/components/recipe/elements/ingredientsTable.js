@@ -24,7 +24,6 @@ function IngredientsTable( {
     return (
         <div className="ingredients-container">
             <div className="header-container">
-                <h2>{i18n.t( KEYS.LABELS.INGREDIENTS )}</h2>
                 <ImageButton
                     src={edit}
                     alt="edit ingredients"
@@ -32,6 +31,7 @@ function IngredientsTable( {
                     onClick={onEdit}
                     classes="edit-ingredients-button"
                 />
+                <h2>{i18n.t( KEYS.LABELS.INGREDIENTS )}</h2>
             </div>
             <div className="ingredients-table">
                 { ingredients.map(

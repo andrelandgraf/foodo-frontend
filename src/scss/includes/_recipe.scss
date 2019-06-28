@@ -53,11 +53,15 @@
         .ingredients-container {
             @extend .box;
             padding: 5px;
+            min-width: 45%;
 
             .header-container {
-                display: flex;
-                flex-direction: column;
-                align-content: space-between;
+                display: inline-flex;
+                width: 100%;
+
+                .edit-ingredients-button {
+                    margin: auto 5px;
+                }
             }
 
             .ingredients-table {

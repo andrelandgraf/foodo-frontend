@@ -66,7 +66,7 @@ Ingredient.propTypes = {
         label: PropTypes.string.isRequired,
         key: PropTypes.string.isRequired,
         amount: PropTypes.number.isRequired,
-        nutriScore: PropTypes.number.isRequired,
+        nutriScore: PropTypes.number,
     } ).isRequired,
     onClose: PropTypes.func.isRequired,
     onClick: PropTypes.func,

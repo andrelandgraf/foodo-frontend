@@ -16,12 +16,21 @@ function EditIngredients( { onCloseEditIngredients } ) {
     const { ingredients } = useContext( IngredientsContext );
     const { userRecipe, setUserRecipe } = useContext( UserRecipeContext );
 
-    const onSelect = ( i ) => {
+    const onSelect = ( ingredient ) => {
         const updatedRecipe = lodash.cloneDeep( userRecipe );
-        userRecipe.personalizedRecipe.ingredients.push( {
-            amount: 100,
-            ingredient: i._id,
+        updatedRecipe.personalizedRecipe.ingredients.push( {
+            amount: 1,
+            ingredient: ingredient._id,
         } );
+        updateUserRecipe( updatedRecipe ).then( ( postedRecipe ) => {
+            setUserRecipe( postedRecipe );
+        } );
+    };
+
+    const onDelete = ( ingredient ) => {
+        const updatedRecipe = lodash.cloneDeep( userRecipe );
+        updatedRecipe.personalizedRecipe.ingredients = updatedRecipe.personalizedRecipe
+            .ingredients.filter( i => i.ingredient._id !== ingredient._id );
         updateUserRecipe( updatedRecipe ).then( postedRecipe => setUserRecipe( postedRecipe ) );
     };
 
@@ -35,6 +44,7 @@ function EditIngredients( { onCloseEditIngredients } ) {
     const makeRecipeIngredientsDisplayable = iArray => iArray
         .map( ingredient => ( {
             ...ingredient.ingredient,
+            amount: ingredient.amount,
             label: ingredient.ingredient.name[ getLocale() ],
             key: ingredient.ingredient._id,
         } ) );
@@ -85,7 +95,7 @@ function EditIngredients( { onCloseEditIngredients } ) {
             </div>
             { displayableUserRecipe.personalizedRecipe.ingredients.map(
                 ingredient => (
-                    <Ingredient ingredient={ingredient} />
+                    <Ingredient key={ingredient.key} ingredient={ingredient} onClose={onDelete} />
                 ),
             ) }
         </Modal>
