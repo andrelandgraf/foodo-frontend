@@ -46,23 +46,38 @@
             font-size: $font-size-xs;
         }
 
-        .ingredients-table {
-            display: grid;
-            grid-template-columns: auto auto auto auto;
-            row-gap: 10px;
-            column-gap: 2px;
-            word-wrap: break-word;
+        h2 {
+            margin: 20px 5px;
+        }
 
-            &-amount {
-                text-align: right;
+        .ingredients-container {
+            @extend .box;
+            padding: 5px;
+
+            .header-container {
+                display: flex;
+                flex-direction: column;
+                align-content: space-between;
             }
 
-            div {
-                margin-left: 20px;
-                @media screen and (max-width: $phone-width) {
-                    margin-left: auto;
+            .ingredients-table {
+                display: grid;
+                grid-template-columns: auto auto auto auto;
+                row-gap: 10px;
+                column-gap: 2px;
+                word-wrap: break-word;
+
+                &-amount {
+                    text-align: right;
                 }
 
+                div {
+                    margin-left: 20px;
+                    @media screen and (max-width: $phone-width) {
+                        margin-left: auto;
+                    }
+
+                }
             }
         }
 
