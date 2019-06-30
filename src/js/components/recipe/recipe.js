@@ -7,6 +7,8 @@ import { KEYS } from '../../utilities/internationalization/internationalization'
 import hourglass from '../../../img/hourglass.svg';
 import IngredientsTable from './elements/ingredientsTable';
 import NutritionTable from './elements/nutritionTable';
+import BarStats from './elements/barStats';
+import PieStats from './elements/pieStats';
 
 const Recipe = ( {
     recipe, substitutableIngredients, onClickIngredient, lastClient, Message,
@@ -34,6 +36,8 @@ const Recipe = ( {
                 onClickIngredient={onClickIngredient}
             />
             <NutritionTable ingredients={recipe.ingredients} />
+            <BarStats ingredients={recipe.ingredients} />
+            <PieStats />
         </div>
     </div>
 );
