@@ -4,32 +4,39 @@ import PropTypes from 'prop-types';
 import i18n from 'i18next';
 
 import { KEYS } from '../../../utilities/internationalization/internationalization';
+import { unitToLabel } from '../../../utilities/units';
+
+import pencil from '../../../../img/pencil.svg';
 
 import Button from '../../button/button';
+import ImageButton from '../../button/imageButton';
 
-function IngredientsTable( { ingredients, substitutableIngredients, onClickIngredient } ) {
-    const unitToLabel = ( unit ) => {
-        switch ( unit ) {
-        case 'gramm': return 'g';
-        case 'ml': return unit;
-        default: return unit;
-        }
-    };
-
+function IngredientsTable( {
+    ingredients, substitutableIngredients, onClickIngredient, onEdit,
+} ) {
     return (
-        <div>
-            <h2>{i18n.t( KEYS.LABELS.INGREDIENTS )}</h2>
-            <div className="ingredients-table">
+        <div className="recipe-tables-ingredients">
+            <div className="recipe-tables-ingredients-header">
+                <h2>{i18n.t( KEYS.LABELS.INGREDIENTS )}</h2>
+                <ImageButton
+                    src={pencil}
+                    alt="edit ingredients"
+                    id="edit-ingredients"
+                    onClick={onEdit}
+                    classes="recipe-tables-ingredients-header-button"
+                />
+            </div>
+            <div className="recipe-tables-ingredients-table">
                 { ingredients.map(
                     ingredient => (
                         <React.Fragment key={ingredient.key}>
-                            <span className="ingredients-table-amount">
+                            <span className="recipe-tables-ingredients-table-amount">
                                 {ingredient.amount * ingredient.unit.amount}
                             </span>
                             <span>
                                 {unitToLabel( ingredient.unit.name )}
                             </span>
-                            <span>
+                            <span className="recipe-tables-ingredients-table-label">
                                 { ingredient.label}
                             </span>
                             <div>
@@ -64,6 +71,7 @@ IngredientsTable.propTypes = {
         } ),
     ).isRequired,
     onClickIngredient: PropTypes.func.isRequired,
+    onEdit: PropTypes.func.isRequired,
     substitutableIngredients: PropTypes.arrayOf(
         PropTypes.string,
     ).isRequired,

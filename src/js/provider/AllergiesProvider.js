@@ -1,41 +1,30 @@
-/* eslint-disable react/no-unused-state */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { getAllergies } from '../services/foodo-api/user/profileService';
 
 const AllergiesContext = React.createContext( {
-    ingredients: undefined,
-    setIngredients: () => {},
+    allergies: undefined,
+    setAllergies: () => {},
 } );
 
-class AllergiesProvider extends React.Component {
-    constructor( props ) {
-        super( props );
-        this.state = {
-            allergies: [],
-        };
-    }
+function AllergiesProvider( { children } ) {
+    const [ allergies, setAllergies ] = useState( [] );
 
-    componentDidMount() {
-        getAllergies().then( allergies => this.setState( { allergies } ) );
-    }
+    useEffect( () => {
+        getAllergies().then( a => setAllergies( a ) );
+    }, [] );
 
-    setAllergies = allergies => this.setState( { allergies } );
+    const context = {
+        allergies,
+        setAllergies,
+    };
 
-    render() {
-        const { children } = this.props;
-        const { state } = this;
-        const context = {
-            setAllergies: this.setAllergies,
-            ...state,
-        };
-        return (
-            <AllergiesContext.Provider value={context}>
-                {children}
-            </AllergiesContext.Provider>
-        );
-    }
+    return (
+        <AllergiesContext.Provider value={context}>
+            {children}
+        </AllergiesContext.Provider>
+    );
 }
 
 AllergiesProvider.propTypes = {

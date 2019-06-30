@@ -5,12 +5,13 @@
         width: 100%;
     }
 
-    .substitutes-container {
+    .ingredients-container {
         display: flex;
         flex-direction: column;
         align-items: center;
+        padding-bottom: 20px;
 
-        .substitute {
+        .ingredient {
             @extend .box;
             width: 80%;
             font-size: $font-size-xs;
@@ -22,7 +23,7 @@
             display: flex;
             flex-direction: row;
 
-            .substitute-btn {
+            &-content {
                 display: flex;
                 flex-direction: column;
                 flex-grow: 1;
@@ -49,7 +50,7 @@
                 }
             }
 
-            .substitute-cancel-btn {
+            &-x-btn {
                 img {
                     padding-left: 20px;
                     padding-right: 20px;
@@ -59,4 +60,45 @@
         }
     }
 
+    .edit-ingredients-container {
+        @extend .ingredients-container;
+        width: 60%;
+
+        &-form {
+            display: flex;
+            align-items: center;
+            padding-bottom: 20px;
+            width: 100%;
+            @media screen and (max-width: $phone-width) {
+                display: flex;
+                flex-direction: column;
+                align-content: center;
+            }
+
+            &-amount {
+                display: inline-flex;
+
+                input {
+                    text-align: right;
+                    margin: auto;
+                    padding-right: 5px;
+                    width: 40px;
+                }
+
+                span {
+                    padding-right: 10px;
+                    margin: auto;
+                }
+            }
+
+            .datalist-input-input {
+                max-width: 250px;
+                margin-bottom: 0px;
+            }
+
+            button {
+                margin-left: 20px;
+            }
+        }
+    }
 }

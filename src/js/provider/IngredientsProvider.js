@@ -1,5 +1,4 @@
-/* eslint-disable react/no-unused-state */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { getIngredients } from '../services/foodo-api/ingredient/ingredientsService';
 
@@ -8,33 +7,23 @@ const IngredientsContext = React.createContext( {
     setIngredients: () => {},
 } );
 
-class IngredientsProvider extends React.Component {
-    constructor( props ) {
-        super( props );
-        this.state = {
-            ingredients: [],
-        };
-    }
+function IngredientsProvider( { children } ) {
+    const [ ingredients, setIngredients ] = useState( [] );
 
-    componentDidMount() {
-        getIngredients().then( ingredients => this.setState( { ingredients } ) );
-    }
+    useEffect( () => {
+        getIngredients().then( i => setIngredients( i ) );
+    }, [] );
 
-    setIngredients = ingredients => this.setState( { ingredients } );
+    const context = {
+        ingredients,
+        setIngredients,
+    };
 
-    render() {
-        const { children } = this.props;
-        const { state } = this;
-        const context = {
-            setIngredients: this.setIngredients,
-            ...state,
-        };
-        return (
-            <IngredientsContext.Provider value={context}>
-                {children}
-            </IngredientsContext.Provider>
-        );
-    }
+    return (
+        <IngredientsContext.Provider value={context}>
+            {children}
+        </IngredientsContext.Provider>
+    );
 }
 
 IngredientsProvider.propTypes = {
