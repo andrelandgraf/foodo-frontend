@@ -11,7 +11,7 @@ import BarStats from './elements/barStats';
 import PieStats from './elements/pieStats';
 
 const Recipe = ( {
-    recipe, substitutableIngredients, onClickIngredient, lastClient, Message,
+    recipe, substitutableIngredients, onClickIngredient, lastClient, Message, onEdit,
 } ) => (
     <div className="recipe">
         <div className="center">
@@ -29,11 +29,12 @@ const Recipe = ( {
         </div>
         <img src={recipe.imgUrl} alt={recipe.name} className="recipePic" />
         { Message }
-        <div className="recipe-tables-container">
+        <div className="recipe-tables">
             <IngredientsTable
                 ingredients={recipe.ingredients}
                 substitutableIngredients={substitutableIngredients}
                 onClickIngredient={onClickIngredient}
+                onEdit={onEdit}
             />
             <NutritionTable ingredients={recipe.ingredients} />
             <BarStats ingredients={recipe.ingredients} />
@@ -61,8 +62,22 @@ Recipe.propTypes = {
         ).isRequired,
         imgUrl: PropTypes.string,
     } ).isRequired,
+    origRecipe: PropTypes.shape( {
+        ingredients: PropTypes.arrayOf(
+            PropTypes.shape( {
+                label: PropTypes.string.isRequired,
+                key: PropTypes.string.isRequired,
+                amount: PropTypes.number.isRequired,
+                unit: PropTypes.shape( {
+                    amount: PropTypes.number.isRequired,
+                    name: PropTypes.string.isRequired,
+                } ),
+            } ),
+        ).isRequired,
+    } ).isRequired,
     lastClient: PropTypes.string,
     onClickIngredient: PropTypes.func.isRequired,
+    onEdit: PropTypes.func.isRequired,
     substitutableIngredients: PropTypes.arrayOf(
         PropTypes.string,
     ).isRequired,
