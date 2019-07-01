@@ -6,7 +6,6 @@ import lodash from 'lodash';
 import { updateUserRecipe } from '../../services/foodo-api/recipe/recipesService';
 import { unitToLabel } from '../../utilities/units';
 
-import { IngredientsContext } from '../../provider/IngredientsProvider';
 import { UserRecipeContext } from '../../provider/UserRecipeProvider';
 import { getLocale } from '../../utilities/internationalization/internationalization';
 
@@ -14,11 +13,13 @@ import Modal from '../../components/modal/modal';
 import Amount from '../../components/amount/amount';
 import Ingredient from '../../components/ingredient/ingredient';
 import SubmitButton from '../../components/button/submitButton';
+import useDisplayableIngredients from '../../hooks/useDisplayableIngredients';
 
 function EditIngredients( { onCloseEditIngredients } ) {
     const [ amount, setAmount ] = useState( '' );
     const [ selected, setSelected ] = useState();
-    const { ingredients } = useContext( IngredientsContext );
+    const displayableIngredients = useDisplayableIngredients();
+
     const { userRecipe, setUserRecipe } = useContext( UserRecipeContext );
 
     const onSelect = i => setSelected( i );
@@ -46,13 +47,6 @@ function EditIngredients( { onCloseEditIngredients } ) {
         updateUserRecipe( updatedRecipe );
     };
 
-    const makeIngredientsDisplayable = iArray => iArray
-        .map( ingredient => ( {
-            ...ingredient,
-            label: ingredient.name[ getLocale() ],
-            key: ingredient._id,
-        } ) );
-
     const makeRecipeIngredientsDisplayable = iArray => iArray
         .map( ingredient => ( {
             ...ingredient.ingredient,
@@ -61,10 +55,10 @@ function EditIngredients( { onCloseEditIngredients } ) {
             key: ingredient.ingredient._id,
         } ) );
 
-    const displayableIngredients = useMemo( () => makeIngredientsDisplayable(
-        lodash.cloneDeep( ingredients ),
-    ).filter( i => !userRecipe.personalizedRecipe.ingredients
-        .find( alreadyI => alreadyI.ingredient._id === i._id ) ), [ ingredients, userRecipe ] );
+    const possibleIngredients = useMemo( () => displayableIngredients
+        .filter( i => !userRecipe.personalizedRecipe.ingredients
+            .find( alreadyI => alreadyI.ingredient._id === i._id ) ),
+    [ displayableIngredients, userRecipe ] );
 
     const displayableUserRecipe = useMemo( () => {
         const displayable = userRecipe
@@ -100,7 +94,7 @@ function EditIngredients( { onCloseEditIngredients } ) {
                         classes="edit-ingredients-container-form-amount"
                     />
                     <DataListInput
-                        items={displayableIngredients}
+                        items={possibleIngredients}
                         placeholder="Select additional ingredients..."
                         initialValue={selected ? selected.label : ''}
                         onSelect={onSelect}
@@ -111,7 +105,7 @@ function EditIngredients( { onCloseEditIngredients } ) {
                         itemClassName="datalist-input-item"
                         activeItemClassName="datalist-input-activeItem"
                         suppressReselect={false}
-                        clearInputOnSelect={false}
+                        clearInputOnSelect
                     />
                     <SubmitButton label="Add" disabled={!amount || !selected} />
                 </div>
