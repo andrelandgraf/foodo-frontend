@@ -17,7 +17,7 @@ import { UserRecipeContext } from '../../provider/UserRecipeProvider';
 import Recipe from '../../components/recipe/recipe';
 import Loader from '../../components/loading/loader';
 import Ingredient from '../../components/ingredient/ingredient';
-import EditIngredients from './EditIngredients';
+import EditIngredients from '../Ingredients/EditIngredientsContainer';
 import Modal from '../../components/modal/modal';
 import Message, { MESSAGE_TYPES } from '../../components/message/message';
 

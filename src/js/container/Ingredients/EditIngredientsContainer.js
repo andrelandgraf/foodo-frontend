@@ -11,6 +11,7 @@ import { UserRecipeContext } from '../../provider/UserRecipeProvider';
 import { getLocale } from '../../utilities/internationalization/internationalization';
 
 import Modal from '../../components/modal/modal';
+import Amount from '../../components/amount/amount';
 import Ingredient from '../../components/ingredient/ingredient';
 import SubmitButton from '../../components/button/submitButton';
 
@@ -41,7 +42,8 @@ function EditIngredients( { onCloseEditIngredients } ) {
         const updatedRecipe = lodash.cloneDeep( userRecipe );
         updatedRecipe.personalizedRecipe.ingredients = updatedRecipe.personalizedRecipe
             .ingredients.filter( i => i.ingredient._id !== ingredient._id );
-        updateUserRecipe( updatedRecipe ).then( postedRecipe => setUserRecipe( postedRecipe ) );
+        setUserRecipe( updatedRecipe );
+        updateUserRecipe( updatedRecipe );
     };
 
     const makeIngredientsDisplayable = iArray => iArray
@@ -91,15 +93,12 @@ function EditIngredients( { onCloseEditIngredients } ) {
 
             <form onSubmit={onSave}>
                 <div className="edit-ingredients-container-form">
-                    <div className="edit-ingredients-container-form-amount">
-                        <input
-                            value={amount}
-                            onChange={onChangeAmount}
-                            placeholder="5"
-                            required
-                        />
-                        <span>{ selected ? unitToLabel( selected.unit.name ) : 'g' }</span>
-                    </div>
+                    <Amount
+                        value={amount}
+                        unit={selected ? unitToLabel( selected.unit.name ) : 'g'}
+                        onChange={onChangeAmount}
+                        classes="edit-ingredients-container-form-amount"
+                    />
                     <DataListInput
                         items={displayableIngredients}
                         placeholder="Select additional ingredients..."
