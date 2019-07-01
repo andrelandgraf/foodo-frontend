@@ -20,11 +20,13 @@ import Ingredient from '../../components/ingredient/ingredient';
 import EditIngredients from '../Ingredients/EditIngredientsContainer';
 import Modal from '../../components/modal/modal';
 import Message, { MESSAGE_TYPES } from '../../components/message/message';
+import useDisplayableUserRecipe from '../../hooks/useDisplayableUserRecipe';
 
 function CookingContainer( { id } ) {
     const [ possibleSubstitues, setPossibleSubstitues ] = useState( undefined );
     const [ showSubstiutesFor, setShowSubstiutesFor ] = useState( '' );
     const [ showEditInrgedients, setShowEditIngredients ] = useState( false );
+    const [ displayableRecipe, displayableOrigRecipe ] = useDisplayableUserRecipe();
 
     const [ message, setMessage ] = useState( '' );
     const [ messageType, setMessageType ] = useState( undefined );
@@ -128,22 +130,6 @@ function CookingContainer( { id } ) {
 
     const onCloseEditIngredients = () => setShowEditIngredients( false );
 
-    const mapCustomRecipeToRecipe = ( r ) => {
-        const { origRecipe, ingredients } = r.personalizedRecipe;
-        return {
-            ...origRecipe,
-            ingredients,
-        };
-    };
-
-    const makeIngredientsDisplayable = ingredients => ingredients
-        .map( ingredient => ( {
-            ...ingredient.ingredient,
-            amount: ingredient.amount,
-            label: ingredient.ingredient.name[ getLocale() ],
-            key: ingredient.ingredient._id,
-        } ) );
-
     const makeSubstituteDisplayable = ingredient => ( {
         ...ingredient.substitute,
         amount: ingredient.amount,
@@ -197,25 +183,6 @@ function CookingContainer( { id } ) {
     );
 
     const lastClient = userRecipe ? userRecipe.client.clientId : undefined;
-
-    const displayableRecipe = useMemo( () => {
-        let recipe = userRecipe ? lodash.cloneDeep( userRecipe ) : undefined;
-        if ( recipe ) {
-            recipe = mapCustomRecipeToRecipe( recipe );
-            recipe.ingredients = makeIngredientsDisplayable( recipe.ingredients );
-        }
-        return recipe;
-    }, [ userRecipe ] );
-
-    const displayableOrigRecipe = useMemo( () => {
-        const displayable = userRecipe
-            ? lodash.cloneDeep( userRecipe.personalizedRecipe.origRecipe )
-            : undefined;
-        if ( displayable ) {
-            displayable.ingredients = makeIngredientsDisplayable( displayable.ingredients );
-        }
-        return displayable;
-    }, [ userRecipe ] );
 
     const substitutableIngredients = useMemo( () => ( displayableRecipe && possibleSubstitues
         ? getSubstitutableIngredients( possibleSubstitues ) : [] ), [ possibleSubstitues ] );
