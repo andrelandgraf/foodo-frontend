@@ -11,7 +11,7 @@ import BarStats from './elements/barStats';
 import PieStats from './elements/pieStats';
 
 const Recipe = ( {
-    recipe, substitutableIngredients, onClickIngredient, lastClient, Message, onEdit,
+    recipe, origRecipe, substitutableIngredients, onClickIngredient, lastClient, Message, onEdit,
 } ) => (
     <div className="recipe">
         <div className="center">
@@ -30,6 +30,8 @@ const Recipe = ( {
         <img src={recipe.imgUrl} alt={recipe.name} className="recipePic" />
         { Message }
         <div className="recipe-tables">
+            <BarStats ingredients={recipe.ingredients} origingredients={origRecipe.ingredients} />
+            <PieStats />
             <IngredientsTable
                 ingredients={recipe.ingredients}
                 substitutableIngredients={substitutableIngredients}
@@ -37,8 +39,7 @@ const Recipe = ( {
                 onEdit={onEdit}
             />
             <NutritionTable ingredients={recipe.ingredients} />
-            <BarStats ingredients={recipe.ingredients} />
-            <PieStats />
+
         </div>
     </div>
 );
