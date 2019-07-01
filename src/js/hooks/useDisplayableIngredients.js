@@ -5,7 +5,7 @@ import { getLocale } from '../utilities/internationalization/internationalizatio
 
 import { IngredientsContext } from '../provider/IngredientsProvider';
 
-const mapIngredientsDisplayable = ( ingredients, locale ) => ( ingredients
+export const mapIngredientsDisplayable = ( ingredients, locale ) => ( ingredients
     ? lodash.cloneDeep( ingredients ).map( ingredient => ( {
         ...ingredient,
         label: ingredient.name[ locale ],

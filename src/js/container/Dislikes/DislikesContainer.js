@@ -1,5 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, {
+    useState, useEffect, useContext, useMemo,
+} from 'react';
 import DataListInput from 'react-datalist-input';
 import lodash from 'lodash';
 import i18n from 'i18next';
@@ -9,118 +10,76 @@ import { KEYS, getLocale } from '../../utilities/internationalization/internatio
 import { putDislike, deleteDislike } from '../../services/foodo-api/user/profileService';
 
 import { UserStateContext } from '../../provider/UserStateProvider';
+import useDisplayableIngredients, { mapIngredientsDisplayable } from '../../hooks/useDisplayableIngredients';
+
 import Tags from '../../components/tags/tags';
 
-class DislikesContainer extends React.Component {
-    constructor( props ) {
-        super( props );
+function DislikesContainer() {
+    const [ dislikes, setDislikes ] = useState( [] );
+    const { user, setUser } = useContext( UserStateContext );
+    const displayableIngredients = useDisplayableIngredients();
 
-        this.state = {
-            dislikes: [],
-        };
-    }
+    useEffect( () => {
+        const { dislikes: uDislikes } = user;
+        setDislikes( lodash.cloneDeep( uDislikes ) );
+    }, [] );
 
-    componentDidMount = async () => {
-        const { user } = this.context;
-        const { dislikes } = user;
-        const userDislikes = lodash.cloneDeep( dislikes );
-        this.setState( { dislikes: userDislikes } );
-    }
-
-    updateUser = ( updatedDislikes ) => {
-        const { user, setUser } = this.context;
+    const updateUser = ( updatedDislikes ) => {
         const updatedUser = lodash.cloneDeep( user );
         updatedUser.dislikes = updatedDislikes;
         setUser( updatedUser );
-    }
+    };
 
-    onSelect = ( item ) => {
-        const { dislikes } = this.state;
-        if ( dislikes.find( dislike => dislike._id === item._id ) ) return;
+    const onSelect = ( dislike ) => {
+        if ( dislikes.find( d => d._id === dislike._id ) ) return;
 
         const updatedDislikes = lodash.cloneDeep( dislikes );
-        updatedDislikes.push( item );
-        this.setState( { dislikes: updatedDislikes } );
+        updatedDislikes.push( dislike );
 
-        putDislike( { name: item.name, _id: item._id } );
+        setDislikes( updatedDislikes );
+        putDislike( { name: dislike.name, _id: dislike._id } );
+        updateUser( updatedDislikes );
+    };
 
-        this.updateUser( updatedDislikes );
-    }
-
-    onDelete = ( itemId ) => {
-        const { dislikes } = this.state;
-
+    const onDelete = ( id ) => {
         let updatedDislikes = lodash.cloneDeep( dislikes );
-        updatedDislikes = updatedDislikes.filter( dislike => dislike._id !== itemId );
-        this.setState( { dislikes: updatedDislikes } );
+        updatedDislikes = updatedDislikes.filter( dislike => dislike._id !== id );
 
-        deleteDislike( { _id: itemId } );
+        setDislikes( updatedDislikes );
+        deleteDislike( { _id: id } );
+        updateUser( updatedDislikes );
+    };
 
-        this.updateUser( updatedDislikes );
-    }
+    const possibleMatches = useMemo( () => ( displayableIngredients
+        .filter( i => !( dislikes.find( dislike => dislike._id === i._id ) ) )
+    ), [ dislikes, displayableIngredients ] );
 
-    removeAlreadySelectedItems = ( dislikes, foodItems ) => foodItems
-        .filter( item => !( dislikes.find( dislike => dislike._id === item._id ) ) );
+    const displayableDislikes = useMemo( () => mapIngredientsDisplayable( dislikes, getLocale() ),
+        [ dislikes ] );
 
-    mapFoodItemsToKeyLabelPairs = foodItems => foodItems
-        .map( item => ( {
-            ...item,
-            key: item._id,
-            label: item.name[ getLocale() ],
-        } ) );
-
-    render() {
-        const { dislikes } = this.state;
-        const { ingredientsContext } = this.props;
-        const foodItems = ingredientsContext.ingredients;
-
-        const clonedFoodItems = lodash.cloneDeep( foodItems );
-        let possibleMatches = this.removeAlreadySelectedItems( dislikes, clonedFoodItems );
-        possibleMatches = this.mapFoodItemsToKeyLabelPairs( possibleMatches );
-
-        const clonedDislikes = lodash.cloneDeep( dislikes );
-        const displayableDislikes = this.mapFoodItemsToKeyLabelPairs( clonedDislikes );
-
-        return (
-            <div className="dislikes-container">
-                <h2>{i18n.t( KEYS.HEADERS.DISLIKES_SELECTION )}</h2>
-                {
-                    <Tags tags={displayableDislikes} onDelete={this.onDelete} showNoneTag />
-                }
-                <div className="input-container">
-                    <DataListInput
-                        items={possibleMatches}
-                        placeholder={i18n.t( KEYS.LABELS.DISLIKES_PLACEHOLDER )}
-                        onSelect={this.onSelect}
-                        dropDownLength={10}
-                        requiredInputLength={1}
-                        inputClassName="datalist-input-input"
-                        dropdownClassName="datalist-input-dropdown"
-                        itemClassName="datalist-input-item"
-                        activeItemClassName="datalist-input-activeItem"
-                        suppressReselect={false}
-                        clearInputOnSelect
-                    />
-                </div>
+    return (
+        <div className="dislikes-container">
+            <h2>{i18n.t( KEYS.HEADERS.DISLIKES_SELECTION )}</h2>
+            {
+                <Tags tags={displayableDislikes} onDelete={onDelete} showNoneTag />
+            }
+            <div className="input-container">
+                <DataListInput
+                    items={possibleMatches}
+                    placeholder={i18n.t( KEYS.LABELS.DISLIKES_PLACEHOLDER )}
+                    onSelect={onSelect}
+                    dropDownLength={10}
+                    requiredInputLength={1}
+                    inputClassName="datalist-input-input"
+                    dropdownClassName="datalist-input-dropdown"
+                    itemClassName="datalist-input-item"
+                    activeItemClassName="datalist-input-activeItem"
+                    suppressReselect={false}
+                    clearInputOnSelect
+                />
             </div>
-        );
-    }
+        </div>
+    );
 }
-
-DislikesContainer.contextType = UserStateContext;
-
-DislikesContainer.propTypes = {
-    ingredientsContext: PropTypes.shape( {
-        ingredients: PropTypes.arrayOf(
-            PropTypes.shape( {
-                name: PropTypes.shape( {
-                    en: PropTypes.string,
-                    de: PropTypes.string,
-                } ).isRequired,
-                _id: PropTypes.string.isRequired,
-            } ),
-        ).isRequired,
-    } ).isRequired,
-};
 
 export default DislikesContainer;
