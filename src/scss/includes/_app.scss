@@ -8,20 +8,6 @@
     text-align: center;
 }
 
-.clickable {
-    touch-action: manipulation;
-    &:hover {
-        cursor: pointer;
-    }
-
-    &:focus {
-        background-image: none;
-        outline: 0;
-        -webkit-box-shadow: none;
-        box-shadow: none;
-    }
-}
-
 .container {
     min-height: 100%;
     min-height: calc(100vh - 250px);
@@ -69,5 +55,20 @@
         border-color: $hover-primary-color;
         outline: 0;
         box-shadow: 0 0 0 2px rgba(236, 93, 10, 0.884);
+    }
+}
+
+.clickable {
+    @extend .aria-element;
+    touch-action: manipulation;
+    &:hover {
+        cursor: pointer;
+    }
+
+    &:focus {
+        background-image: none;
+        outline: 0;
+        -webkit-box-shadow: none;
+        box-shadow: none;
     }
 }

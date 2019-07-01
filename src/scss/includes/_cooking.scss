@@ -9,22 +9,19 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-items: center;
         padding-bottom: 20px;
 
         .ingredient {
-            @extend .box;
             width: 80%;
             font-size: $font-size-xs;
             font-weight: $font-weight-light;
             text-align: center;
             margin: 0 auto 10px;
-            padding: 15px 20px;
+            padding: 5px 10px;
 
             @media screen and (max-width: $phone-width) {
                 width: 95%;
-                border: none;
-                box-shadow: none;
-                padding: 0;
             }
 
             display: flex;
@@ -37,10 +34,6 @@
                 align-items: left;
                 text-align: left;
                 line-height: $font-size-xs + 8px;
-                padding: 10px 10px;
-                @media screen and (max-width: $phone-width) {
-                    padding: 5px 5px;
-                }
 
                 .name-score {
                     display: flex;
