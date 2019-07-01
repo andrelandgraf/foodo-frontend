@@ -21,12 +21,9 @@ const sfaRanksFats = [ 10, 16, 22, 28, 34, 40, 46, 52, 58, 64 ];
 const nutriScoreRanks = [ -1, 2, 10, 18 ];
 const nutriScoreRanksBeverages = [ -15, 1, 5, 9 ];
 
-const compareValueWithScala = ( value, scala ) => {
-    for ( let i = 0; i < scala.length; i += 1 ) {
-        if ( value <= scala[ i ] ) return i;
-    }
-    return -1; // more than scala
-};
+const compareValueWithScala = ( value, scala ) => (
+    scala.findIndex( element => element <= value )
+);
 
 /**
  * calulates the points of a single nutrition value needed for the NutriScore Calculation
