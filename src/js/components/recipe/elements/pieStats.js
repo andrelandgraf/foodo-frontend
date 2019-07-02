@@ -1,11 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-
 import {
     PieChart, Pie, Cell, Legend, Tooltip,
 } from 'recharts';
+import i18n from 'i18next';
+
+import { KEYS } from '../../../utilities/internationalization/internationalization';
+import useDeviceState from '../../../hooks/useDeviceState';
+
 
 const PieStats = ( { totalRecipe } ) => {
+    const isMobile = useDeviceState();
+    const [ scale, setScale ] = useState( isMobile ? 200 : 300 );
+    useEffect( () => {
+        if ( isMobile ) {
+            setScale( 200 );
+        } else {
+            setScale( 300 );
+        }
+    }, [ isMobile ] );
+
     const sumCals = totalRecipe.carbs + totalRecipe.fat + totalRecipe.protein;
     const relCarbs = Math.round( totalRecipe.carbs / sumCals * 100 );
     const relFat = Math.round( totalRecipe.fat / sumCals * 100 );
@@ -17,22 +31,12 @@ const PieStats = ( { totalRecipe } ) => {
         { name: 'Protein', value: relProtein },
     ];
 
-
-    console.log( totalRecipe );
-    console.log( totalRecipe.calories );
-    /*
-    const data = [
-        { name: 'Carbs', value: Math.round( totalRecipe.carbs / totalRecipe.weight ) },
-        { name: 'Fat', value: Math.round( totalRecipe.fat / totalRecipe.weight ) },
-        { name: 'Protein', value: Math.round( totalRecipe.protein / totalRecipe.weight ) },
-    ];
-    */
-
     const COLORS = [ '#d4380d', '#FFBB28', '#00C49F' ];
 
     return (
-        <div className="PieStats">
-            <PieChart width={300} height={300}>
+        <div className="recipe-content-pie" id="recipe-content-pie">
+            <h2>{i18n.t( KEYS.LABELS.NUTRITION )}</h2>
+            <PieChart width={scale} height={scale}>
                 <Pie
                     data={data}
                     innerRadius={40}

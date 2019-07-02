@@ -15,28 +15,28 @@ function IngredientsTable( {
     ingredients, substitutableIngredients, onClickIngredient, onEdit,
 } ) {
     return (
-        <div className="recipe-tables-ingredients">
-            <div className="recipe-tables-ingredients-header">
+        <div className="recipe-content-ingredients">
+            <div className="recipe-content-ingredients-header">
                 <h2>{i18n.t( KEYS.LABELS.INGREDIENTS )}</h2>
                 <ImageButton
                     src={pencil}
                     alt="edit ingredients"
                     id="edit-ingredients"
                     onClick={onEdit}
-                    classes="recipe-tables-ingredients-header-button"
+                    classes="recipe-content-ingredients-header-button"
                 />
             </div>
-            <div className="recipe-tables-ingredients-table">
+            <div className="recipe-content-ingredients-table">
                 { ingredients.map(
                     ingredient => (
                         <React.Fragment key={ingredient.key}>
-                            <span className="recipe-tables-ingredients-table-amount">
+                            <span className="recipe-content-ingredients-table-amount">
                                 {ingredient.amount * ingredient.unit.amount}
                             </span>
                             <span>
                                 {unitToLabel( ingredient.unit.name )}
                             </span>
-                            <span className="recipe-tables-ingredients-table-label">
+                            <span className="recipe-content-ingredients-table-label">
                                 { ingredient.label}
                             </span>
                             <div>

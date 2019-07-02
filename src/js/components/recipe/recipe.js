@@ -75,19 +75,21 @@ const Recipe = ( {
             </div>
             <img src={recipe.imgUrl} alt={recipe.name} className="recipePic" />
             { Message }
-            <div className="recipe-tables">
+            <div className="recipe-content">
                 <IngredientsTable
                     ingredients={recipe.ingredients}
                     substitutableIngredients={substitutableIngredients}
                     onClickIngredient={onClickIngredient}
                     onEdit={onEdit}
                 />
+                <PieStats totalRecipe={totalRecipe} />
+            </div>
+            <div className="recipe-content large-content">
                 <NutritionTable totalRecipe={totalRecipe} />
                 <BarStats
                     totalRecipe={totalRecipe}
                     totalOrigRecipe={sumRecipe( origRecipe.ingredients )}
                 />
-                <PieStats totalRecipe={totalRecipe} />
             </div>
         </div>
     );

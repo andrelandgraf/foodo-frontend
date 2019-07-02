@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell,
 } from 'recharts';
+import i18n from 'i18next';
+
+import { KEYS } from '../../../utilities/internationalization/internationalization';
 
 
 const BarStats = ( { totalRecipe, totalOrigRecipe } ) => {
@@ -27,6 +29,7 @@ const BarStats = ( { totalRecipe, totalOrigRecipe } ) => {
 
     return (
         <div className="BarStats">
+            <h2>{i18n.t( KEYS.LABELS.NUTRITION )}</h2>
             <BarChart
                 width={600}
                 height={300}
