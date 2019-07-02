@@ -8,20 +8,19 @@ import i18n from 'i18next';
 import { KEYS } from '../../../utilities/internationalization/internationalization';
 import useDeviceState from '../../../hooks/useDeviceState';
 
-
 const BarStats = ( { totalRecipe, totalOrigRecipe } ) => {
-    const isMobile = useDeviceState();
-    const [ width, setWidth ] = useState( isMobile ? 150 : 600 );
-    const [ height, setHeight ] = useState( isMobile ? 350 : 300 );
+    const [ isMobile, innerWidth ] = useDeviceState();
+    const [ height, setHeight ] = useState( isMobile ? innerWidth / 2 : 300 );
+    const [ width, setWidth ] = useState( isMobile ? innerWidth * 0.7 : 600 );
     useEffect( () => {
         if ( isMobile ) {
-            setHeight( 150 );
-            setWidth( 350 );
+            setHeight( innerWidth / 2 );
+            setWidth( innerWidth * 0.7 );
         } else {
             setHeight( 300 );
             setWidth( 600 );
         }
-    }, [ isMobile ] );
+    }, [ isMobile, innerWidth ] );
 
     const chartData = ( name, user, orig ) => ( {
         name,
