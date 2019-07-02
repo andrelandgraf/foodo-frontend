@@ -17,14 +17,16 @@ import { UserRecipeContext } from '../../provider/UserRecipeProvider';
 import Recipe from '../../components/recipe/recipe';
 import Loader from '../../components/loading/loader';
 import Ingredient from '../../components/ingredient/ingredient';
-import EditIngredients from './EditIngredients';
+import EditIngredients from '../Ingredients/EditIngredientsContainer';
 import Modal from '../../components/modal/modal';
 import Message, { MESSAGE_TYPES } from '../../components/message/message';
+import useDisplayableUserRecipe from '../../hooks/useDisplayableUserRecipe';
 
 function CookingContainer( { id } ) {
     const [ possibleSubstitues, setPossibleSubstitues ] = useState( undefined );
     const [ showSubstiutesFor, setShowSubstiutesFor ] = useState( '' );
     const [ showEditInrgedients, setShowEditIngredients ] = useState( false );
+    const [ displayableRecipe, displayableOrigRecipe ] = useDisplayableUserRecipe();
 
     const [ message, setMessage ] = useState( '' );
     const [ messageType, setMessageType ] = useState( undefined );
@@ -51,10 +53,15 @@ function CookingContainer( { id } ) {
     useEffect( () => {
         getUserRecipe( id )
             .then( r => ( lodash.isEmpty( r ) ? getRecipe( id ) : r ) )
-            .then( r => getAndSetCustomRecipe( r ) )
-            .then( personalizedRecipe => getRecipeSubstitutes( personalizedRecipe._id ) )
-            .then( substiutes => setPossibleSubstitues( substiutes ) );
+            .then( r => getAndSetCustomRecipe( r ) );
     }, [] );
+
+    useEffect( () => {
+        if ( userRecipe ) {
+            getRecipeSubstitutes( userRecipe._id )
+                .then( substitutes => setPossibleSubstitues( substitutes ) );
+        }
+    }, [ userRecipe ] );
 
     const substitutesLeft = ( substitutes, ingredients ) => substitutes
         .filter( substitute => ingredients
@@ -123,22 +130,6 @@ function CookingContainer( { id } ) {
 
     const onCloseEditIngredients = () => setShowEditIngredients( false );
 
-    const mapCustomRecipeToRecipe = ( r ) => {
-        const { origRecipe, ingredients } = r.personalizedRecipe;
-        return {
-            ...origRecipe,
-            ingredients,
-        };
-    };
-
-    const makeIngredientsDisplayable = ingredients => ingredients
-        .map( ingredient => ( {
-            ...ingredient.ingredient,
-            amount: ingredient.amount,
-            label: ingredient.ingredient.name[ getLocale() ],
-            key: ingredient.ingredient._id,
-        } ) );
-
     const makeSubstituteDisplayable = ingredient => ( {
         ...ingredient.substitute,
         amount: ingredient.amount,
@@ -193,34 +184,17 @@ function CookingContainer( { id } ) {
 
     const lastClient = userRecipe ? userRecipe.client.clientId : undefined;
 
-    const displayableRecipe = useMemo( () => {
-        let recipe = userRecipe ? lodash.cloneDeep( userRecipe ) : undefined;
-        if ( recipe ) {
-            recipe = mapCustomRecipeToRecipe( recipe );
-            recipe.ingredients = makeIngredientsDisplayable( recipe.ingredients );
-        }
-        return recipe;
-    }, [ userRecipe ] );
+    const substitutableIngredients = useMemo( () => ( displayableRecipe && possibleSubstitues
+        ? getSubstitutableIngredients( possibleSubstitues ) : [] ), [ possibleSubstitues ] );
 
-    const displayableOrigRecipe = useMemo( () => {
-        const displayable = userRecipe
-            ? lodash.cloneDeep( userRecipe.personalizedRecipe.origRecipe )
-            : undefined;
-        if ( displayable ) {
-            displayable.ingredients = makeIngredientsDisplayable( displayable.ingredients );
-        }
-        return displayable;
-    }, [ userRecipe ] );
+    const selectedIngredient = useMemo( () => ( userRecipe && showSubstiutesFor
+        ? displayableRecipe.ingredients
+            .find( ingredient => ingredient._id === showSubstiutesFor )
+        : undefined ), [ showSubstiutesFor ] );
 
-    const substitutableIngredients = displayableRecipe && possibleSubstitues
-        ? getSubstitutableIngredients( possibleSubstitues ) : [];
-
-    const selectedIngredient = userRecipe && showSubstiutesFor ? displayableRecipe.ingredients
-        .find( ingredient => ingredient._id === showSubstiutesFor ) : undefined;
-
-    const displayableSubstitutes = possibleSubstitues
+    const displayableSubstitutes = useMemo( () => ( possibleSubstitues
         ? lodash.cloneDeep( possibleSubstitues )
-        : undefined;
+        : undefined ), [ possibleSubstitues ] );
 
     const SuccessMessage = message ? renderMessage( message, messageType ) : null;
 

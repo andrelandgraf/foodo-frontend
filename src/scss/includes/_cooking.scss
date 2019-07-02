@@ -9,16 +9,20 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-items: center;
         padding-bottom: 20px;
 
         .ingredient {
-            @extend .box;
             width: 80%;
             font-size: $font-size-xs;
             font-weight: $font-weight-light;
             text-align: center;
             margin: 0 auto 10px;
-            padding: 15px 20px;
+            padding: 5px 10px;
+
+            @media screen and (max-width: $phone-width) {
+                width: 95%;
+            }
 
             display: flex;
             flex-direction: row;
@@ -30,7 +34,6 @@
                 align-items: left;
                 text-align: left;
                 line-height: $font-size-xs + 8px;
-                padding: 10px 10px;
 
                 .name-score {
                     display: flex;
@@ -42,6 +45,7 @@
 
                     .name {
                         flex-grow: 1;
+                        font-weight: $font-weight-semi-bold;
                     }
 
                     .nutriscore {
@@ -63,17 +67,15 @@
     .edit-ingredients-container {
         @extend .ingredients-container;
         width: 60%;
+        @media screen and (max-width: $phone-width) {
+            width: 95%;
+        }
 
         &-form {
             display: flex;
             align-items: center;
             padding-bottom: 20px;
             width: 100%;
-            @media screen and (max-width: $phone-width) {
-                display: flex;
-                flex-direction: column;
-                align-content: center;
-            }
 
             &-amount {
                 display: inline-flex;
@@ -83,21 +85,37 @@
                     margin: auto;
                     padding-right: 5px;
                     width: 40px;
+                    @media screen and (max-width: $phone-width) {
+                        font-size: $font-size-xs;
+                    }
                 }
 
                 span {
                     padding-right: 10px;
+                    @media screen and (max-width: $phone-width) {
+                        font-size: $font-size-xs;
+                        padding-right: 8px;
+                    }
+
                     margin: auto;
                 }
             }
 
             .datalist-input-input {
-                max-width: 250px;
+                width: 250px;
                 margin-bottom: 0px;
+                font-size: $font-size-s;
+                @media screen and (max-width: $phone-width) {
+                    font-size: $font-size-xs;
+                    width: 100px;
+                }
             }
 
             button {
                 margin-left: 20px;
+                @media screen and (max-width: $phone-width) {
+                    margin-left: 8px;
+                }
             }
         }
     }
