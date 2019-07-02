@@ -5,8 +5,8 @@ import i18n from 'i18next';
 
 import { KEYS } from '../../../utilities/internationalization/internationalization';
 
-
-const NutritionTable = ( { ingredients } ) => (
+// reference based on https://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=OJ:L:2011:304:0018:0063:de:PDF
+const NutritionTable = ( { totalRecipe } ) => (
     <div className="nutrition-table">
         <h2>{i18n.t( KEYS.LABELS.NUTRITION )}</h2>
         <table>
@@ -14,45 +14,161 @@ const NutritionTable = ( { ingredients } ) => (
                 <tr>
                     <th />
                     <th>Total</th>
+                    <th>100g</th>
+                    <th>400g</th>
+                    <th>%</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>Calories</td>
                     <td>
-                        {ingredients.map(
-                            ingredient => ( ingredient.elements.KCal * ingredient.amount ),
-                        ).reduce( ( pv, cv ) => pv + cv, 0 ).toFixed( 1 )}
-g
+                        {totalRecipe.calories}
+KCal
+                    </td>
+                    <td>
+                        {Math.round( totalRecipe.calories / totalRecipe.weight * 100 )}
+KCal
+                    </td>
+                    <td>
+                        {Math.round( totalRecipe.calories / totalRecipe.weight * 400 )}
+KCal
+                    </td>
+                    <td>
+                        {totalRecipe.relativeCalories}
+%
                     </td>
                 </tr>
                 <tr>
                     <td>Fat</td>
                     <td>
-                        {ingredients.map(
-                            ingredient => ( ingredient.elements.TotalFat * ingredient.amount ),
-                        ).reduce( ( pv, cv ) => pv + cv, 0 ).toFixed( 1 )}
+                        {Math.round( totalRecipe.fat )}
 g
                     </td>
+                    <td>
+                        {Math.round( totalRecipe.fat / totalRecipe.weight * 100 )}
+g
+                    </td>
+                    <td>
+                        {Math.round( totalRecipe.fat / totalRecipe.weight * 400 )}
+g
+                    </td>
+                    <td>
+                        {Math.round( totalRecipe.fat )}
+%
+                    </td>
+                </tr>
+                <tr>
+                    <td>Saturated</td>
+                    <td>
+                        {Math.round( totalRecipe.sfa )}
+g
+                    </td>
+                    <td>
+                        {Math.round( totalRecipe.sfa / totalRecipe.weight * 100 )}
+g
+                    </td>
+                    <td>
+                        {Math.round( totalRecipe.sfa / totalRecipe.weight * 400 )}
+g
+                    </td>
+                    <td>
+                        {Math.round( totalRecipe.relativeSfa )}
+%
+                    </td>
+                </tr>
+                <tr>
+                    <td>Carbohydrates</td>
+                    <td>
+                        {Math.round( totalRecipe.carbs )}
+g
+                    </td>
+                    <td>
+                        {Math.round( totalRecipe.carbs / totalRecipe.weight * 100 )}
+g
+                    </td>
+                    <td>
+                        {Math.round( totalRecipe.carbs / totalRecipe.weight * 400 )}
+g
+                    </td>
+                    <td>
+                        {Math.round( ( totalRecipe.carbs / totalRecipe.weight * 400 ) * 100 / 260 )}
+%
+                    </td>
+                </tr>
+                <tr>
+                    <td>Sugar</td>
+                    <td>
+                        {Math.round( totalRecipe.sugar )}
+g
+                    </td>
+                    <td>
+                        {Math.round( totalRecipe.sugar / totalRecipe.weight * 100 )}
+g
+                    </td>
+                    <td>
+                        {Math.round( totalRecipe.sugar / totalRecipe.weight * 400 )}
+g
+                    </td>
+                    <td>
+                        {Math.round( ( totalRecipe.sugar / totalRecipe.weight * 400 ) * 100 / 90 )}
+%
+                    </td>
+                </tr>
+                <tr>
+                    <td>Fiber</td>
+                    <td>
+                        {Math.round( totalRecipe.fiber )}
+g
+                    </td>
+                    <td>
+                        {Math.round( totalRecipe.fiber / totalRecipe.weight * 100 )}
+g
+                    </td>
+                    <td>
+                        {Math.round( totalRecipe.fiber / totalRecipe.weight * 400 )}
+g
+                    </td>
+                    <td />
                 </tr>
                 <tr>
                     <td>Proteins</td>
                     <td>
-                        {ingredients.map(
-                            ingredient => ( ingredient.elements.Protein * ingredient.amount ),
-                        ).reduce( ( pv, cv ) => pv + cv, 0 ).toFixed( 1 )}
+                        {Math.round( totalRecipe.protein )}
 g
+                    </td>
+                    <td>
+                        {Math.round( totalRecipe.protein / totalRecipe.weight * 100 )}
+g
+                    </td>
+                    <td>
+                        {Math.round( totalRecipe.protein / totalRecipe.weight * 400 )}
+g
+                    </td>
+                    <td>
+                        {Math.round( ( totalRecipe.protein / totalRecipe.weight * 400 )
+                             * 100 / 50 )}
+%
                     </td>
                 </tr>
                 <tr>
                     <td>Salt</td>
                     <td>
-                        {ingredients.map(
-                            ingredient => ( ingredient.elements.Salt * ingredient.amount ),
-                        ).reduce( ( pv, cv ) => pv + cv, 0 ).toFixed( 1 )}
+                        {Math.round( totalRecipe.salt )}
 g
                     </td>
-
+                    <td>
+                        {Math.round( totalRecipe.salt / totalRecipe.weight * 100 )}
+g
+                    </td>
+                    <td>
+                        {Math.round( totalRecipe.salt / totalRecipe.weight * 400 )}
+g
+                    </td>
+                    <td>
+                        {Math.round( ( totalRecipe.salt / totalRecipe.weight * 400 ) * 100 / 6 )}
+%
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -60,17 +176,24 @@ g
 );
 
 NutritionTable.propTypes = {
-    ingredients: PropTypes.arrayOf(
+    totalRecipe:
         PropTypes.shape( {
-            label: PropTypes.string.isRequired,
-            key: PropTypes.string.isRequired,
-            amount: PropTypes.number.isRequired,
-            unit: PropTypes.shape( {
-                amount: PropTypes.number.isRequired,
-                name: PropTypes.string.isRequired,
-            } ),
-        } ),
-    ).isRequired,
+            weight: PropTypes.number.isRequired,
+            calories: PropTypes.number.isRequired,
+            fat: PropTypes.number.isRequired,
+            sfa: PropTypes.number.isRequired,
+            carbs: PropTypes.number.isRequired,
+            sugar: PropTypes.number.isRequired,
+            protein: PropTypes.number.isRequired,
+            salt: PropTypes.number.isRequired,
+            relativeCalories: PropTypes.number.isRequired,
+            relativeFat: PropTypes.number.isRequired,
+            relativeSfa: PropTypes.number.isRequired,
+            relativeCarbs: PropTypes.number.isRequired,
+            relativeSugar: PropTypes.number.isRequired,
+            relativeProtein: PropTypes.number.isRequired,
+            relativeSalt: PropTypes.number.isRequired,
+        } ).isRequired,
 };
 
 export default NutritionTable;

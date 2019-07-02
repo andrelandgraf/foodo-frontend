@@ -1,5 +1,4 @@
-/* eslint-disable react/no-unused-state */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { getGoals, getLifestyles } from '../services/foodo-api/user/profileService';
@@ -11,38 +10,25 @@ const GoalsLifestylesContext = React.createContext( {
     setLifestyles: () => {},
 } );
 
-class GoalsLifestylesProvider extends React.Component {
-    constructor( props ) {
-        super( props );
-        this.state = {
-            goals: [],
-            lifestyles: [],
-        };
-    }
+function GoalsLifestylesProvider( { children } ) {
+    const [ goals, setGoals ] = useState( [] );
+    const [ lifestyles, setLifestyles ] = useState( [] );
 
-    componentDidMount() {
-        getGoals().then( goals => this.setState( { goals } ) );
-        getLifestyles().then( lifestyles => this.setState( { lifestyles } ) );
-    }
+    useEffect( () => { getGoals().then( g => setGoals( g ) ); }, [] );
+    useEffect( () => { getLifestyles().then( l => setLifestyles( l ) ); }, [] );
 
-    setGoals = goals => this.setState( { goals } );
+    const context = {
+        goals,
+        lifestyles,
+        setGoals,
+        setLifestyles,
+    };
 
-    setLifestyles= lifestyles => this.setState( { lifestyles } );
-
-    render() {
-        const { children } = this.props;
-        const { state } = this;
-        const context = {
-            setGoals: this.setGoals,
-            setLifestyles: this.setLifestyles,
-            ...state,
-        };
-        return (
-            <GoalsLifestylesContext.Provider value={context}>
-                {children}
-            </GoalsLifestylesContext.Provider>
-        );
-    }
+    return (
+        <GoalsLifestylesContext.Provider value={context}>
+            {children}
+        </GoalsLifestylesContext.Provider>
+    );
 }
 
 GoalsLifestylesProvider.propTypes = {
