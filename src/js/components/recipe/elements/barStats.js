@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell,
@@ -6,9 +6,23 @@ import {
 import i18n from 'i18next';
 
 import { KEYS } from '../../../utilities/internationalization/internationalization';
+import useDeviceState from '../../../hooks/useDeviceState';
 
 
 const BarStats = ( { totalRecipe, totalOrigRecipe } ) => {
+    const isMobile = useDeviceState();
+    const [ width, setWidth ] = useState( isMobile ? 150 : 600 );
+    const [ height, setHeight ] = useState( isMobile ? 350 : 300 );
+    useEffect( () => {
+        if ( isMobile ) {
+            setHeight( 150 );
+            setWidth( 350 );
+        } else {
+            setHeight( 300 );
+            setWidth( 600 );
+        }
+    }, [ isMobile ] );
+
     const chartData = ( name, user, orig ) => ( {
         name,
         reference: Math.max( 0, 100 - Math.max( user, orig ) ),
@@ -28,11 +42,11 @@ const BarStats = ( { totalRecipe, totalOrigRecipe } ) => {
     ];
 
     return (
-        <div className="BarStats">
+        <div className="recipe-content-bar">
             <h2>{i18n.t( KEYS.LABELS.NUTRITION )}</h2>
             <BarChart
-                width={600}
-                height={300}
+                width={width}
+                height={height}
                 data={data}
                 margin={{
                     top: 20, right: 30, left: 20, bottom: 5,

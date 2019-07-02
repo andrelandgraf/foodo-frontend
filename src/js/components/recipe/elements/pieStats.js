@@ -14,7 +14,7 @@ const PieStats = ( { totalRecipe } ) => {
     const [ scale, setScale ] = useState( isMobile ? 200 : 300 );
     useEffect( () => {
         if ( isMobile ) {
-            setScale( 200 );
+            setScale( 250 );
         } else {
             setScale( 300 );
         }
@@ -34,7 +34,7 @@ const PieStats = ( { totalRecipe } ) => {
     const COLORS = [ '#d4380d', '#FFBB28', '#00C49F' ];
 
     return (
-        <div className="recipe-content-pie" id="recipe-content-pie">
+        <div className="recipe-content-pie">
             <h2>{i18n.t( KEYS.LABELS.NUTRITION )}</h2>
             <PieChart width={scale} height={scale}>
                 <Pie
