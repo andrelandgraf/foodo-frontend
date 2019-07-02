@@ -5,8 +5,7 @@ import i18n from 'i18next';
 
 import { KEYS } from '../../../utilities/internationalization/internationalization';
 
-// %- reference based on https://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=OJ:L:2011:304:0018:0063:de:PDF
-
+// reference based on https://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=OJ:L:2011:304:0018:0063:de:PDF
 const NutritionTable = ( { totalRecipe } ) => (
     <div className="nutrition-table">
         <h2>{i18n.t( KEYS.LABELS.NUTRITION )}</h2>
