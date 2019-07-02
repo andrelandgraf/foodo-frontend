@@ -6,51 +6,7 @@ import {
 } from 'recharts';
 
 
-const BarStats = ( { ingredients, origingredients } ) => {
-    const sumRecipe = ( ingredient ) => {
-        const totalRecipe = {
-            weight: 0,
-            calories: 0,
-            fat: 0,
-            sfa: 0,
-            carbs: 0,
-            sugar: 0,
-            protein: 0,
-            salt: 0,
-            relativeCalories: 0,
-            relativeFat: 0,
-            relativeSfa: 0,
-            relativeCarbs: 0,
-            relativeSugar: 0,
-            relativeProtein: 0,
-            relativeSalt: 0,
-        };
-
-        const relativeValue = ( total, ref ) => ( total / totalRecipe.weight * 400 ) * 100 / ref;
-
-        for ( let i = 0; i < ingredient.length; i += 1 ) {
-            totalRecipe.weight += ingredient[ i ].amount * ingredient[ i ].unit.amount;
-            totalRecipe.calories += ingredient[ i ].elements.KCal * ingredient[ i ].amount;
-            totalRecipe.fat += ingredient[ i ].elements.TotalFat * ingredient[ i ].amount;
-            totalRecipe.sfa += ingredient[ i ].elements.SFA * ingredient[ i ].amount;
-            totalRecipe.carbs += ingredient[ i ].elements.Carbohydrate * ingredient[ i ].amount;
-            totalRecipe.sugar += ingredient[ i ].elements.AddedSugars * ingredient[ i ].amount;
-            totalRecipe.protein += ingredient[ i ].elements.Protein * ingredient[ i ].amount;
-            totalRecipe.salt += ingredient[ i ].elements.Salt * ingredient[ i ].amount;
-        }
-        totalRecipe.relativeCalories = Math.round( relativeValue( totalRecipe.calories, 2000 ) );
-        totalRecipe.relativeFat = Math.round( relativeValue( totalRecipe.fat, 70 ) );
-        totalRecipe.relativeSfa = Math.round( relativeValue( totalRecipe.sfa, 20 ) );
-        totalRecipe.relativeCarbs = Math.round( relativeValue( totalRecipe.carbs, 260 ) );
-        totalRecipe.relativeSugar = Math.round( relativeValue( totalRecipe.sugar, 90 ) );
-        totalRecipe.relativeProtein = Math.round( relativeValue( totalRecipe.protein, 50 ) );
-        totalRecipe.relativeSalt = Math.round( relativeValue( totalRecipe.salt, 6 ) );
-        return totalRecipe;
-    };
-
-    const totalRecipe = sumRecipe( ingredients );
-    const totalOrigRecipe = sumRecipe( origingredients );
-
+const BarStats = ( { totalRecipe, totalOrigRecipe } ) => {
     const chartData = ( name, user, orig ) => ( {
         name,
         reference: Math.max( 0, 100 - Math.max( user, orig ) ),
@@ -72,7 +28,7 @@ const BarStats = ( { ingredients, origingredients } ) => {
     return (
         <div className="BarStats">
             <BarChart
-                width={800}
+                width={600}
                 height={300}
                 data={data}
                 margin={{
@@ -97,28 +53,42 @@ const BarStats = ( { ingredients, origingredients } ) => {
 };
 
 BarStats.propTypes = {
-    ingredients: PropTypes.arrayOf(
+    totalRecipe:
         PropTypes.shape( {
-            label: PropTypes.string.isRequired,
-            key: PropTypes.string.isRequired,
-            amount: PropTypes.number.isRequired,
-            unit: PropTypes.shape( {
-                amount: PropTypes.number.isRequired,
-                name: PropTypes.string.isRequired,
-            } ),
-        } ),
-    ).isRequired,
-    origingredients: PropTypes.arrayOf(
+            weight: PropTypes.number.isRequired,
+            calories: PropTypes.number.isRequired,
+            fat: PropTypes.number.isRequired,
+            sfa: PropTypes.number.isRequired,
+            carbs: PropTypes.number.isRequired,
+            sugar: PropTypes.number.isRequired,
+            protein: PropTypes.number.isRequired,
+            salt: PropTypes.number.isRequired,
+            relativeCalories: PropTypes.number.isRequired,
+            relativeFat: PropTypes.number.isRequired,
+            relativeSfa: PropTypes.number.isRequired,
+            relativeCarbs: PropTypes.number.isRequired,
+            relativeSugar: PropTypes.number.isRequired,
+            relativeProtein: PropTypes.number.isRequired,
+            relativeSalt: PropTypes.number.isRequired,
+        } ).isRequired,
+    totalOrigRecipe:
         PropTypes.shape( {
-            label: PropTypes.string.isRequired,
-            key: PropTypes.string.isRequired,
-            amount: PropTypes.number.isRequired,
-            unit: PropTypes.shape( {
-                amount: PropTypes.number.isRequired,
-                name: PropTypes.string.isRequired,
-            } ),
-        } ),
-    ).isRequired,
+            weight: PropTypes.number.isRequired,
+            calories: PropTypes.number.isRequired,
+            fat: PropTypes.number.isRequired,
+            sfa: PropTypes.number.isRequired,
+            carbs: PropTypes.number.isRequired,
+            sugar: PropTypes.number.isRequired,
+            protein: PropTypes.number.isRequired,
+            salt: PropTypes.number.isRequired,
+            relativeCalories: PropTypes.number.isRequired,
+            relativeFat: PropTypes.number.isRequired,
+            relativeSfa: PropTypes.number.isRequired,
+            relativeCarbs: PropTypes.number.isRequired,
+            relativeSugar: PropTypes.number.isRequired,
+            relativeProtein: PropTypes.number.isRequired,
+            relativeSalt: PropTypes.number.isRequired,
+        } ).isRequired,
 };
 
 export default BarStats;
