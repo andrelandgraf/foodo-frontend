@@ -16,14 +16,16 @@ const Ingredient = ( { ingredient, onClose, onClick } ) => {
         <React.Fragment>
             <div className="name-score">
                 <span className="name">
-                    { `Name: ${ ingredient.label }` }
+                    { ingredient.label }
                 </span>
                 {
-                    ingredient.nutriScore && (
-                        <span className="nutriscore">
-                            { `NutriScore: ${ ingredient.nutriScore }`}
-                        </span>
-                    )
+                    Number.isInteger( ingredient.nutriScore )
+                        ? (
+                            <span className="nutriscore">
+                                { `NutriScore: ${ ingredient.nutriScore }`}
+                            </span>
+                        )
+                        : null
                 }
             </div>
             <span>
