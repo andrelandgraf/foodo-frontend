@@ -10,12 +10,12 @@ import useDeviceState from '../../../hooks/useDeviceState';
 
 const BarStats = ( { totalRecipe, totalOrigRecipe } ) => {
     const [ isMobile, innerWidth ] = useDeviceState();
-    const [ height, setHeight ] = useState( isMobile ? innerWidth / 2 : 300 );
-    const [ width, setWidth ] = useState( isMobile ? innerWidth * 0.7 : 600 );
+    const [ height, setHeight ] = useState( isMobile ? innerWidth * 0.5 : 300 );
+    const [ width, setWidth ] = useState( isMobile ? innerWidth * 0.8 : 600 );
     useEffect( () => {
         if ( isMobile ) {
-            setHeight( innerWidth / 2 );
-            setWidth( innerWidth * 0.7 );
+            setHeight( innerWidth * 0.5 );
+            setWidth( innerWidth * 0.8 );
         } else {
             setHeight( 300 );
             setWidth( 600 );
