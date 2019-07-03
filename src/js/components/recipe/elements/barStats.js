@@ -8,6 +8,8 @@ import i18n from 'i18next';
 import { KEYS } from '../../../utilities/internationalization/internationalization';
 import useDeviceState from '../../../hooks/useDeviceState';
 
+// <YAxis domain={[ 0, 1 ]} tickFormatter="toPercent" />
+
 const BarStats = ( { totalRecipe, totalOrigRecipe } ) => {
     const [ isMobile, innerWidth ] = useDeviceState();
     const [ height, setHeight ] = useState( isMobile ? innerWidth * 0.5 : 300 );
@@ -24,8 +26,7 @@ const BarStats = ( { totalRecipe, totalOrigRecipe } ) => {
 
     const chartData = ( name, user, orig ) => ( {
         name,
-        reference: Math.max( 0, 100 - Math.max( user, orig ) ),
-        difference: Math.abs( user - orig ),
+        improvement: Math.abs( user - orig ),
         base: Math.min( user, orig ),
         diffcolor: ( user < orig ? '#73d13d' : '#ff4d4f' ),
     } );
@@ -53,16 +54,15 @@ const BarStats = ( { totalRecipe, totalOrigRecipe } ) => {
             >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
-                <YAxis />
+                <YAxis type="number" domain={[ 0, dataMax => Math.max( 1, dataMax ) ]} />
                 <Tooltip />
                 <Legend />
                 <Bar dataKey="base" stackId="a" fill="#cf1322" />
-                <Bar dataKey="difference" stackId="a" fill="#8884d8">
+                <Bar dataKey="improvement" stackId="a" fill="#73d13d">
                     {
                         data.map( entry => <Cell fill={entry.diffcolor} /> )
                     }
                 </Bar>
-                <Bar dataKey="reference" stackId="a" fill="#389e0d" />
             </BarChart>
         </div>
     );
