@@ -33,7 +33,6 @@
                 flex-grow: 1;
                 align-items: left;
                 text-align: left;
-                line-height: $font-size-xs + 8px;
 
                 .name-score {
                     display: flex;
@@ -46,10 +45,12 @@
                     .name {
                         flex-grow: 1;
                         font-weight: $font-weight-semi-bold;
+                        padding-bottom: 5px;
                     }
 
                     .nutriscore {
                         color: $success-color;
+                        padding-bottom: 5px;
                     }
                 }
             }

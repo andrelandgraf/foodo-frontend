@@ -39,7 +39,7 @@
         @media screen and (max-width: $phone-width) {
             width: 100%;
             padding: 0;
-            margin: 0;
+            margin: auto;
             box-shadow: none;
             border: none;
         }
@@ -112,24 +112,32 @@
 
         &-pie {
             @extend .content-box;
+            overflow: scroll;
         }
 
         &-bar {
             @extend .content-box;
+            overflow: scroll;
         }
 
         .nutrition-table {
             @extend .content-box;
-            margin: 10px;
+            overflow: scroll;
             table, th, td {
                 border-collapse: collapse;
                 border: 1px solid black;
                 padding: 5px;
+                @media screen and (max-width: $phone-width) {
+                    padding: 0;
+                }
             }
 
-            @media screen and (max-width: $phone-width) {
-                display: none;
-             }
+            td {
+                @media screen and (max-width: $phone-width) {
+                    max-width: 60px;
+                    overflow: scroll;
+                }
+            }
           }
     }
 }
