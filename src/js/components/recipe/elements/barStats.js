@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell,
+    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 } from 'recharts';
 import i18n from 'i18next';
 
@@ -26,9 +26,9 @@ const BarStats = ( { totalRecipe, totalOrigRecipe } ) => {
 
     const chartData = ( name, user, orig ) => ( {
         name,
-        improvement: Math.abs( user - orig ),
+        improvement: Math.max( orig - user, 0 ),
+        deterioration: Math.max( user - orig, 0 ),
         base: Math.min( user, orig ),
-        diffcolor: ( user < orig ? '#73d13d' : '#ff4d4f' ),
     } );
 
     const data = [
@@ -54,15 +54,12 @@ const BarStats = ( { totalRecipe, totalOrigRecipe } ) => {
             >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
-                <YAxis type="number" domain={[ 0, dataMax => Math.max( 1, dataMax ) ]} />
+                <YAxis type="number" unit="%" domain={[ 0, dataMax => Math.max( 100, dataMax ) ]} />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="base" stackId="a" fill="#cf1322" />
-                <Bar dataKey="improvement" stackId="a" fill="#73d13d">
-                    {
-                        data.map( entry => <Cell fill={entry.diffcolor} /> )
-                    }
-                </Bar>
+                <Bar dataKey="base" stackId="a" fill="#cf1322" unit="%" name="Share of recommended daily intake" />
+                <Bar dataKey="improvement" stackId="a" fill="#73d13d" unit="%" />
+                <Bar dataKey="deterioration" stackId="a" fill="#ff4d4f" unit="%" />
             </BarChart>
         </div>
     );
