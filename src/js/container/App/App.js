@@ -11,6 +11,7 @@ import { IngredientsProvider } from '../../provider/IngredientsProvider';
 import { GoalsLifestylesProvider } from '../../provider/GoalsLifestylesProvider';
 import { AllergiesProvider } from '../../provider/AllergiesProvider';
 import { RecipesProvider } from '../../provider/RecipesProvider';
+import { UserRecipesProvider } from '../../provider/UserRecipesProvider';
 
 import NavBarContainer from '../NavBar/NavBarContainer';
 import HomeView from '../../views/homeView';
@@ -100,15 +101,17 @@ function App() {
         <React.Fragment>
             <NavBarContainer loggedIn />
             <RecipesProvider>
-                <IngredientsProvider>
-                    <GoalsLifestylesProvider>
-                        <AllergiesProvider>
-                            {
-                                user ? renderApp() : renderAppLoading()
-                            }
-                        </AllergiesProvider>
-                    </GoalsLifestylesProvider>
-                </IngredientsProvider>
+                <UserRecipesProvider>
+                    <IngredientsProvider>
+                        <GoalsLifestylesProvider>
+                            <AllergiesProvider>
+                                {
+                                    user ? renderApp() : renderAppLoading()
+                                }
+                            </AllergiesProvider>
+                        </GoalsLifestylesProvider>
+                    </IngredientsProvider>
+                </UserRecipesProvider>
             </RecipesProvider>
         </React.Fragment>
     );

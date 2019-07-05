@@ -13,9 +13,13 @@ const useDeviceState = () => {
             setInnerWidth( window.innerWidth );
         };
 
-        window.addEventListener( 'resize', handleResize );
+        window.addEventListener( 'resize', handleResize, true );
+        window.addEventListener( 'deviceorientation', handleResize, true );
 
-        return () => window.removeEventListener( 'resize', handleResize );
+        return () => {
+            window.removeEventListener( 'resize', handleResize );
+            window.removeEventListener( 'deviceorientation', handleResize );
+        };
     }, [] );
 
     return [ isMobile, innerWidth ];
