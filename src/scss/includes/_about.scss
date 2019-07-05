@@ -21,12 +21,6 @@
 
     }
 
-    .centered-absolute-child {
-        left: 0;
-        right: 0;
-        margin: auto;
-    }
-
     &-arrow-down {
         position: absolute;
         @extend .centered-absolute-child;

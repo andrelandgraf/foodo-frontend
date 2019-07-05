@@ -4,20 +4,11 @@
     flex-direction: column;
 
     .box-view {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
+        width: 95%;
 
         &-grid {
-            display: grid;
-            grid-template-columns:  15vw 15vw 15vw 15vw 15vw 15vw;
-            @media screen and (max-width: $phone-width) {
-                grid-template-columns: 30vw 30vw 30vw;
-                margin: 0 10px;
-            }
-            grid-gap: 5px;
-
             .box {
+                float: left;
                 position: relative;
                 background-color: $white;
                 background-repeat: no-repeat;
@@ -26,7 +17,8 @@
                 border: none;
                 width: 15vw;
                 height: 15vw;
-                @media screen and (max-width: $phone-width) {
+                margin: 0.5vw;
+                @media screen and (max-width: $pad-width) {
                     width: 30vw;
                     height: 30vw;
                 }
@@ -47,7 +39,7 @@
                     font-weight: $font-weight-semi-bold;
                     font-size: $font-size-m;
                     @media screen and (max-width: $phone-width) {
-                        font-size: $font-size-s;
+                        font-size: $font-size-xs;
                     }
                 }
             }
