@@ -8,8 +8,6 @@ import i18n from 'i18next';
 import { KEYS } from '../../../utilities/internationalization/internationalization';
 import useDeviceState from '../../../hooks/useDeviceState';
 
-// <YAxis domain={[ 0, 1 ]} tickFormatter="toPercent" />
-
 const BarStats = ( { totalRecipe, totalOrigRecipe } ) => {
     const [ isMobile, innerWidth ] = useDeviceState();
     const [ height, setHeight ] = useState( isMobile ? innerWidth * 0.5 : 300 );
