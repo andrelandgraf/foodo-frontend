@@ -33,11 +33,16 @@ function RecipesGridsContainer() {
 
     return (
         <div className="box-grids">
-            <Boxgrid
-                title={renderTitle( 'Your Favorites' )}
-                onClick={onSelectRecipe}
-                recipes={displayableUserRecipes}
-            />
+            { displayableUserRecipes && displayableUserRecipes.length
+                ? (
+                    <Boxgrid
+                        title={renderTitle( 'Your Favorites' )}
+                        onClick={onSelectRecipe}
+                        recipes={displayableUserRecipes}
+                    />
+                )
+                : null
+            }
             {
                 meals.map( meal => (
                     <Boxgrid
