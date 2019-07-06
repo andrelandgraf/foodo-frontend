@@ -21,17 +21,6 @@
 
     }
 
-    .centered-absolute-child {
-        left: 0;
-        right: 0;
-        margin: auto;
-    }
-
-    .opactiy-box {
-        background-color: $light-black;
-        opacity: 0.7;
-    }
-
     &-arrow-down {
         position: absolute;
         @extend .centered-absolute-child;
