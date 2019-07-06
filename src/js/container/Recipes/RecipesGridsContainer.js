@@ -1,8 +1,6 @@
-/* eslint-disable no-unused-vars */
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 
-import { UserStateContext } from '../../provider/UserStateProvider';
 import useDisplayableRecipes from '../../hooks/useDisplayableRecipes';
 import useDisplayableUserRecipes from '../../hooks/useDisplayableUserRecipes';
 
@@ -13,7 +11,6 @@ function RecipesGridsContainer() {
     const [ selectedId, setSelectedId ] = useState();
     const displayableRecipes = useDisplayableRecipes();
     const displayableUserRecipes = useDisplayableUserRecipes();
-    const { user } = useContext( UserStateContext );
 
     const onSelectRecipe = id => setSelectedId( id );
 
