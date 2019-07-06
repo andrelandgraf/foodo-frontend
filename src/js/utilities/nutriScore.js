@@ -22,7 +22,7 @@ const nutriScoreRanks = [ -1, 2, 10, 18 ];
 const nutriScoreRanksBeverages = [ -15, 1, 5, 9 ];
 
 const compareValueWithScala = ( value, scala ) => (
-    scala.findIndex( element => element <= value )
+    scala.findIndex( element => element >= value )
 );
 
 /**
