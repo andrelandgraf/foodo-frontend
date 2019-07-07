@@ -106,9 +106,9 @@ function App() {
     const renderAuthenticatedApp = () => (
         <React.Fragment>
             <NavBarContainer loggedIn />
-            <RecipesProvider>
-                <UserRecipesProvider>
-                    <IngredientsProvider>
+            <IngredientsProvider>
+                <RecipesProvider>
+                    <UserRecipesProvider>
                         <GoalsLifestylesProvider>
                             <AllergiesProvider>
                                 {
@@ -116,9 +116,9 @@ function App() {
                                 }
                             </AllergiesProvider>
                         </GoalsLifestylesProvider>
-                    </IngredientsProvider>
-                </UserRecipesProvider>
-            </RecipesProvider>
+                    </UserRecipesProvider>
+                </RecipesProvider>
+            </IngredientsProvider>
         </React.Fragment>
     );
 

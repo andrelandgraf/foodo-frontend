@@ -1,5 +1,4 @@
 import { useState, useEffect, useContext } from 'react';
-import lodash from 'lodash';
 
 import useDisplayableRecipes from './useDisplayableRecipes';
 import { UserStateContext } from '../provider/UserStateProvider';
@@ -10,7 +9,7 @@ const getNotForAllergy = ( id, ingredients ) => ingredients
 
 const filterTolerated = ( recipes, ingredients, allergies ) => (
     recipes && ingredients && ingredients.length && allergies
-        ? lodash.cloneDeep( recipes )
+        ? recipes
             .filter( r => !r.ingredients
                 .find( i => getNotForAllergy( i.ingredient, ingredients )
                     .find( allergyId => allergies.find( a => a._id === allergyId ) ) ) )
