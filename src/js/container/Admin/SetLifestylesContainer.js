@@ -5,47 +5,47 @@ import lodash from 'lodash';
 import { postRequest } from '../../services/foodo-api/httpService';
 import { ENDPOINTS } from '../../services/foodo-api/api';
 import Button from '../../components/button/button';
-import { AllergiesContext } from '../../provider/AllergiesProvider';
 import useDisplayableIngredients from '../../hooks/useDisplayableIngredients';
 import Tags from '../../components/tags/tags';
+import { GoalsLifestylesContext } from '../../provider/GoalsLifestylesProvider';
 
 /**
  * Add Allergies to each ingredient
  */
-function AllergiesContainer() {
+function SetLifestylesContainer() {
     const [ pickedIngredient, setPickedI ] = useState();
-    const [ pickedAllergies, setPickedA ] = useState( [] );
-    const { allergies } = useContext( AllergiesContext );
+    const [ pickedLifestyles, setPickedL ] = useState( [] );
+    const { lifestyles } = useContext( GoalsLifestylesContext );
     const displayableIngredients = useDisplayableIngredients();
 
-    const displayableAllergies = useMemo( () => (
-        allergies.map( a => ( {
-            ...a,
-            key: a._id,
-            label: a.name,
+    const displayableLifestyles = useMemo( () => (
+        lifestyles.map( l => ( {
+            ...l,
+            key: l._id,
+            label: l.name,
         } ) )
-    ), [ allergies ] );
+    ), [ lifestyles ] );
 
     const onClickSave = () => {
-        const pickedAIds = pickedAllergies.map( allergy => allergy._id );
-        const data = { _id: pickedIngredient._id, notForAllergy: pickedAIds };
-        postRequest( `${ ENDPOINTS.INGREDIENTS }/setallergies`, data );
-        setPickedA( [] );
+        const pickedLIds = pickedLifestyles.map( lifestyle => lifestyle._id );
+        const data = { _id: pickedIngredient._id, notForLifestyles: pickedLIds };
+        postRequest( `${ ENDPOINTS.INGREDIENTS }/setlifestyles`, data );
+        setPickedL( [] );
         setPickedI( undefined );
     };
 
     const onDeleteA = ( id ) => {
-        const updatedAllergies = lodash
-            .cloneDeep( pickedAllergies )
-            .filter( a => a._id !== id );
-        setPickedA( updatedAllergies );
+        const updatedLifestyles = lodash
+            .cloneDeep( pickedLifestyles )
+            .filter( l => l._id !== id );
+        setPickedL( updatedLifestyles );
     };
 
-    const addPickedA = ( a ) => {
-        const updatedAllergies = lodash
-            .cloneDeep( pickedAllergies );
-        updatedAllergies.push( a );
-        setPickedA( updatedAllergies );
+    const addPickedA = ( l ) => {
+        const updatedLifestyles = lodash
+            .cloneDeep( pickedLifestyles );
+        updatedLifestyles.push( l );
+        setPickedL( updatedLifestyles );
     };
 
     return (
@@ -69,12 +69,12 @@ function AllergiesContainer() {
                         clearInputOnSelect={false}
                     />
                 </div>
-                <h2>Pick the Allergies</h2>
+                <h2>Select NOT for this lifestyle</h2>
                 <div className="input-container">
-                    <Tags onDelete={id => onDeleteA( id )} tags={pickedAllergies} />
+                    <Tags onDelete={id => onDeleteA( id )} tags={pickedLifestyles} />
                     <DataListInput
-                        items={displayableAllergies}
-                        placeholder="choose an Category"
+                        items={displayableLifestyles}
+                        placeholder="choose a Lifestyle"
                         onSelect={a => addPickedA( a )}
                         dropDownLength={10}
                         requiredInputLength={0}
@@ -89,7 +89,7 @@ function AllergiesContainer() {
                 <Button
                     onClick={onClickSave}
                     text="save"
-                    disabled={!pickedAllergies.length || !pickedIngredient}
+                    disabled={!pickedLifestyles.length || !pickedIngredient}
                     primary
                 />
             </div>
@@ -97,4 +97,4 @@ function AllergiesContainer() {
     );
 }
 
-export default AllergiesContainer;
+export default SetLifestylesContainer;
