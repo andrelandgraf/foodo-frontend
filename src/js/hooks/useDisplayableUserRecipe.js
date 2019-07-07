@@ -11,6 +11,7 @@ const mapRecipeIngredientsDisplayable = ( ingredients, locale ) => ( ingredients
         amount: ingredient.amount,
         label: ingredient.ingredient.name[ locale ],
         key: ingredient.ingredient._id,
+        substitutionFor: ingredient.substitutionFor,
     } ) )
     : [] );
 
