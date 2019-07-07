@@ -1,5 +1,4 @@
 import { useState, useEffect, useContext } from 'react';
-import lodash from 'lodash';
 
 import useDisplayableRecipes from './useDisplayableRecipes';
 import { UserStateContext } from '../provider/UserStateProvider';
@@ -10,7 +9,7 @@ const getNotForLifestyle = ( id, ingredients ) => ingredients
 
 const filterByLifestyle = ( recipes, ingredients, lifestyle ) => (
     recipes && ingredients && ingredients.length && lifestyle
-        ? lodash.cloneDeep( recipes )
+        ? recipes
             .filter( r => !r.ingredients
                 .find( i => getNotForLifestyle( i.ingredient, ingredients )
                     .find( lifestyleId => lifestyleId === lifestyle._id ) ) )
