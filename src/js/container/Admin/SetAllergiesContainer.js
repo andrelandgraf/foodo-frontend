@@ -74,7 +74,7 @@ function SetAllergiesContainer() {
                     <Tags onDelete={id => onDeleteA( id )} tags={pickedAllergies} />
                     <DataListInput
                         items={displayableAllergies}
-                        placeholder="choose an Category"
+                        placeholder="choose an Allergy"
                         onSelect={a => addPickedA( a )}
                         dropDownLength={10}
                         requiredInputLength={0}
