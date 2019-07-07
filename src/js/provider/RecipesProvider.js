@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { getRecipes } from '../services/foodo-api/recipe/recipesService';
 
 const RecipesContext = React.createContext( {
-    recipes: undefined,
+    recipes: [],
     setRecipes: () => {},
 } );
 
