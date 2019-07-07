@@ -69,7 +69,7 @@ function AllergiesContainer() {
                         clearInputOnSelect={false}
                     />
                 </div>
-                <h2>Select a Category</h2>
+                <h2>Pick the Allergies</h2>
                 <div className="input-container">
                     <Tags onDelete={id => onDeleteA( id )} tags={pickedAllergies} />
                     <DataListInput
