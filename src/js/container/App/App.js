@@ -26,6 +26,7 @@ import RegistrationContainer from '../Registration/RegistrationContainer';
 import OAuthContainer from '../OAuth/OAuthContainer';
 import Loader from '../../components/loading/loader';
 import CategoryContainer from '../Admin/CategoryContainer';
+import AllergiesContainer from '../Admin/AllergiesContainer';
 
 export const AUTH_ROUTES = {
     HOME: '/',
@@ -33,6 +34,7 @@ export const AUTH_ROUTES = {
     COOKING: '/cooking/',
     ADMIN: '/admin',
     CATEGORY: '/admin/setcategory',
+    ALLERGIES: '/admin/setallergies',
     PASSWORD: '/password',
     ABOUT: '/about',
     OAUTH: '/oauth/v2/login',
@@ -89,6 +91,7 @@ function App() {
             />
             <Route exact from={AUTH_ROUTES.ADMIN} component={AdminView} />
             <Route exact from={AUTH_ROUTES.CATEGORY} component={CategoryContainer} />
+            <Route exact from={AUTH_ROUTES.ALLERGIES} component={AllergiesContainer} />
             <Route exact from={AUTH_ROUTES.ABOUT} component={AboutContainer} />
             <Route from={AUTH_ROUTES.OAUTH} component={OAuthContainer} />
             <Redirect from={NONAUTH_ROUTES.LOGIN} to={getRedirectUrl()} />
