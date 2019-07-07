@@ -4,7 +4,7 @@ import { getUserRecipes } from '../services/foodo-api/recipe/recipesService';
 
 const UserRecipesContext = React.createContext( {
     userRecipes: undefined,
-    setUserRecipe: () => {},
+    setUserRecipes: () => {},
 } );
 
 function UserRecipesProvider( { children } ) {
