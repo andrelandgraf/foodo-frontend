@@ -8,7 +8,7 @@ import i18n from 'i18next';
 import { getLocale, KEYS } from '../../utilities/internationalization/internationalization';
 
 import {
-    getUserRecipe, getRecipe, postUserRecipe, getRecipeSubstitutes, updateUserRecipe,
+    getUserRecipe, getRecipe, postUserRecipe, getRecipeSubstitutes, putSubstitute, deleteSubstitute,
 } from '../../services/foodo-api/recipe/recipesService';
 
 import { UserStateContext } from '../../provider/UserStateProvider';
@@ -68,50 +68,30 @@ function CookingContainer( { id } ) {
             .find( ingredient => substitute._id === ingredient.ingredient._id ) )
         .length;
 
-    const substiuteIndexInRecipe = ( substitute, ingredients ) => ingredients
-        .findIndex( ingredient => ingredient.ingredient._id === substitute.key );
-
     const getSubstitutableIngredients = subs => subs
         .map( sub => sub._id );
 
-    const onClickIngredient = displayableIngredient => setShowSubstiutesFor(
+    const onClickSubstitute = displayableIngredient => setShowSubstiutesFor(
         displayableIngredient._id,
     );
 
+    const onClickRevert = substitute => deleteSubstitute( substitute.substitutionFor )
+        .then( newUserRecipe => setUserRecipe( newUserRecipe ) );
+
     const onClickEdit = () => setShowEditIngredients( true );
 
-    const onSelectSubstiute = ( substitue ) => {
-        const newIngredient = {
-            amount: substitue.amount,
-            ingredient: substitue._id,
-        };
-
-        const updatedRecipe = lodash.cloneDeep( userRecipe );
-        const clonedIngredients = updatedRecipe.personalizedRecipe.ingredients;
-        const index = clonedIngredients
-            .findIndex( ingredient => ingredient.ingredient._id === showSubstiutesFor );
-        const substiuteInRecipeIndex = substiuteIndexInRecipe( substitue, clonedIngredients );
-        if ( substiuteInRecipeIndex === -1 ) {
-            // replace selected ingredient by substiute
-            clonedIngredients[ index ] = newIngredient;
-        } else {
-            // first add substiute amount to present ingredient
-            // and afterwards remove substituted ingredient
-            clonedIngredients[ substiuteInRecipeIndex ].amount += substitue.amount;
-            clonedIngredients.splice( index, 1 );
-        }
-
-        updateUserRecipe( updatedRecipe ).then( ( newUserRecipe ) => {
-            const finishedSubs = !substitutesLeft(
-                possibleSubstitues, newUserRecipe.personalizedRecipe.ingredients,
-            );
-            const loveEmote = String.fromCodePoint( 128525 );
-            setMessage( finishedSubs ? `${ i18n.t( KEYS.MESSAGES.SUBSTITUTION_SUCCESS ) } ${ loveEmote }` : '' );
-            setMessageType( finishedSubs ? MESSAGE_TYPES.SUCCESS : '' );
-            setShowSubstiutesFor( '' );
-            setUserRecipe( newUserRecipe );
-        } );
-    };
+    const onSelectSubstiute = substitue => (
+        putSubstitute( substitue._id, showSubstiutesFor, substitue.amount, userRecipe._id )
+            .then( ( newUserRecipe ) => {
+                const finishedSubs = !substitutesLeft(
+                    possibleSubstitues, newUserRecipe.personalizedRecipe.ingredients,
+                );
+                const loveEmote = String.fromCodePoint( 128525 );
+                setMessage( finishedSubs ? `${ i18n.t( KEYS.MESSAGES.SUBSTITUTION_SUCCESS ) } ${ loveEmote }` : '' );
+                setMessageType( finishedSubs ? MESSAGE_TYPES.SUCCESS : '' );
+                setShowSubstiutesFor( '' );
+                setUserRecipe( newUserRecipe );
+            } ) );
 
     const onCloseSubstitute = ( substitute ) => {
         const updatedSubstitutes = lodash.cloneDeep( possibleSubstitues );
@@ -212,7 +192,8 @@ function CookingContainer( { id } ) {
                         lastClient={lastClient}
                         recipe={displayableRecipe}
                         origRecipe={displayableOrigRecipe}
-                        onClickIngredient={onClickIngredient}
+                        onClickSubstitute={onClickSubstitute}
+                        onClickRevert={onClickRevert}
                         onEdit={onClickEdit}
                         substitutableIngredients={substitutableIngredients}
                         Message={SuccessMessage}

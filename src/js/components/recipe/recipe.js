@@ -11,7 +11,8 @@ import BarStats from './elements/barStats';
 import PieStats from './elements/pieStats';
 
 const Recipe = ( {
-    recipe, origRecipe, substitutableIngredients, onClickIngredient, lastClient, Message, onEdit,
+    recipe, origRecipe, substitutableIngredients, onClickSubstitute, onClickRevert,
+    lastClient, Message, onEdit,
 } ) => {
     const sumRecipe = ( ingredient ) => {
         const totalRecipe = {
@@ -79,7 +80,8 @@ const Recipe = ( {
                 <IngredientsTable
                     ingredients={recipe.ingredients}
                     substitutableIngredients={substitutableIngredients}
-                    onClickIngredient={onClickIngredient}
+                    onClickSubstitute={onClickSubstitute}
+                    onClickRevert={onClickRevert}
                     onEdit={onEdit}
                 />
                 <PieStats totalRecipe={totalRecipe} />
@@ -128,7 +130,8 @@ Recipe.propTypes = {
         ).isRequired,
     } ).isRequired,
     lastClient: PropTypes.string,
-    onClickIngredient: PropTypes.func.isRequired,
+    onClickSubstitute: PropTypes.func.isRequired,
+    onClickRevert: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
     substitutableIngredients: PropTypes.arrayOf(
         PropTypes.string,

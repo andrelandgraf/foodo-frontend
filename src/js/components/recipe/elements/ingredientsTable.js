@@ -12,7 +12,7 @@ import Button from '../../button/button';
 import ImageButton from '../../button/imageButton';
 
 function IngredientsTable( {
-    ingredients, substitutableIngredients, onClickIngredient, onEdit,
+    ingredients, substitutableIngredients, onClickSubstitute, onClickRevert, onEdit,
 } ) {
     return (
         <div className="recipe-content-ingredients">
@@ -43,8 +43,17 @@ function IngredientsTable( {
                                 {substitutableIngredients.find( id => id === ingredient._id )
                                     ? (
                                         <Button
-                                            onClick={() => onClickIngredient( ingredient )}
+                                            onClick={() => onClickSubstitute( ingredient )}
                                             text="Substitute"
+                                        />
+                                    )
+                                    : null
+                                }
+                                {ingredient.substitutionFor
+                                    ? (
+                                        <Button
+                                            onClick={() => onClickRevert( ingredient )}
+                                            text="Revert"
                                         />
                                     )
                                     : null
@@ -70,7 +79,8 @@ IngredientsTable.propTypes = {
             } ),
         } ),
     ).isRequired,
-    onClickIngredient: PropTypes.func.isRequired,
+    onClickSubstitute: PropTypes.func.isRequired,
+    onClickRevert: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
     substitutableIngredients: PropTypes.arrayOf(
         PropTypes.string,

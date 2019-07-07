@@ -1,6 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import { getRequest, postRequest, putRequest } from '../httpService';
 import { ENDPOINTS } from '../api';
+import { deleteDislike } from '../user/profileService';
 
 export const getRecipes = () => getRequest( ENDPOINTS.RECIPES );
 
@@ -22,6 +23,17 @@ export const postUserRecipe = personalizedRecipe => postRequest(
 
 export const updateUserRecipe = personalizedRecipe => putRequest(
     `${ ENDPOINTS.USER }${ ENDPOINTS.USER_ENDPOINTS.RECIPES }`, { personalizedRecipe },
+);
+
+export const putSubstitute = ( substituteId, originalId, amount, _id ) => putRequest(
+    `${ ENDPOINTS.USER }${ ENDPOINTS.USER_ENDPOINTS.SUBSTITUTE }`,
+    {
+        substituteId, originalId, amount, _id,
+    },
+);
+
+export const deleteSubstitute = historyId => deleteDislike(
+    `${ ENDPOINTS.USER }${ ENDPOINTS.USER_ENDPOINTS.SUBSTITUTE }`, { historyId },
 );
 
 export const getRecipeSubstitutes = id => getRequest(
