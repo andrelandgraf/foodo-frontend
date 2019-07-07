@@ -15,6 +15,7 @@ export const ENDPOINTS = {
         ALLERGIES: '/allergies',
         LOCALE: '/locale',
         RECIPES: '/recipes',
+        SUBSTITUTE: '/recipes/substitute',
     },
     GOALS: 'goals',
     LIFESTYLES: 'lifestyles',
