@@ -50,7 +50,7 @@ IngredientSelection.propTypes = {
     ).isRequired,
 };
 
-class AdminContainer extends React.Component {
+class CreateRecipeContainer extends React.Component {
     constructor() {
         super();
 
@@ -252,7 +252,7 @@ class AdminContainer extends React.Component {
     }
 }
 
-AdminContainer.propTypes = {
+CreateRecipeContainer.propTypes = {
     ingredientsContext: PropTypes.shape( {
         ingredients: PropTypes.arrayOf(
             PropTypes.shape( {
@@ -266,4 +266,4 @@ AdminContainer.propTypes = {
     } ).isRequired,
 };
 
-export default AdminContainer;
+export default CreateRecipeContainer;

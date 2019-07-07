@@ -10,7 +10,7 @@ import { getLocale } from '../../utilities/internationalization/internationaliza
 /**
  * Add Categories to each ingredient
  */
-function CategoryContainer() {
+function SetCategoryContainer() {
     const [ ingredients, setIngredients ] = useState( [] );
     const [ categories, setCategories ] = useState( [] );
     const [ pickedIngredient, setPickedI ] = useState();
@@ -84,4 +84,4 @@ function CategoryContainer() {
     );
 }
 
-export default CategoryContainer;
+export default SetCategoryContainer;

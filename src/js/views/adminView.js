@@ -1,13 +1,17 @@
 import React from 'react';
 
-import AdminContainer from '../container/Admin/AdminContainer';
 import { IngredientsContext } from '../provider/IngredientsProvider';
+import CreateRecipeContainer from '../container/Admin/CreateRecipeContainer';
 
 const AdminView = () => (
     <div className="container admin-page">
         <h1>Admin Page</h1>
         <IngredientsContext.Consumer>
-            {ingredientsContext => <AdminContainer ingredientsContext={ingredientsContext} />}
+            {ingredientsContext => (
+                <CreateRecipeContainer
+                    ingredientsContext={ingredientsContext}
+                />
+            )}
         </IngredientsContext.Consumer>
     </div>
 );
