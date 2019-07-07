@@ -1,7 +1,8 @@
 /* eslint-disable import/prefer-default-export */
-import { getRequest, postRequest, putRequest } from '../httpService';
+import {
+    getRequest, postRequest, putRequest, deleteRequest,
+} from '../httpService';
 import { ENDPOINTS } from '../api';
-import { deleteDislike } from '../user/profileService';
 
 export const getRecipes = () => getRequest( ENDPOINTS.RECIPES );
 
@@ -32,7 +33,7 @@ export const putSubstitute = ( substituteId, originalId, amount, _id ) => putReq
     },
 );
 
-export const deleteSubstitute = historyId => deleteDislike(
+export const deleteSubstitute = historyId => deleteRequest(
     `${ ENDPOINTS.USER }${ ENDPOINTS.USER_ENDPOINTS.SUBSTITUTE }`, { historyId },
 );
 
