@@ -47,10 +47,10 @@ function RecipesGridsContainer() {
                 : null
             }
             {
-                lifestyleRecipes && lifestyleRecipes.length && user && user.lifestye
+                lifestyleRecipes && lifestyleRecipes.length && user && user.lifestyle
                     ? (
                         <Boxgrid
-                            title={renderTitle( user.lifestye.name )}
+                            title={renderTitle( user.lifestyle.name )}
                             onClick={onSelectRecipe}
                             recipes={lifestyleRecipes}
                         />
