@@ -55,7 +55,7 @@ function SetLifestylesContainer() {
                 <div className="input-container">
                     <DataListInput
                         items={displayableIngredients
-                            .filter( i => !i.notForAllergy || !i.notForAllergy.length )
+                            .filter( i => !i.notForLifestyles || !i.notForLifestyles.length )
                         }
                         placeholder="choose an Ingredient..."
                         onSelect={i => setPickedI( i )}
