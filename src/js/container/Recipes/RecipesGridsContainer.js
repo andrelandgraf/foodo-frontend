@@ -1,16 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 
+import { UserStateContext } from '../../provider/UserStateProvider';
 import useDisplayableRecipes from '../../hooks/useDisplayableRecipes';
 import useDisplayableUserRecipes from '../../hooks/useDisplayableUserRecipes';
+import useToleratedRecipes from '../../hooks/useToleratedRecipes';
+import useLifestyleRecipes from '../../hooks/useLifestyleRecipes';
 
 import { AUTH_ROUTES } from '../App/App';
 import Boxgrid from '../../components/boxgrid/boxgrid';
 
 function RecipesGridsContainer() {
     const [ selectedId, setSelectedId ] = useState();
+    const { user } = useContext( UserStateContext );
     const displayableRecipes = useDisplayableRecipes();
     const displayableUserRecipes = useDisplayableUserRecipes();
+    const toleratedRecipes = useToleratedRecipes();
+    const lifestyleRecipes = useLifestyleRecipes();
 
     const onSelectRecipe = id => setSelectedId( id );
 
@@ -39,6 +45,28 @@ function RecipesGridsContainer() {
                     />
                 )
                 : null
+            }
+            {
+                lifestyleRecipes && lifestyleRecipes.length && user && user.lifestye
+                    ? (
+                        <Boxgrid
+                            title={renderTitle( user.lifestye.name )}
+                            onClick={onSelectRecipe}
+                            recipes={lifestyleRecipes}
+                        />
+                    )
+                    : null
+            }
+            {
+                toleratedRecipes && toleratedRecipes.length && user && user.allergies.length
+                    ? (
+                        <Boxgrid
+                            title={renderTitle( 'Tolerated Recipes' )}
+                            onClick={onSelectRecipe}
+                            recipes={toleratedRecipes}
+                        />
+                    )
+                    : null
             }
             {
                 meals.map( meal => (
