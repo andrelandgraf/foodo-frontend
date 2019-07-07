@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 
 import { UserStateContext } from '../../provider/UserStateProvider';
-import useDisplayableRecipes from '../../hooks/useDisplayableRecipes';
+import useTaggedRecipes from '../../hooks/useTaggedRecipes';
 import useDisplayableUserRecipes from '../../hooks/useDisplayableUserRecipes';
 import useToleratedRecipes from '../../hooks/useToleratedRecipes';
 import useLifestyleRecipes from '../../hooks/useLifestyleRecipes';
@@ -10,17 +10,18 @@ import useLifestyleRecipes from '../../hooks/useLifestyleRecipes';
 import { AUTH_ROUTES } from '../App/App';
 import Boxgrid from '../../components/boxgrid/boxgrid';
 
+
 function RecipesGridsContainer() {
     const [ selectedId, setSelectedId ] = useState();
     const { user } = useContext( UserStateContext );
-    const displayableRecipes = useDisplayableRecipes();
+    const taggedRecipes = useTaggedRecipes();
     const displayableUserRecipes = useDisplayableUserRecipes();
     const toleratedRecipes = useToleratedRecipes();
     const lifestyleRecipes = useLifestyleRecipes();
 
     const onSelectRecipe = id => setSelectedId( id );
 
-    const filterRecipesByMeal = meal => displayableRecipes.filter( r => r.meal === meal );
+    const filterRecipesByMeal = meal => taggedRecipes.filter( r => r.meal === meal );
 
     const renderTitle = title => <h2>{title}</h2>;
 

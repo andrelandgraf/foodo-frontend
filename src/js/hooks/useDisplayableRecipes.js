@@ -3,7 +3,7 @@ import lodash from 'lodash';
 
 import { RecipesContext } from '../provider/RecipesProvider';
 
-export const mapRecipesDisplayable = recipes => ( recipes
+const mapRecipesDisplayable = recipes => ( recipes
     ? lodash.cloneDeep( recipes ).map( recipe => ( {
         ...recipe,
         label: recipe.name,

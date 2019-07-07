@@ -1,8 +1,8 @@
 import { useState, useEffect, useContext } from 'react';
 
-import useDisplayableRecipes from './useDisplayableRecipes';
 import { UserStateContext } from '../provider/UserStateProvider';
 import { IngredientsContext } from '../provider/IngredientsProvider';
+import useTaggedRecipes from './useTaggedRecipes';
 
 const getNotForLifestyle = ( id, ingredients ) => ingredients
     .find( i => i._id === id ).notForLifestyles;
@@ -19,14 +19,14 @@ const filterByLifestyle = ( recipes, ingredients, lifestyle ) => (
 const useLifestyleRecipes = () => {
     const { user } = useContext( UserStateContext );
     const { ingredients } = useContext( IngredientsContext );
-    const displayableRecipes = useDisplayableRecipes();
+    const taggedRecipes = useTaggedRecipes();
     const [ lifestyleRecipes, setLifestyleRecipes ] = useState(
-        filterByLifestyle( displayableRecipes, ingredients, user.lifestyle ),
+        filterByLifestyle( taggedRecipes, ingredients, user.lifestyle ),
     );
 
     useEffect( () => {
-        setLifestyleRecipes( filterByLifestyle( displayableRecipes, ingredients, user.lifestyle ) );
-    }, [ displayableRecipes, user, ingredients ] );
+        setLifestyleRecipes( filterByLifestyle( taggedRecipes, ingredients, user.lifestyle ) );
+    }, [ taggedRecipes, user, ingredients ] );
 
     return lifestyleRecipes;
 };
