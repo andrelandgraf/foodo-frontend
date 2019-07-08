@@ -1,5 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
+import i18n from 'i18next';
+
+import { KEYS } from '../../utilities/internationalization/internationalization';
 
 import { UserStateContext } from '../../provider/UserStateProvider';
 import useTaggedRecipes from '../../hooks/useTaggedRecipes';
@@ -30,9 +33,18 @@ function RecipesGridsContainer() {
     }
 
     const meals = [
-        'Breakfast',
-        'Lunch',
-        'Dinner',
+        {
+            label: i18n.t( KEYS.LABELS.BREAKFAST ),
+            name: 'Breakfast',
+        },
+        {
+            label: i18n.t( KEYS.LABELS.LUNCH ),
+            name: 'Lunch',
+        },
+        {
+            label: i18n.t( KEYS.LABELS.DINNER ),
+            name: 'Dinner',
+        },
     ];
 
     return (
@@ -40,7 +52,7 @@ function RecipesGridsContainer() {
             { taggedUserRecipes && taggedUserRecipes.length && user
                 ? (
                     <Boxgrid
-                        title={renderTitle( 'Your Favorites' )}
+                        title={renderTitle( i18n.t( KEYS.LABELS.YOUR_FAVORITES ) )}
                         onClick={onSelectRecipe}
                         recipes={taggedUserRecipes}
                     />
@@ -62,7 +74,7 @@ function RecipesGridsContainer() {
                 toleratedRecipes && toleratedRecipes.length && user && user.allergies.length
                     ? (
                         <Boxgrid
-                            title={renderTitle( 'Tolerated Recipes' )}
+                            title={renderTitle( i18n.t( KEYS.LABELS.TOLERATED_RECIPES ) )}
                             onClick={onSelectRecipe}
                             recipes={toleratedRecipes}
                         />
@@ -72,10 +84,10 @@ function RecipesGridsContainer() {
             {
                 meals.map( meal => (
                     <Boxgrid
-                        key={meal}
-                        title={renderTitle( meal )}
+                        key={meal.name}
+                        title={renderTitle( meal.label )}
                         onClick={onSelectRecipe}
-                        recipes={filterRecipesByMeal( meal )}
+                        recipes={filterRecipesByMeal( meal.name )}
                     />
                 ) )
             }

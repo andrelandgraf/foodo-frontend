@@ -27,10 +27,6 @@
                     color: $white;
                     font-weight: $font-weight-semi-bold;
                     font-size: $font-size-m;
-                    @media screen and (max-width: $phone-width) {
-                        font-size: $font-size-xs;
-                        font-size: $font-weight-light;
-                    }
                 }
 
                 &-label {
@@ -66,6 +62,7 @@
                         font-size: $font-size-xs;
                         padding: 2px;
                         @media screen and (max-width: $phone-width) {
+                            font-size: 9px;
                             font-size: $font-weight-light;
                         }
                     }
@@ -80,6 +77,10 @@
                         color: $warning-color;
                         font-size: $font-size-xs;
                         padding: 2px;
+                        @media screen and (max-width: $phone-width) {
+                            font-size: 9px;
+                            font-size: $font-weight-light;
+                        }
                     }
                 }
             }

@@ -1,8 +1,10 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import i18n from 'i18next';
+
+import { KEYS, getLocale } from '../../utilities/internationalization/internationalization';
 
 import CustomButton from '../button/customButton';
-import { getLocale } from '../../utilities/internationalization/internationalization';
 
 function Box( { recipe, onClick } ) {
     const onClickBox = useCallback( () => onClick( recipe.key ), [ recipe ] );
@@ -17,7 +19,7 @@ function Box( { recipe, onClick } ) {
                 { recipe.notForAllergies.length
                     ? (
                         <span className="box-allergies">
-                            {`Contains ${ allergiesList }`}
+                            {`${ i18n.t( KEYS.LABELS.CONTAINS ) } ${ allergiesList }`}
                         </span>
                     )
                     : null
@@ -25,7 +27,7 @@ function Box( { recipe, onClick } ) {
                 { recipe.notForLifestyle
                     ? (
                         <span className="box-notlifestyle">
-                            {`Not ${ recipe.notForLifestyle }`}
+                            {`${ i18n.t( KEYS.LABELS.NOT ) } ${ recipe.notForLifestyle }`}
                         </span>
                     )
                     : null
