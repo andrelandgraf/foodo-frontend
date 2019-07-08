@@ -13,6 +13,15 @@ const deHeaders = {
     PAGE_NOT_FOUND: 'Seite nicht gefunden!',
     CHANGE_PW: 'Ändere dein $t(PASSWORD)',
     THIRD_PARTY_AUTHORIZATION: 'Drittanbieter Autorisierung',
+    GOTO_FOODO: 'Gehe zu Foodo',
+    GET_STARTED: 'Jetzt loslegen',
+    PAGE2_TITLE: 'Foodo ist dein',
+    PAGE2_LABEL1: 'Gefährte',
+    PAGE2_LABEL2: 'Ernährungsexperte',
+    PAGE2_LABEL3: 'Sam zu deinem Frodo',
+    PAGE2_INFO: 'Wir werden die am besten passenden Substitute für deine täglich gekochten Mahlzeiten berechnen.',
+    PAGE2_TEASER: 'Finde heraus wie!',
+    START_NOW: 'Probiere es jetzt!',
 };
 
 const deLabels = {
@@ -26,6 +35,12 @@ const deLabels = {
     DISLIKES_PLACEHOLDER: 'Wähle, was dir nicht schmeckt...',
     GOALS_PLACEHOLDER: 'Wähle dein Ziel aus...',
     LIFESTYLES_PLACEHOLDER: 'Wähle deinen Lifestyle...',
+    GOAL_PITCH: 'Wähle dein persönliches Ziel',
+    LIFESTYLE_PITCH: 'Wähle deinen individuellen Lifestyle',
+    ALLERGIES_PITCH: 'Wähle deine Allergien und Abneigungen',
+    MANUAL_PITCH_START: 'Wähle ein Gericht aus, welches du kochen möchtest',
+    MANUAL_PITCH_ALTER: 'Schau dir das Rezept an und ändere es nach deinem Wunsch',
+    MANUAL_PITCH_SUBSTITUTE: 'Wir werden dir helfen ungesunde Bestandteile zu substituieren',
     INGREDIENTS: 'Zutaten',
     NUTRITION: 'Nährwerte',
     EDITED_WITH: 'Rezept bearbeitet mit',
