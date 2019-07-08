@@ -3,13 +3,13 @@ import lodash from 'lodash';
 
 import { UserRecipesContext } from '../provider/UserRecipesProvider';
 
-export const mapUserRecipesDisplayable = recipes => ( recipes
+const mapUserRecipesDisplayable = recipes => ( recipes
     ? lodash.cloneDeep( recipes ).map( recipe => ( {
         ...recipe.personalizedRecipe.origRecipe,
         label: recipe.personalizedRecipe.origRecipe.name,
         key: recipe.personalizedRecipe.origRecipe._id,
     } ) )
-    : recipes );
+    : [] );
 
 function useDisplayableUserRecipes() {
     const { userRecipes } = useContext( UserRecipesContext );

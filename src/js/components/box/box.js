@@ -1,5 +1,8 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import i18n from 'i18next';
+
+import { KEYS, getLocale } from '../../utilities/internationalization/internationalization';
 
 import CustomButton from '../button/customButton';
 
@@ -8,10 +11,28 @@ function Box( { recipe, onClick } ) {
     const style = {
         backgroundImage: `url( ${ recipe.imgUrl } )`,
     };
+    const formatter = new Intl.ListFormat( getLocale(), { style: 'short', type: 'conjunction' } );
+    const allergiesList = formatter.format( recipe.notForAllergies );
     return (
         <CustomButton onClick={onClickBox} id={`box-${ recipe.key }`}>
             <div className="box" style={style}>
-                <span>
+                { recipe.notForAllergies.length
+                    ? (
+                        <span className="box-allergies">
+                            {`${ i18n.t( KEYS.LABELS.CONTAINS ) } ${ allergiesList }`}
+                        </span>
+                    )
+                    : null
+                }
+                { recipe.notForLifestyle
+                    ? (
+                        <span className="box-notlifestyle">
+                            {`${ i18n.t( KEYS.LABELS.NOT ) } ${ recipe.notForLifestyle }`}
+                        </span>
+                    )
+                    : null
+                }
+                <span className="box-label">
                     {recipe.label}
                 </span>
             </div>
@@ -24,6 +45,10 @@ Box.propTypes = {
         label: PropTypes.string.isRequired,
         key: PropTypes.string.isRequired,
         imgUrl: PropTypes.string.isRequired,
+        notForAllergies: PropTypes.arrayOf(
+            PropTypes.string.isRequired,
+        ).isRequired,
+        notForLifestyle: PropTypes.string.isRequired,
     } ).isRequired,
     onClick: PropTypes.func.isRequired,
 };
