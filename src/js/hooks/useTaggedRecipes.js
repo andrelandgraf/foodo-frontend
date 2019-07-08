@@ -17,7 +17,7 @@ const getNotForAllergies = ( recipe, ingredients, allergies ) => allergies
             .find( ia => ia === a._id ) ) )
     .map( a => a.name );
 
-const getNotForLifestyles = ( recipe, ingredients, lifestyle ) => (
+const getNotForLifestyle = ( recipe, ingredients, lifestyle ) => (
     recipe.ingredients
         .filter( i => getIngredientNotLifestyles( i, ingredients )
             .find( l => l === lifestyle._id ) )
@@ -26,14 +26,14 @@ const getNotForLifestyles = ( recipe, ingredients, lifestyle ) => (
         : ''
 );
 
-const mapRecipesTagged = ( recipes, ingredients, user ) => (
+export const mapRecipesTagged = ( recipes, ingredients, user ) => (
     recipes && ingredients && ingredients.length && user
         ? recipes.map( recipe => ( {
             ...recipe,
             notForAllergies: getNotForAllergies( recipe, ingredients, user.allergies ),
-            notForLifestyles: getNotForLifestyles( recipe, ingredients, user.lifestyle ),
+            notForLifestyle: getNotForLifestyle( recipe, ingredients, user.lifestyle ),
         } ) )
-        : recipes
+        : []
 );
 
 function useTaggedRecipes() {
