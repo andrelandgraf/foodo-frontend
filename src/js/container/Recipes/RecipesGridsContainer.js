@@ -1,26 +1,30 @@
 import React, { useState, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
+import i18n from 'i18next';
+
+import { KEYS } from '../../utilities/internationalization/internationalization';
 
 import { UserStateContext } from '../../provider/UserStateProvider';
-import useDisplayableRecipes from '../../hooks/useDisplayableRecipes';
-import useDisplayableUserRecipes from '../../hooks/useDisplayableUserRecipes';
+import useTaggedRecipes from '../../hooks/useTaggedRecipes';
+import useTaggedUserRecipes from '../../hooks/useTaggedUserRecipes';
 import useToleratedRecipes from '../../hooks/useToleratedRecipes';
 import useLifestyleRecipes from '../../hooks/useLifestyleRecipes';
 
 import { AUTH_ROUTES } from '../App/App';
 import Boxgrid from '../../components/boxgrid/boxgrid';
 
+
 function RecipesGridsContainer() {
     const [ selectedId, setSelectedId ] = useState();
     const { user } = useContext( UserStateContext );
-    const displayableRecipes = useDisplayableRecipes();
-    const displayableUserRecipes = useDisplayableUserRecipes();
+    const taggedRecipes = useTaggedRecipes();
+    const taggedUserRecipes = useTaggedUserRecipes();
     const toleratedRecipes = useToleratedRecipes();
     const lifestyleRecipes = useLifestyleRecipes();
 
     const onSelectRecipe = id => setSelectedId( id );
 
-    const filterRecipesByMeal = meal => displayableRecipes.filter( r => r.meal === meal );
+    const filterRecipesByMeal = meal => taggedRecipes.filter( r => r.meal === meal );
 
     const renderTitle = title => <h2>{title}</h2>;
 
@@ -29,19 +33,28 @@ function RecipesGridsContainer() {
     }
 
     const meals = [
-        'Breakfast',
-        'Lunch',
-        'Dinner',
+        {
+            label: i18n.t( KEYS.LABELS.BREAKFAST ),
+            name: 'Breakfast',
+        },
+        {
+            label: i18n.t( KEYS.LABELS.LUNCH ),
+            name: 'Lunch',
+        },
+        {
+            label: i18n.t( KEYS.LABELS.DINNER ),
+            name: 'Dinner',
+        },
     ];
 
     return (
         <div className="box-grids">
-            { displayableUserRecipes && displayableUserRecipes.length
+            { taggedUserRecipes && taggedUserRecipes.length && user
                 ? (
                     <Boxgrid
-                        title={renderTitle( 'Your Favorites' )}
+                        title={renderTitle( i18n.t( KEYS.LABELS.YOUR_FAVORITES ) )}
                         onClick={onSelectRecipe}
-                        recipes={displayableUserRecipes}
+                        recipes={taggedUserRecipes}
                     />
                 )
                 : null
@@ -61,7 +74,7 @@ function RecipesGridsContainer() {
                 toleratedRecipes && toleratedRecipes.length && user && user.allergies.length
                     ? (
                         <Boxgrid
-                            title={renderTitle( 'Tolerated Recipes' )}
+                            title={renderTitle( i18n.t( KEYS.LABELS.TOLERATED_RECIPES ) )}
                             onClick={onSelectRecipe}
                             recipes={toleratedRecipes}
                         />
@@ -71,10 +84,10 @@ function RecipesGridsContainer() {
             {
                 meals.map( meal => (
                     <Boxgrid
-                        key={meal}
-                        title={renderTitle( meal )}
+                        key={meal.name}
+                        title={renderTitle( meal.label )}
                         onClick={onSelectRecipe}
-                        recipes={filterRecipesByMeal( meal )}
+                        recipes={filterRecipesByMeal( meal.name )}
                     />
                 ) )
             }

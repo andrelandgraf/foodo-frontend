@@ -1,8 +1,8 @@
 import { useState, useEffect, useContext } from 'react';
 
-import useDisplayableRecipes from './useDisplayableRecipes';
 import { UserStateContext } from '../provider/UserStateProvider';
 import { IngredientsContext } from '../provider/IngredientsProvider';
+import useTaggedRecipes from './useTaggedRecipes';
 
 const getNotForAllergy = ( id, ingredients ) => ingredients
     .find( i => i._id === id ).notForAllergy;
@@ -19,14 +19,14 @@ const filterTolerated = ( recipes, ingredients, allergies ) => (
 const useToleratedRecipes = () => {
     const { user } = useContext( UserStateContext );
     const { ingredients } = useContext( IngredientsContext );
-    const displayableRecipes = useDisplayableRecipes();
+    const taggedRecipes = useTaggedRecipes();
     const [ toleratedRecipes, setToleratedRecipes ] = useState(
-        filterTolerated( displayableRecipes, ingredients, user.allergies ),
+        filterTolerated( taggedRecipes, ingredients, user.allergies ),
     );
 
     useEffect( () => {
-        setToleratedRecipes( filterTolerated( displayableRecipes, ingredients, user.allergies ) );
-    }, [ displayableRecipes, user, ingredients ] );
+        setToleratedRecipes( filterTolerated( taggedRecipes, ingredients, user.allergies ) );
+    }, [ taggedRecipes, user, ingredients ] );
 
     return toleratedRecipes;
 };
