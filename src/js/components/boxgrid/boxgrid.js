@@ -25,6 +25,10 @@ Boxgrid.propTypes = {
         PropTypes.shape( {
             label: PropTypes.string.isRequired,
             key: PropTypes.string.isRequired,
+            notForAllergies: PropTypes.arrayOf(
+                PropTypes.string.isRequired,
+            ).isRequired,
+            notForLifestyle: PropTypes.string.isRequired,
         } ).isRequired,
     ),
     title: PropTypes.oneOfType( [

@@ -9,7 +9,7 @@ const mapUserRecipesDisplayable = recipes => ( recipes
         label: recipe.personalizedRecipe.origRecipe.name,
         key: recipe.personalizedRecipe.origRecipe._id,
     } ) )
-    : recipes );
+    : [] );
 
 function useDisplayableUserRecipes() {
     const { userRecipes } = useContext( UserRecipesContext );

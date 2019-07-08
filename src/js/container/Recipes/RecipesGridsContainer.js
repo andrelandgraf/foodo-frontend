@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 
 import { UserStateContext } from '../../provider/UserStateProvider';
 import useTaggedRecipes from '../../hooks/useTaggedRecipes';
-import useDisplayableUserRecipes from '../../hooks/useDisplayableUserRecipes';
+import useTaggedUserRecipes from '../../hooks/useTaggedUserRecipes';
 import useToleratedRecipes from '../../hooks/useToleratedRecipes';
 import useLifestyleRecipes from '../../hooks/useLifestyleRecipes';
 
@@ -15,7 +15,7 @@ function RecipesGridsContainer() {
     const [ selectedId, setSelectedId ] = useState();
     const { user } = useContext( UserStateContext );
     const taggedRecipes = useTaggedRecipes();
-    const displayableUserRecipes = useDisplayableUserRecipes();
+    const taggedUserRecipes = useTaggedUserRecipes();
     const toleratedRecipes = useToleratedRecipes();
     const lifestyleRecipes = useLifestyleRecipes();
 
@@ -37,12 +37,12 @@ function RecipesGridsContainer() {
 
     return (
         <div className="box-grids">
-            { displayableUserRecipes && displayableUserRecipes.length
+            { taggedUserRecipes && taggedUserRecipes.length && user
                 ? (
                     <Boxgrid
                         title={renderTitle( 'Your Favorites' )}
                         onClick={onSelectRecipe}
-                        recipes={displayableUserRecipes}
+                        recipes={taggedUserRecipes}
                     />
                 )
                 : null
