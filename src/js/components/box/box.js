@@ -11,8 +11,10 @@ function Box( { recipe, onClick } ) {
     const style = {
         backgroundImage: `url( ${ recipe.imgUrl } )`,
     };
-    const formatter = new Intl.ListFormat( getLocale(), { style: 'short', type: 'conjunction' } );
-    const allergiesList = formatter.format( recipe.notForAllergies );
+    const allergiesList = Intl.ListFormat
+        ? new Intl.ListFormat( getLocale(), { style: 'short', type: 'conjunction' } )
+            .format( recipe.notForAllergies )
+        : recipe.notForAllergies.join( ', ' );
     return (
         <CustomButton onClick={onClickBox} id={`box-${ recipe.key }`}>
             <div className="box" style={style}>
