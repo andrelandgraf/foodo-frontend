@@ -1,4 +1,6 @@
-import React, { useState, useContext, useMemo } from 'react';
+import React, {
+    useState, useContext, useMemo, useEffect,
+} from 'react';
 import DataListInput from 'react-datalist-input';
 import lodash from 'lodash';
 
@@ -25,6 +27,14 @@ function SetAllergiesContainer() {
             label: a.name,
         } ) )
     ), [ allergies ] );
+
+    useEffect( () => {
+        if ( displayableAllergies && displayableAllergies.length && pickedIngredient ) {
+            setPickedA( lodash.cloneDeep( displayableAllergies
+                .filter( a => pickedIngredient.notForAllergy
+                    .find( na => na === a._id ) ) ) );
+        }
+    }, [ pickedIngredient, displayableAllergies ] );
 
     const onClickSave = () => {
         const pickedAIds = pickedAllergies.map( allergy => allergy._id );
@@ -54,9 +64,7 @@ function SetAllergiesContainer() {
                 <h2>Select an Ingredient</h2>
                 <div className="input-container">
                     <DataListInput
-                        items={displayableIngredients
-                            .filter( i => !i.notForAllergy || !i.notForAllergy.length )
-                        }
+                        items={displayableIngredients}
                         placeholder="choose an Ingredient..."
                         onSelect={i => setPickedI( i )}
                         dropDownLength={10}
@@ -89,7 +97,7 @@ function SetAllergiesContainer() {
                 <Button
                     onClick={onClickSave}
                     text="save"
-                    disabled={!pickedAllergies.length || !pickedIngredient}
+                    disabled={!pickedIngredient}
                     primary
                 />
             </div>
