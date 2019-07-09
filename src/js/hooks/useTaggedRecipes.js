@@ -6,7 +6,7 @@ import useDisplayableRecipes from './useDisplayableRecipes';
 
 
 const getIngredientAllergies = ( ingredient, ingredients ) => ingredients
-    .find( i => i._id === ingredient.ingredient ).notForAllergy;
+    .find( i => i._id === ingredient.ingredient ).notForAllergies;
 
 const getIngredientNotLifestyles = ( ingredient, ingredients ) => ingredients
     .find( i => i._id === ingredient.ingredient ).notForLifestyles;
@@ -31,7 +31,7 @@ export const mapRecipesTagged = ( recipes, ingredients, user ) => (
         ? recipes.map( recipe => ( {
             ...recipe,
             notForAllergies: getNotForAllergies( recipe, ingredients, user.allergies ),
-            notForLifestyle: getNotForLifestyle( recipe, ingredients, user.lifestyle ),
+            notForLifestyle: user.lifestyle ? getNotForLifestyle( recipe, ingredients, user.lifestyle ) : '',
         } ) )
         : []
 );
