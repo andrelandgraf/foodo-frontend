@@ -31,14 +31,14 @@ function SetAllergiesContainer() {
     useEffect( () => {
         if ( displayableAllergies && displayableAllergies.length && pickedIngredient ) {
             setPickedA( lodash.cloneDeep( displayableAllergies
-                .filter( a => pickedIngredient.notForAllergy
+                .filter( a => pickedIngredient.notForAllergies
                     .find( na => na === a._id ) ) ) );
         }
     }, [ pickedIngredient, displayableAllergies ] );
 
     const onClickSave = () => {
         const pickedAIds = pickedAllergies.map( allergy => allergy._id );
-        const data = { _id: pickedIngredient._id, notForAllergy: pickedAIds };
+        const data = { _id: pickedIngredient._id, notForAllergies: pickedAIds };
         postRequest( `${ ENDPOINTS.INGREDIENTS }/setallergies`, data );
         setPickedA( [] );
         setPickedI( undefined );

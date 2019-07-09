@@ -29,7 +29,9 @@ const Ingredient = ( { ingredient, onClose, onClick } ) => {
                 }
             </div>
             <span>
-                { `Amount: ${ Number( ingredient.amount ) * 100 } ${ ingredient.unit.name }` }
+                { `Amount: ${
+                    +( Number( ingredient.amount ) * Number( ingredient.unit.amount ) ).toFixed( 2 )
+                } ${ ingredient.unit.name }` }
             </span>
         </React.Fragment>
     );

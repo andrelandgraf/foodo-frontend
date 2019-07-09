@@ -5,7 +5,7 @@ import { IngredientsContext } from '../provider/IngredientsProvider';
 import useTaggedRecipes from './useTaggedRecipes';
 
 const getNotForAllergy = ( id, ingredients ) => ingredients
-    .find( i => i._id === id ).notForAllergy;
+    .find( i => i._id === id ).notForAllergies;
 
 const filterTolerated = ( recipes, ingredients, allergies ) => (
     recipes && ingredients && ingredients.length && allergies
