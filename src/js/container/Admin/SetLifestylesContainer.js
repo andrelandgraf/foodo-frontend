@@ -1,4 +1,6 @@
-import React, { useState, useContext, useMemo } from 'react';
+import React, {
+    useState, useContext, useMemo, useEffect,
+} from 'react';
 import DataListInput from 'react-datalist-input';
 import lodash from 'lodash';
 
@@ -25,6 +27,14 @@ function SetLifestylesContainer() {
             label: l.name,
         } ) )
     ), [ lifestyles ] );
+
+    useEffect( () => {
+        if ( displayableLifestyles && displayableLifestyles.length && pickedIngredient ) {
+            setPickedL( lodash.cloneDeep( displayableLifestyles
+                .filter( l => pickedIngredient.notForLifestyles
+                    .find( nl => nl === l._id ) ) ) );
+        }
+    }, [ pickedIngredient, displayableLifestyles ] );
 
     const onClickSave = () => {
         const pickedLIds = pickedLifestyles.map( lifestyle => lifestyle._id );
@@ -54,9 +64,7 @@ function SetLifestylesContainer() {
                 <h2>Select an Ingredient</h2>
                 <div className="input-container">
                     <DataListInput
-                        items={displayableIngredients
-                            .filter( i => !i.notForLifestyles || !i.notForLifestyles.length )
-                        }
+                        items={displayableIngredients}
                         placeholder="choose an Ingredient..."
                         onSelect={i => setPickedI( i )}
                         dropDownLength={10}
@@ -89,7 +97,7 @@ function SetLifestylesContainer() {
                 <Button
                     onClick={onClickSave}
                     text="save"
-                    disabled={!pickedLifestyles.length || !pickedIngredient}
+                    disabled={!pickedIngredient}
                     primary
                 />
             </div>
