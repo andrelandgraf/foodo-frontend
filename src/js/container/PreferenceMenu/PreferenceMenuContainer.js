@@ -9,6 +9,7 @@ import {
 
 import { postLocale } from '../../services/foodo-api/user/preferencesService';
 import { isAuthenticated } from '../../services/foodo-api/user/userService';
+import { AUTH_ROUTES } from '../App/App';
 
 import CustomButton from '../../components/button/customButton';
 import Title from '../../components/preferences/title';
@@ -17,7 +18,7 @@ import LogoutContainer from '../Logout/LogoutContainer';
 import Logout from '../../components/preferences/logout';
 import About from '../../components/preferences/about';
 import Password from '../../components/preferences/password';
-import { AUTH_ROUTES } from '../App/App';
+import Statistics from '../../components/preferences/statistics';
 
 
 const MAIN_MENU = i18n.t( KEYS.LABELS.PREFERENCES );
@@ -31,6 +32,7 @@ class PreferencesMenuContainer extends React.Component {
             title: MAIN_MENU,
             clickedPW: false,
             clickedAbout: false,
+            clickedStatistics: false,
         };
     }
 
@@ -40,7 +42,9 @@ class PreferencesMenuContainer extends React.Component {
 
     onClickPassword = () => this.setState( { clickedPW: true } );
 
-    onClickAbout = () => this.setState( { clickedAbout: true } )
+    onClickAbout = () => this.setState( { clickedAbout: true } );
+
+    onClickStatistics = () => this.setState( { clickedStatistics: true } )
 
     onSelectLocale = async ( locale ) => {
         if ( isAuthenticated() ) {
@@ -71,6 +75,11 @@ class PreferencesMenuContainer extends React.Component {
         <>
             <li className="title">
                 { title }
+            </li>
+            <li className="item">
+                <Statistics
+                    onClickStatistics={this.onClickStatistics}
+                />
             </li>
             <li className="item">
                 <Language
@@ -115,7 +124,9 @@ class PreferencesMenuContainer extends React.Component {
 
     render() {
         const { closeMenu } = this.props;
-        const { title, clickedPW, clickedAbout } = this.state;
+        const {
+            title, clickedPW, clickedAbout, clickedStatistics,
+        } = this.state;
 
         if ( clickedPW ) {
             return (
@@ -126,6 +137,12 @@ class PreferencesMenuContainer extends React.Component {
         if ( clickedAbout ) {
             return (
                 <Redirect push to={AUTH_ROUTES.ABOUT} />
+            );
+        }
+
+        if ( clickedStatistics ) {
+            return (
+                <Redirect push to={AUTH_ROUTES.STATISTICS} />
             );
         }
 
