@@ -19,6 +19,15 @@ const enHeaders = {
     PAGE_NOT_FOUND: 'Page not found!',
     CHANGE_PW: 'Change $t(PASSWORD)',
     THIRD_PARTY_AUTHORIZATION: 'Third party service authorization',
+    GOTO_FOODO: 'Go to Foodo',
+    GET_STARTED: 'Get Started',
+    PAGE2_TITLE: 'Foodo is your',
+    PAGE2_LABEL1: 'Companion',
+    PAGE2_LABEL2: 'Nutrition Expert',
+    PAGE2_LABEL3: 'Sam to your Frodo',
+    PAGE2_INFO: 'We will compute the best fitting substitutes for your daily home cooked meals.',
+    PAGE2_TEASER: 'Find out how!',
+    START_NOW: 'Try it out now!',
 };
 
 // short labels (e.g. button text, navbar text, input placehodlers, ...)
@@ -33,6 +42,12 @@ const enLabels = {
     DISLIKES_PLACEHOLDER: 'Select your dislikes...',
     GOALS_PLACEHOLDER: 'Select your personal goals...',
     LIFESTYLES_PLACEHOLDER: 'Select your lifestyle...',
+    GOAL_PITCH: 'Select your personal goal',
+    LIFESTYLE_PITCH: 'Select your individual lifestyle',
+    ALLERGIES_PITCH: 'Select your allergies and dislikes',
+    MANUAL_PITCH_START: 'Pick a dish that you want to cook',
+    MANUAL_PITCH_ALTER: 'See the recipe and alter it to your desire',
+    MANUAL_PITCH_SUBSTITUTE: 'We will help you to substitute unhealthy parts',
     INGREDIENTS: 'Ingredients',
     NUTRITION: 'Nutritional Facts',
     EDITED_WITH: 'Recipe edited with',
