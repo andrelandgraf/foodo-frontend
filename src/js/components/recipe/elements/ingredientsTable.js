@@ -31,7 +31,7 @@ function IngredientsTable( {
                     ingredient => (
                         <React.Fragment key={ingredient.key}>
                             <span className="recipe-content-ingredients-table-amount">
-                                {ingredient.amount * ingredient.unit.amount}
+                                { +( ingredient.amount * ingredient.unit.amount ).toFixed( 2 ) }
                             </span>
                             <span>
                                 {unitToLabel( ingredient.unit.name )}
