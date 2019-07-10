@@ -76,7 +76,7 @@ function NavBarContainer( { loggedIn } ) {
     ];
 
     const renderNavBar = () => (
-        <React.Fragment>
+        <>
             <NavBar>
                 { loggedIn
                     ? renderAuthenticatedNavBarItems()
@@ -91,7 +91,7 @@ function NavBarContainer( { loggedIn } ) {
                 )
                 : undefined
             }
-        </React.Fragment>
+        </>
     );
 
     return showNavBar ? renderNavBar() : null;
