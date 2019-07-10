@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import { useMemo, useContext } from 'react';
 import lodash from 'lodash';
 
 import { UserRecipesContext } from '../provider/UserRecipesProvider';
@@ -13,15 +13,8 @@ const mapUserRecipesDisplayable = recipes => ( recipes
 
 function useDisplayableUserRecipes() {
     const { userRecipes } = useContext( UserRecipesContext );
-    const [ displayableUserRecipes, setDisplayableUserRecipes ] = useState(
-        mapUserRecipesDisplayable( userRecipes ),
-    );
-
-    useEffect( () => {
-        setDisplayableUserRecipes( mapUserRecipesDisplayable( userRecipes ) );
-    }, [ userRecipes ] );
-
-    return displayableUserRecipes;
+    return useMemo( () => mapUserRecipesDisplayable( userRecipes ),
+        [ userRecipes ] );
 }
 
 export default useDisplayableUserRecipes;

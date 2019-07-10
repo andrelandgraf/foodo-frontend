@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import { useContext, useMemo } from 'react';
 
 import { IngredientsContext } from '../provider/IngredientsProvider';
 import { UserStateContext } from '../provider/UserStateProvider';
@@ -40,15 +40,8 @@ function useTaggedRecipes() {
     const displayableRecipes = useDisplayableRecipes();
     const { ingredients } = useContext( IngredientsContext );
     const { user } = useContext( UserStateContext );
-    const [ taggedRecipes, setTaggedRecipes ] = useState(
-        mapRecipesTagged( displayableRecipes, ingredients, user ),
-    );
-
-    useEffect( () => {
-        setTaggedRecipes( mapRecipesTagged( displayableRecipes, ingredients, user ) );
-    }, [ displayableRecipes, ingredients, user ] );
-
-    return taggedRecipes;
+    return useMemo( () => mapRecipesTagged( displayableRecipes, ingredients, user ),
+        [ displayableRecipes, ingredients, user ] );
 }
 
 export default useTaggedRecipes;

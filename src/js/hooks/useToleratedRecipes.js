@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useMemo, useContext } from 'react';
 
 import { UserStateContext } from '../provider/UserStateProvider';
 import { IngredientsContext } from '../provider/IngredientsProvider';
@@ -20,15 +20,8 @@ const useToleratedRecipes = () => {
     const { user } = useContext( UserStateContext );
     const { ingredients } = useContext( IngredientsContext );
     const taggedRecipes = useTaggedRecipes();
-    const [ toleratedRecipes, setToleratedRecipes ] = useState(
-        filterTolerated( taggedRecipes, ingredients, user.allergies ),
-    );
-
-    useEffect( () => {
-        setToleratedRecipes( filterTolerated( taggedRecipes, ingredients, user.allergies ) );
-    }, [ taggedRecipes, user, ingredients ] );
-
-    return toleratedRecipes;
+    return useMemo( () => filterTolerated( taggedRecipes, ingredients, user.allergies ),
+        [ taggedRecipes, user, ingredients ] );
 };
 
 export default useToleratedRecipes;
