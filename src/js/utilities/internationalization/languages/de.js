@@ -10,9 +10,10 @@ const deHeaders = {
     DISLIKES_SELECTION: 'Deine Dislikes',
     GOALS_SELECTION: 'Dein persönliches Ziel',
     LIFESTYLES_SELECTION: 'Dein Lifestyle',
+    STATISTICS: 'Deine Statistik',
     PAGE_NOT_FOUND: 'Seite nicht gefunden!',
     CHANGE_PW: 'Ändere dein $t(PASSWORD)',
-    THIRD_PARTY_AUTHORIZATION: 'Drittanbieter Autorisierung',
+    THIRD_PARTY_AUTHORIZATION: 'Login mit Alexa',
 };
 
 const deLabels = {
@@ -41,6 +42,7 @@ const deLabels = {
     LUNCH: 'Mittagsessen',
     DINNER: 'Abendessen',
     TOLERATED_RECIPES: 'Verträgliche Rezepte',
+    STATISTICS: 'Statistik',
     LANGUAGES: 'Sprachen',
     LANGUAGE: 'Sprache',
     REGISTRATION: '$t(REGISTER)',

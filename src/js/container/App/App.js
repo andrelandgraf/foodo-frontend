@@ -20,6 +20,7 @@ import CookingView from '../../views/cookingView';
 import NotFoundView from '../../views/notFoundView';
 import PasswordView from '../../views/passwordView';
 import AdminView from '../../views/adminView';
+import StatisticsView from '../../views/statisticsView';
 import AboutContainer from '../About/AboutContainer';
 import LoginContainer from '../Login/LoginContainer';
 import RegistrationContainer from '../Registration/RegistrationContainer';
@@ -33,6 +34,7 @@ export const AUTH_ROUTES = {
     HOME: '/',
     PROFILE: '/profile',
     COOKING: '/cooking/',
+    STATISTICS: '/statistics',
     ADMIN: '/admin',
     CATEGORY: '/admin/setcategory',
     ALLERGIES: '/admin/setallergies',
@@ -86,11 +88,8 @@ function App() {
                 path={`${ AUTH_ROUTES.COOKING }:id`}
                 render={props => ( <CookingView {...props} /> )}
             />
-            <Route
-                exact
-                path={AUTH_ROUTES.PASSWORD}
-                component={PasswordView}
-            />
+            <Route exact path={AUTH_ROUTES.STATISTICS} component={StatisticsView} />
+            <Route exact path={AUTH_ROUTES.PASSWORD} component={PasswordView} />
             <Route exact from={AUTH_ROUTES.ADMIN} component={AdminView} />
             <Route exact from={AUTH_ROUTES.CATEGORY} component={SetCategoryContainer} />
             <Route exact from={AUTH_ROUTES.ALLERGIES} component={SetAllergiesContainer} />

@@ -46,6 +46,13 @@ function NavBarContainer( { loggedIn } ) {
             link={AUTH_ROUTES.PROFILE}
             float="left"
         />,
+        <NavBarItem
+            key="statistics"
+            label={i18n.t( KEYS.LABELS.STATISTICS )}
+            link={AUTH_ROUTES.STATISTICS}
+            float="left"
+            hideOnMobile
+        />,
         <PreferenceItem
             key="preferences"
             label={i18n.t( KEYS.LABELS.PREFERENCES )}
