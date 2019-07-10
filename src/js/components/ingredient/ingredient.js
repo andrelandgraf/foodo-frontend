@@ -13,19 +13,18 @@ const Ingredient = ( { ingredient, onClose, onClick } ) => {
         [ ingredient, onClose ] );
 
     const Content = (
-        <React.Fragment>
+        <>
             <div className="name-score">
                 <span className="name">
                     { ingredient.label }
                 </span>
                 {
                     Number.isInteger( ingredient.nutriScore )
-                        ? (
+                        && (
                             <span className="nutriscore">
                                 { `NutriScore: ${ ingredient.nutriScore }`}
                             </span>
                         )
-                        : null
                 }
             </div>
             <span>
@@ -33,7 +32,7 @@ const Ingredient = ( { ingredient, onClose, onClick } ) => {
                     +( Number( ingredient.amount ) * Number( ingredient.unit.amount ) ).toFixed( 2 )
                 } ${ ingredient.unit.name }` }
             </span>
-        </React.Fragment>
+        </>
     );
     return (
         <div className="ingredient">

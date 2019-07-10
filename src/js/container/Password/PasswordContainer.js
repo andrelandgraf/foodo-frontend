@@ -54,10 +54,10 @@ class PasswordContainer extends React.Component {
     render() {
         const { password, message, messageType } = this.state;
         return (
-            <React.Fragment>
+            <>
                 { message && this.renderMessage( message, messageType ) }
                 { this.renderPasswordForm( password ) }
-            </React.Fragment>
+            </>
         );
     }
 }

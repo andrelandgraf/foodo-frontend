@@ -68,7 +68,7 @@ class PreferencesMenuContainer extends React.Component {
     ) )
 
     renderMainMenu = ( title, closeMenu ) => (
-        <React.Fragment>
+        <>
             <li className="title">
                 { title }
             </li>
@@ -86,11 +86,11 @@ class PreferencesMenuContainer extends React.Component {
             <li className="item">
                 <LogoutContainer onWillLogout={closeMenu} LogoutComponent={Logout} />
             </li>
-        </React.Fragment>
+        </>
     )
 
     renderLanguageMenu = title => (
-        <React.Fragment>
+        <>
             <li className="title">
                 <Title
                     id={`${ title }-button`}
@@ -99,7 +99,7 @@ class PreferencesMenuContainer extends React.Component {
                 />
             </li>
             { this.renderLocaleItems() }
-        </React.Fragment>
+        </>
     )
 
     renderMenu = ( title, closeMenu ) => {

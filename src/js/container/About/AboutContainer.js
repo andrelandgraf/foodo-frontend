@@ -21,7 +21,7 @@ function AboutContainer() {
     const onClickGetStarted = () => setClickedGetStarted( true );
 
     return (
-        <React.Fragment>
+        <>
             { clickedGetStarted
                 ? (
                     <Redirect
@@ -31,7 +31,7 @@ function AboutContainer() {
                 )
                 : <AboutView onClickGetStarted={onClickGetStarted} />
             }
-        </React.Fragment>
+        </>
     );
 }
 

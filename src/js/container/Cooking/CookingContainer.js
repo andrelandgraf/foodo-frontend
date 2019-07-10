@@ -25,7 +25,7 @@ import useDisplayableUserRecipe from '../../hooks/useDisplayableUserRecipe';
 function CookingContainer( { id } ) {
     const [ possibleSubstitues, setPossibleSubstitues ] = useState( undefined );
     const [ showSubstiutesFor, setShowSubstiutesFor ] = useState( '' );
-    const [ showEditInrgedients, setShowEditIngredients ] = useState( false );
+    const [ showEditIngredients, setShowEditIngredients ] = useState( false );
     const [ displayableRecipe, displayableOrigRecipe ] = useDisplayableUserRecipe();
 
     const [ message, setMessage ] = useState( '' );
@@ -179,7 +179,7 @@ function CookingContainer( { id } ) {
     const SuccessMessage = message ? renderMessage( message, messageType ) : null;
 
     return (
-        <React.Fragment>
+        <>
             <h1>
                 { displayableRecipe
                     ? displayableRecipe.meal
@@ -205,15 +205,14 @@ function CookingContainer( { id } ) {
                 ? renderModal( displayableSubstitutes, selectedIngredient )
                 : null
             }
-            { showEditInrgedients
-                ? (
+            { showEditIngredients
+                && (
                     <EditIngredients
                         onCloseEditIngredients={onCloseEditIngredients}
                     />
                 )
-                : null
             }
-        </React.Fragment>
+        </>
     );
 }
 

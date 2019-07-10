@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { BUTTON_STYLES } from './button';
 
 const SubmitButton = ( { label, isLoading, disabled } ) => (
-    <React.Fragment>
+    <>
         <button
             type="submit"
             className={`${ BUTTON_STYLES } btn btn-primary`}
@@ -12,7 +12,7 @@ const SubmitButton = ( { label, isLoading, disabled } ) => (
         >
             { label }
         </button>
-    </React.Fragment>
+    </>
 );
 
 SubmitButton.propTypes = {
