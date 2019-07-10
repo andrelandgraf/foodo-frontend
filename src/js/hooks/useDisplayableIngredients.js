@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import { useMemo, useContext } from 'react';
 import lodash from 'lodash';
 
 import { getLocale } from '../utilities/internationalization/internationalization';
@@ -15,15 +15,7 @@ export const mapIngredientsDisplayable = ( ingredients, locale ) => ( ingredient
 
 function useDisplayableIngredients() {
     const { ingredients } = useContext( IngredientsContext );
-    const [ displayableIngredients, setDisplayableIngredients ] = useState(
-        mapIngredientsDisplayable( ingredients, getLocale() ),
-    );
-
-    useEffect( () => {
-        setDisplayableIngredients( mapIngredientsDisplayable( ingredients, getLocale() ) );
-    }, [ ingredients ] );
-
-    return displayableIngredients;
+    return useMemo( () => mapIngredientsDisplayable( ingredients, getLocale() ), [ ingredients ] );
 }
 
 export default useDisplayableIngredients;

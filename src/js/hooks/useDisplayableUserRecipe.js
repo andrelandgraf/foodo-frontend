@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import { useMemo, useContext } from 'react';
 import lodash from 'lodash';
 
 import { getLocale } from '../utilities/internationalization/internationalization';
@@ -31,17 +31,7 @@ const mapUserRecipeToRecipes = ( userRecipe, locale ) => {
 
 function useDisplayableUserRecipe() {
     const { userRecipe } = useContext( UserRecipeContext );
-    const [ dRecipe, dOrigRecipe ] = mapUserRecipeToRecipes( userRecipe, getLocale() );
-    const [ displayableRecipe, setDisplayableRecipe ] = useState( dRecipe );
-    const [ displayableOrigRecipe, setDisplayableOrigRecipe ] = useState( dOrigRecipe );
-
-    useEffect( () => {
-        const [ recipe, origRecipe ] = mapUserRecipeToRecipes( userRecipe, getLocale() );
-        setDisplayableRecipe( recipe );
-        setDisplayableOrigRecipe( origRecipe );
-    }, [ userRecipe ] );
-
-    return [ displayableRecipe, displayableOrigRecipe ];
+    return useMemo( () => mapUserRecipeToRecipes( userRecipe, getLocale() ), [ userRecipe ] );
 }
 
 export default useDisplayableUserRecipe;

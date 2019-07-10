@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useMemo, useContext } from 'react';
 
 import { UserStateContext } from '../provider/UserStateProvider';
 import { IngredientsContext } from '../provider/IngredientsProvider';
@@ -20,15 +20,8 @@ const useLifestyleRecipes = () => {
     const { user } = useContext( UserStateContext );
     const { ingredients } = useContext( IngredientsContext );
     const taggedRecipes = useTaggedRecipes();
-    const [ lifestyleRecipes, setLifestyleRecipes ] = useState(
-        filterByLifestyle( taggedRecipes, ingredients, user.lifestyle ),
-    );
-
-    useEffect( () => {
-        setLifestyleRecipes( filterByLifestyle( taggedRecipes, ingredients, user.lifestyle ) );
-    }, [ taggedRecipes, user, ingredients ] );
-
-    return lifestyleRecipes;
+    return useMemo( () => filterByLifestyle( taggedRecipes, ingredients, user.lifestyle ),
+        [ taggedRecipes, user, ingredients ] );
 };
 
 export default useLifestyleRecipes;
