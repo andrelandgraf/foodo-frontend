@@ -12,17 +12,16 @@ function StatisticsContainer() {
 
     const loadingDone = ingredients.ingredients.length && currentUserRecipes.userRecipes.length;
 
-    const setIngredientsInIngredientsList = ( ingredientsList ) => {
-        const newIngredientsList = ingredientsList.map(
+    const setIngredientsInIngredientsList = ingredientsList => (
+        ingredientsList.map(
             element => Object.assign( {}, element,
                 {
                     ingredient: ingredients.ingredients.find(
                         ingredient => ingredient._id === element.ingredient,
                     ),
                 } ),
-        );
-        return newIngredientsList;
-    };
+        )
+    );
 
     const setIngredientsForUserRecipes = userRecipes => (
         userRecipes.map(
