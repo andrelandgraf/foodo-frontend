@@ -11,26 +11,21 @@ function StatisticsContainer() {
     const originalRecipes = useContext( RecipesContext );
     const ingredients = useContext( IngredientsContext );
 
-    const setIngredientsInRecipe = ( recipe ) => {
-        console.log( recipe );
-        const newRecipe = Object.assign( {}, recipe,
-            {
-                ingredients: recipe.ingredients.reduce(
-                    ( acc, element ) => acc.concat( Object.assign( {}, element,
-                        {
-                            ingredient: ingredients.ingredients.find(
-                                ( ingredient ) => {
-                                    if ( ingredient._id === element._id ) console.log( `123 ${ ingredient._id === element._id }` );
-                                    if ( ingredient._id === element.ingredient._id ) console.log( `456 ${ ingredient._id === element.ingredient._id }` );
-                                    return ingredient._id === element._id;
-                                },
-                            ),
-                        } ) ),
-                    [],
-                ),
-            } );
+    const setIngredientsInIngredientsList = ( ingredientsList ) => {
+        console.log( ingredientsList );
+        const newIngredientsList = {
+            ingredients: ingredientsList.reduce(
+                ( acc, element ) => acc.concat( Object.assign( {}, element,
+                    {
+                        ingredient: ingredients.ingredients.find(
+                            ingredient => ingredient._id === element.ingredient,
+                        ),
+                    } ) ),
+                [],
+            ),
+        };
 
-        console.log( newRecipe );
+        console.log( newIngredientsList );
         return {};
     };
     /*
@@ -38,10 +33,12 @@ function StatisticsContainer() {
         ( sum, recipe ) => NutriScoreUtility.computeNutriScoreForRecipe( recipe.ingredients ), 0,
     ); */
 
-    console.log( userRecipes );
+    console.log( userRecipes.userRecipes );
     console.log( originalRecipes.recipes );
     console.log( ingredients );
-    console.log( setIngredientsInRecipe( originalRecipes.recipes[ 0 ] ) );
+    console.log( setIngredientsInIngredientsList(
+        userRecipes.userRecipes[ 0 ].personalizedRecipe.ingredients,
+    ) );
     // console.log( summedNutriscoreOfRecipes( originalRecipes.recipes ) );
 
     return (
