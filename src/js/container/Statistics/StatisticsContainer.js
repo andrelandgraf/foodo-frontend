@@ -12,21 +12,17 @@ function StatisticsContainer() {
     const ingredients = useContext( IngredientsContext );
 
     const setIngredientsInIngredientsList = ( ingredientsList ) => {
-        console.log( ingredientsList );
         const newIngredientsList = {
-            ingredients: ingredientsList.reduce(
-                ( acc, element ) => acc.concat( Object.assign( {}, element,
+            ingredients: ingredientsList.map(
+                element => Object.assign( {}, element,
                     {
                         ingredient: ingredients.ingredients.find(
                             ingredient => ingredient._id === element.ingredient,
                         ),
-                    } ) ),
-                [],
+                    } ),
             ),
         };
-
-        console.log( newIngredientsList );
-        return {};
+        return newIngredientsList;
     };
     /*
     const summedNutriscoreOfRecipes = recipes => recipes.reduce(
