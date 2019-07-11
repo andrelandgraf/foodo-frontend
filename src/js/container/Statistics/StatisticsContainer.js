@@ -1,57 +1,91 @@
 import React, { useContext } from 'react';
 import { UserRecipesContext } from '../../provider/UserRecipesProvider';
-import { RecipesContext } from '../../provider/RecipesProvider';
+// import { RecipesContext } from '../../provider/RecipesProvider';
 import { IngredientsContext } from '../../provider/IngredientsProvider';
 import NutriScoreStat from '../../components/statistic/nutriScoreStat';
 import NutritionElementStat from '../../components/statistic/nutritionElementStat';
-// import NutriScoreUtility from '../../utilities/nutriScore';
+import NutriScoreUtility from '../../utilities/nutriScore';
 
 function StatisticsContainer() {
-    const userRecipes = useContext( UserRecipesContext );
-    const originalRecipes = useContext( RecipesContext );
     const ingredients = useContext( IngredientsContext );
+    const currentUserRecipes = useContext( UserRecipesContext );
+
+    const loadingDone = ingredients.ingredients.length && currentUserRecipes.userRecipes.length;
 
     const setIngredientsInIngredientsList = ( ingredientsList ) => {
-        const newIngredientsList = {
-            ingredients: ingredientsList.map(
-                element => Object.assign( {}, element,
-                    {
-                        ingredient: ingredients.ingredients.find(
-                            ingredient => ingredient._id === element.ingredient,
-                        ),
-                    } ),
-            ),
-        };
+        const newIngredientsList = ingredientsList.map(
+            element => Object.assign( {}, element,
+                {
+                    ingredient: ingredients.ingredients.find(
+                        ingredient => ingredient._id === element.ingredient,
+                    ),
+                } ),
+        );
         return newIngredientsList;
     };
-    /*
-    const summedNutriscoreOfRecipes = recipes => recipes.reduce(
-        ( sum, recipe ) => NutriScoreUtility.computeNutriScoreForRecipe( recipe.ingredients ), 0,
-    ); */
 
-    console.log( userRecipes.userRecipes );
-    console.log( originalRecipes.recipes );
-    console.log( ingredients );
-    console.log( setIngredientsInIngredientsList(
-        userRecipes.userRecipes[ 0 ].personalizedRecipe.ingredients,
-    ) );
-    // console.log( summedNutriscoreOfRecipes( originalRecipes.recipes ) );
+    const setIngredientsForUserRecipes = userRecipes => (
+        userRecipes.map(
+            ( userRecipe ) => {
+                const newUserRecipe = Object.assign( {}, userRecipe );
+                newUserRecipe.personalizedRecipe.ingredients = setIngredientsInIngredientsList(
+                    userRecipe.personalizedRecipe.ingredients,
+                );
+                newUserRecipe.personalizedRecipe
+                    .origRecipe.ingredients = setIngredientsInIngredientsList(
+                        userRecipe.personalizedRecipe.origRecipe.ingredients,
+                    );
+                return newUserRecipe;
+            },
+
+        )
+    );
+
+    const gainedNutriScoreImprovements = userRecipes => userRecipes.reduce(
+        ( sum, userRecipe ) => {
+            const originalNutriScore = NutriScoreUtility.computeNutriScoreForRecipe(
+                userRecipe.personalizedRecipe.origRecipe.ingredients,
+            );
+            const userNutriScore = NutriScoreUtility.computeNutriScoreForRecipe(
+                userRecipe.personalizedRecipe.ingredients,
+            );
+            return sum + Math.abs( originalNutriScore - userNutriScore );
+        }, 0,
+    );
+
+    const userRecipesWithIngredients = loadingDone
+        ? setIngredientsForUserRecipes( useContext( UserRecipesContext ).userRecipes ) : null;
+
+    console.log( userRecipesWithIngredients );
+    // console.log( originalRecipes.recipes );
+    console.log( ingredients.ingredients );
+
 
     return (
         <div className="box">
-            <NutriScoreStat improvedScore={1} />
-            <NutritionElementStat
-                data={[ {
-                    name: '18-24',
-                    uv: 31.47,
-                    pv: 2400,
-                },
-                {
-                    name: '25-29',
-                    uv: 10,
-                    pv: 4567,
-                } ]}
-            />
+            {
+                loadingDone ? (
+                    <NutriScoreStat improvedScore={
+                        gainedNutriScoreImprovements( userRecipesWithIngredients )}
+                    />
+                )
+                    : null
+            }
+            {loadingDone ? (
+                <NutritionElementStat
+                    data={[ {
+                        name: '18-24',
+                        uv: 31.47,
+                        pv: 2400,
+                    },
+                    {
+                        name: '25-29',
+                        uv: 10,
+                        pv: 4567,
+                    } ]}
+                />
+            )
+                : null}
         </div>
     );
 }
