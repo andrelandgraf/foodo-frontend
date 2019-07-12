@@ -12,6 +12,9 @@ function StatisticsContainer() {
 
     const loadingDone = ingredients.ingredients.length && currentUserRecipes.userRecipes.length;
 
+    const goodNutritionValues = [ 'Protein', 'DietaryFiber', 'proportionOfFruitsAndVegetables' ];
+    const badNutritionValues = [ 'AddedSugars', 'Salt', 'SFA' ];
+
     const setIngredientsInIngredientsList = ingredientsList => (
         ingredientsList.map(
             element => Object.assign( {}, element,
@@ -48,7 +51,37 @@ function StatisticsContainer() {
             const userNutriScore = NutriScoreUtility.computeNutriScoreForRecipe(
                 userRecipe.personalizedRecipe.ingredients,
             );
-            return sum + Math.abs( originalNutriScore - userNutriScore );
+            return sum + originalNutriScore - userNutriScore;
+        }, 0,
+    );
+
+    const sumNutritionValues = ( nutritionValues1, nutritionValues2 ) => (
+        nutritionValues1.keys().reduce( ( akk, key ) => Object.assign(
+            { [ key ]: nutritionValues1[ key ] + nutritionValues2[ key ] }, akk,
+        ), {} )
+    );
+
+    const diffNutritionValues = ( nutritionValues1, nutritionValues2, nutritionValueNames ) => (
+        nutritionValueNames.reduce( ( akk, name ) => Object.assign(
+            { [ name ]: nutritionValues1[ name ] - nutritionValues2[ name ] }, akk,
+        ), {} )
+    );
+
+    const gainedNutritionValues = userRecipes => userRecipes.reduce(
+        ( akk, userRecipe ) => {
+            const originalNutritionValues = NutriScoreUtility
+                .calculateNutritionValuesOfIngredientsList(
+                    userRecipe.personalizedRecipe.origRecipe.ingredients,
+                );
+            const userNutritionValues = NutriScoreUtility.calculateNutritionValuesOfIngredientsList(
+                userRecipe.personalizedRecipe.ingredients,
+            );
+
+            const diffs = Object.assign( {},
+                diffNutritionValues( userNutritionValues, originalNutritionValues,
+                    goodNutritionValues.concat( badNutritionValues ) ) );
+
+            return sumNutritionValues( diffs, akk );
         }, 0,
     );
 
@@ -58,7 +91,8 @@ function StatisticsContainer() {
     console.log( userRecipesWithIngredients );
     // console.log( originalRecipes.recipes );
     console.log( ingredients.ingredients );
-
+    console.log( loadingDone && userRecipesWithIngredients
+        ? gainedNutritionValues( userRecipesWithIngredients ) : null );
 
     return (
         <div className="box">
