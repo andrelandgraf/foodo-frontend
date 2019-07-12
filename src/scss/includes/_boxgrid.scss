@@ -24,7 +24,7 @@
 
                 span {
                     @extend .text-box;
-                    color: $white;
+                    background-color: $primary-color;
                 }
 
                 &-label {
