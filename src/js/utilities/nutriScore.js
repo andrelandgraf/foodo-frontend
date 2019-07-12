@@ -110,14 +110,20 @@ const calculateNutritionValuesOfIngredientsList = ( ingredients ) => {
     return averageNutritionValues;
 };
 
-exports.computeNutriScoreForRecipe = ( recipeIngredients ) => {
+const computeNutriScoreForRecipe = ( recipeIngredients ) => {
     const nutritionValuesOfRecipe = calculateNutritionValuesOfIngredientsList( recipeIngredients );
     return calculateNutriScore( nutritionValuesOfRecipe, 'Recipe' );
 };
 
 
-exports.mapNutriScoreToABCDE = ( nutriScore, categoryName ) => {
+const mapNutriScoreToABCDE = ( nutriScore, categoryName ) => {
     const scala = categoryName === 'Beverages' ? nutriScoreRanksBeverages : nutriScoreRanks;
     const result = compareValueWithScala( nutriScore, scala );
     return result === -1 ? 'E' : [ 'A', 'B', 'C', 'D' ][ result ];
+};
+
+module.exports = {
+    computeNutriScoreForRecipe,
+    mapNutriScoreToABCDE,
+    calculateNutritionValuesOfIngredientsList,
 };
