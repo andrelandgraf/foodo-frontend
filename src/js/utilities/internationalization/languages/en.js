@@ -21,7 +21,7 @@ const enHeaders = {
     THIRD_PARTY_AUTHORIZATION: 'Third party service authorization',
     GOTO_FOODO: 'Go to Foodo',
     GET_STARTED: 'Get Started',
-    PAGE2_TITLE: 'Foodo is your',
+    PAGE2_TITLE: 'is your',
     PAGE2_LABEL1: 'Companion',
     PAGE2_LABEL2: 'Nutrition Expert',
     PAGE2_LABEL3: 'Sam to your Frodo',

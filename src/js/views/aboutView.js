@@ -61,6 +61,9 @@ const AboutView = ( { onClickGetStarted } ) => {
             <section id="about-page-2" className="about-page-2">
                 <div className="about-page-2-title-box">
                     <h1 className="about-page-2-title-box-title">
+                        <span>
+                            {i18n.t( KEYS.LABELS.APP_NAME )}
+                        </span>
                         {i18n.t( KEYS.HEADERS.PAGE2_TITLE )}
                     </h1>
                 </div>
