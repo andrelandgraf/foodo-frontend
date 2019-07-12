@@ -30,11 +30,13 @@ export const getStoredAuthToken = () => window.localStorage.authToken;
 export const authenticate = ( data, header ) => (
     postAuthRequest( qs.stringify( data ), header )
         .then( ( res ) => {
+            console.log( 'we were able to authenticate with refresh token' );
             setStoredAuthToken( res.data.accessToken );
             setStoredRefreshToken( res.data.refreshToken );
             return res.data.user;
         } )
         .catch( ( err ) => {
+            console.log( 'authenticated fail, throw errorx' );
             if ( isCustomError( err ) ) {
                 throw err;
             }
