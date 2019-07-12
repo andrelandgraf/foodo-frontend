@@ -63,6 +63,7 @@ export const getAuthorizeCode = ( clientId, state, redirectUri ) => {
  * @param {Function} resolve
  */
 export const refreshAuthToken = ( resolve ) => {
+    console.log( 'lets get a refresh token' );
     const clientId = process.env.REACT_APP_OAUTH_CLIENT_KEY_ID;
     const clientSecret = process.env.REACT_APP_OAUTH_CLIENT_SECRET_KEY;
     const headers = getTokenHeaders( clientId, clientSecret );
@@ -76,6 +77,7 @@ export const refreshAuthToken = ( resolve ) => {
         .catch( ( err ) => {
             const { status } = err.response;
             if ( isUnauthorizedError( status ) ) {
+                console.log( 'refresh throws a not authed error' );
                 throwNotAuthorizedError();
             }
             throw Error( `${ err.response.data.code }:${ err.response.message }` );
