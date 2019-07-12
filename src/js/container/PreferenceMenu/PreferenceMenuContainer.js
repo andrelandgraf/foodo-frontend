@@ -1,5 +1,4 @@
-import React from 'react';
-import { Redirect } from 'react-router-dom';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import i18n from 'i18next';
 
@@ -9,40 +8,27 @@ import {
 
 import { postLocale } from '../../services/foodo-api/user/preferencesService';
 import { isAuthenticated } from '../../services/foodo-api/user/userService';
+import { AUTH_ROUTES } from '../App/App';
 
 import CustomButton from '../../components/button/customButton';
 import Title from '../../components/preferences/title';
-import Language from '../../components/preferences/language';
 import LogoutContainer from '../Logout/LogoutContainer';
 import Logout from '../../components/preferences/logout';
-import About from '../../components/preferences/about';
-import Password from '../../components/preferences/password';
-import { AUTH_ROUTES } from '../App/App';
+import PreferenceItem from '../../components/preferences/preferenceItem';
+import PreferenceLink from '../../components/preferences/preferenceLink';
+
+import GlobeIcon from '../../../img/globe.svg';
+import key from '../../../img/key.svg';
+import book from '../../../img/book.svg';
 
 
 const MAIN_MENU = i18n.t( KEYS.LABELS.PREFERENCES );
 const LANG_MENU = i18n.t( KEYS.LABELS.LANGUAGES );
 
-class PreferencesMenuContainer extends React.Component {
-    constructor( props ) {
-        super( props );
+function PreferencesMenuContainer( { closeMenu } ) {
+    const [ title, setTitle ] = useState( MAIN_MENU );
 
-        this.state = {
-            title: MAIN_MENU,
-            clickedPW: false,
-            clickedAbout: false,
-        };
-    }
-
-    setTitle = ( title ) => {
-        this.setState( { title } );
-    }
-
-    onClickPassword = () => this.setState( { clickedPW: true } );
-
-    onClickAbout = () => this.setState( { clickedAbout: true } )
-
-    onSelectLocale = async ( locale ) => {
+    const onSelectLocale = async ( locale ) => {
         if ( isAuthenticated() ) {
             await postLocale( locale );
         }
@@ -53,94 +39,94 @@ class PreferencesMenuContainer extends React.Component {
         // completly reload and rerender all components to change language strings
         // eslint-disable-next-line no-restricted-globals
         location.reload();
-    }
+    };
 
-    renderLocaleItems = () => Object.keys( LOCALES ).map( LOCALE => (
+    const renderLocaleItems = () => Object.keys( LOCALES ).map( LOCALE => (
         <li key={LOCALE} className="item">
             <CustomButton
                 classes={getLocale() === LOCALES[ LOCALE ] ? 'current' : undefined}
                 id={`${ LOCALE }-selection-button`}
-                onClick={() => this.onSelectLocale( LOCALES[ LOCALE ] )}
+                onClick={() => onSelectLocale( LOCALES[ LOCALE ] )}
             >
                 { LOCALES[ LOCALE ] }
             </CustomButton>
         </li>
-    ) )
+    ) );
 
-    renderMainMenu = ( title, closeMenu ) => (
+    const renderMainMenu = () => (
         <>
             <li className="title">
                 { title }
             </li>
             <li className="item">
-                <Language
-                    onClick={() => this.setTitle( LANG_MENU )}
+                <PreferenceItem
+                    id="language-menu"
+                    onClick={() => setTitle( LANG_MENU )}
+                    label={i18n.t( KEYS.LABELS.LANGUAGE )}
+                    icon={GlobeIcon}
+                    alt="Go to language menu"
                 />
             </li>
             <li className="item">
-                <Password onClickPassword={this.onClickPassword} loggedIn={isAuthenticated()} />
+                <PreferenceLink
+                    to={AUTH_ROUTES.PASSWORD}
+                    onClick={closeMenu}
+                    label={i18n.t( KEYS.LABELS.PASSWORD )}
+                    icon={key}
+                    alt="Go to change password page"
+                    visible={isAuthenticated()}
+                />
             </li>
             <li className="item">
-                <About onClickAbout={this.onClickAbout} />
+                <PreferenceLink
+                    to={AUTH_ROUTES.ABOUT}
+                    onClick={closeMenu}
+                    label={i18n.t( KEYS.LABELS.ABOUT )}
+                    icon={book}
+                    alt="Go to the about page"
+                />
             </li>
             <li className="item">
                 <LogoutContainer onWillLogout={closeMenu} LogoutComponent={Logout} />
             </li>
         </>
-    )
+    );
 
-    renderLanguageMenu = title => (
+    const renderLanguageMenu = () => (
         <>
             <li className="title">
                 <Title
                     id={`${ title }-button`}
                     title={title}
-                    onClick={() => this.setTitle( MAIN_MENU )}
+                    onClick={() => setTitle( MAIN_MENU )}
                 />
             </li>
-            { this.renderLocaleItems() }
+            { renderLocaleItems() }
         </>
-    )
+    );
 
-    renderMenu = ( title, closeMenu ) => {
+    const renderMenu = () => {
         switch ( title ) {
         case MAIN_MENU:
-            return this.renderMainMenu( title, closeMenu );
+            return renderMainMenu( title, closeMenu );
         case LANG_MENU:
-            return this.renderLanguageMenu( title );
+            return renderLanguageMenu( title );
         default:
             return undefined;
         }
-    }
+    };
 
-    render() {
-        const { closeMenu } = this.props;
-        const { title, clickedPW, clickedAbout } = this.state;
+    return (
+        <div
+            onClick={event => event.stopPropagation()}
+            role="presentation"
+        >
+            <ul className="preferences-menu">
+                { renderMenu( title, closeMenu ) }
+            </ul>
+        </div>
 
-        if ( clickedPW ) {
-            return (
-                <Redirect push to={AUTH_ROUTES.PASSWORD} />
-            );
-        }
-
-        if ( clickedAbout ) {
-            return (
-                <Redirect push to={AUTH_ROUTES.ABOUT} />
-            );
-        }
-
-        return (
-            <div
-                onClick={event => event.stopPropagation()}
-                role="presentation"
-            >
-                <ul className="preferences-menu">
-                    { this.renderMenu( title, closeMenu ) }
-                </ul>
-            </div>
-
-        );
-    }
+    );
 }
 
 PreferencesMenuContainer.propTypes = {
