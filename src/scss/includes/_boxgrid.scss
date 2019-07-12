@@ -23,21 +23,21 @@
                 transition: 0.2s ease-in-out;
 
                 span {
-                    @extend .opactiy-box;
+                    @extend .text-box;
                     color: $white;
-                    font-weight: $font-weight-semi-bold;
-                    font-size: $font-size-m;
                 }
 
                 &-label {
                     position: absolute;
+                    padding: 5px;
                     top: 50%;
                     left: 50%;
                     transform: translate(-50%, -50%);
                     text-align: center;
+                    font-weight: $font-weight-semi-bold;
+                    font-size: $font-size-m;
                     @media screen and (max-width: $phone-width) {
                         font-size: $font-size-xs;
-                        font-weight: $font-weight-semi-bold;
                     }
                 }
 
@@ -61,9 +61,10 @@
                         color: $error-color;
                         font-size: $font-size-xs;
                         padding: 2px;
+                        background-color: $white;
                         @media screen and (max-width: $phone-width) {
                             font-size: 9px;
-                            font-size: $font-weight-light;
+                            font-weight: $font-weight-light;
                         }
                     }
 
@@ -77,9 +78,10 @@
                         color: $warning-color;
                         font-size: $font-size-xs;
                         padding: 2px;
+                        background-color: $white;
                         @media screen and (max-width: $phone-width) {
                             font-size: 9px;
-                            font-size: $font-weight-light;
+                            font-weight: $font-weight-light;
                         }
                     }
                 }
