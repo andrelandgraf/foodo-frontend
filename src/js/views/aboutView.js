@@ -64,7 +64,7 @@ const AboutView = ( { onClickGetStarted } ) => {
                         <span>
                             {i18n.t( KEYS.LABELS.APP_NAME )}
                         </span>
-                        {i18n.t( KEYS.HEADERS.PAGE2_TITLE )}
+                        {` ${ i18n.t( KEYS.HEADERS.PAGE2_TITLE ) }`}
                     </h1>
                 </div>
                 <div className="about-page-2-description-box">
