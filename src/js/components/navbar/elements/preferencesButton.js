@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import UserLogo from '../../../../img/user-logo.svg';
 import ImageButton from '../../button/imageButton';
 
-const PreferenceItem = ( { label, float, onClick } ) => (
+const PreferencesButton = ( { label, float, onClick } ) => (
     <li className={float === 'right' ? 'item-right' : undefined}>
         <ImageButton
             classes="icon-item"
@@ -16,10 +16,10 @@ const PreferenceItem = ( { label, float, onClick } ) => (
     </li>
 );
 
-PreferenceItem.propTypes = {
+PreferencesButton.propTypes = {
     label: PropTypes.string.isRequired,
     float: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
 };
 
-export default PreferenceItem;
+export default PreferencesButton;

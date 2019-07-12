@@ -9,9 +9,10 @@ import { AUTH_ROUTES, NONAUTH_ROUTES } from '../App/App';
 
 import NavBar from '../../components/navbar/navbar';
 import NavBarItem from '../../components/navbar/elements/navbarItem';
-import PreferenceItem from '../../components/navbar/elements/preferenceItem';
+import PreferencesButton from '../../components/navbar/elements/preferencesButton';
 import PreferencesMenuContainer from '../PreferenceMenu/PreferenceMenuContainer';
 import { LayoutContext } from '../../provider/LayoutProvider';
+
 
 function NavBarContainer( { loggedIn } ) {
     const [ prefMenuOpen, setPrefMenuOpen ] = useState( false );
@@ -46,7 +47,7 @@ function NavBarContainer( { loggedIn } ) {
             link={AUTH_ROUTES.PROFILE}
             float="left"
         />,
-        <PreferenceItem
+        <PreferencesButton
             key="preferences"
             label={i18n.t( KEYS.LABELS.PREFERENCES )}
             float="right"
@@ -55,7 +56,7 @@ function NavBarContainer( { loggedIn } ) {
     ];
 
     const renderNotAuthenticatedNavBarItems = () => [
-        <PreferenceItem
+        <PreferencesButton
             key="preferences"
             label={i18n.t( KEYS.LABELS.PREFERENCES )}
             float="right"

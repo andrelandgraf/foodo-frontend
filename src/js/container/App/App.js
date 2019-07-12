@@ -53,12 +53,19 @@ function App() {
     const { user, setUser } = useContext( UserStateContext );
 
     useEffect( () => {
+        console.log( 'remounting stuff' );
         if ( isAuthenticated() && !user ) {
+            console.log( 'user missing, get user again' );
             // in case of page reload, we still hold token but need to get user again
             getUser()
-                .then( retrievedUser => setUser( retrievedUser ) )
+                .then( ( retrievedUser ) => {
+                    console.log( 'we got:' );
+                    console.log( retrievedUser );
+                    setUser( retrievedUser );
+                } )
                 .catch( () => {
                     // in case of error, relocate to login and retrieve new token
+                    console.log( 'error, lets log out and undefined user' );
                     logUserOut();
                     setUser( undefined );
                 } );
@@ -104,7 +111,7 @@ function App() {
     );
 
     const renderAuthenticatedApp = () => (
-        <React.Fragment>
+        <>
             <NavBarContainer loggedIn />
             <IngredientsProvider>
                 <RecipesProvider>
@@ -119,11 +126,11 @@ function App() {
                     </UserRecipesProvider>
                 </RecipesProvider>
             </IngredientsProvider>
-        </React.Fragment>
+        </>
     );
 
     const renderNotAuthenticatedApp = () => (
-        <React.Fragment>
+        <>
             <NavBarContainer loggedIn={false} />
             <Switch>
                 <Route
@@ -142,7 +149,7 @@ function App() {
                 <Route from={NONAUTH_ROUTES.OAUTH} component={OAuthContainer} />
                 <Redirect path="*" to={NONAUTH_ROUTES.LOGIN} />
             </Switch>
-        </React.Fragment>
+        </>
     );
 
     if ( !isAuthenticated() ) {
