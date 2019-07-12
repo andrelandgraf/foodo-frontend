@@ -18,7 +18,8 @@ import { AUTH_ROUTES } from '../container/App/App';
 import { setRedirectUrl } from '../utilities/redirect';
 
 const AboutView = ( { onClickGetStarted } ) => {
-    const label = isAuthenticated() ? 'Go to Foodo' : 'Get Started';
+    const label = isAuthenticated() ? i18n.t( KEYS.HEADERS.GOTO_FOODO )
+        : i18n.t( KEYS.HEADERS.GET_STARTED );
 
     const ArrowDown = ( { href } ) => (
         <div className="about-arrow-down">
@@ -45,12 +46,12 @@ const AboutView = ( { onClickGetStarted } ) => {
     const PageTwo = () => {
         const [ index, setIndex ] = useState( 0 );
         const labels = [
-            'Companion',
-            'Nutrition Expert',
-            'Sam to your Frodo',
+            i18n.t( KEYS.HEADERS.PAGE2_LABEL1 ),
+            i18n.t( KEYS.HEADERS.PAGE2_LABEL2 ),
+            i18n.t( KEYS.HEADERS.PAGE2_LABEL3 ),
         ];
-        const info = 'We will compute the best fitting substiutes for your daily home cooked meals.';
-        const teaser = 'Find out how!';
+        const info = i18n.t( KEYS.HEADERS.PAGE2_INFO );
+        const teaser = i18n.t( KEYS.HEADERS.PAGE2_TEASER );
         useEffect( () => {
             const timeout = setTimeout( () => setIndex( ( index + 1 ) % labels.length ), 2000 );
             return () => clearTimeout( timeout );
@@ -60,7 +61,7 @@ const AboutView = ( { onClickGetStarted } ) => {
             <section id="about-page-2" className="about-page-2">
                 <div className="about-page-2-title-box">
                     <h1 className="about-page-2-title-box-title">
-                        Foodo is your
+                        {i18n.t( KEYS.HEADERS.PAGE2_TITLE )}
                     </h1>
                 </div>
                 <div className="about-page-2-description-box">
@@ -84,17 +85,17 @@ const AboutView = ( { onClickGetStarted } ) => {
                 <div className="about-page-3-profile-box">
                     <img src={userLogo} alt="user icon" />
                     <ul>
-                        <li>Select your personal goal</li>
-                        <li>Select your individual lifestyle</li>
-                        <li>Select your allergies and dislikes</li>
+                        <li>{i18n.t( KEYS.LABELS.GOAL_PITCH )}</li>
+                        <li>{i18n.t( KEYS.LABELS.LIFESTYLE_PITCH )}</li>
+                        <li>{i18n.t( KEYS.LABELS.ALLERGIES_PITCH )}</li>
                     </ul>
                 </div>
                 <div className="about-page-3-cooking-box">
                     <img src={forkKnife} alt="fork and knife icon" />
                     <ul>
-                        <li>Pick a dish that you want to cook!</li>
-                        <li>See the recipe and alter it to your desire</li>
-                        <li>We will help you to substiute unhealthy parts!</li>
+                        <li>{i18n.t( KEYS.LABELS.MANUAL_PITCH_START )}</li>
+                        <li>{i18n.t( KEYS.LABELS.MANUAL_PITCH_ALTER )}</li>
+                        <li>{i18n.t( KEYS.LABELS.MANUAL_PITCH_SUBSTITUTE )}</li>
                     </ul>
                 </div>
                 <ArrowDown href="#about-page-4" />
@@ -114,7 +115,7 @@ const AboutView = ( { onClickGetStarted } ) => {
         }
         return (
             <div id="about-page-4" className="about-page-4">
-                <h3>Try it out now!</h3>
+                <h3>{i18n.t( KEYS.HEADERS.START_NOW )}</h3>
                 <div className="about-page-4-recipes-container">
                     <h2>{i18n.t( KEYS.HEADERS.SELECT_RECIPE )}</h2>
                     <div className="about-page-4-recipes-container-input">

@@ -17,6 +17,7 @@ import Boxgrid from '../../components/boxgrid/boxgrid';
 function RecipesGridsContainer() {
     const [ selectedId, setSelectedId ] = useState();
     const { user } = useContext( UserStateContext );
+
     const taggedRecipes = useTaggedRecipes();
     const taggedUserRecipes = useTaggedUserRecipes();
     const toleratedRecipes = useToleratedRecipes();
