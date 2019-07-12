@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import Cancel from '../../../img/cancel.svg';
+import cancel from '../../../img/cancel.svg';
 
 import ImageButton from '../button/imageButton';
 import CustomButton from '../button/customButton';
@@ -57,7 +57,7 @@ const Ingredient = ( { ingredient, onClose, onClick } ) => {
                 classes="ingredient-x-btn"
                 id={`dismiss-ingredient${ ingredient.key }`}
                 alt="dismiss ingredient"
-                src={Cancel}
+                src={cancel}
                 onClick={onCloseCallback}
             />
         </div>
