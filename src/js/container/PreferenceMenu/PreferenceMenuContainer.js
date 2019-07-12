@@ -17,7 +17,7 @@ import Logout from '../../components/preferences/logout';
 import PreferenceItem from '../../components/preferences/preferenceItem';
 import PreferenceLink from '../../components/preferences/preferenceLink';
 
-import GlobeIcon from '../../../img/globe.svg';
+import globe from '../../../img/globe.svg';
 import key from '../../../img/key.svg';
 import book from '../../../img/book.svg';
 
@@ -63,7 +63,7 @@ function PreferencesMenuContainer( { closeMenu } ) {
                     id="language-menu"
                     onClick={() => setTitle( LANG_MENU )}
                     label={i18n.t( KEYS.LABELS.LANGUAGE )}
-                    icon={GlobeIcon}
+                    icon={globe}
                     alt="Go to language menu"
                 />
             </li>

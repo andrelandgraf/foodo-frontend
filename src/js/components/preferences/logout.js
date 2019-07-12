@@ -5,7 +5,7 @@ import i18n from 'i18next';
 import { KEYS } from '../../utilities/internationalization/internationalization';
 import { logUserOut } from '../../services/foodo-api/user/userService';
 
-import LogoutIcon from '../../../img/logout.svg';
+import logoutIcon from '../../../img/logout.svg';
 
 import CustomButton from '../button/customButton';
 
@@ -25,7 +25,7 @@ const Logout = ( { setUser, loggedIn, onWillLogout } ) => (
     >
         {i18n.t( KEYS.LABELS.LOGOUT )}
         <img
-            src={LogoutIcon}
+            src={logoutIcon}
             alt="Logout Icon"
         />
     </CustomButton>
