@@ -61,22 +61,22 @@ const Recipe = ( {
 
     return (
         <div className="recipe">
-            <div className="center">
+            <div className="recipe-header">
                 <h3>{ recipe.name }</h3>
-                <span className="recipe-preparation-time">
+                <span>
                     <img
                         src={hourglass}
                         alt="Preparation time"
                         classes="icon-item"
                     />
-                    {recipe.preparationTime}
-                min
+                    {` ${ recipe.preparationTime } min`}
                 </span>
-                <p>{ lastClient && `[${ i18n.t( KEYS.LABELS.EDITED_WITH ) } ${ lastClient }]`}</p>
             </div>
-            <img src={recipe.imgUrl} alt={recipe.name} className="recipePic" />
+
+            <p>{ lastClient && `[${ i18n.t( KEYS.LABELS.EDITED_WITH ) } ${ lastClient }]`}</p>
             { Message }
             <div className="recipe-content">
+                <img src={recipe.imgUrl} alt={recipe.name} className="recipe-img" />
                 <IngredientsTable
                     ingredients={recipe.ingredients}
                     substitutableIngredients={substitutableIngredients}
@@ -84,9 +84,9 @@ const Recipe = ( {
                     onClickRevert={onClickRevert}
                     onEdit={onEdit}
                 />
-                <PieStats totalRecipe={totalRecipe} />
             </div>
-            <div className="recipe-content large-content">
+            <div className="recipe-content">
+                <PieStats totalRecipe={totalRecipe} />
                 <NutritionTable totalRecipe={totalRecipe} />
                 <BarStats
                     totalRecipe={totalRecipe}
