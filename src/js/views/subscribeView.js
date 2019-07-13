@@ -6,11 +6,9 @@ import { KEYS } from '../utilities/internationalization/internationalization';
 import Subscribe from '../container/Subscription/Subscribe';
 
 const SubscribeView = () => (
-    <div className="container">
-        <div className="center">
-            <h1>{i18n.t( KEYS.HEADERS.SUBSCRIBE )}</h1>
-            <Subscribe />
-        </div>
+    <div className="subscribe container">
+        <h1>{i18n.t( KEYS.HEADERS.SUBSCRIBE )}</h1>
+        <Subscribe />
     </div>
 );
 
