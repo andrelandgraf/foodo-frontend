@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import BackIcon from '../../../img/back.svg';
+import backIcon from '../../../img/back.svg';
 
 import CustomButton from '../button/customButton';
 
@@ -12,7 +12,7 @@ const Title = ( { title, id, onClick } ) => (
         onClick={onClick}
     >
         <img
-            src={BackIcon}
+            src={backIcon}
             alt="Language Icon"
         />
         { title }
