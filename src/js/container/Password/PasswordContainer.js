@@ -39,7 +39,7 @@ class PasswordContainer extends React.Component {
     }
 
     renderMessage = ( message, messageType ) => (
-        <Message type={messageType} text={message} onResolve={this.clearMessage} />
+        <Message type={messageType} message={message} onResolve={this.clearMessage} />
     )
 
     renderPasswordForm = password => (

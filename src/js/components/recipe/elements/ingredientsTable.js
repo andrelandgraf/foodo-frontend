@@ -44,7 +44,7 @@ function IngredientsTable( {
                                     ? (
                                         <Button
                                             onClick={() => onClickSubstitute( ingredient )}
-                                            text="Substitute"
+                                            label="Substitute"
                                         />
                                     )
                                     : null
@@ -53,7 +53,7 @@ function IngredientsTable( {
                                     ? (
                                         <Button
                                             onClick={() => onClickRevert( ingredient )}
-                                            text="Revert"
+                                            label="Revert"
                                         />
                                     )
                                     : null

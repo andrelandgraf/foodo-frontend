@@ -30,6 +30,7 @@ export const KEYS = {
         PAGE2_INFO: 'PAGE2_INFO',
         PAGE2_TEASER: 'PAGE2_TEASER',
         START_NOW: 'START_NOW',
+        SUBSCRIBE: 'SUBSCRIBE',
     },
     LABELS: {
         APP_NAME: 'APP_NAME',

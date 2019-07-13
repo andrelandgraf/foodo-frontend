@@ -73,7 +73,7 @@ class LoginContainer extends React.Component {
     }
 
     renderMessage = ( message, messageType ) => (
-        <MessageComponent type={messageType} text={message} onResolve={this.clearMessage} />
+        <MessageComponent type={messageType} message={message} onResolve={this.clearMessage} />
     )
 
     renderLoginForm = ( username, password, pageName, actionName, Message, isLoading ) => (

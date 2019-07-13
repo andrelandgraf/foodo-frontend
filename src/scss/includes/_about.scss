@@ -11,16 +11,6 @@
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
 
-
-    .one-pager {
-        position: relative;
-        height: 100vh;
-        min-height: 12 * $navbar-height;
-        width: 100%;
-        scroll-snap-align: start;
-
-    }
-
     &-arrow-down {
         position: absolute;
         @extend .centered-absolute-child;

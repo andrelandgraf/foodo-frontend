@@ -3,7 +3,7 @@ import i18n from 'i18next';
 
 import { KEYS } from '../../utilities/internationalization/internationalization';
 
-import { authorizeClient } from '../../services/foodo-api/user/userService';
+import { authorizeClient } from '../../services/foodo-api/oAuthService';
 import { throwRequestParameterMissingError } from '../../utilities/errorHandler/errorHandler';
 
 import LoginContainer from '../Login/LoginContainer';
