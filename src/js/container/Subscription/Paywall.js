@@ -2,26 +2,31 @@ import React, { useMemo } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import useSubscriptionLevels from '../../hooks/useSubscriptionLevels';
+import useUserHasAccessLevels from '../../hooks/useUserHasAccessLevels';
+
+import { isValidRedirectUrl } from '../../utilities/redirect';
+
 import { AUTH_ROUTES } from '../App/App';
 import SubscribeView from '../../views/subscribeView';
-import { isValidRedirectUrl } from '../../utilities/redirect';
 
 export const ACCESS_RIGHTS = {
     COOKING: 'cooking',
 };
 
 function Paywall( { wants, children: route } ) {
-    const subscriptionLevels = useSubscriptionLevels();
+    const userHasAccesLevels = useUserHasAccessLevels();
     const { path } = route.props;
+
+    console.log( userHasAccesLevels.makesBabysteps );
+    console.log( userHasAccesLevels.hasSubscribed );
 
     const hasRights = useMemo( () => {
         switch ( wants ) {
         case ACCESS_RIGHTS.COOKING:
-            return subscriptionLevels.hasBasicSubscription || subscriptionLevels.makesBabysteps;
+            return userHasAccesLevels.hasSubscribed || userHasAccesLevels.makesBabysteps;
         default: return false;
         }
-    }, [ wants, subscriptionLevels ] );
+    }, [ wants, userHasAccesLevels ] );
 
     const forwardingUrl = useMemo( () => ( window.location.pathname === AUTH_ROUTES.SUBSCRIBE
         || !isValidRedirectUrl( window.location.pathname )

@@ -1,7 +1,7 @@
 import React, { useContext, useCallback } from 'react';
 import { cloneDeep } from 'lodash';
 
-import { SUBSCRIPTION_LEVELS } from '../../hooks/useSubscriptionLevels';
+import { ACCESS_LEVELS } from '../../hooks/useUserHasAccessLevels';
 
 import Button from '../../components/button/button';
 import { UserStateContext } from '../../provider/UserStateProvider';
@@ -11,7 +11,13 @@ function Subscribe() {
 
     const subscribe = useCallback( () => {
         const updatedUser = cloneDeep( user );
-        updatedUser.subscription = SUBSCRIPTION_LEVELS.BASIC;
+        updatedUser.level = ACCESS_LEVELS.SUBSCRIBED;
+        setUser( updatedUser );
+    }, [] );
+
+    const skip = useCallback( () => {
+        const updatedUser = cloneDeep( user );
+        updatedUser.skippedSubscription = true;
         setUser( updatedUser );
     }, [] );
 
@@ -28,7 +34,7 @@ function Subscribe() {
                 </p>
                 <div>
                     <Button label="Subscribe" onClick={subscribe} primary classes="subscribe-button" />
-                    <Button label="Not this time" onClick={subscribe} classes="subscribe-button" />
+                    <Button label="Not this time" onClick={skip} classes="subscribe-button" />
                 </div>
             </div>
         </div>
