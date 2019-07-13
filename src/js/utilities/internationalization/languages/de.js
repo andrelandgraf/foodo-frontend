@@ -16,7 +16,7 @@ const deHeaders = {
     THIRD_PARTY_AUTHORIZATION: 'Login mit Alexa',
     GOTO_FOODO: 'Gehe zu Foodo',
     GET_STARTED: 'Jetzt loslegen',
-    PAGE2_TITLE: 'Foodo ist dein',
+    PAGE2_TITLE: 'ist dein',
     PAGE2_LABEL1: 'Gefährte',
     PAGE2_LABEL2: 'Ernährungsexperte',
     PAGE2_LABEL3: 'Sam zu deinem Frodo',

@@ -49,7 +49,7 @@
             position: absolute;
             top: 25%;
             @extend .centered-absolute-child;
-            @extend .opactiy-box;
+            @extend .text-box;
             width: 50%;
             @media screen and (max-width: $phone-width) {
                 width: 90%;
@@ -58,9 +58,7 @@
             &-title {
                 margin: auto;
                 z-index: 1;
-                opacity: 1;
                 font-size: 120px;
-                filter: brightness(1.8);
                 @media screen and (max-width: $phone-width) {
                     font-size: 60px;
                 }
@@ -96,9 +94,12 @@
             &-title {
                 margin: auto;
                 font-size: 100px;
-                filter: brightness(1.8);
                 @media screen and (max-width: $phone-width) {
-                    font-size: 50px;
+                    font-size: 40px;
+                }
+
+                span {
+                    color: $primary-color;
                 }
             }
         }
@@ -112,9 +113,8 @@
                 margin: auto;
                 font-size: 80px;
                 font-weight: $font-weight-bold;
-                filter: brightness(1.8);
                 @media screen and (max-width: $phone-width) {
-                    font-size: 45px;
+                    font-size: 30px;
                 }
             }
         }
@@ -146,11 +146,10 @@
         ul {
             text-align: left;
             @media screen and (max-width: $pad-width) {
+                background-color: #fa8c16;
                 font-size: $font-size-m;
-                background-color: $light-black;
-                opacity: 0.8;
-                filter: brightness(1.8);
                 color: $white;
+                font-size: $font-size-m;
             }
 
             li {

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import UserLogo from '../../../../img/user-logo.svg';
+import userLogo from '../../../../img/user-logo.svg';
 import ImageButton from '../../button/imageButton';
 
 const PreferencesButton = ( { label, float, onClick } ) => (
@@ -10,7 +10,7 @@ const PreferencesButton = ( { label, float, onClick } ) => (
             classes="icon-item"
             id="preferences-navbar-button"
             onClick={onClick}
-            src={UserLogo}
+            src={userLogo}
             alt={label}
         />
     </li>
