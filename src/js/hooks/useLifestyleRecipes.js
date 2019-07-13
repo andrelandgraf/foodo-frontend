@@ -8,7 +8,7 @@ const getNotForLifestyle = ( id, ingredients ) => ingredients
     .find( i => i._id === id ).notForLifestyles;
 
 const filterByLifestyle = ( recipes, ingredients, lifestyle ) => (
-    recipes && ingredients && ingredients.length && lifestyle
+    recipes && ingredients && ingredients.length && lifestyle && lifestyle.name !== 'None'
         ? recipes
             .filter( r => !r.ingredients
                 .find( i => getNotForLifestyle( i.ingredient, ingredients )
