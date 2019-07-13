@@ -17,13 +17,14 @@ function Paywall( { wants, children: route } ) {
     const userHasAccesLevels = useUserHasAccessLevels();
     const { path } = route.props;
 
-    console.log( userHasAccesLevels.makesBabysteps );
-    console.log( userHasAccesLevels.hasSubscribed );
+    const canCook = userHasAccesLevels.hasSubscribed
+        || userHasAccesLevels.makesBabysteps
+        || userHasAccesLevels.isAdmin;
 
     const hasRights = useMemo( () => {
         switch ( wants ) {
         case ACCESS_RIGHTS.COOKING:
-            return userHasAccesLevels.hasSubscribed || userHasAccesLevels.makesBabysteps;
+            return canCook;
         default: return false;
         }
     }, [ wants, userHasAccesLevels ] );
