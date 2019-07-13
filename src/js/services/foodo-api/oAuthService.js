@@ -5,7 +5,7 @@ import Logger from '../../utilities/Logger';
 import { isUnauthorizedError, isNetworkError } from '../utilities/httpProtocol';
 import {
     throwWrongCredentialsError, throwNotAuthorizedError,
-    throwServerNotReachableError, isCustomError,
+    throwServerNotReachableError, isCustomError, throwRequestTokenExpiredError,
 } from '../../utilities/errorHandler/errorHandler';
 import { API, ENDPOINTS } from './api';
 
@@ -85,7 +85,6 @@ const postAuthRequest = ( data, headers ) => axios
 export const authenticate = ( clientId, clientSecret, data ) => (
     postAuthRequest( qs.stringify( data ), getTokenHeaders( clientId, clientSecret ) )
         .then( ( res ) => {
-            console.log( 'we were able to authenticate with refresh token' );
             setStoredAuthToken( res.data.accessToken );
             setStoredRefreshToken( res.data.refreshToken );
             return res.data.user;
@@ -104,7 +103,6 @@ export const authenticate = ( clientId, clientSecret, data ) => (
  * @param {Function} resolve
  */
 export const refreshAuthToken = ( resolve ) => {
-    console.log( 'lets get a refresh token' );
     const clientId = process.env.REACT_APP_OAUTH_CLIENT_KEY_ID;
     const clientSecret = process.env.REACT_APP_OAUTH_CLIENT_SECRET_KEY;
     const refreshToken = getStoredRefreshToken();
@@ -120,6 +118,7 @@ export const refreshAuthToken = ( resolve ) => {
                 console.log( 'refresh throws a not authed error' );
                 throwNotAuthorizedError();
             }
+            console.log( status );
             throw Error( `${ err.response.data.code }:${ err.response.message }` );
         } );
 };
@@ -151,5 +150,6 @@ export const authorizeClient = ( username, password, clientId, state, redirectUr
                 throw err;
             }
             LoggingUtility.error( 'Error while authorizing client', err );
+            throwRequestTokenExpiredError();
         } );
 };
