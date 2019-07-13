@@ -21,9 +21,9 @@ const NutritionTable = ( { totalRecipe } ) => (
             </thead>
             <tbody>
                 <tr>
-                    <td>Calories</td>
+                    <td rowSpan="2">Calories</td>
                     <td>
-                        {totalRecipe.calories}
+                        {Math.round( totalRecipe.calories )}
 KCal
                     </td>
                     <td>
@@ -34,9 +34,23 @@ KCal
                         {Math.round( totalRecipe.calories / totalRecipe.weight * 400 )}
 KCal
                     </td>
-                    <td>
-                        {totalRecipe.relativeCalories}
+                    <td rowSpan="2">
+                        {Math.round( totalRecipe.relativeCalories )}
 %
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {Math.round( totalRecipe.calories * 4.184 )}
+kJ
+                    </td>
+                    <td>
+                        {Math.round( totalRecipe.calories * 4.184 / totalRecipe.weight * 100 )}
+kJ
+                    </td>
+                    <td>
+                        {Math.round( totalRecipe.calories * 4.184 / totalRecipe.weight * 400 )}
+kJ
                     </td>
                 </tr>
                 <tr>
