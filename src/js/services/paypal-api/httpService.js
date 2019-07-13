@@ -3,9 +3,7 @@ import axios from 'axios';
 import Logger from '../../utilities/Logger';
 import { isUnauthorizedError, isNetworkError } from '../utilities/httpProtocol';
 import { throwServerNotReachableError } from '../../utilities/errorHandler/errorHandler';
-
 import { API } from './api';
-import { refreshAuthToken, getStoredAuthToken } from './oAuthService';
 
 const LoggingUtility = new Logger( 'userService.js' );
 

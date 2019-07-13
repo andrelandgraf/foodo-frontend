@@ -1,0 +1,17 @@
+.subscribe {
+    @extend .page;
+
+    &-box {
+        @extend .box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin-top: 10%;
+        width: 80%;
+    }
+
+    &-button {
+        margin: 10px 5px;
+    }
+}
