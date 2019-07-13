@@ -1,13 +1,11 @@
-/* eslint-disable max-len */
-/* eslint-disable no-unused-vars */
-import React, { useMemo, useLayoutEffect } from 'react';
+import React, { useMemo } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import useSubscriptionLevels from '../../hooks/useSubscriptionLevels';
 import { AUTH_ROUTES } from '../App/App';
 import SubscribeView from '../../views/subscribeView';
-import { setRedirectUrl, getRedirectUrl } from '../../utilities/redirect';
+import { isValidRedirectUrl } from '../../utilities/redirect';
 
 export const ACCESS_RIGHTS = {
     COOKING: 'cooking',
@@ -26,6 +24,7 @@ function Paywall( { wants, children: route } ) {
     }, [ wants, subscriptionLevels ] );
 
     const forwardingUrl = useMemo( () => ( window.location.pathname === AUTH_ROUTES.SUBSCRIBE
+        || !isValidRedirectUrl( window.location.pathname )
         ? AUTH_ROUTES.HOME
         : window.location.pathname ),
     [] );

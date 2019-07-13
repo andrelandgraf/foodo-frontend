@@ -70,8 +70,6 @@ function App() {
                     console.log( 'error, lets log out and undefined user' );
                     logUserOut();
                     setUser( undefined );
-                    // eslint-disable-next-line no-restricted-globals
-                    location.reload();
                 } );
         }
     }, [] );

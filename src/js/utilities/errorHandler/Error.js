@@ -47,3 +47,10 @@ export class RequestParameterMissingError extends CustomError {
         configureStackTrace( this, RequestParameterMissingError );
     }
 }
+
+export class RefreshTokenExperiedError extends CustomError {
+    constructor( ...args ) {
+        super( ...args );
+        configureStackTrace( this, RefreshTokenExperiedError );
+    }
+}
