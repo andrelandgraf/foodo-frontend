@@ -23,7 +23,7 @@ const NutritionElementStat = ( { data } ) => {
                         <stop offset="90%" stopColor="#00ff00" stopOpacity={0.8} />
                     </linearGradient>
                 </defs>
-                <RadialBar label={{ fill: '#000', position: 'insideStart' }} fill="url(#colorUv)" background clockWise dataKey="uv" />
+                <RadialBar fill="url(#colorUv)" background clockWise dataKey="value" />
                 <Legend iconSize={10} width={120} height={140} layout="vertical" verticalAlign="middle" align="right" />
                 <Tooltip />
             </RadialBarChart>
@@ -36,7 +36,7 @@ const NutritionElementStat = ( { data } ) => {
 NutritionElementStat.propTypes = {
     data: PropTypes.arrayOf( PropTypes.shape( {
         name: PropTypes.string.isRequired,
-        uv: PropTypes.number.isRequired,
+        value: PropTypes.number.isRequired,
     } ) ).isRequired,
 };
 
