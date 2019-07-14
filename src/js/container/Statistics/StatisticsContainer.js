@@ -1,9 +1,8 @@
 import React, { useContext } from 'react';
-// eslint-disable-next-line no-unused-vars
+
 import lodash from 'lodash';
 
 import { UserRecipesContext } from '../../provider/UserRecipesProvider';
-// import { RecipesContext } from '../../provider/RecipesProvider';
 import { IngredientsContext } from '../../provider/IngredientsProvider';
 import NutriScoreStat from '../../components/statistic/nutriScoreStat';
 import NutritionElementStat from '../../components/statistic/nutritionElementStat';
@@ -80,22 +79,6 @@ function StatisticsContainer() {
         ), {} )
     );
 
-    // eslint-disable-next-line no-unused-vars
-    const diffNutritionValues = ( nutritionValues1,
-        nutritionValues2, nutritionValueNames ) => (
-        nutritionValueNames.reduce( ( acc, name ) => Object.assign(
-            {
-                [ name ]: nutritionValues1[ name ]
-                - nutritionValues2[ name ],
-            }, acc,
-        ), {} )
-    );
-
-    // eslint-disable-next-line no-unused-vars
-    const sumAmount = ingredientList => lodash.cloneDeep( ingredientList ).reduce(
-        ( sum, element ) => sum + element.amount * 100, 0,
-    );
-
     const sumUserAndOrigNutritionValues = () => lodash.cloneDeep(
         userRecipesWithIngredients,
     ).reduce(
@@ -108,9 +91,6 @@ function StatisticsContainer() {
                 goodNutritionValues.concat( badNutritionValues ),
                 userRecipe.personalizedRecipe.ingredients,
             );
-
-            console.log( `original ${ JSON.stringify( originalNutritionValues ) }` );
-            console.log( `user ${ JSON.stringify( userNutritionValues ) }` );
 
             return Object.assign( {}, {
                 user: sumNutritionValues( userNutritionValues, acc.user ),
@@ -145,18 +125,13 @@ function StatisticsContainer() {
     const formatNutritionValues = nutritionValues => (
         goodNutritionValues.concat( badNutritionValues ).map( name => ( {
             name: nutritionValueNamesForDisplay[ name ],
-            userValue: Math.round( nutritionValues.user[ name ] ),
-            originalValue: Math.round( nutritionValues.original[ name ] ),
+            userValue: nutritionValues.user[ name ],
+            originalValue: nutritionValues.original[ name ],
         } ) )
     );
 
-    console.log( userRecipes );
-    console.log( userRecipesWithIngredients );
-    // console.log( originalRecipes.recipes );
-    console.log( ingredients );
-
     return (
-        <div className="box">
+        <div>
             {
                 loadingDone ? (
                     <NutriScoreStat improvedScore={
@@ -172,9 +147,11 @@ function StatisticsContainer() {
                     sumUserAndOrigNutritionValues( lodash.cloneDeep( userRecipesWithIngredients ) ),
                 ).map( nutritionValue => (
                     <NutritionElementStat
+                        key={nutritionValue.name}
                         data={nutritionValue}
-                        goodNutritionElement={goodNutritionValues.find(
-                            element => element === nutritionValue.name,
+                        goodNutritionElement={!!goodNutritionValues.find(
+                            element => nutritionValueNamesForDisplay[ element ]
+                                === nutritionValue.name,
                         )}
                     />
                 ) )

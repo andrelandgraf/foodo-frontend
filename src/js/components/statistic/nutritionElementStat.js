@@ -1,43 +1,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-    RadialBarChart, RadialBar, Tooltip,
+    RadialBarChart, RadialBar,
 } from 'recharts';
 
-// eslint-disable-next-line no-unused-vars
 const NutritionElementStat = ( { data, goodNutritionElement } ) => {
-    console.log( data );
-    console.log( goodNutritionElement );
+    const round = number => ( Math.round( number * 10 ) / 10 )
+        .toFixed( 1 );
+    const positiveImprovement = goodNutritionElement ? data.originalValue - data.userValue < 0
+        : data.originalValue - data.userValue > 0;
+    const gain = ( goodNutritionElement && positiveImprovement )
+        || ( !goodNutritionElement && !positiveImprovement );
+    const diff = round( Math.abs( data.originalValue - data.userValue ) );
+
     return (
         <div>
             <h2>{data.name}</h2>
             <RadialBarChart
-                startAngle={goodNutritionElement ? 180 : 0}
-                endAngle={goodNutritionElement ? 0 : 180}
+                startAngle={gain ? 180 : 0}
+                endAngle={gain ? 0 : 180}
                 width={730}
                 height={250}
-                innerRadius="40%"
+                innerRadius="45%"
                 outerRadius="80%"
                 data={[ {
-                    diff: data.originalValue - data.userValue,
-                    rest: data.userValue / 10,
+                    diff,
+                    rest: round( data.userValue / 5 ), // divide by 5 for scaling reasons
                 } ]}
             >
-                <defs>
-                    <linearGradient id="colorUv" x1="0" y1="0" x2="1" y2="0">
-                        <stop offset="10%" stopColor="#ff0000" stopOpacity={0.8} />
-                        <stop offset="90%" stopColor="#00ff00" stopOpacity={0.8} />
-                    </linearGradient>
-                </defs>
-                <RadialBar stackId="a" fill="url(#colorUv)" background={{ fill: '#eee' }} dataKey="diff" />
+                <RadialBar stackId="a" fill={positiveImprovement ? 'green' : 'red'} background={{ fill: '#eee' }} dataKey="diff" />
                 <RadialBar stackId="a" fill="#eee" dataKey="rest" />
-                <Tooltip />
             </RadialBarChart>
             <span>
-                {goodNutritionElement ? 'gained' : 'reduced'}
-                {' '}
-                {data.originalValue - data.userValue}
-                g
+                {`${ gain ? 'gained' : 'reduced' } ${ diff }g`}
             </span>
         </div>
 
