@@ -19,7 +19,7 @@ const filterByLifestyle = ( recipes, ingredients, lifestyle ) => (
 const useLifestyleRecipes = () => {
     const { user } = useContext( UserStateContext );
     const { ingredients } = useContext( IngredientsContext );
-    const taggedRecipes = useTaggedRecipes();
+    const { taggedRecipes } = useTaggedRecipes();
     return useMemo( () => filterByLifestyle( taggedRecipes, ingredients, user.lifestyle ),
         [ taggedRecipes, user, ingredients ] );
 };

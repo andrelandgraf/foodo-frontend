@@ -1,13 +1,12 @@
-import React, { useMemo } from 'react';
-import { Redirect, Route } from 'react-router-dom';
+import React, { useMemo, useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import useUserHasAccessLevels from '../../hooks/useUserHasAccessLevels';
 
-import { isValidRedirectUrl } from '../../utilities/redirect';
+import { isValidRedirectUrl, setRedirectUrl } from '../../utilities/redirect';
 
 import { AUTH_ROUTES } from '../App/App';
-import SubscribeView from '../../views/subscribeView';
 
 export const ACCESS_RIGHTS = {
     COOKING: 'cooking',
@@ -15,7 +14,6 @@ export const ACCESS_RIGHTS = {
 
 function Paywall( { wants, children: route } ) {
     const userHasAccesLevels = useUserHasAccessLevels();
-    const { path } = route.props;
 
     const canCook = userHasAccesLevels.hasSubscribed
         || userHasAccesLevels.makesBabysteps
@@ -29,31 +27,19 @@ function Paywall( { wants, children: route } ) {
         }
     }, [ wants, userHasAccesLevels ] );
 
-    const forwardingUrl = useMemo( () => ( window.location.pathname === AUTH_ROUTES.SUBSCRIBE
+    useEffect( () => {
+        const redirect = window.location.pathname === AUTH_ROUTES.SUBSCRIBE
         || !isValidRedirectUrl( window.location.pathname )
-        ? AUTH_ROUTES.HOME
-        : window.location.pathname ),
-    [] );
-
-    const wantedRoute = (
-        <>
-            <Redirect exact strict from={AUTH_ROUTES.SUBSCRIBE} to={forwardingUrl} />
-            {route}
-        </>
-    );
-
-    const subscribeRoute = (
-        <>
-            <Redirect exact from={path} to={AUTH_ROUTES.SUBSCRIBE} />
-            <Route exact from={AUTH_ROUTES.SUBSCRIBE} component={SubscribeView} />
-        </>
-    );
+            ? AUTH_ROUTES.HOME
+            : window.location.pathname;
+        setRedirectUrl( redirect );
+    }, [] );
 
     return (
         <>
             { hasRights
-                ? wantedRoute
-                : subscribeRoute
+                ? route
+                : ( <Redirect to={AUTH_ROUTES.SUBSCRIBE} /> )
             }
         </>
     );

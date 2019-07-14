@@ -13,7 +13,7 @@ import { AUTH_ROUTES } from '../App/App';
 import Message, { MESSAGE_TYPES } from '../../components/message/message';
 
 function RecipesContainer() {
-    const displayableRecipes = useDisplayableRecipes();
+    const { displayableRecipes } = useDisplayableRecipes();
     const { user } = useContext( UserStateContext );
 
     const { goal } = user;

@@ -20,8 +20,6 @@ function GoalsLifestylesProvider( { children } ) {
     const context = {
         goals,
         lifestyles,
-        setGoals,
-        setLifestyles,
     };
 
     return (

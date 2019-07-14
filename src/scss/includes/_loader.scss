@@ -1,0 +1,40 @@
+.spinner-base {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spinner {
+    @extend .spinner-base;
+    svg {
+        height: 50px;
+    }
+}
+
+.small-spinner {
+    @extend .spinner-base;
+    svg {
+        height: 25px;
+    }
+}
+
+.fullpage-spinner {
+    position: absolute;
+    z-index: 2147483647;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: translate3d(0, 0, 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: $white;
+    font-size: $font-weight-semi-bold;
+    svg {
+        height: 50px;
+    }
+}

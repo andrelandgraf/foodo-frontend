@@ -1,17 +1,21 @@
-/* eslint-disable no-unused-vars */
 import React, {
     useState, useContext, useCallback, useLayoutEffect, useEffect,
 } from 'react';
+import { Redirect } from 'react-router-dom';
 import { cloneDeep } from 'lodash';
 
+import { validateSubscription } from '../../services/foodo-api/user/subscription';
+
 import { ACCESS_LEVELS } from '../../hooks/useUserHasAccessLevels';
+import LOADING_STATUS from '../../utilities/loadingStatus';
+import { getRedirectUrl } from '../../utilities/redirect';
+
+import { UserStateContext } from '../../provider/UserStateProvider';
 
 import Button from '../../components/button/button';
-import { UserStateContext } from '../../provider/UserStateProvider';
-import { validateSubscription } from '../../services/foodo-api/user/subscription';
 import Loader from '../../components/loading/loader';
-import LOADING_STATUS from '../../utilities/loadingStatus';
 import Message, { MESSAGE_TYPES } from '../../components/message/message';
+import { AUTH_ROUTES } from '../App/App';
 
 function Subscribe() {
     const { user, setUser } = useContext( UserStateContext );
@@ -43,6 +47,7 @@ function Subscribe() {
                     plan_id: process.env.REACT_APP_PAYPAL_SUB_PLAN_ID,
                 } );
             },
+            // eslint-disable-next-line no-unused-vars
             onApprove( data, actions ) {
                 // we need approval from our backend first
                 setPaypalState( LOADING_STATUS.IS_LOADING );
@@ -54,7 +59,7 @@ function Subscribe() {
                         updatedUser.level = ACCESS_LEVELS.SUBSCRIBED;
                         setUser( updatedUser );
                     } )
-                    .catch( ( err ) => {
+                    .catch( () => {
                         setPaypalState( LOADING_STATUS.HAS_FAILED );
                     } );
             },
@@ -68,7 +73,7 @@ function Subscribe() {
     }, [] );
 
     const subscriptionPage = (
-        <>
+        <div className="subscribe-box">
             <h2>Why are you here?</h2>
             {
                 message
@@ -92,13 +97,23 @@ function Subscribe() {
                 <div id="paypal-button-container" />
                 <Button label="Not this time" onClick={skip} classes="subscribe-button" />
             </div>
-        </>
+        </div>
     );
 
+    if ( paypalState === LOADING_STATUS.HAS_SUCCEEDED || ( user && user.skippedSubscription ) ) {
+        let redirect = getRedirectUrl();
+        if ( redirect === AUTH_ROUTES.SUBSCRIBE ) {
+            redirect = AUTH_ROUTES.HOME;
+        }
+        return <Redirect push to={redirect} />;
+    }
+
     return (
-        <div className="subscribe-box">
-            { paypalState === LOADING_STATUS.IS_LOADING ? <Loader /> : subscriptionPage }
-        </div>
+        <>
+            { paypalState === LOADING_STATUS.IS_LOADING
+                ? <Loader message="Validating your payment" fullpage />
+                : subscriptionPage }
+        </>
     );
 }
 
