@@ -1,21 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-    RadialBarChart, RadialBar, Legend, Tooltip,
+    RadialBarChart, RadialBar, Tooltip,
 } from 'recharts';
 
-const NutritionElementStat = ( { data } ) => {
+// eslint-disable-next-line no-unused-vars
+const NutritionElementStat = ( { data, goodNutritionElement } ) => {
     console.log( data );
+    console.log( goodNutritionElement );
     return (
         <div>
+            <h2>{data.name}</h2>
             <RadialBarChart
-                startAngle={180}
-                endAngle={0}
+                startAngle={goodNutritionElement ? 180 : 0}
+                endAngle={goodNutritionElement ? 0 : 180}
                 width={730}
                 height={250}
-                innerRadius="30%"
+                innerRadius="40%"
                 outerRadius="80%"
-                data={data}
+                data={[ {
+                    diff: data.originalValue - data.userValue,
+                    rest: data.userValue / 10,
+                } ]}
             >
                 <defs>
                     <linearGradient id="colorUv" x1="0" y1="0" x2="1" y2="0">
@@ -23,21 +29,28 @@ const NutritionElementStat = ( { data } ) => {
                         <stop offset="90%" stopColor="#00ff00" stopOpacity={0.8} />
                     </linearGradient>
                 </defs>
-                <RadialBar fill="url(#colorUv)" background clockWise dataKey="value" />
-                <Legend iconSize={10} width={120} height={140} layout="vertical" verticalAlign="middle" align="right" />
+                <RadialBar stackId="a" fill="url(#colorUv)" background={{ fill: '#eee' }} dataKey="diff" />
+                <RadialBar stackId="a" fill="#eee" dataKey="rest" />
                 <Tooltip />
             </RadialBarChart>
-            saved amoutn in g
+            <span>
+                {goodNutritionElement ? 'gained' : 'reduced'}
+                {' '}
+                {data.originalValue - data.userValue}
+                g
+            </span>
         </div>
 
     );
 };
 
 NutritionElementStat.propTypes = {
-    data: PropTypes.arrayOf( PropTypes.shape( {
+    data: PropTypes.shape( {
         name: PropTypes.string.isRequired,
-        value: PropTypes.number.isRequired,
-    } ) ).isRequired,
+        userValue: PropTypes.number.isRequired,
+        originalValue: PropTypes.number.isRequired,
+    } ).isRequired,
+    goodNutritionElement: PropTypes.bool.isRequired,
 };
 
 export default NutritionElementStat;
