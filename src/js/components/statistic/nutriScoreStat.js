@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const NutriScoreStat = ( { improvedScore } ) => (
-    <div style={{ color: '#000' }}>
-        <h2 style={{ color: '#000' }}>Overall Improved NutriScore Points</h2>
-        {improvedScore}
+    <div>
+        <h2>Gained NutriScore Points</h2>
+        <span>{improvedScore}</span>
     </div>
 );
 
