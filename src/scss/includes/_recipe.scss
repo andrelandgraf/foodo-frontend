@@ -109,17 +109,23 @@
 
         &-pie {
             @extend .content-box;
-            overflow: scroll;
+            @media screen and (max-width: $phone-width) {
+                overflow: scroll;
+            }
         }
 
         &-bar {
             @extend .content-box;
-            overflow: scroll;
+            @media screen and (max-width: $phone-width) {
+                overflow: scroll;
+            }
         }
 
         .nutrition-table {
             @extend .content-box;
-            overflow: scroll;
+            @media screen and (max-width: $phone-width) {
+                overflow: scroll;
+            }
             table, th, td {
                 border-collapse: collapse;
                 border: 1px solid black;

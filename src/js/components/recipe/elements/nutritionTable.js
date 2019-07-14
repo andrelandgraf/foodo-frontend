@@ -6,8 +6,8 @@ import i18n from 'i18next';
 import { KEYS } from '../../../utilities/internationalization/internationalization';
 
 // reference based on https://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=OJ:L:2011:304:0018:0063:de:PDF
-const NutritionTable = ( { totalRecipe } ) => (
-    <div className="nutrition-table">
+const NutritionTable = ( { totalRecipe, classes } ) => (
+    <div className={`nutrition-table ${ classes }`}>
         <h2>{i18n.t( KEYS.LABELS.NUTRITION )}</h2>
         <table>
             <thead>
@@ -194,6 +194,11 @@ NutritionTable.propTypes = {
             relativeProtein: PropTypes.number.isRequired,
             relativeSalt: PropTypes.number.isRequired,
         } ).isRequired,
+    classes: PropTypes.string,
+};
+
+NutritionTable.defaultProps = {
+    classes: '',
 };
 
 export default NutritionTable;
