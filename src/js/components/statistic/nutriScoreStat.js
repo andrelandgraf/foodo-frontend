@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const NutriScoreStat = ( { improvedScore } ) => (
     <div>
         <h2>Gained NutriScore Points</h2>
-        <span>{improvedScore}</span>
+        <span style={{ color: improvedScore >= 0 ? 'green' : 'red' }}>{improvedScore}</span>
     </div>
 );
 
