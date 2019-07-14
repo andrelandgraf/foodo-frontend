@@ -25,7 +25,7 @@ const NutritionElementStat = ( { data, goodNutritionElement } ) => {
                 outerRadius="80%"
                 data={[ {
                     diff,
-                    rest: round( data.userValue / 5 ), // divide by 5 for scaling reasons
+                    rest: round( data.userValue ),
                 } ]}
             >
                 <RadialBar stackId="a" fill={positiveImprovement ? 'green' : 'red'} background={{ fill: '#eee' }} dataKey="diff" />
