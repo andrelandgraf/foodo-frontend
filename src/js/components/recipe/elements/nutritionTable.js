@@ -13,7 +13,7 @@ const NutritionTable = ( { totalRecipe } ) => {
     const to100 = nutrient => ( nutrient / totalRecipe.weight * 100 );
     const to400 = nutrient => ( nutrient / totalRecipe.weight * 400 );
     return (
-        <div className="nutrition-table">
+        <div className="recipe-nutrition-table">
             <h2>{i18n.t( KEYS.LABELS.NUTRITION )}</h2>
             <table>
                 <thead>

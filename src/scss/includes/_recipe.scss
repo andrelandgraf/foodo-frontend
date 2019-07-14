@@ -107,21 +107,21 @@
             }
         }
 
-        &-pie {
+        .recipe-pie {
             @extend .content-box;
             @media screen and (max-width: $phone-width) {
                 overflow: scroll;
             }
         }
 
-        &-bar {
+        .recipe-bar {
             @extend .content-box;
             @media screen and (max-width: $phone-width) {
                 overflow: scroll;
             }
         }
 
-        .nutrition-table {
+        .recipe-nutrition-table {
             @extend .content-box;
             @media screen and (max-width: $phone-width) {
                 overflow: scroll;
