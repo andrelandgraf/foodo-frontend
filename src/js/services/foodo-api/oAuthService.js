@@ -90,7 +90,6 @@ export const authenticate = ( clientId, clientSecret, data ) => (
             return res.data.user;
         } )
         .catch( ( err ) => {
-            console.log( 'authenticated fail, throw errorx' );
             if ( isCustomError( err ) ) {
                 throw err;
             }
@@ -115,10 +114,8 @@ export const refreshAuthToken = ( resolve ) => {
         .catch( ( err ) => {
             const { status } = err.response;
             if ( isUnauthorizedError( status ) ) {
-                console.log( 'refresh throws a not authed error' );
                 throwNotAuthorizedError();
             }
-            console.log( status );
             throw Error( `${ err.response.data.code }:${ err.response.message }` );
         } );
 };

@@ -55,19 +55,14 @@ function App() {
     const { user, setUser } = useContext( UserStateContext );
 
     useEffect( () => {
-        console.log( 'remounting stuff' );
         if ( isLoggedIn() && !user ) {
-            console.log( 'user missing, get user again' );
             // in case of page reload, we still hold token but need to get user again
             getUser()
                 .then( ( retrievedUser ) => {
-                    console.log( 'we got:' );
-                    console.log( retrievedUser );
                     setUser( retrievedUser );
                 } )
                 .catch( () => {
                     // in case of error, relocate to login and retrieve new token
-                    console.log( 'error, lets log out and undefined user' );
                     logUserOut();
                     setUser( undefined );
                     // eslint-disable-next-line no-restricted-globals
