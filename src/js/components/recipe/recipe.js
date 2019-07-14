@@ -45,6 +45,7 @@ const Recipe = ( {
             totalRecipe.sugar += ingr.elements.AddedSugars * ingr.amount;
             totalRecipe.protein += ingr.elements.Protein * ingr.amount;
             totalRecipe.salt += ingr.elements.Salt * ingr.amount;
+            totalRecipe.fiber += ingr.elements.DietaryFiber * ingr.amount;
         } );
 
         totalRecipe.relativeCalories = Math.round( relativeValue( totalRecipe.calories, 2000 ) );
