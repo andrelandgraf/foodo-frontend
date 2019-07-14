@@ -106,43 +106,43 @@
                 }
             }
         }
+}
 
-        .recipe-pie {
-            @extend .content-box;
-            @media screen and (max-width: $phone-width) {
-                overflow: scroll;
-            }
-        }
-
-        .recipe-bar {
-            @extend .content-box;
-            @media screen and (max-width: $phone-width) {
-                overflow: scroll;
-            }
-        }
-
-        .recipe-nutrition-table {
-            @extend .content-box;
-            @media screen and (max-width: $phone-width) {
-                overflow: scroll;
-            }
-            table, th, td {
-                border-collapse: collapse;
-                border: 1px solid black;
-                padding: 5px;
-                @media screen and (max-width: $phone-width) {
-                    padding: 0;
-                }
-            }
-
-            td {
-                @media screen and (max-width: $phone-width) {
-                    max-width: 60px;
-                    overflow: scroll;
-                }
-            }
-          }
+.recipe-content-pie {
+    @extend .content-box;
+    @media screen and (max-width: $phone-width) {
+        overflow: scroll;
     }
+}
+
+.recipe-content-bar {
+    @extend .content-box;
+    @media screen and (max-width: $phone-width) {
+        overflow: scroll;
+    }
+}
+
+.recipe-nutrition-table {
+    @extend .content-box;
+    @media screen and (max-width: $phone-width) {
+        overflow: scroll;
+    }
+    table, th, td {
+        border-collapse: collapse;
+        border: 1px solid black;
+        padding: 5px;
+        @media screen and (max-width: $phone-width) {
+            padding: 0;
+        }
+    }
+
+    td {
+        @media screen and (max-width: $phone-width) {
+            max-width: 60px;
+            overflow: scroll;
+        }
+    }
+  }
 }
 
 

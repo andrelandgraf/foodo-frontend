@@ -74,8 +74,7 @@ class CreateRecipeContainer extends React.Component {
         recipeToSave.ingredients = recipeToSave.ingredients
             .map( i => ( { ingredient: i._id, amount: i.amount } ) );
 
-        // eslint-disable-next-line no-console
-        postRecipe( recipeToSave ).catch( err => console.log( err ) );
+        postRecipe( recipeToSave );
 
         const nextRecipe = {
             name: '',
