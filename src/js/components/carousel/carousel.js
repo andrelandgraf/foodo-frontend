@@ -22,12 +22,13 @@ function Carousel( { children } ) {
             <ul>
                 {
                     children.map( ( child, i ) => (
-                        <li
-                            key={child.props.id}
-                            className={i === currentIndex ? 'carousel-current-item' : null}
-                        >
-                            {child}
-                        </li>
+                        i === currentIndex
+                            ? (
+                                <li key={child.props.id}>
+                                    {child}
+                                </li>
+                            )
+                            : null
                     ) )
                 }
             </ul>

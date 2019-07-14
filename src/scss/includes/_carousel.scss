@@ -15,11 +15,7 @@
         align-items: center;
 
         li {
-            display: none;
             list-style: none;
-            &.carousel-current-item {
-                display: block;
-            }
         }
     }
 }
