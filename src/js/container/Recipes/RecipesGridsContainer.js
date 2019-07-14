@@ -12,13 +12,14 @@ import useLifestyleRecipes from '../../hooks/useLifestyleRecipes';
 
 import { AUTH_ROUTES } from '../App/App';
 import Boxgrid from '../../components/boxgrid/boxgrid';
+import LOADING_STATUS from '../../utilities/loadingStatus';
 
 
 function RecipesGridsContainer() {
     const [ selectedId, setSelectedId ] = useState();
     const { user } = useContext( UserStateContext );
 
-    const taggedRecipes = useTaggedRecipes();
+    const { taggedRecipes, status: taggedRecipesStatus } = useTaggedRecipes();
     const taggedUserRecipes = useTaggedUserRecipes();
     const toleratedRecipes = useToleratedRecipes();
     const lifestyleRecipes = useLifestyleRecipes();
@@ -89,6 +90,7 @@ function RecipesGridsContainer() {
                         title={renderTitle( meal.label )}
                         onClick={onSelectRecipe}
                         recipes={filterRecipesByMeal( meal.name )}
+                        isLoading={taggedRecipesStatus === LOADING_STATUS.IS_LOADING}
                     />
                 ) )
             }

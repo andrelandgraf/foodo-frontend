@@ -4,17 +4,19 @@ import PropTypes from 'prop-types';
 import Loader from '../loading/loader';
 import Box from '../box/box';
 
-function Boxgrid( { recipes, title, onClick } ) {
+function Boxgrid( {
+    recipes, title, onClick, isLoading,
+} ) {
     return (
         <div className="box-view">
             { title }
-            { recipes
+            { !isLoading && recipes
                 ? (
                     <div className="box-view-grid">
                         { recipes.map( r => <Box key={r.key} recipe={r} onClick={onClick} /> )}
                     </div>
                 )
-                : <Loader key="lodaing-recipes" />
+                : <Loader />
             }
         </div>
     );
@@ -36,10 +38,12 @@ Boxgrid.propTypes = {
         PropTypes.node,
     ] ).isRequired,
     onClick: PropTypes.func.isRequired,
+    isLoading: PropTypes.bool,
 };
 
 Boxgrid.defaultProps = {
     recipes: undefined,
+    isLoading: false,
 };
 
 export default Boxgrid;

@@ -19,6 +19,7 @@ import ProfileView from '../../views/profileView';
 import CookingView from '../../views/cookingView';
 import NotFoundView from '../../views/notFoundView';
 import PasswordView from '../../views/passwordView';
+import SubscribeView from '../../views/subscribeView';
 import AdminView from '../../views/adminView';
 import Paywall, { ACCESS_RIGHTS } from '../Subscription/Paywall';
 import AboutContainer from '../About/AboutContainer';
@@ -87,13 +88,20 @@ function App() {
                 path={AUTH_ROUTES.PROFILE}
                 component={ProfileView}
             />
-            <Paywall wants={ACCESS_RIGHTS.COOKING}>
-                <Route
-                    exact
-                    path={`${ AUTH_ROUTES.COOKING }:id`}
-                    render={props => ( <CookingView {...props} /> )}
-                />
-            </Paywall>
+            <Route
+                exact
+                path={`${ AUTH_ROUTES.COOKING }:id`}
+                render={() => (
+                    <Paywall wants={ACCESS_RIGHTS.COOKING}>
+                        <Route
+                            exact
+                            path={`${ AUTH_ROUTES.COOKING }:id`}
+                            render={props => ( <CookingView {...props} /> )}
+                        />
+                    </Paywall>
+                )}
+            />
+            <Route exact path={AUTH_ROUTES.SUBSCRIBE} component={SubscribeView} />
             <Route exact path={AUTH_ROUTES.PASSWORD} component={PasswordView} />
             <Route exact from={AUTH_ROUTES.ADMIN} component={AdminView} />
             <Route exact from={AUTH_ROUTES.CATEGORY} component={SetCategoryContainer} />
