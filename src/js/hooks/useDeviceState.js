@@ -22,7 +22,7 @@ const useDeviceState = () => {
         };
     }, [] );
 
-    return [ isMobile, innerWidth ];
+    return { isMobile, innerWidth };
 };
 
 export default useDeviceState;

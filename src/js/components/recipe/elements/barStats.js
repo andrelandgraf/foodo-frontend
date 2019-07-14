@@ -9,7 +9,7 @@ import { KEYS } from '../../../utilities/internationalization/internationalizati
 import useDeviceState from '../../../hooks/useDeviceState';
 
 const BarStats = ( { totalRecipe, totalOrigRecipe } ) => {
-    const [ isMobile, innerWidth ] = useDeviceState();
+    const { isMobile, innerWidth } = useDeviceState();
     const [ height, setHeight ] = useState( isMobile ? innerWidth * 0.5 : 300 );
     const [ width, setWidth ] = useState( isMobile ? innerWidth * 0.8 : 600 );
     useEffect( () => {
