@@ -44,7 +44,7 @@ function RecipesContainer() {
     };
 
     const renderMessage = () => (
-        <Message type={messageType} text={message} onResolve={clearMessage} />
+        <Message type={messageType} message={message} onResolve={clearMessage} />
     );
 
     if ( selectedId ) {

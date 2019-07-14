@@ -37,6 +37,15 @@
     }
 }
 
+.one-pager {
+    position: relative;
+    height: 100vh;
+    min-height: 12 * $navbar-height;
+    width: 100%;
+    scroll-snap-align: start;
+}
+
+
 .centered-absolute-child {
     left: 0;
     right: 0;

@@ -13,16 +13,16 @@ export const MESSAGE_TYPES = {
 };
 
 const Message = ( {
-    type, text, onResolve, classes,
+    type, message, onResolve, classes,
 } ) => (
     <div className={`box message-box ${ type }-message ${ classes }`}>
-        <span>{ text }</span>
+        <span>{ message }</span>
         <ImageButton id="dismiss-message" alt="dismiss message" src={Cancel} onClick={onResolve} />
     </div>
 );
 
 Message.propTypes = {
-    text: PropTypes.oneOfType( [
+    message: PropTypes.oneOfType( [
         PropTypes.string,
         PropTypes.node,
     ] ).isRequired,
