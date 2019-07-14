@@ -12,11 +12,18 @@ import NavBarItem from '../../components/navbar/elements/navbarItem';
 import PreferencesButton from '../../components/navbar/elements/preferencesButton';
 import PreferencesMenuContainer from '../PreferenceMenu/PreferenceMenuContainer';
 import { LayoutContext } from '../../provider/LayoutProvider';
+import useUserHasAccessLevels from '../../hooks/useUserHasAccessLevels';
+
+import userDefault from '../../../img/user-logo.svg';
+import userFree from '../../../img/user-free.svg';
+import userPremium from '../../../img/user-premium.svg';
+import { isLoggedIn } from '../../services/foodo-api/user/userService';
 
 
 function NavBarContainer( { loggedIn } ) {
     const [ prefMenuOpen, setPrefMenuOpen ] = useState( false );
     const { showNavBar } = useContext( LayoutContext );
+    const { hasSubscribed } = useUserHasAccessLevels();
 
     useEffect( () => {
         const onClickCloseMenu = ( event ) => {
@@ -33,6 +40,12 @@ function NavBarContainer( { loggedIn } ) {
     }, [] );
 
     const onClickPrefIcon = useCallback( () => setPrefMenuOpen( !prefMenuOpen ), [ prefMenuOpen ] );
+    const getPrefIcon = () => {
+        if ( isLoggedIn() ) {
+            return hasSubscribed ? userPremium : userFree;
+        }
+        return userDefault;
+    };
 
     const renderAuthenticatedNavBarItems = () => [
         <NavBarItem
@@ -52,6 +65,7 @@ function NavBarContainer( { loggedIn } ) {
             label={i18n.t( KEYS.LABELS.PREFERENCES )}
             float="right"
             onClick={onClickPrefIcon}
+            prefIcon={getPrefIcon()}
         />,
     ];
 
@@ -61,6 +75,7 @@ function NavBarContainer( { loggedIn } ) {
             label={i18n.t( KEYS.LABELS.PREFERENCES )}
             float="right"
             onClick={onClickPrefIcon}
+            prefIcon={getPrefIcon()}
         />,
         <NavBarItem
             key="register"

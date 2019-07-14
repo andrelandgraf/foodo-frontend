@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 export const BUTTON_STYLES = 'clickable button-center';
 
 const Button = ( {
-    classes, text, onClick, primary, disabled,
+    classes, label, onClick, primary, disabled,
 } ) => (
     <button
         className={`${ BUTTON_STYLES } btn ${ primary ? 'btn-primary' : '' } ${ classes }`}
@@ -12,13 +12,13 @@ const Button = ( {
         onClick={onClick}
         disabled={disabled}
     >
-        {text}
+        {label}
     </button>
 );
 
 Button.propTypes = {
     classes: PropTypes.string,
-    text: PropTypes.string,
+    label: PropTypes.string,
     onClick: PropTypes.func,
     primary: PropTypes.bool,
     disabled: PropTypes.bool,
@@ -26,7 +26,7 @@ Button.propTypes = {
 
 Button.defaultProps = {
     classes: '',
-    text: 'click',
+    label: 'click',
     onClick: undefined,
     primary: false,
     disabled: false,

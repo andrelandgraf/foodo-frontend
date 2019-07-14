@@ -5,7 +5,7 @@ import {
 
 import { getRedirectUrl, setRedirectUrl, isValidRedirectUrl } from '../../utilities/redirect';
 
-import { isAuthenticated, getUser, logUserOut } from '../../services/foodo-api/user/userService';
+import { getUser, logUserOut, isLoggedIn } from '../../services/foodo-api/user/userService';
 import { UserStateContext } from '../../provider/UserStateProvider';
 import { IngredientsProvider } from '../../provider/IngredientsProvider';
 import { GoalsLifestylesProvider } from '../../provider/GoalsLifestylesProvider';
@@ -20,6 +20,7 @@ import CookingView from '../../views/cookingView';
 import NotFoundView from '../../views/notFoundView';
 import PasswordView from '../../views/passwordView';
 import AdminView from '../../views/adminView';
+import Paywall, { ACCESS_RIGHTS } from '../Subscription/Paywall';
 import AboutContainer from '../About/AboutContainer';
 import LoginContainer from '../Login/LoginContainer';
 import RegistrationContainer from '../Registration/RegistrationContainer';
@@ -39,6 +40,7 @@ export const AUTH_ROUTES = {
     LIFESTYLES: '/admin/setlifestyles',
     PASSWORD: '/password',
     ABOUT: '/about',
+    SUBSCRIBE: '/subscribe',
     OAUTH: '/oauth/v2/login',
 };
 
@@ -54,7 +56,7 @@ function App() {
 
     useEffect( () => {
         console.log( 'remounting stuff' );
-        if ( isAuthenticated() && !user ) {
+        if ( isLoggedIn() && !user ) {
             console.log( 'user missing, get user again' );
             // in case of page reload, we still hold token but need to get user again
             getUser()
@@ -68,6 +70,8 @@ function App() {
                     console.log( 'error, lets log out and undefined user' );
                     logUserOut();
                     setUser( undefined );
+                    // eslint-disable-next-line no-restricted-globals
+                    location.reload();
                 } );
         }
     }, [] );
@@ -88,16 +92,14 @@ function App() {
                 path={AUTH_ROUTES.PROFILE}
                 component={ProfileView}
             />
-            <Route
-                exact
-                path={`${ AUTH_ROUTES.COOKING }:id`}
-                render={props => ( <CookingView {...props} /> )}
-            />
-            <Route
-                exact
-                path={AUTH_ROUTES.PASSWORD}
-                component={PasswordView}
-            />
+            <Paywall wants={ACCESS_RIGHTS.COOKING}>
+                <Route
+                    exact
+                    path={`${ AUTH_ROUTES.COOKING }:id`}
+                    render={props => ( <CookingView {...props} /> )}
+                />
+            </Paywall>
+            <Route exact path={AUTH_ROUTES.PASSWORD} component={PasswordView} />
             <Route exact from={AUTH_ROUTES.ADMIN} component={AdminView} />
             <Route exact from={AUTH_ROUTES.CATEGORY} component={SetCategoryContainer} />
             <Route exact from={AUTH_ROUTES.ALLERGIES} component={SetAllergiesContainer} />
@@ -152,7 +154,7 @@ function App() {
         </>
     );
 
-    if ( !isAuthenticated() ) {
+    if ( !isLoggedIn() ) {
         let redirectUrl = window.location.pathname;
         const isValid = isValidRedirectUrl( redirectUrl );
         if ( !isValid ) {
@@ -164,7 +166,7 @@ function App() {
     return (
         <Router>
             <div>
-                { isAuthenticated()
+                { isLoggedIn()
                     ? renderAuthenticatedApp()
                     : renderNotAuthenticatedApp()
                 }

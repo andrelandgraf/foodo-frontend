@@ -3,9 +3,9 @@ import axios from 'axios';
 import Logger from '../../utilities/Logger';
 import { isUnauthorizedError, isNetworkError } from '../utilities/httpProtocol';
 import { throwServerNotReachableError } from '../../utilities/errorHandler/errorHandler';
+
 import { API } from './api';
-import { refreshAuthToken } from './oAuthService';
-import { getStoredAuthToken } from './user/userService';
+import { refreshAuthToken, getStoredAuthToken } from './oAuthService';
 
 const LoggingUtility = new Logger( 'userService.js' );
 
@@ -37,7 +37,7 @@ export const postRequest = ( endpoint, data ) => axios
                 () => postRequest( endpoint, data ),
             );
         }
-        throw Error( `${ err.response.data.code }:${ err.response.message }` );
+        throw err;
     } );
 
 export const putRequest = ( endpoint, data ) => axios
@@ -54,7 +54,7 @@ export const putRequest = ( endpoint, data ) => axios
                 () => putRequest( endpoint, data ),
             );
         }
-        throw Error( `${ err.response.data.code }:${ err.response.message }` );
+        throw err;
     } );
 
 export const deleteRequest = ( endpoint, data ) => axios
@@ -71,7 +71,7 @@ export const deleteRequest = ( endpoint, data ) => axios
                 () => deleteRequest( endpoint, data ),
             );
         }
-        throw Error( `${ err.response.data.code }:${ err.response.message }` );
+        throw err;
     } );
 
 export const getRequest = endpoint => axios
@@ -88,5 +88,5 @@ export const getRequest = endpoint => axios
                 () => getRequest( endpoint ),
             );
         }
-        throw Error( `${ err.response.data.code }:${ err.response.message }` );
+        throw err;
     } );
