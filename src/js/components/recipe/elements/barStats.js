@@ -32,7 +32,7 @@ const BarStats = ( { totalRecipe, totalOrigRecipe } ) => {
     const data = [
         chartData( 'Calories', totalRecipe.relativeCalories, totalOrigRecipe.relativeCalories ),
         chartData( 'Fat', totalRecipe.relativeFat, totalOrigRecipe.relativeFat ),
-        chartData( 'Saturated Fats', totalRecipe.relativeSfa, totalOrigRecipe.relativeSfa ),
+        chartData( 'Saturated', totalRecipe.relativeSfa, totalOrigRecipe.relativeSfa ),
         chartData( 'Carbs', totalRecipe.relativeCarbs, totalOrigRecipe.relativeCarbs ),
         chartData( 'Sugar', totalRecipe.relativeSugar, totalOrigRecipe.relativeSugar ),
         chartData( 'Protein', totalRecipe.relativeProtein, totalOrigRecipe.relativeProtein ),
