@@ -77,10 +77,19 @@ const Recipe = ( {
 
     const graphCarousel = (
         <Carousel>
-            <PieStats key="pie" totalRecipe={totalRecipe} />
-            <NutritionTable key="table" totalRecipe={totalRecipe} />
+            <PieStats
+                key="pie"
+                id="pie"
+                totalRecipe={totalRecipe}
+            />
+            <NutritionTable
+                key="table"
+                id="table"
+                totalRecipe={totalRecipe}
+            />
             <BarStats
                 key="bar"
+                id="bar"
                 totalRecipe={totalRecipe}
                 totalOrigRecipe={sumRecipe( origRecipe.ingredients )}
             />

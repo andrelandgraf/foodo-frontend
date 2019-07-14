@@ -9,7 +9,7 @@ import { KEYS } from '../../../utilities/internationalization/internationalizati
 import useDeviceState from '../../../hooks/useDeviceState';
 
 
-const PieStats = ( { totalRecipe } ) => {
+const PieStats = ( { totalRecipe, classes } ) => {
     const { isMobile } = useDeviceState();
     const [ scale, setScale ] = useState( isMobile ? 200 : 300 );
     useEffect( () => {
@@ -34,7 +34,7 @@ const PieStats = ( { totalRecipe } ) => {
     const COLORS = [ '#d4380d', '#FFBB28', '#00C49F' ];
 
     return (
-        <div className="recipe-content-pie">
+        <div className={`recipe-content-pie ${ classes }`}>
             <h2>{i18n.t( KEYS.LABELS.NUTRITION )}</h2>
             <PieChart width={scale} height={scale}>
                 <Pie
@@ -80,6 +80,11 @@ PieStats.propTypes = {
             relativeProtein: PropTypes.number.isRequired,
             relativeSalt: PropTypes.number.isRequired,
         } ).isRequired,
+    classes: PropTypes.string,
+};
+
+PieStats.defaultProps = {
+    classes: '',
 };
 
 export default PieStats;

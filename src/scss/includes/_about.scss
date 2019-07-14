@@ -1,11 +1,9 @@
 .about {
     width: 100%;
     text-align: center;
-    scroll-snap-type: y mandatory;
     overflow: scroll;
     height: 100vh;
     min-height: 12 * $navbar-height;
-    scroll-snap-type: mandatory;
     scroll-snap-points-y: repeat(100vh);
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;

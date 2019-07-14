@@ -16,18 +16,17 @@ export const validateSubscription = subscriptionId => new Promise(
                     resolve();
                 } )
                 .catch( ( err ) => {
-                    console.log( 'retry' );
-                    counter += 1;
-                    const { status } = err.response;
-                    if ( status !== 404 ) {
+                    if ( err.response && err.response.status === 404 ) {
+                        counter += 1;
+                        if ( counter > 10 ) {
+                            clearInterval( interval );
+                            reject();
+                        }
+                    } else {
                         throw new Error( 'unexpected error while validating PayPal subscription' );
-                    }
-                    if ( counter > 10 ) {
-                        clearInterval( interval );
-                        reject();
                     }
                 } );
         };
-        interval = setInterval( checkSubscription, 1000 );
+        interval = setInterval( checkSubscription, 10000 );
     },
 );

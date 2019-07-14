@@ -12,6 +12,7 @@ import forkKnife from '../../img/fork-knife.svg';
 import foodJPG from '../../img/food.jpg';
 
 import Button from '../components/button/button';
+import LinkImageButton from '../components/button/linkImageButton';
 import { isLoggedIn } from '../services/foodo-api/user/userService';
 import { RecipesProvider, RecipesContext } from '../provider/RecipesProvider';
 import { AUTH_ROUTES } from '../container/App/App';
@@ -22,11 +23,12 @@ const AboutView = ( { onClickGetStarted } ) => {
         : i18n.t( KEYS.HEADERS.GET_STARTED );
 
     const ArrowDown = ( { href } ) => (
-        <div className="about-arrow-down">
-            <a href={href}>
-                <img src={arrowDown} alt="scroll down" />
-            </a>
-        </div>
+        <LinkImageButton
+            classes="about-arrow-down"
+            href={href}
+            src={arrowDown}
+            alt="scroll down"
+        />
     );
 
     ArrowDown.propTypes = { href: PropTypes.string.isRequired };
