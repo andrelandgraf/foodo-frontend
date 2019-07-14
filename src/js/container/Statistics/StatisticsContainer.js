@@ -61,7 +61,8 @@ function StatisticsContainer() {
         }, 0,
     );
 
-    const getNutritionValues = ( nutritionValuesNames, ingredientList ) => nutritionValuesNames
+    const getNutritionValues = ( nutritionValuesNames, ingredientList ) => lodash
+        .cloneDeep( nutritionValuesNames )
         .reduce( ( acc, name ) => (
             Object.assign( {}, acc, {
                 [ name ]: lodash.cloneDeep( ingredientList ).reduce(
@@ -79,6 +80,7 @@ function StatisticsContainer() {
         ), {} )
     );
 
+    // eslint-disable-next-line no-unused-vars
     const diffNutritionValues = ( nutritionValues1,
         nutritionValues2, nutritionValueNames ) => (
         nutritionValueNames.reduce( ( acc, name ) => Object.assign(
@@ -94,7 +96,9 @@ function StatisticsContainer() {
         ( sum, element ) => sum + element.amount * 100, 0,
     );
 
-    const gainedNutritionValues = () => userRecipesWithIngredients.reduce(
+    const sumUserAndOrigNutritionValues = () => lodash.cloneDeep(
+        userRecipesWithIngredients,
+    ).reduce(
         ( acc, userRecipe ) => {
             const originalNutritionValues = getNutritionValues(
                 goodNutritionValues.concat( badNutritionValues ),
@@ -108,26 +112,42 @@ function StatisticsContainer() {
             console.log( `original ${ JSON.stringify( originalNutritionValues ) }` );
             console.log( `user ${ JSON.stringify( userNutritionValues ) }` );
 
-            // eslint-disable-next-line no-unused-vars
-            const diffs = Object.assign( {},
-                diffNutritionValues( userNutritionValues,
-                    originalNutritionValues,
-                    goodNutritionValues.concat( badNutritionValues ) ) );
-
-            return sumNutritionValues( diffs, acc );
+            return Object.assign( {}, {
+                user: sumNutritionValues( userNutritionValues, acc.user ),
+                original: sumNutritionValues( originalNutritionValues, acc.original ),
+            } );
         }, {
-            Protein: 0,
-            DietaryFiber: 0,
-            AddedSugars: 0,
-            Salt: 0,
-            SFA: 0,
+            user: {
+                Protein: 0,
+                DietaryFiber: 0,
+                AddedSugars: 0,
+                Salt: 0,
+                SFA: 0,
+            },
+            original: {
+                Protein: 0,
+                DietaryFiber: 0,
+                AddedSugars: 0,
+                Salt: 0,
+                SFA: 0,
+            },
         },
     );
 
+    const nutritionValueNamesForDisplay = {
+        Protein: 'Protein',
+        DietaryFiber: 'Fiber',
+        AddedSugars: 'Sugar',
+        Salt: 'Salt',
+        SFA: 'Saturated Fats',
+    };
+
     const formatNutritionValues = nutritionValues => (
-        Object.keys( nutritionValues ).reduce( ( acc, key ) => acc.concat(
-            { name: key, value: nutritionValues[ key ] },
-        ), [] )
+        goodNutritionValues.concat( badNutritionValues ).map( name => ( {
+            name: nutritionValueNamesForDisplay[ name ],
+            userValue: Math.round( nutritionValues.user[ name ] ),
+            originalValue: Math.round( nutritionValues.original[ name ] ),
+        } ) )
     );
 
     console.log( userRecipes );
@@ -149,10 +169,13 @@ function StatisticsContainer() {
             }
             {loadingDone ? (
                 formatNutritionValues(
-                    gainedNutritionValues( lodash.cloneDeep( userRecipesWithIngredients ) ),
+                    sumUserAndOrigNutritionValues( lodash.cloneDeep( userRecipesWithIngredients ) ),
                 ).map( nutritionValue => (
                     <NutritionElementStat
-                        data={[ nutritionValue ]}
+                        data={nutritionValue}
+                        goodNutritionElement={goodNutritionValues.find(
+                            element => element === nutritionValue.name,
+                        )}
                     />
                 ) )
 
