@@ -10,7 +10,7 @@ import useDeviceState from '../../../hooks/useDeviceState';
 
 
 const PieStats = ( { totalRecipe } ) => {
-    const [ isMobile ] = useDeviceState();
+    const { isMobile } = useDeviceState();
     const [ scale, setScale ] = useState( isMobile ? 200 : 300 );
     useEffect( () => {
         if ( isMobile ) {

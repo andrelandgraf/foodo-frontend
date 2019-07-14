@@ -11,7 +11,10 @@ export const validateSubscription = subscriptionId => new Promise(
         let counter = 0;
         const checkSubscription = () => {
             subscribe( subscriptionId )
-                .then( () => console.log( 'it worked' ) && clearInterval( interval ) && resolve() )
+                .then( () => {
+                    clearInterval( interval );
+                    resolve();
+                } )
                 .catch( ( err ) => {
                     console.log( 'retry' );
                     counter += 1;

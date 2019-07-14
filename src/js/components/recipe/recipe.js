@@ -5,15 +5,20 @@ import i18n from 'i18next';
 import { KEYS } from '../../utilities/internationalization/internationalization';
 
 import hourglass from '../../../img/hourglass.svg';
+
+import useDeviceState from '../../hooks/useDeviceState';
+
 import IngredientsTable from './elements/ingredientsTable';
 import NutritionTable from './elements/nutritionTable';
 import BarStats from './elements/barStats';
 import PieStats from './elements/pieStats';
+import Carousel from '../carousel/carousel';
 
 const Recipe = ( {
     recipe, origRecipe, substitutableIngredients, onClickSubstitute, onClickRevert,
     lastClient, Message, onEdit,
 } ) => {
+    const { isMobile } = useDeviceState();
     const sumRecipe = ( ingredient ) => {
         const totalRecipe = {
             weight: 0,
@@ -59,6 +64,29 @@ const Recipe = ( {
 
     const totalRecipe = sumRecipe( recipe.ingredients );
 
+    const mobileGraphs = (
+        <div className="recipe-content">
+            <PieStats totalRecipe={totalRecipe} />
+            <NutritionTable totalRecipe={totalRecipe} />
+            <BarStats
+                totalRecipe={totalRecipe}
+                totalOrigRecipe={sumRecipe( origRecipe.ingredients )}
+            />
+        </div>
+    );
+
+    const graphCarousel = (
+        <Carousel>
+            <PieStats key="pie" totalRecipe={totalRecipe} />
+            <NutritionTable key="table" totalRecipe={totalRecipe} />
+            <BarStats
+                key="bar"
+                totalRecipe={totalRecipe}
+                totalOrigRecipe={sumRecipe( origRecipe.ingredients )}
+            />
+        </Carousel>
+    );
+
     return (
         <div className="recipe">
             <div className="recipe-header">
@@ -85,14 +113,11 @@ const Recipe = ( {
                     onEdit={onEdit}
                 />
             </div>
-            <div className="recipe-content">
-                <PieStats totalRecipe={totalRecipe} />
-                <NutritionTable totalRecipe={totalRecipe} />
-                <BarStats
-                    totalRecipe={totalRecipe}
-                    totalOrigRecipe={sumRecipe( origRecipe.ingredients )}
-                />
-            </div>
+            {
+                isMobile
+                    ? mobileGraphs
+                    : graphCarousel
+            }
         </div>
     );
 };
