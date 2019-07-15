@@ -14,8 +14,9 @@ const NutritionElementStat = ( { data, goodNutritionElement } ) => {
     const diff = round( Math.abs( data.originalValue - data.userValue ) );
 
     return (
-        <div>
+        <div className="statistics-block">
             <h2>{data.name}</h2>
+            {/* <ResponsiveContainer width="95%"> */}
             <RadialBarChart
                 startAngle={gain ? 180 : 0}
                 endAngle={gain ? 0 : 180}
@@ -31,7 +32,8 @@ const NutritionElementStat = ( { data, goodNutritionElement } ) => {
                 <RadialBar stackId="a" fill={positiveImprovement ? 'green' : 'red'} background={{ fill: '#eee' }} dataKey="diff" />
                 <RadialBar stackId="a" fill="#eee" dataKey="rest" />
             </RadialBarChart>
-            <span>
+            {/* </ResponsiveContainer> */}
+            <span className="statistics-result">
                 {`${ gain ? 'gained' : 'reduced' } ${ diff }g`}
             </span>
         </div>
