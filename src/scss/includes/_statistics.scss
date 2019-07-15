@@ -3,31 +3,34 @@
 }
 
 .statistics-calculated-block{
-    //width: 50%;
     margin: 0 auto;
-    display: flex;
     text-align: center;
 
     h2 {
-        width: 60%;
         text-align: right;
-        font-size: 1.3em;
+        font-size: $font-size-l;
+        display: inline-block;
+        @media screen and (max-width: $phone-width){
+            font-size: $font-size-m;
+        }
     }
 
     span {
-        font-size: 3em;
-        font-weight: bold;
+        font-size: $font-size-xxl;
+        font-weight: $font-weight-bold;
+        @media screen and (max-width: $phone-width){
+            font-size: $font-size-xl;
+            margin-left: 10px;
+        }
     }
 }
 
 .statistics-block{
+    @extend .box;
     background-color: #ecc2abc2;
-    //width: 33.33333333%;
     width: 32.5%;
     display: inline-block;
     border-width: 3px;
-    border-style: solid;
-    border-radius: 12px;
     border-color: #6f7273a1;
     margin: 0.4%;
 
@@ -36,7 +39,7 @@
     }
 
     h2 {
-        font-size: 1.4em;
+        font-size: $font-size-l;
     }
 
     div {
@@ -54,15 +57,15 @@
     span {
         display: block;
         padding-bottom: 20px;
-        font-size: 1.2em;
+        font-size: $font-size-l;
         text-align: center;
     }
 
     .statistics-green{
-        color: #008000;
+        color: $success-color;
     }
 
     .statistics-red{
-        color: #ff0000;
+        color: $error-color;
     }
 }
