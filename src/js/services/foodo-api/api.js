@@ -1,6 +1,6 @@
 import { isDevelopment } from '../../utilities/env';
 
-export const API = isDevelopment ? 'http://localhost:3333/' : process.env.REACT_APP_BACKEND_API;
+export const API = !isDevelopment ? 'http://localhost:3333/' : process.env.REACT_APP_BACKEND_API;
 export const ENDPOINTS = {
     AUTHENTICATE: 'auth/token',
     AUTHORIZE: 'auth/authorize',

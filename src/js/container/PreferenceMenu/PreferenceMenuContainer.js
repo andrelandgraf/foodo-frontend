@@ -65,7 +65,7 @@ function PreferencesMenuContainer( { closeMenu } ) {
                     label={i18n.t( KEYS.LABELS.STATISTICS )}
                     icon={statistic}
                     alt="Go to your statistics page"
-                    visible={isAuthenticated()}
+                    visible={isLoggedIn()}
                 />
             </li>
             <li className="item">

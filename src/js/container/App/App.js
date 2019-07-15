@@ -97,16 +97,16 @@ function App() {
             />
             <Route exact path={AUTH_ROUTES.STATISTICS} component={StatisticsView} />
             <Route exact path={AUTH_ROUTES.PASSWORD} component={PasswordView} />
-                render={() => (
-                    <Paywall wants={ACCESS_RIGHTS.COOKING}>
-                        <Route
-                            exact
-                            path={`${ AUTH_ROUTES.COOKING }:id`}
-                            render={props => ( <CookingView {...props} /> )}
-                        />
-                    </Paywall>
-                )}
-            />
+                render=
+            {() => (
+                <Paywall wants={ACCESS_RIGHTS.COOKING}>
+                    <Route
+                        exact
+                        path={`${ AUTH_ROUTES.COOKING }:id`}
+                        render={props => ( <CookingView {...props} /> )}
+                    />
+                </Paywall>
+            )}
             <Route exact path={AUTH_ROUTES.SUBSCRIBE} component={SubscribeView} />
             <Route exact path={AUTH_ROUTES.PASSWORD} component={PasswordView} />
             <Route exact from={AUTH_ROUTES.ADMIN} component={AdminView} />
