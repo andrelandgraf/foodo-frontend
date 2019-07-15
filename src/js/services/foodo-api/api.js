@@ -27,4 +27,5 @@ export const ENDPOINTS = {
     INGREDIENTS: 'ingredients',
     CATEGORIES: 'categories',
     INGREDIENT_BY_GROUPS: 'ingredients/groups/',
+    SUBSCRIPTION: 'subscription/subscribed',
 };

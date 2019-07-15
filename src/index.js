@@ -7,6 +7,10 @@ import { UserStateProvider } from './js/provider/UserStateProvider';
 import * as serviceWorker from './js/serviceWorker';
 import { LayoutProvider } from './js/provider/LayoutProvider';
 
+const script = document.createElement( 'script' );
+script.src = `https://www.paypal.com/sdk/js?client-id=${ process.env.REACT_APP_PAYPAL_CLIENT_KEY_ID }&vault=true`;
+document.body.appendChild( script );
+
 const application = (
     <LayoutProvider>
         <UserStateProvider>

@@ -7,7 +7,7 @@ import {
 } from '../../utilities/internationalization/internationalization';
 
 import { postLocale } from '../../services/foodo-api/user/preferencesService';
-import { isAuthenticated } from '../../services/foodo-api/user/userService';
+import { isLoggedIn } from '../../services/foodo-api/user/userService';
 import { AUTH_ROUTES } from '../App/App';
 
 import CustomButton from '../../components/button/customButton';
@@ -29,7 +29,7 @@ function PreferencesMenuContainer( { closeMenu } ) {
     const [ title, setTitle ] = useState( MAIN_MENU );
 
     const onSelectLocale = async ( locale ) => {
-        if ( isAuthenticated() ) {
+        if ( isLoggedIn() ) {
             await postLocale( locale );
         }
         // save locale to user, as we reload the page afterwards,
@@ -84,7 +84,7 @@ function PreferencesMenuContainer( { closeMenu } ) {
                     label={i18n.t( KEYS.LABELS.PASSWORD )}
                     icon={key}
                     alt="Go to change password page"
-                    visible={isAuthenticated()}
+                    visible={isLoggedIn()}
                 />
             </li>
             <li className="item">

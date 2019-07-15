@@ -51,12 +51,11 @@
             border: none;
             img {
                 height: 100%;
-                padding: 14px 16px;
+                padding: 8px 16px;
                 @media screen and (max-width: $phone-width) {
-                    padding: 14px 10px;
+                    padding: 8px 10px;
                 }
                 margin: 0;
-                border-radius: 50%;
             }
         }
     }

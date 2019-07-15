@@ -29,6 +29,7 @@ const enHeaders = {
     PAGE2_INFO: 'We will compute the best fitting substitutes for your daily home cooked meals.',
     PAGE2_TEASER: 'Find out how!',
     START_NOW: 'Try it out now!',
+    SUBSCRIBE: 'Subscribe',
 };
 
 // short labels (e.g. button text, navbar text, input placehodlers, ...)

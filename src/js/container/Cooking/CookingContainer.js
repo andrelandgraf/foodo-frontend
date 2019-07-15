@@ -21,6 +21,7 @@ import EditIngredients from '../Ingredients/EditIngredientsContainer';
 import Modal from '../../components/modal/modal';
 import Message, { MESSAGE_TYPES } from '../../components/message/message';
 import useDisplayableUserRecipe from '../../hooks/useDisplayableUserRecipe';
+import { UserRecipesContext } from '../../provider/UserRecipesProvider';
 
 function CookingContainer( { id } ) {
     const [ possibleSubstitues, setPossibleSubstitues ] = useState( undefined );
@@ -32,6 +33,7 @@ function CookingContainer( { id } ) {
     const [ messageType, setMessageType ] = useState( undefined );
 
     const { userRecipe, setUserRecipe } = useContext( UserRecipeContext );
+    const { fetchUserRecipes } = useContext( UserRecipesContext );
     const { user } = useContext( UserStateContext );
 
     const createCustomRecipe = r => postUserRecipe( {
@@ -47,6 +49,10 @@ function CookingContainer( { id } ) {
         const personalizedRecipe = r.user
             ? r : await createCustomRecipe( r, user );
         setUserRecipe( r.user ? r : personalizedRecipe );
+        if ( !r.user ) {
+            // update userRecipesContext
+            fetchUserRecipes();
+        }
         return personalizedRecipe;
     };
 
@@ -124,7 +130,7 @@ function CookingContainer( { id } ) {
 
     const renderMessage = () => (
         <Message
-            text={message}
+            message={message}
             type={messageType}
             onResolve={onCloseMessage}
             classes="cooking-succ-message"

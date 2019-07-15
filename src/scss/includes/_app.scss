@@ -33,9 +33,18 @@
     color: $white;
 
     h1 h2 h3 h4 h5 span p li {
-        filter: brightness(1.8);
+        filter: brightness(1.3);
     }
 }
+
+.one-pager {
+    position: relative;
+    height: 100vh;
+    min-height: 12 * $navbar-height;
+    width: 100%;
+    scroll-snap-align: start;
+}
+
 
 .centered-absolute-child {
     left: 0;

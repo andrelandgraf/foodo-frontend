@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { UserStateContext } from '../../provider/UserStateProvider';
-import { isAuthenticated } from '../../services/foodo-api/user/userService';
+import { isLoggedIn } from '../../services/foodo-api/user/userService';
 
 const LogoutContainer = ( { LogoutComponent, onWillLogout } ) => (
     <UserStateContext.Consumer>
@@ -10,7 +10,7 @@ const LogoutContainer = ( { LogoutComponent, onWillLogout } ) => (
             <LogoutComponent
                 onWillLogout={onWillLogout}
                 setUser={setUser}
-                loggedIn={isAuthenticated()}
+                loggedIn={isLoggedIn()}
             />
         )}
     </UserStateContext.Consumer>

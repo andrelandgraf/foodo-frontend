@@ -5,15 +5,20 @@ import i18n from 'i18next';
 import { KEYS } from '../../utilities/internationalization/internationalization';
 
 import hourglass from '../../../img/hourglass.svg';
+
+import useDeviceState from '../../hooks/useDeviceState';
+
 import IngredientsTable from './elements/ingredientsTable';
 import NutritionTable from './elements/nutritionTable';
 import BarStats from './elements/barStats';
 import PieStats from './elements/pieStats';
+import Carousel from '../carousel/carousel';
 
 const Recipe = ( {
     recipe, origRecipe, substitutableIngredients, onClickSubstitute, onClickRevert,
     lastClient, Message, onEdit,
 } ) => {
+    const { isMobile } = useDeviceState();
     const sumRecipe = ( ingredient ) => {
         const totalRecipe = {
             weight: 0,
@@ -45,6 +50,7 @@ const Recipe = ( {
             totalRecipe.sugar += ingr.elements.AddedSugars * ingr.amount;
             totalRecipe.protein += ingr.elements.Protein * ingr.amount;
             totalRecipe.salt += ingr.elements.Salt * ingr.amount;
+            totalRecipe.fiber += ingr.elements.DietaryFiber * ingr.amount;
         } );
 
         totalRecipe.relativeCalories = Math.round( relativeValue( totalRecipe.calories, 2000 ) );
@@ -59,24 +65,56 @@ const Recipe = ( {
 
     const totalRecipe = sumRecipe( recipe.ingredients );
 
+    const mobileGraphs = (
+        <div className="recipe-content">
+            <PieStats totalRecipe={totalRecipe} />
+            <NutritionTable totalRecipe={totalRecipe} />
+            <BarStats
+                totalRecipe={totalRecipe}
+                totalOrigRecipe={sumRecipe( origRecipe.ingredients )}
+            />
+        </div>
+    );
+
+    const graphCarousel = (
+        <Carousel>
+            <PieStats
+                key="pie"
+                id="pie"
+                totalRecipe={totalRecipe}
+            />
+            <NutritionTable
+                key="table"
+                id="table"
+                totalRecipe={totalRecipe}
+            />
+            <BarStats
+                key="bar"
+                id="bar"
+                totalRecipe={totalRecipe}
+                totalOrigRecipe={sumRecipe( origRecipe.ingredients )}
+            />
+        </Carousel>
+    );
+
     return (
         <div className="recipe">
-            <div className="center">
+            <div className="recipe-header">
                 <h3>{ recipe.name }</h3>
-                <span className="recipe-preparation-time">
+                <span>
                     <img
                         src={hourglass}
                         alt="Preparation time"
                         classes="icon-item"
                     />
-                    {recipe.preparationTime}
-                min
+                    {` ${ recipe.preparationTime } min`}
                 </span>
-                <p>{ lastClient && `[${ i18n.t( KEYS.LABELS.EDITED_WITH ) } ${ lastClient }]`}</p>
             </div>
-            <img src={recipe.imgUrl} alt={recipe.name} className="recipePic" />
+
+            <p>{ lastClient && `[${ i18n.t( KEYS.LABELS.EDITED_WITH ) } ${ lastClient }]`}</p>
             { Message }
             <div className="recipe-content">
+                <img src={recipe.imgUrl} alt={recipe.name} className="recipe-img" />
                 <IngredientsTable
                     ingredients={recipe.ingredients}
                     substitutableIngredients={substitutableIngredients}
@@ -84,15 +122,12 @@ const Recipe = ( {
                     onClickRevert={onClickRevert}
                     onEdit={onEdit}
                 />
-                <PieStats totalRecipe={totalRecipe} />
             </div>
-            <div className="recipe-content large-content">
-                <NutritionTable totalRecipe={totalRecipe} />
-                <BarStats
-                    totalRecipe={totalRecipe}
-                    totalOrigRecipe={sumRecipe( origRecipe.ingredients )}
-                />
-            </div>
+            {
+                isMobile
+                    ? mobileGraphs
+                    : graphCarousel
+            }
         </div>
     );
 };

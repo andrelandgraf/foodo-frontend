@@ -96,7 +96,7 @@ function SetLifestylesContainer() {
                 </div>
                 <Button
                     onClick={onClickSave}
-                    text="save"
+                    label="save"
                     disabled={!pickedIngredient}
                     primary
                 />

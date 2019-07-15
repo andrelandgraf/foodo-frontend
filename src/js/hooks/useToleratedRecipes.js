@@ -19,7 +19,7 @@ const filterTolerated = ( recipes, ingredients, allergies ) => (
 const useToleratedRecipes = () => {
     const { user } = useContext( UserStateContext );
     const { ingredients } = useContext( IngredientsContext );
-    const taggedRecipes = useTaggedRecipes();
+    const { taggedRecipes } = useTaggedRecipes();
     return useMemo( () => filterTolerated( taggedRecipes, ingredients, user.allergies ),
         [ taggedRecipes, user, ingredients ] );
 };

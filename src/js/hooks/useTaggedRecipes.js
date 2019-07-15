@@ -37,11 +37,14 @@ export const mapRecipesTagged = ( recipes, ingredients, user ) => (
 );
 
 function useTaggedRecipes() {
-    const displayableRecipes = useDisplayableRecipes();
+    const { status, displayableRecipes } = useDisplayableRecipes();
     const { ingredients } = useContext( IngredientsContext );
     const { user } = useContext( UserStateContext );
-    return useMemo( () => mapRecipesTagged( displayableRecipes, ingredients, user ),
-        [ displayableRecipes, ingredients, user ] );
+    return useMemo( () => ( {
+        status,
+        taggedRecipes: mapRecipesTagged( displayableRecipes, ingredients, user ),
+    } ),
+    [ displayableRecipes, ingredients, user, status ] );
 }
 
 export default useTaggedRecipes;
