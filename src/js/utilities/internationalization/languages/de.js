@@ -23,6 +23,7 @@ const deHeaders = {
     PAGE2_INFO: 'Wir werden die am besten passenden Substitute für deine täglich gekochten Mahlzeiten berechnen.',
     PAGE2_TEASER: 'Finde heraus wie!',
     START_NOW: 'Probiere es jetzt!',
+    SUBSCRIBE: 'Subscribe',
 };
 
 const deLabels = {

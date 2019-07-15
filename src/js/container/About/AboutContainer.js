@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { AUTH_ROUTES, NONAUTH_ROUTES } from '../App/App';
 
 import { LayoutContext } from '../../provider/LayoutProvider';
-import { isAuthenticated } from '../../services/foodo-api/user/userService';
+import { isLoggedIn } from '../../services/foodo-api/user/userService';
 import AboutView from '../../views/aboutView';
 
 function AboutContainer() {
@@ -12,7 +12,7 @@ function AboutContainer() {
     const [ clickedGetStarted, setClickedGetStarted ] = useState( false );
 
     useEffect( () => {
-        if ( !isAuthenticated() && showNavBar ) {
+        if ( !isLoggedIn() && showNavBar ) {
             setShowNavBar( false );
         }
         return () => setShowNavBar( true );
@@ -26,7 +26,7 @@ function AboutContainer() {
                 ? (
                     <Redirect
                         push
-                        to={isAuthenticated() ? AUTH_ROUTES.HOME : NONAUTH_ROUTES.REGISTER}
+                        to={isLoggedIn() ? AUTH_ROUTES.HOME : NONAUTH_ROUTES.REGISTER}
                     />
                 )
                 : <AboutView onClickGetStarted={onClickGetStarted} />

@@ -12,21 +12,23 @@ import forkKnife from '../../img/fork-knife.svg';
 import foodJPG from '../../img/food.jpg';
 
 import Button from '../components/button/button';
-import { isAuthenticated } from '../services/foodo-api/user/userService';
+import LinkImageButton from '../components/button/linkImageButton';
+import { isLoggedIn } from '../services/foodo-api/user/userService';
 import { RecipesProvider, RecipesContext } from '../provider/RecipesProvider';
 import { AUTH_ROUTES } from '../container/App/App';
 import { setRedirectUrl } from '../utilities/redirect';
 
 const AboutView = ( { onClickGetStarted } ) => {
-    const label = isAuthenticated() ? i18n.t( KEYS.HEADERS.GOTO_FOODO )
+    const label = isLoggedIn() ? i18n.t( KEYS.HEADERS.GOTO_FOODO )
         : i18n.t( KEYS.HEADERS.GET_STARTED );
 
     const ArrowDown = ( { href } ) => (
-        <div className="about-arrow-down">
-            <a href={href}>
-                <img src={arrowDown} alt="scroll down" />
-            </a>
-        </div>
+        <LinkImageButton
+            classes="about-arrow-down"
+            href={href}
+            src={arrowDown}
+            alt="scroll down"
+        />
     );
 
     ArrowDown.propTypes = { href: PropTypes.string.isRequired };
@@ -37,7 +39,7 @@ const AboutView = ( { onClickGetStarted } ) => {
                 <h1 className="about-page-1-title-box-title">Foodo</h1>
             </div>
             <div className="about-page-1-get-started-button">
-                <Button text={label} onClick={onClickGetStarted} primary />
+                <Button label={label} onClick={onClickGetStarted} primary />
             </div>
             <ArrowDown href="#about-page-2" />
         </section>

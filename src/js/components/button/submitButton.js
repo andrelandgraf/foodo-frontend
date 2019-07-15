@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { BUTTON_STYLES } from './button';
+import Loader from '../loading/loader';
 
 const SubmitButton = ( { label, isLoading, disabled } ) => (
     <>
@@ -10,7 +11,11 @@ const SubmitButton = ( { label, isLoading, disabled } ) => (
             className={`${ BUTTON_STYLES } btn btn-primary`}
             disabled={disabled || isLoading}
         >
-            { label }
+            {
+                isLoading
+                    ? <Loader message={label} tiny />
+                    : label
+            }
         </button>
     </>
 );

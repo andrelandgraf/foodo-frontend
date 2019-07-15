@@ -8,8 +8,8 @@ import i18n from 'i18next';
 import { KEYS } from '../../../utilities/internationalization/internationalization';
 import useDeviceState from '../../../hooks/useDeviceState';
 
-const BarStats = ( { totalRecipe, totalOrigRecipe } ) => {
-    const [ isMobile, innerWidth ] = useDeviceState();
+const BarStats = ( { totalRecipe, totalOrigRecipe, classes } ) => {
+    const { isMobile, innerWidth } = useDeviceState();
     const [ height, setHeight ] = useState( isMobile ? innerWidth * 0.5 : 300 );
     const [ width, setWidth ] = useState( isMobile ? innerWidth * 0.8 : 600 );
     useEffect( () => {
@@ -32,7 +32,7 @@ const BarStats = ( { totalRecipe, totalOrigRecipe } ) => {
     const data = [
         chartData( 'Calories', totalRecipe.relativeCalories, totalOrigRecipe.relativeCalories ),
         chartData( 'Fat', totalRecipe.relativeFat, totalOrigRecipe.relativeFat ),
-        chartData( 'Saturated Fats', totalRecipe.relativeSfa, totalOrigRecipe.relativeSfa ),
+        chartData( 'Saturated', totalRecipe.relativeSfa, totalOrigRecipe.relativeSfa ),
         chartData( 'Carbs', totalRecipe.relativeCarbs, totalOrigRecipe.relativeCarbs ),
         chartData( 'Sugar', totalRecipe.relativeSugar, totalOrigRecipe.relativeSugar ),
         chartData( 'Protein', totalRecipe.relativeProtein, totalOrigRecipe.relativeProtein ),
@@ -40,7 +40,7 @@ const BarStats = ( { totalRecipe, totalOrigRecipe } ) => {
     ];
 
     return (
-        <div className="recipe-content-bar">
+        <div className={`recipe-content-bar ${ classes }`}>
             <h2>{i18n.t( KEYS.LABELS.NUTRITION )}</h2>
             <BarChart
                 width={width}
@@ -100,6 +100,11 @@ BarStats.propTypes = {
             relativeProtein: PropTypes.number.isRequired,
             relativeSalt: PropTypes.number.isRequired,
         } ).isRequired,
+    classes: PropTypes.string,
+};
+
+BarStats.defaultProps = {
+    classes: '',
 };
 
 export default BarStats;

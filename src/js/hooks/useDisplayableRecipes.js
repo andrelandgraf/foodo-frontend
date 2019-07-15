@@ -12,8 +12,10 @@ const mapRecipesDisplayable = recipes => ( recipes
     : recipes );
 
 function useDisplayableRecipes() {
-    const { recipes } = useContext( RecipesContext );
-    return useMemo( () => mapRecipesDisplayable( recipes ), [ recipes ] );
+    const { recipes, status } = useContext( RecipesContext );
+    return useMemo( () => ( {
+        status, displayableRecipes: mapRecipesDisplayable( recipes ),
+    } ), [ recipes, status ] );
 }
 
 export default useDisplayableRecipes;

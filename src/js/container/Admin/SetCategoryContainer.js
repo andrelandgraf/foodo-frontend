@@ -75,7 +75,7 @@ function SetCategoryContainer() {
                 </div>
                 <Button
                     onClick={onClickSave}
-                    text="save"
+                    label="save"
                     disabled={!pickedCategory || !pickedIngredient}
                     primary
                 />

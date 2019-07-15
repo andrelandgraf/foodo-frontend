@@ -1,12 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="Layer_1" x="0px" y="0px"
-width="50" height="20" viewBox="0 0 50 20">
-    <circle cx="5" cy="10" r="5" fill="#2c3f6b" opacity="0.2">
-        <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0s" dur="0.8s" repeatCount="indefinite" />
-    </circle>
-    <circle cx="25" cy="10" r="5" fill="#2c3f6b" opacity="0.6">
-        <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.2s" dur="0.8s" repeatCount="indefinite" />
-    </circle>
-    <circle cx="45" cy="10" r="5" fill="#2c3f6b" opacity="1">
-        <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.4s" dur="0.8s" repeatCount="indefinite" />
-    </circle>
+<svg version="1.1" id="L9" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+  viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
+    <path fill="#fa541c" d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
+      <animateTransform
+         attributeName="transform"
+         attributeType="XML"
+         type="rotate"
+         dur="1s"
+         from="0 50 50"
+         to="360 50 50"
+         repeatCount="indefinite" />
+  </path>
 </svg>
