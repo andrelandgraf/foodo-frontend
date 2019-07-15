@@ -6,7 +6,7 @@ import StatisticsContainer from '../container/Statistics/StatisticsContainer';
 
 const StatisticsView = () => (
     <div className="container">
-        <h1>{i18n.t( KEYS.HEADERS.STATISTICS )}</h1>
+        <h1 className="statistics-header">{i18n.t( KEYS.HEADERS.STATISTICS )}</h1>
         <StatisticsContainer />
     </div>
 );

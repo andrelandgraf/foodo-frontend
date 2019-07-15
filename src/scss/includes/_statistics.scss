@@ -1,0 +1,45 @@
+.statistics-header{
+    text-align: center;
+}
+
+.statistics-calculated-block{
+    width: 30%;
+    margin: 0 auto;
+    display: flex;
+
+    h2 {
+        font-size: 1.3em;
+    }
+
+    span {
+        font-size: 3em;
+        font-weight: bold;
+    }
+}
+
+.statistics-result{
+    color: #1890ff;
+    text-align: center;
+}
+
+.statistics-block{
+    background-color: #cccccc;
+    width: 33.33333333%;
+    display: inline-block;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 12px;
+
+    div {
+        width: 100%;
+
+        svg {
+            width: 100%;
+        }
+    }
+
+    span {
+        display: block;
+        padding-bottom: 20px;
+    }
+}
