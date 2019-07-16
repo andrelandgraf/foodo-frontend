@@ -109,10 +109,16 @@ const Recipe = ( {
                     />
                     {` ${ recipe.preparationTime } min`}
                 </span>
+                <span>
+                    Difficulty:
+                    <span className={`recipe-header-${ recipe.difficulty.toLowerCase() }`}>
+                        {` ${ recipe.difficulty }`}
+                    </span>
+                </span>
             </div>
 
-            <p>{ lastClient && `[${ i18n.t( KEYS.LABELS.EDITED_WITH ) } ${ lastClient }]`}</p>
-            { Message }
+            <p>{lastClient && `[${ i18n.t( KEYS.LABELS.EDITED_WITH ) } ${ lastClient }]`}</p>
+            {Message}
             <div className="recipe-content">
                 <img src={recipe.imgUrl} alt={recipe.name} className="recipe-img" />
                 <IngredientsTable
