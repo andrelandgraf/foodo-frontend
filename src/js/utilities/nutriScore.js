@@ -83,7 +83,7 @@ const addProportionFruitVegetables = ( nutritionValues, category ) => (
  * @returns {{KiloJoule: number, Salt: number, proportionOfFruitsAndVegetables: number,
  * AddedSugars: number, Protein: number, DietaryFiber: number, SFA: number}}
  */
-const calculateNutritionValuesOfIngredientsList = ( ingredients ) => {
+export const calculateNutritionValuesOfIngredientsList = ( ingredients ) => {
     const averageNutritionValues = {
         KiloJoule: 0,
         DietaryFiber: 0,
@@ -110,20 +110,14 @@ const calculateNutritionValuesOfIngredientsList = ( ingredients ) => {
     return averageNutritionValues;
 };
 
-const computeNutriScoreForRecipe = ( recipeIngredients ) => {
+export const computeNutriScoreForRecipe = ( recipeIngredients ) => {
     const nutritionValuesOfRecipe = calculateNutritionValuesOfIngredientsList( recipeIngredients );
     return calculateNutriScore( nutritionValuesOfRecipe, 'Recipe' );
 };
 
 
-const mapNutriScoreToABCDE = ( nutriScore, categoryName ) => {
+export const mapNutriScoreToABCDE = ( nutriScore, categoryName ) => {
     const scala = categoryName === 'Beverages' ? nutriScoreRanksBeverages : nutriScoreRanks;
     const result = compareValueWithScala( nutriScore, scala );
     return result === -1 ? 'E' : [ 'A', 'B', 'C', 'D' ][ result ];
-};
-
-module.exports = {
-    computeNutriScoreForRecipe,
-    mapNutriScoreToABCDE,
-    calculateNutritionValuesOfIngredientsList,
 };
