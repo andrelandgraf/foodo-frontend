@@ -20,8 +20,10 @@
             display: inline-flex;
             flex-direction: row;
             align-items: center;
-            img {
-                width: 20px;
+            svg {
+                padding-right: 5px;
+                fill: $primary-color;
+                width: 25px;
             }
         }
 
