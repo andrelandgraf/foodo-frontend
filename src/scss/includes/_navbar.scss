@@ -3,7 +3,7 @@
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: $primary-color;
+    background-color: $white;
     height: $navbar-height;
     box-shadow: $box-shadow-base;
 
@@ -18,7 +18,7 @@
             @extend .aria-element;
             height: $navbar-height;
             display: block;
-            color: $white;
+            color: $primary-color;
             text-align: center;
             text-decoration: none;
 
@@ -31,8 +31,8 @@
                 pointer-events: none;
                 cursor: default;
                 text-decoration: none;
-                background-color: $white;
-                color: $primary-color;
+                background-color: $background-color;
+                color: $secondary-color;
             }
 
             .text-item {
@@ -47,7 +47,7 @@
         .icon-item {
             @extend .aria-element;
             height: $navbar-height;
-            background-color: $primary-color;
+            background-color: $white;
             border: none;
             img {
                 height: 100%;
