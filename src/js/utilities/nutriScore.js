@@ -70,8 +70,8 @@ const calculateNutriScore = ( dish, categoryName ) => {
 const addProportionFruitVegetables = ( nutritionValues, category ) => (
     Object.assign( {}, nutritionValues,
         {
-            proportionOfFruitsAndVegetables: category.name === 'Fruits'
-            || category.name === 'Vegetables' ? 1 : 0,
+            proportionOfFruitsAndVegetables: category && ( category.name === 'Fruits'
+            || category.name === 'Vegetables' ) ? 1 : 0,
         } )
 );
 
