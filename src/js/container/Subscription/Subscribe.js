@@ -100,12 +100,11 @@ function Subscribe() {
                     : null
             }
             <p>
-                You cook a lot and we like that!
-                But we have to store your data and compute your recipes.
-                We hate advertisment and want to offer you a clean User Interface.
-                In order to do so we would love a tiny subscription for our Services.
-                What do you think? Sounds fair?
+                Just check out with Paypal and support us in our mission:
             </p>
+            <h2>
+                DO FOOD GOOD - FOODO!
+            </h2>
             <div>
                 <div id="paypal-button-container" />
                 <Button label="Not this time" onClick={skip} classes="subscribe-button" />

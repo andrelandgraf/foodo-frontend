@@ -15,13 +15,16 @@
 
         &-foodo {
             width: 100%;
-            margin: 0 10%;
             display: inline-flex;
             flex-direction: row;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
             text-align: left;
             img {
+                margin-right: 60px;
+                @media screen and (max-width: $phone-width){
+                    margin-right: 20px;
+                }
                 height: 50px;
             }
         }

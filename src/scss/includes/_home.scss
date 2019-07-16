@@ -28,6 +28,12 @@
             input {
                 margin-bottom: 0;
             }
-        }   
+        }
     }
+}
+
+.funky {
+    font-size: $font-size-xl + 5px;
+    color: $samurai-yellow;
+    transform: rotate(20deg);
 }
