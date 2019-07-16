@@ -12,6 +12,19 @@
         p {
             width: 50%;
         }
+
+        &-foodo {
+            width: 100%;
+            margin: 0 10%;
+            display: inline-flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            text-align: left;
+            img {
+                height: 50px;
+            }
+        }
     }
 
     &-button {

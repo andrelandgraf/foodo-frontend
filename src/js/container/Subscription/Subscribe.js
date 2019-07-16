@@ -4,6 +4,8 @@ import React, {
 import { Redirect } from 'react-router-dom';
 import { cloneDeep } from 'lodash';
 
+import foodo from '../../../img/foodo.png';
+
 import { validateSubscription } from '../../services/foodo-api/user/subscription';
 
 import { ACCESS_LEVELS } from '../../hooks/useUserHasAccessLevels';
@@ -74,7 +76,18 @@ function Subscribe() {
 
     const subscriptionPage = (
         <div className="subscribe-box">
-            <h2>Why are you here?</h2>
+            <h2>What is this?</h2>
+            <div className="subscribe-box-foodo">
+                <img alt="foodo" src={foodo} />
+                <p>
+                You cook a lot and we like that!
+                But we have to store your data and compute your recipes.
+                We hate advertisment and want to offer you a clean User Interface.
+                In order to do so we would love a tiny subscription for our Services.
+                What do you think? Sounds fair?
+                </p>
+            </div>
+            <h3>We want you!</h3>
             {
                 message
                     ? (
