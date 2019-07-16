@@ -4,7 +4,7 @@ import i18n from 'i18next';
 
 import { KEYS } from '../../utilities/internationalization/internationalization';
 
-import hourglass from '../../../img/hourglass.svg';
+import { ReactComponent as RunningTime } from '../../../img/time-running.svg';
 
 import useDeviceState from '../../hooks/useDeviceState';
 
@@ -102,11 +102,7 @@ const Recipe = ( {
             <div className="recipe-header">
                 <h3>{ recipe.name }</h3>
                 <span>
-                    <img
-                        src={hourglass}
-                        alt="Preparation time"
-                        classes="icon-item"
-                    />
+                    <RunningTime />
                     {` ${ recipe.preparationTime } min`}
                 </span>
                 <span>
