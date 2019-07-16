@@ -185,6 +185,85 @@
 
     &-page-4 {
         @extend .one-pager;
+        font-size: $font-size-xl;
+        font-weight: $font-weight-light;
+
+        &-title-box {
+            @extend .about-page-2-title-box;
+
+            &-title {
+                @extend .about-page-2-title-box-title;
+                font-size: 50px;
+                color: $primary-color;
+                @media screen and (max-width: $phone-width) {
+                    font-size: 40px;
+                }
+            }
+        }
+
+        ul {
+            text-align: left;
+            @media screen and (max-width: $pad-width) {
+                background-color: #fa8c16;
+                font-size: $font-size-m;
+                color: $white;
+                font-size: $font-size-m;
+            }
+
+            li {
+                padding-top: 5px;
+            }
+        }
+
+        &-box {
+            @extend .centered-absolute-child;
+            @media screen and (min-width: $phone-width) {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-end;
+            }
+            img {
+                @media screen and (max-width: $phone-width) {
+                    display: none;
+                }
+            }
+        }
+
+        &-nutritext-box1 {
+            @extend .about-page-4-box;
+            position: absolute;
+            top: 20%;
+            width: 95%;
+
+            img {
+                width: 40%;
+                height: 25%;
+            }
+            @media screen and (min-width: $phone-width) {
+                //width: 60%;
+            }
+        }
+
+        &-nutritext-box2 {
+            @extend .about-page-4-box;
+            position: absolute;
+            top: 50%;
+            width: 95%;
+
+            img {
+                width: 40%;
+                height: 25%;
+            }
+            @media screen and (min-width: $phone-width) {
+                //width: 60%;
+            }
+        }
+
+
+    }
+
+    &-page-5 {
+        @extend .one-pager;
 
         h3 {
             position: absolute;

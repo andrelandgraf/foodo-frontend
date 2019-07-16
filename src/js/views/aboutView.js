@@ -10,6 +10,8 @@ import arrowDown from '../../img/arrow-down.svg';
 import userLogo from '../../img/user-logo.svg';
 import forkKnife from '../../img/fork-knife.svg';
 import foodJPG from '../../img/food.jpg';
+import nutriscoreA from '../../img/nutriscoreA.png';
+import nutriscoreE from '../../img/nutriscoreE.png';
 
 import Button from '../components/button/button';
 import LinkImageButton from '../components/button/linkImageButton';
@@ -108,7 +110,40 @@ const AboutView = ( { onClickGetStarted } ) => {
         );
     };
 
-    const PageFour = () => {
+    const PageFour = () => (
+        <section id="about-page-4" className="about-page-4">
+            <div className="about-page-4-title-box">
+                <h1 className="about-page-4-title-box-title">
+                    Based on the NutriScore
+                </h1>
+            </div>
+            <div className="about-page-4-nutritext-box1">
+                <img src={nutriscoreA} alt="nutriscore A" />
+                <ul>
+                    <li>Foodo bases his improvement calculations on the NutriScore</li>
+                    <li>The NutriScore takes into account the nutrient content per 100g of food</li>
+                    <li>
+It allocates positive points for unfavourable foods
+                        (negative for favourable) and sums them all up
+                    </li>
+                </ul>
+            </div>
+            <div className="about-page-4-nutritext-box2">
+                <img src={nutriscoreE} alt="nutriscore E" />
+                <ul>
+                    <li>In the end the result can range from -15 (best) to 40 (worst) </li>
+                    <li>The NutriScore additionally adds labels (A-E) to specific ranges</li>
+                    <li>
+For a food item to get label A, it has to
+                        have at most a calculated value of -1
+                    </li>
+                </ul>
+            </div>
+            <ArrowDown href="#about-page-5" />
+        </section>
+    );
+
+    const PageFive = () => {
         const [ recipe, setRecipe ] = useState();
         const { recipes } = useContext( RecipesContext );
 
@@ -119,11 +154,11 @@ const AboutView = ( { onClickGetStarted } ) => {
             return <Redirect push to={`${ AUTH_ROUTES.COOKING }${ recipe._id }`} />;
         }
         return (
-            <div id="about-page-4" className="about-page-4">
+            <div id="about-page-5" className="about-page-5">
                 <h3>{i18n.t( KEYS.HEADERS.START_NOW )}</h3>
-                <div className="about-page-4-recipes-container">
+                <div className="about-page-5-recipes-container">
                     <h2>{i18n.t( KEYS.HEADERS.SELECT_RECIPE )}</h2>
-                    <div className="about-page-4-recipes-container-input">
+                    <div className="about-page-5-recipes-container-input">
                         <DataListInput
                             items={recipes.map( r => ( {
                                 ...r,
@@ -145,13 +180,15 @@ const AboutView = ( { onClickGetStarted } ) => {
         );
     };
 
+
     return (
         <div className="about">
             <PageOne />
             <PageTwo />
             <PageThree />
+            <PageFour />
             <RecipesProvider>
-                <PageFour />
+                <PageFive />
             </RecipesProvider>
         </div>
     );
