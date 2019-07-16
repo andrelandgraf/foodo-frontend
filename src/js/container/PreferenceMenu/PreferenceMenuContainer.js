@@ -20,7 +20,7 @@ import PreferenceLink from '../../components/preferences/preferenceLink';
 import globe from '../../../img/globe.svg';
 import key from '../../../img/key.svg';
 import book from '../../../img/book.svg';
-
+import statistic from '../../../img/statistic.svg';
 
 const MAIN_MENU = i18n.t( KEYS.LABELS.PREFERENCES );
 const LANG_MENU = i18n.t( KEYS.LABELS.LANGUAGES );
@@ -57,6 +57,16 @@ function PreferencesMenuContainer( { closeMenu } ) {
         <>
             <li className="title">
                 { title }
+            </li>
+            <li className="item">
+                <PreferenceLink
+                    to={AUTH_ROUTES.STATISTICS}
+                    onClick={closeMenu}
+                    label={i18n.t( KEYS.LABELS.STATISTICS )}
+                    icon={statistic}
+                    alt="Go to your statistics page"
+                    visible={isLoggedIn()}
+                />
             </li>
             <li className="item">
                 <PreferenceItem

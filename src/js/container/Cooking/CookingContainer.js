@@ -66,6 +66,7 @@ function CookingContainer( { id } ) {
         if ( userRecipe ) {
             getRecipeSubstitutes( userRecipe._id )
                 .then( substitutes => setPossibleSubstitues( substitutes ) );
+            fetchUserRecipes();
         }
     }, [ userRecipe ] );
 
