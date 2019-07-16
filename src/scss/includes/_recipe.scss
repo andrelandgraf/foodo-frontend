@@ -16,12 +16,23 @@
         flex-direction: column;
 
         span {
+            margin: 5px;
             display: inline-flex;
             flex-direction: row;
             align-items: center;
             img {
                 width: 20px;
             }
+        }
+
+        &-easy {
+            color: $info-color;
+        }
+        &-medium {
+            color: $warning-color;
+        }
+        &-difficult {
+            color: $error-color;
         }
     }
 
