@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 
 const PreferenceLink = ( {
@@ -9,15 +9,15 @@ const PreferenceLink = ( {
     <>
         {
             visible && (
-                <Link to={to} onClick={onClick}>
-                    <div>
+                <NavLink to={to} onClick={onClick} activeClassName="current">
+                    <div className="item-link">
                         {label}
                         <img
                             src={icon}
                             alt={alt}
                         />
                     </div>
-                </Link>
+                </NavLink>
             )
         }
     </>
