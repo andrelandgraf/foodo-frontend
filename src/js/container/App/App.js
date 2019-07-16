@@ -22,6 +22,7 @@ import PasswordView from '../../views/passwordView';
 import SubscribeView from '../../views/subscribeView';
 import AdminView from '../../views/adminView';
 import Paywall, { ACCESS_RIGHTS } from '../Subscription/Paywall';
+import StatisticsView from '../../views/statisticsView';
 import AboutContainer from '../About/AboutContainer';
 import LoginContainer from '../Login/LoginContainer';
 import RegistrationContainer from '../Registration/RegistrationContainer';
@@ -35,6 +36,7 @@ export const AUTH_ROUTES = {
     HOME: '/',
     PROFILE: '/profile',
     COOKING: '/cooking/',
+    STATISTICS: '/statistics',
     ADMIN: '/admin',
     CATEGORY: '/admin/setcategory',
     ALLERGIES: '/admin/setallergies',
@@ -101,6 +103,7 @@ function App() {
                     </Paywall>
                 )}
             />
+            <Route exact path={AUTH_ROUTES.STATISTICS} component={StatisticsView} />
             <Route exact path={AUTH_ROUTES.SUBSCRIBE} component={SubscribeView} />
             <Route exact path={AUTH_ROUTES.PASSWORD} component={PasswordView} />
             <Route exact from={AUTH_ROUTES.ADMIN} component={AdminView} />
