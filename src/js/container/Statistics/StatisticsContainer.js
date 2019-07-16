@@ -1,12 +1,14 @@
 import React, { useContext } from 'react';
-
 import lodash from 'lodash';
+
+import { computeNutriScoreForRecipe } from '../../utilities/nutriScore';
 
 import { UserRecipesContext } from '../../provider/UserRecipesProvider';
 import { IngredientsContext } from '../../provider/IngredientsProvider';
+
 import NutriScoreStat from '../../components/statistic/nutriScoreStat';
 import NutritionElementStat from '../../components/statistic/nutritionElementStat';
-import NutriScoreUtility from '../../utilities/nutriScore';
+
 
 function StatisticsContainer() {
     const { ingredients } = useContext( IngredientsContext );
@@ -50,10 +52,10 @@ function StatisticsContainer() {
 
     const gainedNutriScoreImprovements = () => userRecipesWithIngredients.reduce(
         ( sum, userRecipe ) => {
-            const originalNutriScore = NutriScoreUtility.computeNutriScoreForRecipe(
+            const originalNutriScore = computeNutriScoreForRecipe(
                 userRecipe.personalizedRecipe.origRecipe.ingredients,
             );
-            const userNutriScore = NutriScoreUtility.computeNutriScoreForRecipe(
+            const userNutriScore = computeNutriScoreForRecipe(
                 userRecipe.personalizedRecipe.ingredients,
             );
             return sum + originalNutriScore - userNutriScore;
