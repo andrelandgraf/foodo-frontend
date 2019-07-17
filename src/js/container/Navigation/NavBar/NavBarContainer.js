@@ -1,27 +1,27 @@
 import React, {
     useState, useEffect, useCallback, useContext,
 } from 'react';
-import PropTypes from 'prop-types';
 import i18n from 'i18next';
 
-import { KEYS } from '../../utilities/internationalization/internationalization';
-import { AUTH_ROUTES, NONAUTH_ROUTES } from '../App/App';
+import { KEYS } from '../../../utilities/internationalization/internationalization';
+import { AUTH_ROUTES, NONAUTH_ROUTES } from '../../App/App';
+import { isLoggedIn } from '../../../services/foodo-api/user/userService';
 
-import NavBar from '../../components/navbar/navbar';
-import NavBarItem from '../../components/navbar/elements/navbarItem';
-import PreferencesButton from '../../components/navbar/elements/preferencesButton';
-import PreferencesMenuContainer from '../PreferenceMenu/PreferenceMenuContainer';
-import { LayoutContext } from '../../provider/LayoutProvider';
-import useUserHasAccessLevels from '../../hooks/useUserHasAccessLevels';
+import { LayoutContext } from '../../../provider/LayoutProvider';
+import useUserHasAccessLevels from '../../../hooks/useUserHasAccessLevels';
 
-import userDefault from '../../../img/user-logo.svg';
-import userFree from '../../../img/user-free.svg';
-import userPremium from '../../../img/user-premium.svg';
-import { isLoggedIn } from '../../services/foodo-api/user/userService';
+import NavBar from '../../../components/navbar/navbar';
+import NavBarItem from '../../../components/navbar/elements/navbarItem';
+import PreferencesButton from '../../../components/navbar/elements/preferencesButton';
+import NavMenuContainer from '../NavMenu/NavMenuContainer';
+
+import userDefault from '../../../../img/user-logo.svg';
+import userFree from '../../../../img/user-free.svg';
+import userPremium from '../../../../img/user-premium.svg';
 
 
-function NavBarContainer( { loggedIn } ) {
-    const [ prefMenuOpen, setPrefMenuOpen ] = useState( false );
+function NavBarContainer() {
+    const [ navMenuOpen, setNavMenuOpen ] = useState( false );
     const { showNavBar } = useContext( LayoutContext );
     const { hasSubscribed } = useUserHasAccessLevels();
 
@@ -32,14 +32,14 @@ function NavBarContainer( { loggedIn } ) {
             const targetIsPrefButton = event.target.id === 'preferences-navbar-button';
             const targetInPrefButton = button && button.contains( event.target );
             if ( targetIsPrefButton || targetInPrefButton ) return;
-            setPrefMenuOpen( false );
+            setNavMenuOpen( false );
         };
 
         window.addEventListener( 'click', onClickCloseMenu, false );
         return () => window.removeEventListener( 'click', onClickCloseMenu );
     }, [] );
 
-    const onClickPrefIcon = useCallback( () => setPrefMenuOpen( !prefMenuOpen ), [ prefMenuOpen ] );
+    const onClickPrefIcon = useCallback( () => setNavMenuOpen( !navMenuOpen ), [ navMenuOpen ] );
     const getPrefIcon = () => {
         if ( isLoggedIn() ) {
             return hasSubscribed ? userPremium : userFree;
@@ -101,14 +101,14 @@ function NavBarContainer( { loggedIn } ) {
     const renderNavBar = () => (
         <>
             <NavBar>
-                { loggedIn
+                { isLoggedIn()
                     ? renderAuthenticatedNavBarItems()
                     : renderNotAuthenticatedNavBarItems()
                 }
             </NavBar>
-            { prefMenuOpen
+            { navMenuOpen
                 ? (
-                    <PreferencesMenuContainer
+                    <NavMenuContainer
                         closeMenu={onClickPrefIcon}
                     />
                 )
@@ -119,9 +119,5 @@ function NavBarContainer( { loggedIn } ) {
 
     return showNavBar ? renderNavBar() : null;
 }
-
-NavBarContainer.propTypes = {
-    loggedIn: PropTypes.bool.isRequired,
-};
 
 export default NavBarContainer;
