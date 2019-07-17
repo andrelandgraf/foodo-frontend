@@ -20,8 +20,20 @@
 
             .current-score {
                 font-size: $font-size-xs;
-                .nutriscore {
+                .nutriscoreA {
                     color: $success-color;
+                }
+                .nutriscoreB {
+                    color: $success-color;
+                }
+                .nutriscoreC {
+                    color: $warning-color;
+                }
+                .nutriscoreD {
+                    color: $warning-color;
+                }
+                .nutriscoreE {
+                    color: $error-color;
                 }
             }
             margin-bottom: 30px;
@@ -66,7 +78,21 @@
                     }
 
                     .nutriscore {
-                        color: $success-color;
+                        &.nutriscoreA {
+                            color: $success-color;
+                        }
+                        &.nutriscoreB {
+                            color: $success-color;
+                        }
+                        &.nutriscoreC {
+                            color: $warning-color;
+                        }
+                        &.nutriscoreD {
+                            color: $warning-color;
+                        }
+                        &.nutriscoreE {
+                            color: $error-color;
+                        }
                         padding-bottom: 5px;
                     }
                 }

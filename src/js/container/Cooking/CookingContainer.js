@@ -22,6 +22,7 @@ import Modal from '../../components/modal/modal';
 import Message, { MESSAGE_TYPES } from '../../components/message/message';
 import useDisplayableUserRecipe from '../../hooks/useDisplayableUserRecipe';
 import { UserRecipesContext } from '../../provider/UserRecipesProvider';
+import { mapNutriScoreToABCDE } from '../../utilities/nutriScore';
 
 function CookingContainer( { id } ) {
     const [ possibleSubstitues, setPossibleSubstitues ] = useState( undefined );
@@ -153,7 +154,7 @@ function CookingContainer( { id } ) {
             />
         ) );
 
-    const renderModalTitle = selectedIngredient => (
+    const renderModalTitle = ( selectedIngredient, score ) => (
         <>
             <h2>
                 { i18n.t( KEYS.HEADERS.SELECT_SUBSTITUTE,
@@ -161,7 +162,12 @@ function CookingContainer( { id } ) {
             </h2>
             <span className="current-score">
                 { i18n.t( KEYS.LABELS.CURRENT_NUTRISCORE ) }
-                <span className="nutriscore">{` ${ getSelectedIngredientScore() }`}</span>
+                <span
+                    className={`nutriscore${
+                        mapNutriScoreToABCDE( score, selectedIngredient.category.name ) }`}
+                >
+                    {` ${ score }`}
+                </span>
             </span>
         </>
 
@@ -171,7 +177,7 @@ function CookingContainer( { id } ) {
         <Modal
             classes="ingredients-container"
             onCloseModal={() => setShowSubstiutesFor( '' )}
-            Title={renderModalTitle( selectedIngredient )}
+            Title={renderModalTitle( selectedIngredient, getSelectedIngredientScore() )}
         >
             { displayableSubstitutes
                 ? renderPossibleSubstitutes( displayableSubstitutes, selectedIngredient )

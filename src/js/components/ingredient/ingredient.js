@@ -5,12 +5,15 @@ import cancel from '../../../img/cancel.svg';
 
 import ImageButton from '../button/imageButton';
 import CustomButton from '../button/customButton';
+import { mapNutriScoreToABCDE } from '../../utilities/nutriScore';
 
 const Ingredient = ( { ingredient, onClose, onClick } ) => {
     const onClickCallback = useCallback( () => onClick && onClick( ingredient ),
         [ ingredient, onClick ] );
     const onCloseCallback = useCallback( () => onClose( ingredient ),
         [ ingredient, onClose ] );
+
+    const classes = `nutriscore nutriscore${ mapNutriScoreToABCDE( ingredient.nutriScore, ingredient.category.name ) }`;
 
     const Content = (
         <>
@@ -21,7 +24,7 @@ const Ingredient = ( { ingredient, onClose, onClick } ) => {
                 {
                     Number.isInteger( ingredient.nutriScore )
                         && (
-                            <span className="nutriscore">
+                            <span className={classes}>
                                 { `NutriScore: ${ ingredient.nutriScore }`}
                             </span>
                         )
