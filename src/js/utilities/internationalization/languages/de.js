@@ -44,6 +44,7 @@ const deLabels = {
     MANUAL_PITCH_ALTER: 'Schau dir das Rezept an und ändere es nach deinem Wunsch',
     MANUAL_PITCH_SUBSTITUTE: 'Wir werden dir helfen ungesunde Bestandteile zu substituieren',
     INGREDIENTS: 'Zutaten',
+    CURRENT_NUTRISCORE: 'Aktueller NutriScore:',
     NUTRITION: 'Nährwerte',
     EDITED_WITH: 'Rezept bearbeitet mit',
     USERNAME: 'Benutzername',

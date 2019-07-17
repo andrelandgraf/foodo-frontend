@@ -12,6 +12,23 @@
         justify-items: center;
         padding-bottom: 20px;
 
+        // defined in modal
+        .title {
+            h2 {
+                margin-bottom: 2px;
+            }
+
+            .current-score {
+                font-size: $font-size-xs;
+                .nutriscore {
+                    color: $success-color;
+                }
+            }
+            margin-bottom: 30px;
+        }
+
+
+
         .ingredient {
             width: 80%;
             font-size: $font-size-xs;

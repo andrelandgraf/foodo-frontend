@@ -51,6 +51,7 @@ const enLabels = {
     MANUAL_PITCH_ALTER: 'See the recipe and alter it to your desire',
     MANUAL_PITCH_SUBSTITUTE: 'We will help you to substitute unhealthy parts',
     INGREDIENTS: 'Ingredients',
+    CURRENT_NUTRISCORE: 'Current NutriScore:',
     NUTRITION: 'Nutritional Facts',
     EDITED_WITH: 'Recipe edited with',
     USERNAME: 'Username',

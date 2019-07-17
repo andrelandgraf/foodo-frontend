@@ -124,6 +124,9 @@ function CookingContainer( { id } ) {
         key: ingredient.substitute._id,
     } );
 
+    const getSelectedIngredientScore = () => possibleSubstitues
+        .find( entry => entry._id === showSubstiutesFor )
+        .nutriScore;
 
     const renderLoading = () => (
         <Loader key="lodaing-substitues" />
@@ -151,9 +154,17 @@ function CookingContainer( { id } ) {
         ) );
 
     const renderModalTitle = selectedIngredient => (
-        <h2>
-            { i18n.t( KEYS.HEADERS.SELECT_SUBSTITUTE, { ingredient: selectedIngredient.label } )}
-        </h2>
+        <>
+            <h2>
+                { i18n.t( KEYS.HEADERS.SELECT_SUBSTITUTE,
+                    { ingredient: selectedIngredient.label } )}
+            </h2>
+            <span className="current-score">
+                { i18n.t( KEYS.LABELS.CURRENT_NUTRISCORE ) }
+                <span className="nutriscore">{` ${ getSelectedIngredientScore() }`}</span>
+            </span>
+        </>
+
     );
 
     const renderModal = ( displayableSubstitutes, selectedIngredient ) => (
