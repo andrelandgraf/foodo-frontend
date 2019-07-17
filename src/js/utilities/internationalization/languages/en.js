@@ -59,6 +59,7 @@ const enLabels = {
     NONE: 'None',
     NOT: 'Not',
     CONTAINS: 'Contains',
+    NAVIGATION: 'Navigation',
     PREFERENCES: 'Preferences',
     YOUR_FAVORITES: 'Your Favorites',
     BREAKFAST: 'Breakfast',

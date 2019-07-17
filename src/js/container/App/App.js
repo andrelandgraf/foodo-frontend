@@ -13,7 +13,7 @@ import { AllergiesProvider } from '../../provider/AllergiesProvider';
 import { RecipesProvider } from '../../provider/RecipesProvider';
 import { UserRecipesProvider } from '../../provider/UserRecipesProvider';
 
-import NavBarContainer from '../NavBar/NavBarContainer';
+import NavBarContainer from '../Navigation/NavBar/NavBarContainer';
 import HomeView from '../../views/homeView';
 import ProfileView from '../../views/profileView';
 import CookingView from '../../views/cookingView';

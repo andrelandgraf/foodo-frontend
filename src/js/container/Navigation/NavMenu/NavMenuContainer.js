@@ -1,32 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import i18n from 'i18next';
 
 import {
     getLocale, setLocale, LOCALES, KEYS,
-} from '../../utilities/internationalization/internationalization';
+} from '../../../utilities/internationalization/internationalization';
 
-import { postLocale } from '../../services/foodo-api/user/preferencesService';
-import { isLoggedIn } from '../../services/foodo-api/user/userService';
-import { AUTH_ROUTES } from '../App/App';
+import { postLocale } from '../../../services/foodo-api/user/preferencesService';
+import { isLoggedIn } from '../../../services/foodo-api/user/userService';
+import { AUTH_ROUTES } from '../../App/App';
 
-import CustomButton from '../../components/button/customButton';
-import Title from '../../components/preferences/title';
-import LogoutContainer from '../Logout/LogoutContainer';
-import Logout from '../../components/preferences/logout';
-import PreferenceItem from '../../components/preferences/preferenceItem';
-import PreferenceLink from '../../components/preferences/preferenceLink';
+import { UserStateContext } from '../../../provider/UserStateProvider';
 
-import globe from '../../../img/globe.svg';
-import key from '../../../img/key.svg';
-import book from '../../../img/book.svg';
-import statistic from '../../../img/statistic.svg';
+import CustomButton from '../../../components/button/customButton';
+import Title from '../../../components/preferences/title';
+import LogoutContainer from '../../Logout/LogoutContainer';
+import Logout from '../../../components/preferences/logout';
+import PreferenceItem from '../../../components/preferences/preferenceItem';
+import PreferenceLink from '../../../components/preferences/preferenceLink';
 
-const MAIN_MENU = i18n.t( KEYS.LABELS.PREFERENCES );
+import globe from '../../../../img/globe.svg';
+import key from '../../../../img/key.svg';
+import book from '../../../../img/book.svg';
+import statistic from '../../../../img/statistic.svg';
+import preferences from '../../../../img/preferences.svg';
+
+const MAIN_MENU = i18n.t( KEYS.LABELS.NAVIGATION );
+const PREF_MENU = i18n.t( KEYS.LABELS.PREFERENCES );
 const LANG_MENU = i18n.t( KEYS.LABELS.LANGUAGES );
 
-function PreferencesMenuContainer( { closeMenu } ) {
+
+function NavMenuContainer( { closeMenu } ) {
     const [ title, setTitle ] = useState( MAIN_MENU );
+    const { user } = useContext( UserStateContext );
 
     const onSelectLocale = async ( locale ) => {
         if ( isLoggedIn() ) {
@@ -75,15 +81,16 @@ function PreferencesMenuContainer( { closeMenu } ) {
                     label={i18n.t( KEYS.LABELS.LANGUAGE )}
                     icon={globe}
                     alt="Go to language menu"
+                    visible={!isLoggedIn()}
                 />
             </li>
             <li className="item">
-                <PreferenceLink
-                    to={AUTH_ROUTES.PASSWORD}
-                    onClick={closeMenu}
-                    label={i18n.t( KEYS.LABELS.PASSWORD )}
-                    icon={key}
-                    alt="Go to change password page"
+                <PreferenceItem
+                    id="preference-menu"
+                    onClick={() => setTitle( PREF_MENU )}
+                    label={i18n.t( KEYS.LABELS.PREFERENCES )}
+                    icon={preferences}
+                    alt="Go to preferences menu"
                     visible={isLoggedIn()}
                 />
             </li>
@@ -108,19 +115,52 @@ function PreferencesMenuContainer( { closeMenu } ) {
                 <Title
                     id={`${ title }-button`}
                     title={title}
-                    onClick={() => setTitle( MAIN_MENU )}
+                    onClick={() => ( isLoggedIn() ? setTitle( PREF_MENU ) : setTitle( MAIN_MENU ) )}
                 />
             </li>
             { renderLocaleItems() }
         </>
     );
 
+    const renderPreferencesMenu = () => (
+        <>
+            <li className="title">
+                <Title
+                    id={`${ title }-button`}
+                    title={user.username}
+                    onClick={() => setTitle( MAIN_MENU )}
+                />
+            </li>
+            <li className="item">
+                <PreferenceItem
+                    id="language-menu"
+                    onClick={() => setTitle( LANG_MENU )}
+                    label={i18n.t( KEYS.LABELS.LANGUAGE )}
+                    icon={globe}
+                    alt="Go to language menu"
+                />
+            </li>
+            <li className="item">
+                <PreferenceLink
+                    to={AUTH_ROUTES.PASSWORD}
+                    onClick={closeMenu}
+                    label={i18n.t( KEYS.LABELS.PASSWORD )}
+                    icon={key}
+                    alt="Go to change password page"
+                    visible={isLoggedIn()}
+                />
+            </li>
+        </>
+    );
+
     const renderMenu = () => {
         switch ( title ) {
         case MAIN_MENU:
-            return renderMainMenu( title, closeMenu );
+            return renderMainMenu();
+        case PREF_MENU:
+            return renderPreferencesMenu();
         case LANG_MENU:
-            return renderLanguageMenu( title );
+            return renderLanguageMenu();
         default:
             return undefined;
         }
@@ -131,16 +171,20 @@ function PreferencesMenuContainer( { closeMenu } ) {
             onClick={event => event.stopPropagation()}
             role="presentation"
         >
-            <ul className="preferences-menu">
-                { renderMenu( title, closeMenu ) }
-            </ul>
+            <nav>
+                <ul className="navmenu">
+                    { renderMenu() }
+                </ul>
+            </nav>
+
         </div>
 
     );
 }
 
-PreferencesMenuContainer.propTypes = {
+NavMenuContainer.propTypes = {
     closeMenu: PropTypes.func.isRequired,
 };
 
-export default PreferencesMenuContainer;
+
+export default NavMenuContainer;
