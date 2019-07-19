@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Loader from '../loading/loader';
-import Box from '../box/box';
+import Box from './box';
 
 function Boxgrid( {
     recipes, title, onClick, isLoading,

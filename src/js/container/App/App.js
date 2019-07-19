@@ -51,7 +51,6 @@ export const NONAUTH_ROUTES = {
     LOGIN: '/login',
     REGISTER: '/register',
     ABOUT: '/about',
-    OAUTH: '/oauth/v2/login',
 };
 
 function App() {
@@ -154,19 +153,19 @@ function App() {
                     )}
                 />
                 <Route from={AUTH_ROUTES.ABOUT} component={AboutContainer} />
-                <Route from={NONAUTH_ROUTES.OAUTH} component={OAuthContainer} />
                 <Redirect path="*" to={NONAUTH_ROUTES.LOGIN} />
             </Switch>
         </>
     );
 
     if ( !isLoggedIn() ) {
-        let redirectUrl = window.location.pathname;
+        const redirectUrl = window.location.pathname;
         const isValid = isValidRedirectUrl( redirectUrl );
         if ( !isValid ) {
-            redirectUrl = '/';
+            setRedirectUrl( AUTH_ROUTES.HOME );
+        } else {
+            setRedirectUrl( redirectUrl + window.location.search );
         }
-        setRedirectUrl( redirectUrl );
     }
 
     return (

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import i18n from 'i18next';
 
@@ -8,10 +8,9 @@ import { registerUser } from '../../services/foodo-api/user/userService';
 
 import LoginContainer from '../Login/LoginContainer';
 
-class RegistrationContainer extends React.Component {
+function RegistrationContainer( { setUser } ) {
     // decorates LoginContainer.handleSubmit function
-    handleSubmit = async ( username, password ) => {
-        const { setUser } = this.props;
+    const handleSubmit = useCallback( async ( username, password ) => {
         const userObject = {
             username,
             password,
@@ -22,17 +21,15 @@ class RegistrationContainer extends React.Component {
                 setUser( user );
             } );
         return true;
-    }
+    }, [] );
 
-    render() {
-        return (
-            <LoginContainer
-                pageName={i18n.t( KEYS.LABELS.REGISTRATION )}
-                actionName={i18n.t( KEYS.LABELS.REGISTER )}
-                onSubmit={this.handleSubmit}
-            />
-        );
-    }
+    return (
+        <LoginContainer
+            pageName={i18n.t( KEYS.LABELS.REGISTRATION )}
+            actionName={i18n.t( KEYS.LABELS.REGISTER )}
+            onSubmit={handleSubmit}
+        />
+    );
 }
 
 RegistrationContainer.propTypes = {
