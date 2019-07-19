@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import i18n from 'i18next';
 
@@ -9,35 +9,37 @@ import MessageComponent, { MESSAGE_TYPES } from '../../components/message/messag
 
 import { logUserIn } from '../../services/foodo-api/user/userService';
 
-class LoginContainer extends React.Component {
-    constructor( props ) {
-        super( props );
+function LoginContainer( {
+    setUser, onSubmit, pageName, actionName,
+} ) {
+    const [ username, setUsername ] = useState( '' );
+    const [ password, setPassword ] = useState( '' );
+    const [ isLoading, setIsLoading ] = useState( false );
+    const [ message, setMessage ] = useState( '' );
+    const [ messageType, setMessageType ] = useState();
 
-        this.state = {
-            username: '',
-            password: '',
-            isLoading: false,
-            message: '',
-            messageType: undefined,
-        };
-    }
+    const handleUsernameChange = useCallback( ( event ) => {
+        setUsername( event.target.value );
+    }, [] );
 
-    handleUsernameChange = ( event ) => {
-        this.setState( { username: event.target.value } );
-    }
+    const handlePasswordChange = useCallback( ( event ) => {
+        setPassword( event.target.value );
+    }, [] );
 
-    handlePasswordChange = ( event ) => {
-        this.setState( { password: event.target.value } );
-    }
+    const handleError = useCallback( ( err ) => {
+        setIsLoading( false );
+        setMessage( err.message );
+        setMessageType( MESSAGE_TYPES.ERR );
+        return false;
+    }, [] );
 
-    handleSubmit = async ( event ) => {
+    const handleSubmit = useCallback( async ( event ) => {
         event.preventDefault();
-        const { username, password } = this.state;
-        const { onSubmit, setUser } = this.props;
+
         if ( username.length < 2 || password === '' ) {
             return false;
         }
-        this.setState( { isLoading: true } );
+        setIsLoading( true );
         if ( !onSubmit ) {
             // default behavior (normal login page)
             return logUserIn( username, password )
@@ -52,53 +54,39 @@ class LoginContainer extends React.Component {
                     }
                     return true;
                 } )
-                .catch( err => this.handleError( err ) );
+                .catch( err => handleError( err ) );
         }
         // register, oAuth or other extensive behavior
         return onSubmit( username, password )
-            .catch( err => this.handleError( err ) );
-    }
+            .catch( err => handleError( err ) );
+    }, [ username, password ] );
 
-    handleError = ( err ) => {
-        this.setState( {
-            isLoading: false,
-            message: err.message,
-            messageType: MESSAGE_TYPES.ERR,
-        } );
-        return false;
-    }
+    const clearMessage = useCallback( () => {
+        setMessage( '' );
+        setMessageType( undefined );
+    }, [] );
 
-    clearMessage = () => {
-        this.setState( { message: '', messageType: undefined } );
-    }
+    const renderMessage = () => (
+        <MessageComponent type={messageType} message={message} onResolve={clearMessage} />
+    );
 
-    renderMessage = ( message, messageType ) => (
-        <MessageComponent type={messageType} message={message} onResolve={this.clearMessage} />
-    )
-
-    renderLoginForm = ( username, password, pageName, actionName, Message, isLoading ) => (
+    const renderLoginForm = Message => (
         <LoginView
             pageName={pageName}
             actionName={actionName}
             username={username}
             password={password}
             Message={Message}
-            onUsernameChange={this.handleUsernameChange}
-            onPasswordChange={this.handlePasswordChange}
-            onSubmit={this.handleSubmit}
+            onUsernameChange={handleUsernameChange}
+            onPasswordChange={handlePasswordChange}
+            onSubmit={handleSubmit}
             isLoading={isLoading}
         />
     );
 
-    render() {
-        const {
-            username, password, isLoading, message, messageType,
-        } = this.state;
-        let Message;
-        if ( message ) { Message = this.renderMessage( message, messageType ); }
-        const { pageName, actionName } = this.props;
-        return this.renderLoginForm( username, password, pageName, actionName, Message, isLoading );
-    }
+    let Message;
+    if ( message ) { Message = renderMessage(); }
+    return renderLoginForm( Message );
 }
 
 LoginContainer.propTypes = {

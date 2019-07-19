@@ -128,18 +128,11 @@ export const getAuthorizeCode = ( clientId, state, redirectUri ) => {
 };
 
 
-export const authorizeClient = ( username, password, clientId, state, redirectUri ) => {
+export const authorizeClient = ( clientId, state, redirectUri ) => {
     if ( process.env.REACT_APP_OAUTH_ALEXA_CLIENT_KEY_ID !== clientId ) {
         throw Error( 'unsupported client id!' );
     }
-    const data = {
-        grant_type: GRANT_TYPES.PASSWORD,
-        username,
-        password,
-    };
-    const clientSecret = process.env.REACT_APP_OAUTH_ALEXA_CLIENT_SECRET_KEY;
-    return authenticate( clientId, clientSecret, data )
-        .then( () => getAuthorizeCode( clientId, state, redirectUri ) )
+    return getAuthorizeCode( clientId, state, redirectUri )
         .then( response => response.json() )
         .then( code => code.authorizationCode )
         .catch( ( err ) => {
