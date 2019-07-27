@@ -112,7 +112,7 @@ export const refreshAuthToken = ( resolve ) => {
     return authenticate( clientId, clientSecret, data )
         .then( () => resolve() )
         .catch( ( err ) => {
-            const { status } = err.response;
+            const { status } = err.response ? err.response : undefined;
             if ( isUnauthorizedError( status ) ) {
                 throwNotAuthorizedError();
             }

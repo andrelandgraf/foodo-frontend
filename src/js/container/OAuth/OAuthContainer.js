@@ -6,8 +6,8 @@ import { KEYS } from '../../utilities/internationalization/internationalization'
 import { authorizeClient } from '../../services/foodo-api/oAuthService';
 import { throwRequestParameterMissingError } from '../../utilities/errorHandler/errorHandler';
 
-import SimpleView from '../../views/simpleView';
-import Container from '../../components/container/container';
+import SimpleView from '../../components/view/simpleView';
+import Content from '../../components/content/content';
 import Button from '../../components/button/button';
 import Card from '../../components/card/card';
 
@@ -36,14 +36,14 @@ function OAuthContainer() {
     return (
         <SimpleView title={<h1>{i18n.t( KEYS.HEADERS.THIRD_PARTY_AUTHORIZATION )}</h1>}>
             <div>
-                <Container>
+                <Content>
                     <Card>
                         <p>
                             Do you want to authorize Alexa to use your Foodo information?
                         </p>
                         <Button label={KEYS.LABELS.AUTHORIZE} onClick={handleSubmit} primary />
                     </Card>
-                </Container>
+                </Content>
             </div>
         </SimpleView>
     );
