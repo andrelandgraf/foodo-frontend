@@ -14,8 +14,8 @@ import { RecipesProvider } from '../../provider/RecipesProvider';
 import { UserRecipesProvider } from '../../provider/UserRecipesProvider';
 
 import NavBarContainer from '../Navigation/NavBar/NavBarContainer';
-import HomeView from '../../views/homeView';
-import ProfileView from '../../views/profileView';
+import HomeContainer from '../Home/HomeContainer';
+import ProfileContainer from '../Profile/ProfileContainer';
 import CookingView from '../../views/cookingView';
 import NotFoundView from '../../views/notFoundView';
 import PasswordView from '../../views/passwordView';
@@ -79,16 +79,8 @@ function App() {
 
     const renderApp = () => (
         <Switch>
-            <Route
-                exact
-                path={AUTH_ROUTES.HOME}
-                render={props => ( <HomeView {...props} user={user} /> )}
-            />
-            <Route
-                exact
-                path={AUTH_ROUTES.PROFILE}
-                component={ProfileView}
-            />
+            <Route exact path={AUTH_ROUTES.HOME} component={HomeContainer} />
+            <Route exact path={AUTH_ROUTES.PROFILE} component={ProfileContainer} />
             <Route
                 exact
                 path={`${ AUTH_ROUTES.COOKING }:id`}

@@ -1,28 +1,20 @@
-import React, {
-    useState, useEffect, useContext, useMemo,
-} from 'react';
+import React, { useContext, useMemo } from 'react';
 import DataListInput from 'react-datalist-input';
 import lodash from 'lodash';
 import i18n from 'i18next';
 
-import { KEYS, getLocale } from '../../utilities/internationalization/internationalization';
+import { KEYS, getLocale } from '../../../utilities/internationalization/internationalization';
 
-import { putDislike, deleteDislike } from '../../services/foodo-api/user/profileService';
+import { putDislike, deleteDislike } from '../../../services/foodo-api/user/profileService';
 
-import { UserStateContext } from '../../provider/UserStateProvider';
-import useDisplayableIngredients, { mapIngredientsDisplayable } from '../../hooks/useDisplayableIngredients';
+import { UserStateContext } from '../../../provider/UserStateProvider';
+import useDisplayableIngredients, { mapIngredientsDisplayable } from '../../../hooks/useDisplayableIngredients';
 
-import Tags from '../../components/tags/tags';
+import Tags from '../../../components/tags/tags';
 
 function DislikesContainer() {
-    const [ dislikes, setDislikes ] = useState( [] );
     const { user, setUser } = useContext( UserStateContext );
     const displayableIngredients = useDisplayableIngredients();
-
-    useEffect( () => {
-        const { dislikes: uDislikes } = user;
-        setDislikes( lodash.cloneDeep( uDislikes ) );
-    }, [] );
 
     const updateUser = ( updatedDislikes ) => {
         const updatedUser = lodash.cloneDeep( user );
@@ -31,37 +23,39 @@ function DislikesContainer() {
     };
 
     const onSelect = ( dislike ) => {
-        if ( dislikes.find( d => d._id === dislike._id ) ) return;
+        if ( user.dislikes.find( d => d._id === dislike._id ) ) return;
 
-        const updatedDislikes = lodash.cloneDeep( dislikes );
+        const updatedDislikes = lodash.cloneDeep( user.dislikes );
         updatedDislikes.push( dislike );
 
-        setDislikes( updatedDislikes );
         putDislike( { name: dislike.name, _id: dislike._id } );
+
         updateUser( updatedDislikes );
     };
 
     const onDelete = ( id ) => {
-        let updatedDislikes = lodash.cloneDeep( dislikes );
+        if ( !user.dislikes.find( d => d._id === id ) ) return;
+
+        let updatedDislikes = lodash.cloneDeep( user.dislikes );
         updatedDislikes = updatedDislikes.filter( dislike => dislike._id !== id );
 
-        setDislikes( updatedDislikes );
         deleteDislike( { _id: id } );
+
         updateUser( updatedDislikes );
     };
 
     const possibleMatches = useMemo( () => ( displayableIngredients
-        .filter( i => !( dislikes.find( dislike => dislike._id === i._id ) ) )
-    ), [ dislikes, displayableIngredients ] );
+        .filter( i => !( user.dislikes.find( dislike => dislike._id === i._id ) ) )
+    ), [ user, displayableIngredients ] );
 
-    const displayableDislikes = useMemo( () => mapIngredientsDisplayable( dislikes, getLocale() ),
-        [ dislikes ] );
+    const selectedDislikes = useMemo( () => mapIngredientsDisplayable( user.dislikes, getLocale() ),
+        [ user ] );
 
     return (
-        <div className="dislikes-container">
+        <div className="selection-container">
             <h2>{i18n.t( KEYS.HEADERS.DISLIKES_SELECTION )}</h2>
             {
-                <Tags tags={displayableDislikes} onDelete={onDelete} showNoneTag />
+                <Tags tags={selectedDislikes} onDelete={onDelete} showNoneTag />
             }
             <div className="input-container">
                 <DataListInput
