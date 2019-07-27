@@ -17,7 +17,7 @@ import NavBarContainer from '../Navigation/NavBar/NavBarContainer';
 import HomeContainer from '../Home/HomeContainer';
 import ProfileContainer from '../Profile/ProfileContainer';
 import CookingView from '../../views/cookingView';
-import NotFoundView from '../../views/notFoundView';
+import NotFoundView from '../../components/view/notFoundView';
 import PasswordView from '../../views/passwordView';
 import SubscribeView from '../../views/subscribeView';
 import AdminView from '../../views/adminView';
