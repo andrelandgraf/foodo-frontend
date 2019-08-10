@@ -15,7 +15,9 @@ const getLoaderClass = ( fullpage, tiny ) => {
 
 /**
  * Loading spinner component
- * @param {*} param0
+ * @param fullpage if the loading spinner should disable all content
+ * @param message message to be displayed next to the spinner
+ * @param tiny if a tiny spinner should be displayed e.g. to be used inside a button
  */
 const Loader = ( { fullpage, message, tiny } ) => (
     <div className={getLoaderClass( fullpage, tiny )}>
