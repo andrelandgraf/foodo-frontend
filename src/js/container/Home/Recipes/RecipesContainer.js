@@ -12,6 +12,9 @@ import useDisplayableRecipes from '../../../hooks/useDisplayableRecipes';
 import { AUTH_ROUTES } from '../../App/App';
 import Message, { MESSAGE_TYPES } from '../../../components/message/message';
 
+/**
+ * Container for the recipes dropdown to select a recipe for cooking
+ */
 function RecipesContainer() {
     const { displayableRecipes } = useDisplayableRecipes();
     const { user } = useContext( UserStateContext );

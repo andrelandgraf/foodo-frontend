@@ -32,6 +32,7 @@ import SetCategoryContainer from '../Admin/SetCategoryContainer';
 import SetAllergiesContainer from '../Admin/SetAllergiesContainer';
 import SetLifestylesContainer from '../Admin/SetLifestylesContainer';
 
+// routes for authenticated (loggedin) users
 export const AUTH_ROUTES = {
     HOME: '/',
     PROFILE: '/profile',
@@ -47,12 +48,16 @@ export const AUTH_ROUTES = {
     OAUTH: '/oauth/v2/login',
 };
 
+// routes for unauthenticated users
 export const NONAUTH_ROUTES = {
     LOGIN: '/login',
     REGISTER: '/register',
     ABOUT: '/about',
 };
 
+/**
+ * main function of the application
+ */
 function App() {
     const { user, setUser } = useContext( UserStateContext );
 
@@ -150,6 +155,7 @@ function App() {
         </>
     );
 
+    // manage redirection of logging-in/registering
     if ( !isLoggedIn() ) {
         const redirectUrl = window.location.pathname;
         const isValid = isValidRedirectUrl( redirectUrl );
