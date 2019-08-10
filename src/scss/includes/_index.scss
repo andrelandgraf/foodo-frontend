@@ -2,13 +2,6 @@
   box-sizing: border-box;
 }
 
-@font-face {
-  font-family: 'Battle Angel';
-  font-style: normal;
-  font-weight: 400;
-  src: url('http://serverless-foodoo-react-app.s3-website-eu-west-1.amazonaws.com/Battle%20Angel.otf');
-}
-
 body {
   background-color: $background-color;
   margin: 0;
@@ -43,7 +36,6 @@ title {
 
 h1 {
   color: $white;
-  font-family: "Battle Angel";
   font-size: $font-size-xxl;
   font-weight: $font-weight-heavy;
   margin: 40px;
