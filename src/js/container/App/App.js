@@ -13,16 +13,16 @@ import { AllergiesProvider } from '../../provider/AllergiesProvider';
 import { RecipesProvider } from '../../provider/RecipesProvider';
 import { UserRecipesProvider } from '../../provider/UserRecipesProvider';
 
-import NavBarContainer from '../NavBar/NavBarContainer';
-import HomeView from '../../views/homeView';
-import ProfileView from '../../views/profileView';
+import NavBarContainer from '../Navigation/NavBar/NavBarContainer';
+import HomeContainer from '../Home/HomeContainer';
+import ProfileContainer from '../Profile/ProfileContainer';
 import CookingView from '../../views/cookingView';
-import NotFoundView from '../../views/notFoundView';
+import NotFoundView from '../../components/view/notFoundView';
 import PasswordView from '../../views/passwordView';
 import SubscribeView from '../../views/subscribeView';
 import AdminView from '../../views/adminView';
 import Paywall, { ACCESS_RIGHTS } from '../Subscription/Paywall';
-import StatisticsView from '../../views/statisticsView';
+import StatisticsContainer from '../Statistics/StatisticsContainer';
 import AboutContainer from '../About/AboutContainer';
 import LoginContainer from '../Login/LoginContainer';
 import RegistrationContainer from '../Registration/RegistrationContainer';
@@ -51,7 +51,6 @@ export const NONAUTH_ROUTES = {
     LOGIN: '/login',
     REGISTER: '/register',
     ABOUT: '/about',
-    OAUTH: '/oauth/v2/login',
 };
 
 function App() {
@@ -80,16 +79,8 @@ function App() {
 
     const renderApp = () => (
         <Switch>
-            <Route
-                exact
-                path={AUTH_ROUTES.HOME}
-                render={props => ( <HomeView {...props} user={user} /> )}
-            />
-            <Route
-                exact
-                path={AUTH_ROUTES.PROFILE}
-                component={ProfileView}
-            />
+            <Route exact path={AUTH_ROUTES.HOME} component={HomeContainer} />
+            <Route exact path={AUTH_ROUTES.PROFILE} component={ProfileContainer} />
             <Route
                 exact
                 path={`${ AUTH_ROUTES.COOKING }:id`}
@@ -103,7 +94,7 @@ function App() {
                     </Paywall>
                 )}
             />
-            <Route exact path={AUTH_ROUTES.STATISTICS} component={StatisticsView} />
+            <Route exact path={AUTH_ROUTES.STATISTICS} component={StatisticsContainer} />
             <Route exact path={AUTH_ROUTES.SUBSCRIBE} component={SubscribeView} />
             <Route exact path={AUTH_ROUTES.PASSWORD} component={PasswordView} />
             <Route exact from={AUTH_ROUTES.ADMIN} component={AdminView} />
@@ -154,19 +145,19 @@ function App() {
                     )}
                 />
                 <Route from={AUTH_ROUTES.ABOUT} component={AboutContainer} />
-                <Route from={NONAUTH_ROUTES.OAUTH} component={OAuthContainer} />
                 <Redirect path="*" to={NONAUTH_ROUTES.LOGIN} />
             </Switch>
         </>
     );
 
     if ( !isLoggedIn() ) {
-        let redirectUrl = window.location.pathname;
+        const redirectUrl = window.location.pathname;
         const isValid = isValidRedirectUrl( redirectUrl );
         if ( !isValid ) {
-            redirectUrl = '/';
+            setRedirectUrl( AUTH_ROUTES.HOME );
+        } else {
+            setRedirectUrl( redirectUrl + window.location.search );
         }
-        setRedirectUrl( redirectUrl );
     }
 
     return (

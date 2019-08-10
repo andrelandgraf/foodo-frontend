@@ -1,5 +1,8 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import lodash from 'lodash';
+import i18n from 'i18next';
+
+import { KEYS } from '../../utilities/internationalization/internationalization';
 
 import { computeNutriScoreForRecipe } from '../../utilities/nutriScore';
 
@@ -8,6 +11,8 @@ import { IngredientsContext } from '../../provider/IngredientsProvider';
 
 import NutriScoreStat from '../../components/statistic/nutriScoreStat';
 import NutritionElementStat from '../../components/statistic/nutritionElementStat';
+import SimpleView from '../../components/view/simpleView';
+import Content from '../../components/content/content';
 
 
 function StatisticsContainer() {
@@ -132,35 +137,42 @@ function StatisticsContainer() {
         } ) )
     );
 
-    return (
-        <div>
-            {
-                loadingDone ? (
-                    <NutriScoreStat improvedScore={
-                        gainedNutriScoreImprovements(
-                            lodash.cloneDeep( userRecipesWithIngredients ),
-                        )}
-                    />
-                )
-                    : null
-            }
-            {loadingDone ? (
-                formatNutritionValues(
-                    sumUserAndOrigNutritionValues( lodash.cloneDeep( userRecipesWithIngredients ) ),
-                ).map( nutritionValue => (
-                    <NutritionElementStat
-                        key={nutritionValue.name}
-                        data={nutritionValue}
-                        goodNutritionElement={!!goodNutritionValues.find(
-                            element => nutritionValueNamesForDisplay[ element ]
-                                === nutritionValue.name,
-                        )}
-                    />
-                ) )
+    const nutritionScoreStat = useMemo( () => ( loadingDone
+        ? (
+            <NutriScoreStat improvedScore={
+                gainedNutriScoreImprovements(
+                    lodash.cloneDeep( userRecipesWithIngredients ),
+                )}
+            />
+        )
+        : null
+    ), [ loadingDone ] );
 
-            )
-                : null}
-        </div>
+    const nutritionElementStats = useMemo( () => ( loadingDone
+        ? formatNutritionValues(
+            sumUserAndOrigNutritionValues(
+                lodash.cloneDeep( userRecipesWithIngredients ),
+            ),
+        ).map( nutritionValue => (
+            <NutritionElementStat
+                key={nutritionValue.name}
+                data={nutritionValue}
+                goodNutritionElement={!!goodNutritionValues.find(
+                    element => nutritionValueNamesForDisplay[ element ]
+                    === nutritionValue.name,
+                )}
+            />
+        ) )
+        : null
+    ), [ loadingDone ] );
+
+    return (
+        <SimpleView title={<h1>{i18n.t( KEYS.HEADERS.STATISTICS )}</h1>}>
+            <Content classes="statistics-container">
+                {nutritionScoreStat}
+                {nutritionElementStats}
+            </Content>
+        </SimpleView>
     );
 }
 

@@ -1,16 +1,15 @@
 .profile-container {
-    @extend .page;
+    width: 80%;
+    @media screen and (max-width: $phone-width) {
+        padding: 10px;
+        width: 95%;
+    }
 
-    .dislikes-container {
+    .selection-container {
         @extend .box;
+        width: 100%;
         padding: 20px;
         margin-top: 20px;
-        width: 80%;
-        @media screen and (max-width: $phone-width) {
-            padding: 10px;
-            width: 95%;
-        }
-        max-width: 800px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -24,10 +23,10 @@
             margin-top: 25px;
             width: 400px;
             max-width: 80%;
-            
+
             input {
                 margin-bottom: 0;
-            }      
+            }
             @media screen and (max-width: $phone-width) {
                 max-width: 95%;
             }

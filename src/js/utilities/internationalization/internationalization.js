@@ -60,6 +60,7 @@ export const KEYS = {
         NONE: 'NONE',
         NOT: 'NOT',
         CONTAINS: 'CONTAINS',
+        NAVIGATION: 'NAVIGATION',
         PREFERENCES: 'PREFERENCES',
         YOUR_FAVORITES: 'YOUR_FAVORITES',
         BREAKFAST: 'BREAKFAST',
