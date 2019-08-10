@@ -24,6 +24,10 @@ import useDisplayableUserRecipe from '../../hooks/useDisplayableUserRecipe';
 import { UserRecipesContext } from '../../provider/UserRecipesProvider';
 import { mapNutriScoreToABCDE } from '../../utilities/nutriScore';
 
+/**
+ * CookingContainer for the cooking page (view of one recipe)
+ * @param id id of the corresponding standard recipe
+ */
 function CookingContainer( { id } ) {
     const [ possibleSubstitues, setPossibleSubstitues ] = useState( undefined );
     const [ showSubstiutesFor, setShowSubstiutesFor ] = useState( '' );

@@ -10,6 +10,9 @@ import RecipesGridsContainer from './Recipes/RecipesGridsContainer';
 import SimpleView from '../../components/view/simpleView';
 import Content from '../../components/content/content';
 
+/**
+ * HomeContainer for the home page (loggedin landing page)
+ */
 function HomeContainer() {
     const { user } = useContext( UserStateContext );
 
