@@ -5,6 +5,13 @@ import cancel from '../../../img/cancel.svg';
 
 import ImageButton from '../button/imageButton';
 
+/**
+ * Modal component to display modal dialogues
+ * @param children the content of the modal view
+ * @param classes further css classes for styling
+ * @param onCloseModal function
+ * @param Title title component of the modal
+ */
 function Modal( {
     children, classes, onCloseModal, Title,
 } ) {

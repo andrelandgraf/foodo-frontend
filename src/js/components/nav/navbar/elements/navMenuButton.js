@@ -1,9 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import ImageButton from '../../button/imageButton';
+import ImageButton from '../../../button/imageButton';
 
-const PreferencesButton = ( {
+/**
+ * navigation button for the preference menu
+ * @param {*} param0
+ */
+const NavMenuButton = ( {
     label, float, onClick, prefIcon,
 } ) => (
     <li className={float === 'right' ? 'item-right' : undefined}>
@@ -17,11 +21,11 @@ const PreferencesButton = ( {
     </li>
 );
 
-PreferencesButton.propTypes = {
+NavMenuButton.propTypes = {
     label: PropTypes.string.isRequired,
     float: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
     prefIcon: PropTypes.string.isRequired,
 };
 
-export default PreferencesButton;
+export default NavMenuButton;

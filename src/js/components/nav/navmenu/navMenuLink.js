@@ -2,8 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
-
-const PreferenceLink = ( {
+/**
+ * A navigation menu link item
+ * @param to ref to the content (link)
+ * @param onClick further side effects function
+ * @param label text of the link item
+ * @param icon to be displayed next to label
+ * @param alt description of the icon
+ * @param visible if the navmenu item should be displayed (styling)
+ */
+const NavMenuLink = ( {
     to, onClick, label, icon, alt, visible,
 } ) => (
     <>
@@ -23,7 +31,7 @@ const PreferenceLink = ( {
     </>
 );
 
-PreferenceLink.propTypes = {
+NavMenuLink.propTypes = {
     to: PropTypes.oneOfType( [
         PropTypes.string,
         PropTypes.func,
@@ -35,9 +43,9 @@ PreferenceLink.propTypes = {
     visible: PropTypes.bool,
 };
 
-PreferenceLink.defaultProps = {
+NavMenuLink.defaultProps = {
     onClick: undefined,
     visible: true,
 };
 
-export default PreferenceLink;
+export default NavMenuLink;

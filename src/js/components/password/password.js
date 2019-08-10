@@ -6,6 +6,13 @@ import { KEYS } from '../../utilities/internationalization/internationalization'
 
 import SubmitButton from '../button/submitButton';
 
+/**
+ * Change password form
+ * @param password current passwort form value
+ * @param onPasswordChange function
+ * @param onSubmit function
+ * @param isLoading if the form was submitted and should display loading
+ */
 const PasswordForm = ( {
     password, onPasswordChange, onSubmit, isLoading,
 } ) => (

@@ -13,11 +13,11 @@ import { AUTH_ROUTES } from '../../App/App';
 import { UserStateContext } from '../../../provider/UserStateProvider';
 
 import CustomButton from '../../../components/button/customButton';
-import Title from '../../../components/preferences/title';
+import Title from '../../../components/nav/navmenu/title';
 import LogoutContainer from '../../Logout/LogoutContainer';
-import Logout from '../../../components/preferences/logout';
-import PreferenceItem from '../../../components/preferences/preferenceItem';
-import PreferenceLink from '../../../components/preferences/preferenceLink';
+import Logout from '../../../components/nav/navmenu/logout';
+import NavMenuItem from '../../../components/nav/navmenu/navMenutem';
+import NavMenuLink from '../../../components/nav/navmenu/navMenuLink';
 
 import globe from '../../../../img/globe.svg';
 import key from '../../../../img/key.svg';
@@ -65,7 +65,7 @@ function NavMenuContainer( { closeMenu } ) {
                 { title }
             </li>
             <li className="item">
-                <PreferenceLink
+                <NavMenuLink
                     to={AUTH_ROUTES.STATISTICS}
                     onClick={closeMenu}
                     label={i18n.t( KEYS.LABELS.STATISTICS )}
@@ -75,7 +75,7 @@ function NavMenuContainer( { closeMenu } ) {
                 />
             </li>
             <li className="item">
-                <PreferenceItem
+                <NavMenuItem
                     id="language-menu"
                     onClick={() => setTitle( LANG_MENU )}
                     label={i18n.t( KEYS.LABELS.LANGUAGE )}
@@ -85,7 +85,7 @@ function NavMenuContainer( { closeMenu } ) {
                 />
             </li>
             <li className="item">
-                <PreferenceItem
+                <NavMenuItem
                     id="preference-menu"
                     onClick={() => setTitle( PREF_MENU )}
                     label={i18n.t( KEYS.LABELS.PREFERENCES )}
@@ -95,7 +95,7 @@ function NavMenuContainer( { closeMenu } ) {
                 />
             </li>
             <li className="item">
-                <PreferenceLink
+                <NavMenuLink
                     to={AUTH_ROUTES.ABOUT}
                     onClick={closeMenu}
                     label={i18n.t( KEYS.LABELS.ABOUT )}
@@ -132,7 +132,7 @@ function NavMenuContainer( { closeMenu } ) {
                 />
             </li>
             <li className="item">
-                <PreferenceItem
+                <NavMenuItem
                     id="language-menu"
                     onClick={() => setTitle( LANG_MENU )}
                     label={i18n.t( KEYS.LABELS.LANGUAGE )}
@@ -141,7 +141,7 @@ function NavMenuContainer( { closeMenu } ) {
                 />
             </li>
             <li className="item">
-                <PreferenceLink
+                <NavMenuLink
                     to={AUTH_ROUTES.PASSWORD}
                     onClick={closeMenu}
                     label={i18n.t( KEYS.LABELS.PASSWORD )}

@@ -13,6 +13,10 @@ const getLoaderClass = ( fullpage, tiny ) => {
     return 'spinner';
 };
 
+/**
+ * Loading spinner component
+ * @param {*} param0
+ */
 const Loader = ( { fullpage, message, tiny } ) => (
     <div className={getLoaderClass( fullpage, tiny )}>
         <Spinner />
