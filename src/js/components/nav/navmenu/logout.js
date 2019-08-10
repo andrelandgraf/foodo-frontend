@@ -2,14 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import i18n from 'i18next';
 
-import { KEYS } from '../../utilities/internationalization/internationalization';
-import { logUserOut } from '../../services/foodo-api/user/userService';
+import { KEYS } from '../../../utilities/internationalization/internationalization';
+import { logUserOut } from '../../../services/foodo-api/user/userService';
 
-import logoutIcon from '../../../img/logout.svg';
+import logoutIcon from '../../../../img/logout.svg';
 
-import CustomButton from '../button/customButton';
+import CustomButton from '../../button/customButton';
 
-
+/**
+ * Logout navigation menu item
+ * @param setUser function
+ * @param loggedIn if a user is currently logged in
+ * @param onWillLogout function for further side effects
+ */
 const Logout = ( { setUser, loggedIn, onWillLogout } ) => (
     <CustomButton
         classes={loggedIn ? undefined : 'not-displayed'}

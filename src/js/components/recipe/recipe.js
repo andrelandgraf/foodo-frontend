@@ -14,6 +14,17 @@ import BarStats from './elements/barStats';
 import PieStats from './elements/pieStats';
 import Carousel from '../carousel/carousel';
 
+/**
+ * Display a recipe
+ * @param recipe to be displayed (the user's recipe)
+ * @param origRecipe the original recipe (the standard recipe)
+ * @param substitutableIngredients of the recipe
+ * @param onClickSubstitute function
+ * @param onClickRevert substitution function
+ * @param lastClient e.g. alexa or desktop that was used to alter this recipe
+ * @param Message any message component that should be displayed for the user
+ * @param onEdit recipe function
+ */
 const Recipe = ( {
     recipe, origRecipe, substitutableIngredients, onClickSubstitute, onClickRevert,
     lastClient, Message, onEdit,

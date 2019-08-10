@@ -3,6 +3,14 @@ import PropTypes from 'prop-types';
 
 export const BUTTON_STYLES = 'clickable button-center';
 
+/**
+ * Standard button component
+ * @param classes further css classes
+ * @param label a label for the button
+ * @param onClick function
+ * @param primary if its a primary button (styling)
+ * @param disabled if the button should be disabled (styling)
+ */
 const Button = ( {
     classes, label, onClick, primary, disabled,
 } ) => (

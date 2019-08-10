@@ -7,6 +7,12 @@ import ImageButton from '../button/imageButton';
 import CustomButton from '../button/customButton';
 import { mapNutriScoreToABCDE } from '../../utilities/nutriScore';
 
+/**
+ * Component to display one ingredient as a table row
+ * @param ingredient the ingredient to display
+ * @param onClose function onClose ingredient
+ * @param onClick function onClick ingredient
+ */
 const Ingredient = ( { ingredient, onClose, onClick } ) => {
     const onClickCallback = useCallback( () => onClick && onClick( ingredient ),
         [ ingredient, onClick ] );

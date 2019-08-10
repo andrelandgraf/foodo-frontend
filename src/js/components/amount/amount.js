@@ -1,6 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * Input field for inserting amounts of an ingredient
+ * @param value the current input value
+ * @param unit the corresponding unit (e.g. gram)
+ * @param onChange function
+ * @param classes futher css classes
+ */
 const Amount = ( {
     value, unit, onChange, classes,
 } ) => (

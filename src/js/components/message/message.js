@@ -12,6 +12,13 @@ export const MESSAGE_TYPES = {
     INFO: 'info',
 };
 
+/**
+ * Message component to display info, warnings and error messages to the user
+ * @param type if err, warning or info
+ * @param message the message content
+ * @param onResolve function to e.g. close the message
+ * @param classes further css classes for styling
+ */
 const Message = ( {
     type, message, onResolve, classes,
 } ) => (

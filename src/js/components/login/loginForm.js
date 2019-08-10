@@ -6,6 +6,16 @@ import { KEYS } from '../../utilities/internationalization/internationalization'
 
 import SubmitButton from '../button/submitButton';
 
+/**
+ * the login/register form
+ * @param username current username value of the form
+ * @param password current password value of the form
+ * @param onUsernameChange function
+ * @param onPasswordChange function
+ * @param onSubmit function
+ * @param actionName the label of the form (e.g. login or register)
+ * @param isLoading if this form is submitted and should display loading
+ */
 const LoginForm = ( {
     username, password, onUsernameChange, onPasswordChange, onSubmit, actionName, isLoading,
 } ) => (
