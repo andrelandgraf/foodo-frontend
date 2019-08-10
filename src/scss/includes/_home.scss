@@ -1,6 +1,4 @@
 .home-container {
-    @extend .page;
-
     .recipes-container {
         @extend .box;
         padding: 20px;
@@ -28,6 +26,6 @@
             input {
                 margin-bottom: 0;
             }
-        }   
+        }
     }
 }

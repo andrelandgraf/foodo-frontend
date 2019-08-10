@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import i18n from 'i18next';
 
 import { KEYS } from '../../utilities/internationalization/internationalization';
@@ -6,11 +6,14 @@ import { KEYS } from '../../utilities/internationalization/internationalization'
 import { authorizeClient } from '../../services/foodo-api/oAuthService';
 import { throwRequestParameterMissingError } from '../../utilities/errorHandler/errorHandler';
 
-import LoginContainer from '../Login/LoginContainer';
+import SimpleView from '../../components/view/simpleView';
+import Content from '../../components/content/content';
+import Button from '../../components/button/button';
+import Card from '../../components/card/card';
 
-class OAuthContainer extends React.Component {
+function OAuthContainer() {
     // decorates LoginContainer.handleSubmit function
-    handleSubmit = async ( username, password ) => {
+    const handleSubmit = useCallback( async () => {
         // see: https://developer.amazon.com/de/docs/account-linking/configure-authorization-code-grant.html
         // client_id, response_type, scope, redirect_uri
         const { search } = window.location;
@@ -21,24 +24,29 @@ class OAuthContainer extends React.Component {
         if ( !clientId || !state || !redirectUri ) {
             throwRequestParameterMissingError();
         }
-        await authorizeClient( username, password, clientId, state, redirectUri )
+        await authorizeClient( clientId, state, redirectUri )
             // eslint-disable-next-line no-unused-vars
             .then( ( authorizationCode ) => {
                 // Simulate an HTTP redirect
                 window.location.replace( `${ redirectUri }?code=${ authorizationCode }&state=${ state }` );
             } );
         return true;
-    }
+    }, [] );
 
-    render() {
-        return (
-            <LoginContainer
-                pageName={i18n.t( KEYS.HEADERS.THIRD_PARTY_AUTHORIZATION )}
-                actionName={i18n.t( KEYS.LABELS.AUTHORIZE )}
-                onSubmit={this.handleSubmit}
-            />
-        );
-    }
+    return (
+        <SimpleView title={<h1>{i18n.t( KEYS.HEADERS.THIRD_PARTY_AUTHORIZATION )}</h1>}>
+            <div>
+                <Content>
+                    <Card>
+                        <p>
+                            Do you want to authorize Alexa to use your Foodo information?
+                        </p>
+                        <Button label={KEYS.LABELS.AUTHORIZE} onClick={handleSubmit} primary />
+                    </Card>
+                </Content>
+            </div>
+        </SimpleView>
+    );
 }
 
 export default OAuthContainer;

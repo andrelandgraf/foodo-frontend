@@ -2,9 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const NavBar = ( { children } ) => (
-    <ul className="navarbar">
-        { children }
-    </ul>
+    <nav>
+        <ul className="navbar">
+            { children }
+        </ul>
+    </nav>
 );
 
 NavBar.propTypes = {

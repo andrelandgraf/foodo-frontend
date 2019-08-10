@@ -4,13 +4,13 @@ import DataListInput from 'react-datalist-input';
 
 import i18n from 'i18next';
 
-import { KEYS } from '../../utilities/internationalization/internationalization';
+import { KEYS } from '../../../utilities/internationalization/internationalization';
 
-import { UserStateContext } from '../../provider/UserStateProvider';
-import useDisplayableRecipes from '../../hooks/useDisplayableRecipes';
+import { UserStateContext } from '../../../provider/UserStateProvider';
+import useDisplayableRecipes from '../../../hooks/useDisplayableRecipes';
 
-import { AUTH_ROUTES } from '../App/App';
-import Message, { MESSAGE_TYPES } from '../../components/message/message';
+import { AUTH_ROUTES } from '../../App/App';
+import Message, { MESSAGE_TYPES } from '../../../components/message/message';
 
 function RecipesContainer() {
     const { displayableRecipes } = useDisplayableRecipes();

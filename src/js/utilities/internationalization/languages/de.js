@@ -53,6 +53,7 @@ const deLabels = {
     NONE: 'Keine',
     NOT: 'Nicht',
     CONTAINS: 'Enthält',
+    NAVIGATION: 'Navigation',
     PREFERENCES: 'Präferenzen',
     YOUR_FAVORITES: 'Deine Favoriten',
     BREAKFAST: 'Frühstück',

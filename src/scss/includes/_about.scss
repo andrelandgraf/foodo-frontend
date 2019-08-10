@@ -134,7 +134,8 @@
         ul {
             text-align: left;
             @media screen and (max-width: $pad-width) {
-                background-color: #fa8c16;
+                padding: 10px;
+                background-color: $primary-color;
                 font-size: $font-size-m;
                 color: $white;
                 font-size: $font-size-m;

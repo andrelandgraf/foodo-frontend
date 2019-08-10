@@ -1,3 +1,8 @@
+.button-center {
+    display: block;
+    margin: auto;
+}
+
 .btn {
     line-height: 1.499;
     position: relative;
@@ -11,7 +16,7 @@
     padding: 0 15px;
     font-size: $font-size-s;
     border-radius: $border-radius-base;
-    color: $text-color;
+    color: $font-color;
     background-color: $white;
     border-color: $border-color-base;
 

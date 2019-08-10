@@ -2,17 +2,17 @@ import React, { useState, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 import i18n from 'i18next';
 
-import { KEYS } from '../../utilities/internationalization/internationalization';
+import { KEYS } from '../../../utilities/internationalization/internationalization';
 
-import { UserStateContext } from '../../provider/UserStateProvider';
-import useTaggedRecipes from '../../hooks/useTaggedRecipes';
-import useTaggedUserRecipes from '../../hooks/useTaggedUserRecipes';
-import useToleratedRecipes from '../../hooks/useToleratedRecipes';
-import useLifestyleRecipes from '../../hooks/useLifestyleRecipes';
+import { UserStateContext } from '../../../provider/UserStateProvider';
+import useTaggedRecipes from '../../../hooks/useTaggedRecipes';
+import useTaggedUserRecipes from '../../../hooks/useTaggedUserRecipes';
+import useToleratedRecipes from '../../../hooks/useToleratedRecipes';
+import useLifestyleRecipes from '../../../hooks/useLifestyleRecipes';
 
-import { AUTH_ROUTES } from '../App/App';
-import Boxgrid from '../../components/boxgrid/boxgrid';
-import LOADING_STATUS from '../../utilities/loadingStatus';
+import { AUTH_ROUTES } from '../../App/App';
+import Boxgrid from '../../../components/boxgrid/boxgrid';
+import LOADING_STATUS from '../../../utilities/loadingStatus';
 
 
 function RecipesGridsContainer() {
