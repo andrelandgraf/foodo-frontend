@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import LoginForm from '../components/login/loginForm';
+import LoginForm from '../login/loginForm';
 
 const LoginView = ( {
     username, password, pageName, actionName, Message,

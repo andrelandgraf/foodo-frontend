@@ -19,6 +19,9 @@ import Loader from '../../components/loading/loader';
 import Message, { MESSAGE_TYPES } from '../../components/message/message';
 import { AUTH_ROUTES } from '../App/App';
 
+/**
+ * Container for the subscription page
+ */
 function Subscribe() {
     const { user, setUser } = useContext( UserStateContext );
     const [ paypalState, setPaypalState ] = useState( LOADING_STATUS.IS_IDLE );

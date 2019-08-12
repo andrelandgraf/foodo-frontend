@@ -10,6 +10,9 @@ import AllergiesContainer from './Allergies/AllergiesContainer';
 import Content from '../../components/content/content';
 import SimpleView from '../../components/view/simpleView';
 
+/**
+ * Container for the profile page
+ */
 function ProfileContainer() {
     return (
         <SimpleView title={<h1>{i18n.t( KEYS.HEADERS.PROFILE_TITLE )}</h1>}>

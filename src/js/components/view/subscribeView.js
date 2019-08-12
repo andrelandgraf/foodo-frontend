@@ -1,9 +1,9 @@
 import React from 'react';
 import i18n from 'i18next';
 
-import { KEYS } from '../utilities/internationalization/internationalization';
+import { KEYS } from '../../utilities/internationalization/internationalization';
 
-import Subscribe from '../container/Subscription/Subscribe';
+import Subscribe from '../../container/Subscription/Subscribe';
 
 const SubscribeView = () => (
     <div className="subscribe container">
