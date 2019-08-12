@@ -4,7 +4,7 @@ import i18n from 'i18next';
 
 import { KEYS, getLocale, setLocale } from '../../utilities/internationalization/internationalization';
 
-import LoginView from '../../views/loginView';
+import LoginView from '../../components/view/loginView';
 import MessageComponent, { MESSAGE_TYPES } from '../../components/message/message';
 
 import { logUserIn } from '../../services/foodo-api/user/userService';

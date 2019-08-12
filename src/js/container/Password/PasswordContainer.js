@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import i18n from 'i18next';
 
 import { KEYS } from '../../utilities/internationalization/internationalization';
@@ -8,58 +8,42 @@ import { changePassword } from '../../services/foodo-api/user/userService';
 import PasswordForm from '../../components/password/password';
 import Message, { MESSAGE_TYPES } from '../../components/message/message';
 
+/**
+ * Container for the change password Page
+ */
+function PasswordContainer() {
+    const [ password, setPassword ] = useState( '' );
+    const [ message, setMessage ] = useState( '' );
+    const [ messageType, setMessageType ] = useState();
 
-class PasswordContainer extends React.Component {
-    constructor( props ) {
-        super( props );
+    const handlePasswordChange = event => setPassword( event.target.value );
 
-        this.state = {
-            password: '',
-            message: '',
-            messageType: undefined,
-        };
-    }
-
-    handlePasswordChange = ( event ) => {
-        this.setState( { password: event.target.value } );
-    }
-
-    handleSubmit = async ( event ) => {
+    const handleSubmit = async ( event ) => {
         event.preventDefault();
-        const { password } = this.state;
-        changePassword( password ).then( () => this.setState( {
-            message: i18n.t( KEYS.MESSAGES.PASSWORD_CHANGED ),
-            messageType: MESSAGE_TYPES.SUCCESS,
-        } ) );
-        this.setState( { password: '' } );
-    }
+        changePassword( password ).then( () => {
+            setMessage( i18n.t( KEYS.MESSAGES.PASSWORD_CHANGED ) );
+            setMessageType( MESSAGE_TYPES.SUCCESS );
+        } );
+        setPassword( '' );
+    };
 
-    clearMessage = () => {
-        this.setState( { message: '', messageType: undefined } );
-    }
+    const clearMessage = () => setMessage( '' );
 
-    renderMessage = ( message, messageType ) => (
-        <Message type={messageType} message={message} onResolve={this.clearMessage} />
-    )
-
-    renderPasswordForm = password => (
-        <PasswordForm
-            password={password}
-            isLoading={false}
-            onPasswordChange={this.handlePasswordChange}
-            onSubmit={this.handleSubmit}
-        />
+    const renderMessage = () => (
+        <Message type={messageType} message={message} onResolve={clearMessage} />
     );
 
-    render() {
-        const { password, message, messageType } = this.state;
-        return (
-            <>
-                { message && this.renderMessage( message, messageType ) }
-                { this.renderPasswordForm( password ) }
-            </>
-        );
-    }
+    return (
+        <>
+            { message && renderMessage( message, messageType ) }
+            <PasswordForm
+                password={password}
+                isLoading={false}
+                onPasswordChange={handlePasswordChange}
+                onSubmit={handleSubmit}
+            />
+        </>
+    );
 }
 
 export default PasswordContainer;

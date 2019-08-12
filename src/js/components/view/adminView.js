@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { IngredientsContext } from '../provider/IngredientsProvider';
-import CreateRecipeContainer from '../container/Admin/CreateRecipeContainer';
+import { IngredientsContext } from '../../provider/IngredientsProvider';
+import CreateRecipeContainer from '../../container/Admin/CreateRecipeContainer';
 
 const AdminView = () => (
     <div className="container admin-page">

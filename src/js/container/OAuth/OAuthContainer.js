@@ -11,11 +11,15 @@ import Content from '../../components/content/content';
 import Button from '../../components/button/button';
 import Card from '../../components/card/card';
 
+/**
+ * Container for the Authorization for Alexa Page
+ * see: https://developer.amazon.com/de/docs/account-linking/configure-authorization-code-grant.html
+ */
 function OAuthContainer() {
-    // decorates LoginContainer.handleSubmit function
+    /**
+     * decorates LoginContainer.handleSubmit function
+     */
     const handleSubmit = useCallback( async () => {
-        // see: https://developer.amazon.com/de/docs/account-linking/configure-authorization-code-grant.html
-        // client_id, response_type, scope, redirect_uri
         const { search } = window.location;
         const urlParams = new URLSearchParams( search );
         const clientId = urlParams.get( 'client_id' );
