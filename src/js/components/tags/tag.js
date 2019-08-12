@@ -6,6 +6,12 @@ import Cancel from '../../../img/cancel.svg';
 import CustomButton from '../button/customButton';
 import ImageButton from '../button/imageButton';
 
+/**
+ * Tag component to display one tag
+ * @param tag the tag object to display
+ * @param onDelete tag function
+ * @param onClick tag function
+ */
 function Tag( { tag, onDelete, onClick } ) {
     const onClickTagCallback = useCallback(
         () => onClick && onClick( tag ), [ tag, onClick ],

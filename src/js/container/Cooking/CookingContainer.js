@@ -17,13 +17,17 @@ import { UserRecipeContext } from '../../provider/UserRecipeProvider';
 import Recipe from '../../components/recipe/recipe';
 import Loader from '../../components/loading/loader';
 import Ingredient from '../../components/ingredient/ingredient';
-import EditIngredients from '../Ingredients/EditIngredientsContainer';
+import EditIngredients from './Ingredients/EditIngredientsContainer';
 import Modal from '../../components/modal/modal';
 import Message, { MESSAGE_TYPES } from '../../components/message/message';
 import useDisplayableUserRecipe from '../../hooks/useDisplayableUserRecipe';
 import { UserRecipesContext } from '../../provider/UserRecipesProvider';
 import { mapNutriScoreToABCDE } from '../../utilities/nutriScore';
 
+/**
+ * CookingContainer for the cooking page (view of one recipe)
+ * @param id id of the corresponding standard recipe
+ */
 function CookingContainer( { id } ) {
     const [ possibleSubstitues, setPossibleSubstitues ] = useState( undefined );
     const [ showSubstiutesFor, setShowSubstiutesFor ] = useState( '' );

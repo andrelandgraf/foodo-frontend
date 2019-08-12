@@ -4,6 +4,12 @@ import PropTypes from 'prop-types';
 import { BUTTON_STYLES } from './button';
 import Loader from '../loading/loader';
 
+/**
+ * Form Button
+ * @param label button label
+ * @param isLoading if the button should display a loading icon
+ * @param disabled if the button should be displayed as disabled
+ */
 const SubmitButton = ( { label, isLoading, disabled } ) => (
     <>
         <button

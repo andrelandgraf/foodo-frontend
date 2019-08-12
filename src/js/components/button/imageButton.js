@@ -1,27 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { BUTTON_STYLES } from './button';
+import CustomButton from './customButton';
 
+/**
+ * Image Button to further abstract CustomButton for clickable images
+ * @param id unique id of the button
+ * @param classes further css classes for styling
+ * @param onClick function
+ * @param src image src
+ * @param alt image description
+ */
 const ImageButton = ( {
     classes, id, onClick, src, alt,
 } ) => (
-    <div
-        className={`${ BUTTON_STYLES } ${ classes }`}
-        id={id}
-        tabIndex={0}
-        role="button"
-        onClick={onClick}
-        onKeyUp={( event ) => {
-            if ( event.keyCode === 13 ) {
-                event.preventDefault();
-                // Trigger the button element with a click
-                document.getElementById( id ).click();
-            }
-        }}
-    >
+    <CustomButton id={id} classes={classes} onClick={onClick}>
         <img alt={alt} src={src} />
-    </div>
+    </CustomButton>
 );
 
 ImageButton.propTypes = {

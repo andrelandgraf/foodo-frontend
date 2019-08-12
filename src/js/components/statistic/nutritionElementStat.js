@@ -4,6 +4,11 @@ import {
     RadialBarChart, RadialBar, ResponsiveContainer,
 } from 'recharts';
 
+/**
+ * User statistics component
+ * @param data the user's data
+ * @param goodNutritionElement if it is a good nutrition element
+ */
 const NutritionElementStat = ( { data, goodNutritionElement } ) => {
     const round = number => ( Math.round( number * 10 ) / 10 )
         .toFixed( 1 );

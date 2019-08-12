@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import CookingContainer from '../container/Cooking/CookingContainer';
-import { UserRecipeProvider } from '../provider/UserRecipeProvider';
+import CookingContainer from '../../container/Cooking/CookingContainer';
+import { UserRecipeProvider } from '../../provider/UserRecipeProvider';
 
 const CookingView = ( { match } ) => (
     <div className="container cooking-page">

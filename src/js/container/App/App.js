@@ -16,11 +16,11 @@ import { UserRecipesProvider } from '../../provider/UserRecipesProvider';
 import NavBarContainer from '../Navigation/NavBar/NavBarContainer';
 import HomeContainer from '../Home/HomeContainer';
 import ProfileContainer from '../Profile/ProfileContainer';
-import CookingView from '../../views/cookingView';
+import CookingView from '../../components/view/cookingView';
 import NotFoundView from '../../components/view/notFoundView';
-import PasswordView from '../../views/passwordView';
-import SubscribeView from '../../views/subscribeView';
-import AdminView from '../../views/adminView';
+import PasswordView from '../../components/view/passwordView';
+import SubscribeView from '../../components/view/subscribeView';
+import AdminView from '../../components/view/adminView';
 import Paywall, { ACCESS_RIGHTS } from '../Subscription/Paywall';
 import StatisticsContainer from '../Statistics/StatisticsContainer';
 import AboutContainer from '../About/AboutContainer';
@@ -32,6 +32,7 @@ import SetCategoryContainer from '../Admin/SetCategoryContainer';
 import SetAllergiesContainer from '../Admin/SetAllergiesContainer';
 import SetLifestylesContainer from '../Admin/SetLifestylesContainer';
 
+// routes for authenticated (loggedin) users
 export const AUTH_ROUTES = {
     HOME: '/',
     PROFILE: '/profile',
@@ -47,24 +48,28 @@ export const AUTH_ROUTES = {
     OAUTH: '/oauth/v2/login',
 };
 
+// routes for unauthenticated users
 export const NONAUTH_ROUTES = {
     LOGIN: '/login',
     REGISTER: '/register',
     ABOUT: '/about',
 };
 
+/**
+ * main function of the application
+ */
 function App() {
     const { user, setUser } = useContext( UserStateContext );
 
     useEffect( () => {
         if ( isLoggedIn() && !user ) {
-            // in case of page reload, we still hold token but need to get user again
+            // In case of page reload, we still hold the authtoken but need to get user again
             getUser()
                 .then( ( retrievedUser ) => {
                     setUser( retrievedUser );
                 } )
                 .catch( () => {
-                    // in case of error, relocate to login and retrieve new token
+                    // In case of error, relocate to login and retrieve new token
                     logUserOut();
                     setUser( undefined );
                     // eslint-disable-next-line no-restricted-globals
@@ -77,6 +82,9 @@ function App() {
         <Loader />
     );
 
+    /**
+     * render all possible routes for authenticated users
+     */
     const renderApp = () => (
         <Switch>
             <Route exact path={AUTH_ROUTES.HOME} component={HomeContainer} />
@@ -109,9 +117,12 @@ function App() {
         </Switch>
     );
 
+    /**
+     * provide application with global state (context) and render authenticated app content
+     */
     const renderAuthenticatedApp = () => (
         <>
-            <NavBarContainer loggedIn />
+            <NavBarContainer />
             <IngredientsProvider>
                 <RecipesProvider>
                     <UserRecipesProvider>
@@ -128,9 +139,12 @@ function App() {
         </>
     );
 
+    /**
+     * render all possible routes for non-authenticated users
+     */
     const renderNotAuthenticatedApp = () => (
         <>
-            <NavBarContainer loggedIn={false} />
+            <NavBarContainer />
             <Switch>
                 <Route
                     from={NONAUTH_ROUTES.LOGIN}
@@ -150,6 +164,7 @@ function App() {
         </>
     );
 
+    // manage redirection of logging-in/registering
     if ( !isLoggedIn() ) {
         const redirectUrl = window.location.pathname;
         const isValid = isValidRedirectUrl( redirectUrl );

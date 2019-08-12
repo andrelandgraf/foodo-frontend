@@ -14,7 +14,9 @@ import NutritionElementStat from '../../components/statistic/nutritionElementSta
 import SimpleView from '../../components/view/simpleView';
 import Content from '../../components/content/content';
 
-
+/**
+ * Container for the user statistics page
+ */
 function StatisticsContainer() {
     const { ingredients } = useContext( IngredientsContext );
     const { userRecipes } = useContext( UserRecipesContext );

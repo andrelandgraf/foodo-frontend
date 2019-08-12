@@ -4,6 +4,13 @@ import PropTypes from 'prop-types';
 import Loader from '../loading/loader';
 import Box from './box';
 
+/**
+ * Boxgrid for displaying a grid of image box (netflix like)
+ * @param recipes array
+ * @param title a title for the grid
+ * @param onClick onClick recipe function
+ * @param isLoading if the grid should display an loading icon
+ */
 function Boxgrid( {
     recipes, title, onClick, isLoading,
 } ) {

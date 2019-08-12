@@ -6,6 +6,13 @@ import { KEYS } from '../../utilities/internationalization/internationalization'
 
 import Tag from './tag';
 
+/**
+ * Tags function to display a pool of tags
+ * @param tags array
+ * @param onDelete tag function
+ * @param onClick tag function
+ * @param showNoneTag if a none tag should be displayed if tags array is empty
+ */
 const Tags = ( {
     tags, onDelete, onClick, showNoneTag,
 } ) => (

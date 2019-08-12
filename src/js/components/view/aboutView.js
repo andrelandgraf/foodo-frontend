@@ -4,19 +4,19 @@ import PropTypes from 'prop-types';
 import DataListInput from 'react-datalist-input';
 import i18n from 'i18next';
 
-import { KEYS } from '../utilities/internationalization/internationalization';
+import { KEYS } from '../../utilities/internationalization/internationalization';
 
-import arrowDown from '../../img/arrow-down.svg';
-import userLogo from '../../img/user-logo.svg';
-import forkKnife from '../../img/fork-knife.svg';
-import foodJPG from '../../img/food.jpg';
+import arrowDown from '../../../img/arrow-down.svg';
+import userLogo from '../../../img/user-logo.svg';
+import forkKnife from '../../../img/fork-knife.svg';
+import foodJPG from '../../../img/food.jpg';
 
-import Button from '../components/button/button';
-import LinkImageButton from '../components/button/linkImageButton';
-import { isLoggedIn } from '../services/foodo-api/user/userService';
-import { RecipesProvider, RecipesContext } from '../provider/RecipesProvider';
-import { AUTH_ROUTES } from '../container/App/App';
-import { setRedirectUrl } from '../utilities/redirect';
+import Button from '../button/button';
+import LinkImageButton from '../button/linkImageButton';
+import { isLoggedIn } from '../../services/foodo-api/user/userService';
+import { RecipesProvider, RecipesContext } from '../../provider/RecipesProvider';
+import { AUTH_ROUTES } from '../../container/App/App';
+import { setRedirectUrl } from '../../utilities/redirect';
 
 const AboutView = ( { onClickGetStarted } ) => {
     const label = isLoggedIn() ? i18n.t( KEYS.HEADERS.GOTO_FOODO )

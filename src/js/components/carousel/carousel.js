@@ -6,6 +6,11 @@ import arrowLeft from '../../../img/arrow-left.svg';
 
 import ImageButton from '../button/imageButton';
 
+/**
+ * A simple carousel component to display browse through the child components
+ * (e.g. rotating through content)
+ * @param children the array of content
+ */
 function Carousel( { children } ) {
     const getIndexByNumber = useCallback( number => ( number + children.length ) % children.length,
         [ children ] );

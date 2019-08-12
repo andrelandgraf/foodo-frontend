@@ -6,6 +6,11 @@ import { KEYS, getLocale } from '../../utilities/internationalization/internatio
 
 import CustomButton from '../button/customButton';
 
+/**
+ * Box of the recipes Boxgrid
+ * @param recipe that you want to display
+ * @param onClick recipe onClick function
+ */
 function Box( { recipe, onClick } ) {
     const onClickBox = useCallback( () => onClick( recipe.key ), [ recipe ] );
     const style = {

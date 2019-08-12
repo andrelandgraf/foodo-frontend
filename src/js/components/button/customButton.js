@@ -3,6 +3,13 @@ import PropTypes from 'prop-types';
 
 import { BUTTON_STYLES } from './button';
 
+/**
+ * Component to display more sophisticated button structures
+ * @param id unique id of the button
+ * @param classes further css classes for styling
+ * @param onClick function
+ * @param children the wrapped children components that are the button content
+ */
 const CustomButton = ( {
     id, classes, onClick, children,
 } ) => (

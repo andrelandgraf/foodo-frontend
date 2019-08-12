@@ -5,13 +5,17 @@ import { AUTH_ROUTES, NONAUTH_ROUTES } from '../App/App';
 
 import { LayoutContext } from '../../provider/LayoutProvider';
 import { isLoggedIn } from '../../services/foodo-api/user/userService';
-import AboutView from '../../views/aboutView';
+import AboutView from '../../components/view/aboutView';
 
+/**
+ * AboutContainer for the about page
+ */
 function AboutContainer() {
     const { showNavBar, setShowNavBar } = useContext( LayoutContext );
     const [ clickedGetStarted, setClickedGetStarted ] = useState( false );
 
     useEffect( () => {
+        // only show the navbar if we are loggedin or explicitly stated by showNavBar
         if ( !isLoggedIn() && showNavBar ) {
             setShowNavBar( false );
         }

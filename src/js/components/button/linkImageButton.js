@@ -1,6 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * A image as a link component
+ * @param href link ref
+ * @param src image src
+ * @param alt image description
+ * @param classes further css classes for styling
+ * @param onClick function (further sideeffect on top of link clicking)
+ */
 const LinkImageButton = ( {
     href, src, alt, classes, onClick,
 } ) => (

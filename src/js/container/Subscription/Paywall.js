@@ -12,6 +12,11 @@ export const ACCESS_RIGHTS = {
     COOKING: 'cooking',
 };
 
+/**
+ * Paywall component abstracts away the restiriction to access
+ * @param wants the ressource the user wants to access
+ * @param children the content that should be walled off
+ */
 function Paywall( { wants, children: route } ) {
     const userHasAccesLevels = useUserHasAccessLevels();
 

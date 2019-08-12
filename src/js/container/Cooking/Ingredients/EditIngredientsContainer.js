@@ -3,18 +3,22 @@ import PropTypes from 'prop-types';
 import DataListInput from 'react-datalist-input';
 import lodash from 'lodash';
 
-import { updateUserRecipe } from '../../services/foodo-api/recipe/recipesService';
-import { unitToLabel } from '../../utilities/units';
+import { updateUserRecipe } from '../../../services/foodo-api/recipe/recipesService';
+import { unitToLabel } from '../../../utilities/units';
 
-import { UserRecipeContext } from '../../provider/UserRecipeProvider';
-import { getLocale } from '../../utilities/internationalization/internationalization';
+import { UserRecipeContext } from '../../../provider/UserRecipeProvider';
+import { getLocale } from '../../../utilities/internationalization/internationalization';
 
-import Modal from '../../components/modal/modal';
-import Amount from '../../components/amount/amount';
-import Ingredient from '../../components/ingredient/ingredient';
-import SubmitButton from '../../components/button/submitButton';
-import useDisplayableIngredients from '../../hooks/useDisplayableIngredients';
+import Modal from '../../../components/modal/modal';
+import Amount from '../../../components/amount/amount';
+import Ingredient from '../../../components/ingredient/ingredient';
+import SubmitButton from '../../../components/button/submitButton';
+import useDisplayableIngredients from '../../../hooks/useDisplayableIngredients';
 
+/**
+ * Modal dialogue for editing ingredients ( add, delete )
+ * @param onCloseEditIngredients function
+ */
 function EditIngredients( { onCloseEditIngredients } ) {
     const [ amount, setAmount ] = useState( '' );
     const [ selected, setSelected ] = useState();

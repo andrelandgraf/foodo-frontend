@@ -14,7 +14,9 @@ import { AUTH_ROUTES } from '../../App/App';
 import Boxgrid from '../../../components/boxgrid/boxgrid';
 import LOADING_STATUS from '../../../utilities/loadingStatus';
 
-
+/**
+ * Container for displaying the box grid of recipes on the home page
+ */
 function RecipesGridsContainer() {
     const [ selectedId, setSelectedId ] = useState();
     const { user } = useContext( UserStateContext );

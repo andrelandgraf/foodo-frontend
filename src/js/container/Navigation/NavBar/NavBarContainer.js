@@ -10,9 +10,9 @@ import { isLoggedIn } from '../../../services/foodo-api/user/userService';
 import { LayoutContext } from '../../../provider/LayoutProvider';
 import useUserHasAccessLevels from '../../../hooks/useUserHasAccessLevels';
 
-import NavBar from '../../../components/navbar/navbar';
-import NavBarItem from '../../../components/navbar/elements/navbarItem';
-import PreferencesButton from '../../../components/navbar/elements/preferencesButton';
+import NavBar from '../../../components/nav/navbar/navbar';
+import NavBarItem from '../../../components/nav/navbar/elements/navbarItem';
+import PreferencesButton from '../../../components/nav/navbar/elements/navMenuButton';
 import NavMenuContainer from '../NavMenu/NavMenuContainer';
 
 import userDefault from '../../../../img/user-logo.svg';
