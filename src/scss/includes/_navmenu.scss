@@ -50,6 +50,13 @@
             }
         }
 
+        .current {
+            pointer-events: none;
+            cursor: default;
+            text-decoration: none;
+            background-color: $background-color;
+        }
+
         a {
             @extend .aria-element;
             div {
