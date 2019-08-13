@@ -3,7 +3,12 @@
     margin: auto;
 }
 
+.custom-button {
+    @extend .clickable;
+}
+
 .btn {
+    @extend .clickable;
     line-height: 1.499;
     position: relative;
     display: inline-block;
@@ -55,7 +60,5 @@
         -webkit-box-shadow: none;
         box-shadow: none;
     }
-
-
 }
 

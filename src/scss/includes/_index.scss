@@ -1,99 +1,116 @@
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 body {
-  background-color: $background-color;
-  margin: 0;
-  font-family: $font-family;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    background-color: $background-color;
+    margin: 0;
+    font-family: $font-family;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 section {
-  min-height: 400px;
+    min-height: 400px;
 }
 
 a {
-  padding: 0;
-  color: $link-color;
-  text-decoration: none;
+    padding: 0;
+    color: $link-color;
+    text-decoration: none;
 }
 
 title {
-  color: $primary-color;
-  font-size: 40px;
-  font-weight: $font-weight-semi-bold;
-  margin: 20px;
-  @media screen and (max-width: $phone-width) {
-    margin: 15px 5px;
-  }
+    color: $primary-color;
+    font-size: 40px;
+    font-weight: $font-weight-semi-bold;
+    margin: 20px;
+
+    @media screen and (max-width: $phone-width) {
+        margin: 15px 5px;
+    }
 }
 
 h1 {
-  color: $white;
-  font-size: $font-size-xxl;
-  font-weight: $font-weight-heavy;
-  margin: 40px;
-  @media screen and (max-width: $phone-width) {
-    margin: 15px 5px;
-    font-size: $font-size-xl;
-  }
+    color: $white;
+    font-size: $font-size-xxl;
+    font-weight: $font-weight-heavy;
+    margin: 40px;
+
+    @media screen and (max-width: $phone-width) {
+        margin: 15px 5px;
+        font-size: $font-size-xl;
+    }
 }
 
 h2 {
-  color: $primary-color;
-  font-size: $font-size-m;
-  font-weight: $font-weight-medium;
-  margin: 20px;
-  @media screen and (max-width: $phone-width) {
-    margin: 15px 5px;
-  }
+    color: $primary-color;
+    font-size: $font-size-m;
+    font-weight: $font-weight-medium;
+    margin: 20px;
+
+    @media screen and (max-width: $phone-width) {
+        margin: 15px 5px;
+    }
 }
 
 h3 {
-  @extend h2;
-  font-family: "Permanent Marker", cursive;
-  font-size: 42px;
-  font-weight: $font-weight-bold;
-  @media screen and (max-width: $phone-width) {
-    font-size: 32px;
-  }
+    @extend h2;
+    font-family: "Permanent Marker", cursive;
+    font-size: 42px;
+    font-weight: $font-weight-bold;
+
+    @media screen and (max-width: $phone-width) {
+        font-size: 32px;
+    }
 }
 
 p {
-  hyphens: none;
+    hyphens: none;
 }
 
 p.limit {
-  max-width: 890px;
-  text-align: justify;
+    max-width: 890px;
+    text-align: justify;
 }
 
-input:not([type=submit]){
-   // General Styles
-   background-color: transparent;
-   border: none;
-   border-bottom: $input-border;
-   border-radius: 0;
-   box-shadow: none;
-   box-sizing: content-box;
-   color: $font-color;
-   font-family: $font-family;
-   font-size: $input-font-size;
-   height: $input-height;
-   margin: $input-margin;
-   outline: none;
-   padding: $input-padding;
-   transition: $input-transition;
-   width: 100%;
-   &:focus {
-    // see also _app.scss .aria-element
-    border-color: $hover-primary-color !important;
-    outline: 0 !important;
-  }
+input:not([type=submit]) {
+    // General Styles
+    background-color: transparent;
+    border: none;
+    border-bottom: $input-border;
+    border-radius: 0;
+    box-shadow: none;
+    box-sizing: content-box;
+    color: $font-color;
+    font-family: $font-family;
+    font-size: $input-font-size;
+    height: $input-height;
+    margin: $input-margin;
+    outline: none;
+    padding: $input-padding;
+    transition: $input-transition;
+    width: 100%;
+
+    &:focus {
+        // see also _app.scss .aria-element
+        border-color: $hover-primary-color !important;
+        outline: 0 !important;
+    }
+}
+
+button {
+    border: none;
+    box-shadow: none;
+    font-family: $font-family;
+    font-size: $input-font-size;
+    height: $input-height;
+    margin: $input-margin;
+    outline: none;
+    padding: $input-padding;
+    transition: $input-transition;
 }

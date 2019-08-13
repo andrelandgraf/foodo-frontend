@@ -38,7 +38,7 @@ const LoginForm = ( {
             title={i18n.t( KEYS.MESSAGES.PASSWORD_WARNING )}
             required
         />
-        <SubmitButton label={actionName} isLoading={isLoading} />
+        <SubmitButton label={actionName} isLoading={isLoading} classes="button-center" />
     </form>
 );
 

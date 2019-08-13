@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { BUTTON_STYLES } from './button';
-
 /**
  * Component to display more sophisticated button structures
  * @param id unique id of the button
@@ -14,7 +12,7 @@ const CustomButton = ( {
     id, classes, onClick, children,
 } ) => (
     <div
-        className={`${ BUTTON_STYLES } ${ classes }`}
+        className={`custom-button ${ classes }`}
         id={id}
         tabIndex={0}
         role="button"

@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const BUTTON_STYLES = 'clickable button-center';
-
 /**
  * Standard button component
  * @param classes further css classes
@@ -15,7 +13,7 @@ const Button = ( {
     classes, label, onClick, primary, disabled,
 } ) => (
     <button
-        className={`${ BUTTON_STYLES } btn ${ primary ? 'btn-primary' : '' } ${ classes }`}
+        className={`btn ${ primary ? 'btn-primary' : '' } ${ classes }`}
         type="button"
         onClick={onClick}
         disabled={disabled}
