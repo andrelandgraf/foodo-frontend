@@ -31,7 +31,7 @@ function GoalsContainer() {
         const { goal } = user;
         if ( goal && goal._id === item._id ) return;
 
-        const newGoal = lodash.cloneDeep( goal );
+        const newGoal = lodash.cloneDeep( item );
         postGoal( { name: newGoal.name, _id: newGoal._id } );
         updateUser( newGoal );
     };
