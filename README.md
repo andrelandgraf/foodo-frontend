@@ -7,17 +7,22 @@ This repository hosts the React web app of the Foodo Platform.
 - Find the corresponding backend-api [here](https://github.com/tum-aweink/foodo-backend). 
 - Find the corresponding alexa-skill [here](https://github.com/andrelandgraf/foodo-alexa-skill).
 
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) but we ejected Create React App to have more control over linting and configuration. Please find the Create React App documentation on the bottom of this README. Find the corresponding boilerplate application that we used [here](https://github.com/andrelandgraf/react-oauth2-skeleton).
+
 ### Features
 
 - built-in structure for navigation with react-router
 - built-in structure and logic for internationalization with i18next
-- oauth2 flow (for more information, see chapter oAuth)
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) but we ejected Create React App to have more control over linting and configuration. Please find the Create React App documentation on the bottom of this README. 
+- oauth2 flow (for more information, see chapter oAuth) with login, register, and authorize Alexa functionalities
+- landing/about page 
+- home screen with standard recipes sorted after categories and personalized marked for the user
+- profile page to save personal preferences and settings
+- cooking page to see a user recipe, edit the ingredients, substitute ingredients via modal dialogues
+- statistics page for an overview over the user's nutriscore improvements
 
 ### OAuth
 
-OAuth offers a rich set of protocols to allow authorized API calls. This skeleton includes logic and program flow for login and register functionality and account linking for third-party services (e.g. Amazon Alexa account linking).
+OAuth offers a rich set of protocols to allow authorized API calls. This application includes logic and program flow for login and register functionality and account linking for third-party services (e.g. Amazon Alexa account linking).
 
 #### Account Linking
 
